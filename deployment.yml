@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kinesis-api-front-web
+  labels:
+    app: kinesis-api-front-web
+spec:
+  selector:
+    matchLabels:
+      app: kinesis-api-front-web
+  minReadySeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: kinesis-api-front-web
+    spec:
+      containers:
+        - image: repo.kinesis.games:5050/react/kinesis-api-front:latest
+          name: kinesis-api-front-web
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kinesis-api-front-svc
+  labels:
+    app: kinesis-api-front-web
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 3000
+      nodePort: 30045
+      protocol: TCP
+  selector:
+    app: kinesis-api-front-web

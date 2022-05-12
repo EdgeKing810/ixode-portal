@@ -1,0 +1,17 @@
+.blink {
+  animation: blinker 2s linear infinite;
+}
+
+.blink-medium {
+  animation: blinker 1.5s linear infinite;
+}
+
+.blink-fast {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
