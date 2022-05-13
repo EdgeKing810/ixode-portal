@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   SuperHeading,
@@ -22,63 +22,63 @@ import {
   Button,
   IconButton,
   Linker,
-} from '../components/Components';
+} from "../components/Components";
 
-import IncludeYesNo from '../components/includes/IncludeYesNo';
-import IncludeEditSomething from '../components/includes/IncludeEditSomething';
+import IncludeYesNo from "../components/includes/IncludeYesNo";
+import IncludeEditSomething from "../components/includes/IncludeEditSomething";
 
-import banner from '../assets/images/banner_purple.png';
+import banner from "../assets/images/banner_purple.png";
 
 export default function Sheet() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState("dark");
 
-  const [input, setInput] = useState('');
-  const [inputText, setInputText] = useState('');
-  const [password, setPassword] = useState('');
+  const [input, setInput] = useState("");
+  const [inputText, setInputText] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(false);
 
   const [isActive, setIsActive] = useState(false);
   const [editingSomething, setEditingSomething] = useState(false);
-  const [something, setSomething] = useState('');
+  const [something, setSomething] = useState("");
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setIsActive(false);
       setEditingSomething(false);
-      setSomething('');
+      setSomething("");
     }
 
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
+    document.addEventListener("keydown", escFunction, false);
 
     return () => {
-      document.removeEventListener('keydown', escFunction, false);
+      document.removeEventListener("keydown", escFunction, false);
     };
     // eslint-disable-next-line
   }, []);
 
   const changeTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   const FloatingButton = (
     <div className="fixed p-2 w-20 flex justify-end lg:px-8 z-0 right-0">
       <button
         onClick={() => changeTheme()}
-        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
         className={`p-2 w-12 h-12 rounded-lg ${
-          theme === 'light' ? 'bg-main-dark' : 'bg-main-dark'
+          theme === "light" ? "bg-main-dark" : "bg-main-dark"
         } absolute border-main-primary border-2 opacity-90 z-40`}
       >
         <i
           className={`w-full h-full flex items-center justify-center text-xl ri-${
-            theme === 'light' ? 'sun' : 'moon'
+            theme === "light" ? "sun" : "moon"
           }-fill ${
-            theme === 'light' ? 'text-light-300' : 'text-dark-300'
+            theme === "light" ? "text-light-300" : "text-dark-300"
           } duration-500 ease-in-out`}
         />
       </button>
@@ -160,7 +160,7 @@ export default function Sheet() {
     `;
 
   const flexClass = `w-full flex items-center border-2 border-main-dark border-opacity-25 p-2 rounded-lg mb-2 ${
-    theme === 'light' ? 'hover:bg-main-darkbg' : 'hover:bg-main-lightbg'
+    theme === "light" ? "hover:bg-main-darkbg" : "hover:bg-main-lightbg"
   } bg-opacity-50 ease-in-out duration-400`;
 
   const makeColorDisplay = (color, text) => (
@@ -180,7 +180,7 @@ export default function Sheet() {
   return (
     <div
       className={`w-full ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } ease-in-out duration-400`}
     >
       {FloatingButton}
@@ -227,16 +227,16 @@ export default function Sheet() {
 
         <Separator />
 
-        {makeColorDisplay('lightbg', 'Light BG: #EDF2F7')}
-        {makeColorDisplay('light', 'Light: #D7DFE8')}
-        {makeColorDisplay('primary', 'Primary: #9582F2')}
-        {makeColorDisplay('secondary', 'Secondary: #06D5B3')}
-        {makeColorDisplay('info', 'Info: #60A5FA')}
-        {makeColorDisplay('error', 'Error: #E86B6B')}
-        {makeColorDisplay('warning', 'Warning: #FB923C')}
-        {makeColorDisplay('success', 'Success: #48BB78')}
-        {makeColorDisplay('dark', 'Dark: #2D3748')}
-        {makeColorDisplay('darkbg', 'Dark BG: #111827')}
+        {makeColorDisplay("lightbg", "Light BG: #EDF2F7")}
+        {makeColorDisplay("light", "Light: #D7DFE8")}
+        {makeColorDisplay("primary", "Primary: #9582F2")}
+        {makeColorDisplay("secondary", "Secondary: #06D5B3")}
+        {makeColorDisplay("info", "Info: #60A5FA")}
+        {makeColorDisplay("error", "Error: #E86B6B")}
+        {makeColorDisplay("warning", "Warning: #FB923C")}
+        {makeColorDisplay("success", "Success: #48BB78")}
+        {makeColorDisplay("dark", "Dark: #2D3748")}
+        {makeColorDisplay("darkbg", "Dark BG: #111827")}
 
         <Separator />
 
@@ -581,7 +581,7 @@ export default function Sheet() {
         setValue={setSomething}
         submitValue={() => {
           alert(`You inputted ${something}`);
-          setSomething('');
+          setSomething("");
           setEditingSomething(false);
         }}
         theme={theme}

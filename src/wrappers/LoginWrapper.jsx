@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useAlert } from 'react-alert';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
-import { useUserProfileStore } from '../stores/useUserProfileStore';
-import { fetchCurrentProfile } from '../utils/fetcher';
-import { LocalContext } from './LocalContext';
+import { useUserProfileStore } from "../stores/useUserProfileStore";
+import { fetchCurrentProfile } from "../utils/fetcher";
+import { LocalContext } from "./LocalContext";
 
-import logo from '../assets/images/banner_purple.png';
+import logo from "../assets/images/banner_purple.png";
 
 export default function LoginWrapper({ children, onlyLoad }) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,13 +19,13 @@ export default function LoginWrapper({ children, onlyLoad }) {
 
   useEffect(() => {
     async function fetchLocal() {
-      if (localStorage.getItem('_userData')) {
+      if (localStorage.getItem("_userData")) {
         if (profile.jwt !== undefined && profile.jwt) {
           setLoggedIn(true);
           return;
         }
 
-        const { uid, jwt } = JSON.parse(localStorage.getItem('_userData'));
+        const { uid, jwt } = JSON.parse(localStorage.getItem("_userData"));
 
         const data = await fetchCurrentProfile(API_URL, uid, jwt);
 
@@ -33,17 +33,17 @@ export default function LoginWrapper({ children, onlyLoad }) {
           setUserProfile({ ...data, jwt: jwt });
           setLoggedIn(true);
           //   await automaticLogin(API_URL, uid, jwt);
-          alert.success('Login Successful!');
+          alert.success("Login Successful!");
         } else {
           console.log(data);
           // localStorage.clear();
-          alert.error('Login Failed');
-          navigate('/');
+          alert.error("Login Failed");
+          navigate("/");
         }
       } else {
-        alert.error('Login Failed');
+        alert.error("Login Failed");
         // localStorage.clear();
-        navigate('/');
+        navigate("/");
       }
     }
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default async function upload(API_URL, formData) {
   return axios.post(`${API_URL}/upload`, formData).then((res) => {

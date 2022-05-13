@@ -1,11 +1,11 @@
-import React from 'react';
-import { Route, Navigate, Routes } from 'react-router-dom';
+import React from "react";
+import { Route, Navigate, Routes } from "react-router-dom";
 
-import LoginWrapper from './wrappers/LoginWrapper.jsx';
+import LoginWrapper from "./wrappers/LoginWrapper.jsx";
 
-import Sheet from './pages/Sheet.jsx';
+import Sheet from "./pages/Sheet.jsx";
 
-import './assets/css/blinker.css';
+import "./assets/css/blinker.css";
 
 function App() {
   return (

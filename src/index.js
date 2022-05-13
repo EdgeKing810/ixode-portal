@@ -1,18 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 // import { BrowserRouter as Router } from 'react-router-dom';
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from "react-router-dom";
 
-import { transitions, positions, Provider as AlertProvider } from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
+import { transitions, positions, Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
-import { LocalContextProvider } from './wrappers/LocalContext';
-import App from './App';
+import { LocalContextProvider } from "./wrappers/LocalContext";
+import App from "./App";
 
 const options = {
   position: positions.BOTTOM_CENTER,
   timeout: 2000,
-  offset: '30px',
+  offset: "30px",
   transition: transitions.SCALE,
 };
 
@@ -26,5 +26,5 @@ ReactDOM.render(
       </Router>
     </LocalContextProvider>
   </AlertProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
