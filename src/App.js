@@ -4,6 +4,7 @@ import { Route, Navigate, Routes } from 'react-router-dom';
 import LoginWrapper from './wrappers/LoginWrapper.jsx';
 
 import Login from './pages/Login.jsx';
+import Home from './pages/Home.jsx';
 import Sheet from './pages/Sheet.jsx';
 
 import './assets/css/blinker.css';
@@ -15,7 +16,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Login />} />
 
-          <Route exact path="/home" element={<div></div>} />
+          <Route exact path="/home" element={<Home />} />
 
           <Route exact path="/sheet" element={<Sheet />} />
 

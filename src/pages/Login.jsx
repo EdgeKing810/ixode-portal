@@ -195,7 +195,7 @@ export default function Login() {
       }}
     >
       <div
-        className={`w-full h-screen lg:h-full flex flex-col items-center justify-center`}
+        className={`w-full p-1 lg:p-0 h-full lg:h-full flex flex-col items-center justify-center`}
       >
         <div
           className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center ${
