@@ -39,7 +39,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 3000
-      nodePort: 30045
+      nodePort: 30052
       protocol: TCP
   selector:
     app: kinesis-api-portal-web
