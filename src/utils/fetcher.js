@@ -160,7 +160,7 @@ const fetchProjects = async (API_URL, uid, jwt, offset, currentProjects) => {
       if (response.data.status === 200) {
         setProjects([...currentProjects]);
         if (currentProjects.length < response.data.amount) {
-          await fetchConfigs(API_URL, uid, jwt, offset + 1, [
+          await fetchProjects(API_URL, uid, jwt, offset + 1, [
             ...currentProjects,
             ...response.data.projects,
           ]);
@@ -201,19 +201,20 @@ export const fetchOneProject = async (API_URL, uid, id, jwt) => {
     });
 };
 
-const fetchCollections = async (
+export const fetchCollections = async (
   API_URL,
   uid,
   jwt,
   offset,
-  currentCollections
+  currentCollections,
+  project_id
 ) => {
   const { setCollections } = useCollectionStore.getState();
 
   axios
     .post(
       `${API_URL}/collection/fetch?offset=${offset}&limit=5`,
-      { uid: uid },
+      { uid: uid, project_id },
       {
         headers: { Authorization: `Bearer ${jwt}` },
       }
@@ -275,7 +276,6 @@ export const automaticLogin = async (API_URL, uid, jwt) => {
   await fetchProfiles(API_URL, uid, jwt, 0, []);
   await fetchConfigs(API_URL, uid, jwt, 0, []);
   await fetchProjects(API_URL, uid, jwt, 0, []);
-  await fetchCollections(API_URL, uid, jwt, 0, []);
 };
 
 export const logout = async () => {

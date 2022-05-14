@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kinesis-api-front-web
+  name: kinesis-api-portal-web
   labels:
-    app: kinesis-api-front-web
+    app: kinesis-api-portal-web
 spec:
   selector:
     matchLabels:
-      app: kinesis-api-front-web
+      app: kinesis-api-portal-web
   minReadySeconds: 60
   strategy:
     type: RollingUpdate
@@ -17,11 +17,11 @@ spec:
   template:
     metadata:
       labels:
-        app: kinesis-api-front-web
+        app: kinesis-api-portal-web
     spec:
       containers:
-        - image: repo.kinesis.games:5050/react/kinesis-api-front:latest
-          name: kinesis-api-front-web
+        - image: repo.kinesis.games:5050/react/kinesis-api-portal:latest
+          name: kinesis-api-portal-web
           ports:
             - containerPort: 3000
           imagePullPolicy: Always
@@ -31,9 +31,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kinesis-api-front-svc
+  name: kinesis-api-portal-svc
   labels:
-    app: kinesis-api-front-web
+    app: kinesis-api-portal-web
 spec:
   type: NodePort
   ports:
@@ -42,4 +42,4 @@ spec:
       nodePort: 30045
       protocol: TCP
   selector:
-    app: kinesis-api-front-web
+    app: kinesis-api-portal-web

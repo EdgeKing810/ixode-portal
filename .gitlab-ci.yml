@@ -20,7 +20,7 @@ deployment:
   stage: deploy
   image: node:latest
   variables:
-    PROJECT_ID: kinesis-api-front
+    PROJECT_ID: kinesis-api-portal
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
     - eval $(ssh-agent -s)
