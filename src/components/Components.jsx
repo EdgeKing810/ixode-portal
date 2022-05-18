@@ -73,7 +73,7 @@ export const BigText = ({ children, color, className, theme, mono }) => (
   </div>
 );
 
-export const Text = ({ children, color, className, theme, mono }) => (
+export const Text = ({ children, color, className, theme, mono, nobreak }) => (
   <div
     className={`${
       color
@@ -83,13 +83,20 @@ export const Text = ({ children, color, className, theme, mono }) => (
         : 'text-main-light'
     } ${className} text-sm sm:text-base font-normal font-noto ${
       mono ? 'font-robomono' : 'font-noto'
-    } break-all`}
+    } ${!nobreak && 'break-all'}`}
   >
     {children}
   </div>
 );
 
-export const SmallText = ({ children, color, className, theme, mono }) => (
+export const SmallText = ({
+  children,
+  color,
+  className,
+  theme,
+  mono,
+  nobreak,
+}) => (
   <div
     className={`${
       color
@@ -99,7 +106,7 @@ export const SmallText = ({ children, color, className, theme, mono }) => (
         : 'text-main-light'
     } ${className} text-xs sm:text-sm font-extralight font-noto ${
       mono ? 'font-robomono' : 'font-noto'
-    } mb-1 break-all`}
+    } mb-1 ${!nobreak && 'break-all'}`}
   >
     {children}
   </div>
@@ -155,13 +162,22 @@ export const Image = ({ src, alt, className, noRounded, noFill }) => (
   />
 );
 
-export const ALink = ({ href, children, color, className, newtab }) => (
+export const ALink = ({
+  href,
+  children,
+  color,
+  className,
+  noopacity,
+  newtab,
+}) => (
   <a
     href={href}
     className={`${
       color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none w-full text-xs sm:text-base font-noto ${className} 
-    opacity-65 hover:underline focus:underline hover:opacity-100 focus:opacity-100`}
+    } outline-none w-full font-noto ${className} 
+    ${
+      !noopacity && 'opacity-65'
+    } hover:underline focus:underline hover:opacity-100 focus:opacity-100`}
     target={newtab ? '_blank' : '_self'}
     rel="noopenner noreferrer"
   >
@@ -502,33 +518,105 @@ export const Linker = ({
   smaller,
   noFill,
   noTransition,
+  color,
+  borderColor,
+  reverseIcon,
 }) => (
   <Link
     to={to}
     title={title}
-    className={`mt-2 text-center ${
+    className={`${
+      (!className || !className.includes('mt')) && 'mt-2'
+    } text-center ${
       smaller ? 'text-sm lg:text-lg' : 'text-lg'
-    } border-2 border-transparent flex justify-center items-center ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } text-main-primary ${
+    } border-2 border-transparent flex ${
+      (!className || !className.includes('justify')) && 'justify-center'
+    } items-center ${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'} ${
+      color ? `text-main-${color}` : 'text-main-primary'
+    } ${
       condition
-        ? 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
+        ? color
+          ? borderColor
+            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-80 focus:opacity-80`
+            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-80 focus:opacity-80`
+          : 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
         : 'opacity-50'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
-    {title && (
-      <div className={`h-full flex items-center ${icon && 'mr-2'}`}>
-        {title}
-      </div>
-    )}
-    {icon && (
+    {icon && reverseIcon && (
       <div
-        className={`h-full flex items-center ri-${icon}-${
+        className={`mr-2 h-full flex items-center ri-${icon}-${
+          condition && !noFill ? 'fill' : 'line'
+        }`}
+      ></div>
+    )}
+    {title && <div className={`h-full flex items-center`}>{title}</div>}
+    {icon && !reverseIcon && (
+      <div
+        className={`ml-2 h-full flex items-center ri-${icon}-${
           condition && !noFill ? 'fill' : 'line'
         }`}
       ></div>
     )}
   </Link>
+);
+
+export const ALinker = ({
+  href,
+  title,
+  icon,
+  theme,
+  condition,
+  className,
+  smaller,
+  noFill,
+  noTransition,
+  color,
+  borderColor,
+  reverseIcon,
+  iconClass,
+}) => (
+  <a
+    href={href}
+    title={title}
+    className={`${
+      (!className || !className.includes('mt')) && 'mt-2'
+    } text-center ${
+      smaller ? 'text-sm lg:text-lg' : 'text-lg'
+    } border-2 border-transparent flex ${
+      (!className || !className.includes('justify')) && 'justify-center'
+    } items-center ${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'} ${
+      color ? `text-main-${color}` : 'text-main-primary'
+    } ${
+      condition
+        ? color
+          ? borderColor
+            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-80 focus:opacity-80`
+            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-80 focus:opacity-80`
+          : 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
+        : 'opacity-50'
+    } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
+  >
+    {icon && reverseIcon && (
+      <div
+        className={`${
+          (!iconClass || !iconClass.includes('mr')) && 'mr-2'
+        } ${iconClass} h-full flex items-center ri-${icon}-${
+          condition && !noFill ? 'fill' : 'line'
+        }`}
+      ></div>
+    )}
+    {title && <div className={`h-full flex items-center`}>{title}</div>}
+    {icon && !reverseIcon && (
+      <div
+        className={`${
+          (!iconClass || !iconClass.includes('ml')) && 'ml-2'
+        } ${iconClass} h-full flex items-center ri-${icon}-${
+          condition && !noFill ? 'fill' : 'line'
+        }`}
+      ></div>
+    )}
+  </a>
 );
 
 export const LinkerButton = ({

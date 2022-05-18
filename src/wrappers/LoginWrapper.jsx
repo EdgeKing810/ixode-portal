@@ -41,7 +41,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
           await automaticLogin(API_URL, uid, jwt);
           alert.success('Login Successful!');
           setDidOnce(true);
-          navigate('/home');
+          // navigate('/home');
         } else {
           console.log(data);
           // localStorage.clear();

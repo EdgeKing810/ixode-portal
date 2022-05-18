@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import banner from '../assets/images/banner_purple.png';
+import banner from '../assets/images/logo_purple.png';
 
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useThemeStore } from '../stores/useThemeStore';
 import { IconButton, Linker, LinkerButton } from './Components';
+import { fetchData } from '../utils/data';
 
-export default function Navbar({ width }) {
+export default function Navbar({ width, currentPage }) {
   const { profile } = useUserProfileStore((state) => state);
   const { theme, setTheme } = useThemeStore((state) => state);
+  const [pages] = useState(fetchData().navigation);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -112,25 +114,18 @@ export default function Navbar({ width }) {
           </p>
 
           <div className="w-4/6 flex flex-col items-center py-2">
-            <Linker
-              to="/home"
-              title="Home"
-              theme={theme}
-              icon="home-4"
-              className="w-full rounded-lg mt-2 p-2"
-              condition
-              noFill
-            />
-
-            <Linker
-              to="/users"
-              title="Users"
-              theme={theme}
-              icon="user-3"
-              className="w-full rounded-lg mt-2 p-2"
-              condition
-              noFill
-            />
+            {pages.map((p) => (
+              <Linker
+                key={`navbar-${p.name}`}
+                to={`/${p.name.toLowerCase()}`}
+                title={p.name}
+                theme={theme}
+                icon={p.icon}
+                className="w-full rounded-lg mt-2 p-2"
+                condition={currentPage !== p.name.toLowerCase()}
+                noFill
+              />
+            ))}
           </div>
         </div>
 
