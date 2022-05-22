@@ -667,7 +667,7 @@ export const FullAbsoluteContainer = ({
   moreAdditional,
 }) => (
   <div
-    className={`w-screen ${additional} lg:h-full h-screen top-0 ${
+    className={`w-screen ${additional} lg:h-full h-screen top-0 left-0 ${
       !additional.includes('z-') && 'z-20'
     } fixed transform ease-in-out duration-400`}
     onKeyPress={(e) => e.key === 'Escape' && outFunction()}

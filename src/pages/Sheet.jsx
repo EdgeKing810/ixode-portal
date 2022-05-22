@@ -29,9 +29,13 @@ import IncludeYesNo from '../components/includes/IncludeYesNo';
 import IncludeEditSomething from '../components/includes/IncludeEditSomething';
 
 import banner from '../assets/images/banner_purple.png';
+import { useThemeStore } from '../stores/useThemeStore';
+
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/includes/Sidebar';
 
 export default function Sheet() {
-  const [theme, setTheme] = useState('dark');
+  const { theme } = useThemeStore((state) => state);
 
   const [input, setInput] = useState('');
   const [inputText, setInputText] = useState('');
@@ -62,29 +66,29 @@ export default function Sheet() {
     // eslint-disable-next-line
   }, []);
 
-  const changeTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  // const changeTheme = () => {
+  //   setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  // };
 
-  const FloatingButton = (
-    <div className="fixed p-2 w-20 flex justify-end lg:px-8 z-0 right-0">
-      <button
-        onClick={() => changeTheme()}
-        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        className={`p-2 w-12 h-12 rounded-lg ${
-          theme === 'light' ? 'bg-main-dark' : 'bg-main-dark'
-        } absolute border-main-primary border-2 opacity-90 z-40`}
-      >
-        <i
-          className={`w-full h-full flex items-center justify-center text-xl ri-${
-            theme === 'light' ? 'sun' : 'moon'
-          }-fill ${
-            theme === 'light' ? 'text-light-300' : 'text-dark-300'
-          } duration-500 ease-in-out`}
-        />
-      </button>
-    </div>
-  );
+  // const FloatingButton = (
+  //   <div className="fixed p-2 w-20 flex justify-end lg:px-8 z-0 right-0">
+  //     <button
+  //       onClick={() => changeTheme()}
+  //       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+  //       className={`p-2 w-12 h-12 rounded-lg ${
+  //         theme === 'light' ? 'bg-main-dark' : 'bg-main-dark'
+  //       } absolute border-main-primary border-2 opacity-90 z-40`}
+  //     >
+  //       <i
+  //         className={`w-full h-full flex items-center justify-center text-xl ri-${
+  //           theme === 'light' ? 'sun' : 'moon'
+  //         }-fill ${
+  //           theme === 'light' ? 'text-light-300' : 'text-dark-300'
+  //         } duration-500 ease-in-out`}
+  //       />
+  //     </button>
+  //   </div>
+  // );
 
   // eslint-disable-next-line
   const _ = `
@@ -180,393 +184,399 @@ export default function Sheet() {
 
   return (
     <div
-      className={`w-full ${
+      className={`w-full lg:h-screen ${
         theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400`}
+      } ease-in-out duration-400 lg:pb-0 pb-20`}
     >
-      {FloatingButton}
+      <Navbar currentPage="sheet" />
+      <div
+        className={`w-full p-2 lg:px-0 lg:pb-0 pt-20 flex lg:overflow-y-hidden lg:h-full`}
+      >
+        <Sidebar currentPage="sheet" />
+        <div className="w-full lg:p-8 flex flex-col lg:flex-row">
+          <div className="p-2 w-full lg:overflow-y-scroll h-full">
+            <SuperHeading>This is a SuperHeading.</SuperHeading>
+            <Heading>This is a Heading.</Heading>
+            <SubHeading className="mb-2">This is a SubHeading.</SubHeading>
+            <Title>This is a Title.</Title>
 
-      <div className="p-2 lg:px-56 w-full z-50">
-        <Separator />
+            <Separator />
 
-        <SuperHeading>This is a SuperHeading.</SuperHeading>
-        <Heading>This is a Heading.</Heading>
-        <SubHeading className="mb-2">This is a SubHeading.</SubHeading>
-        <Title>This is a Title.</Title>
+            <BigText theme={theme}>This is big text.</BigText>
+            <Text theme={theme}>This is regular text.</Text>
+            <SmallText theme={theme}>This is small text.</SmallText>
+            <ExtraSmallText theme={theme}>
+              This is extra small text.
+            </ExtraSmallText>
 
-        <Separator />
+            <Separator />
 
-        <BigText theme={theme}>This is big text.</BigText>
-        <Text theme={theme}>This is regular text.</Text>
-        <SmallText theme={theme}>This is small text.</SmallText>
-        <ExtraSmallText theme={theme}>This is extra small text.</ExtraSmallText>
+            <Heading>
+              Spartan Bold (700):
+              ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            </Heading>
+            <SubHeading className="mb-2">
+              Spartan Semi-Bold (500):
+              ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            </SubHeading>
 
-        <Separator />
+            <Text theme={theme}>
+              Noto Sans Regular (400):
+              ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            </Text>
+            <SmallText theme={theme} className="mt-1">
+              Noto Sans Light (300):
+              ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            </SmallText>
 
-        <Heading>
-          Spartan Bold (700):
-          ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        </Heading>
-        <SubHeading className="mb-2">
-          Spartan Semi-Bold (500):
-          ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        </SubHeading>
+            <Text theme={theme} mono className="mt-1">
+              Roboto Mono (300):
+              ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            </Text>
 
-        <Text theme={theme}>
-          Noto Sans Regular (400):
-          ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        </Text>
-        <SmallText theme={theme} className="mt-1">
-          Noto Sans Light (300):
-          ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        </SmallText>
+            <Separator />
 
-        <Text theme={theme} mono className="mt-1">
-          Roboto Mono (300):
-          ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        </Text>
+            {makeColorDisplay('lightbg', 'Light BG: #EDF2F7')}
+            {makeColorDisplay('light', 'Light: #D7DFE8')}
+            {makeColorDisplay('primary', 'Primary: #9582F2')}
+            {makeColorDisplay('secondary', 'Secondary: #06D5B3')}
+            {makeColorDisplay('info', 'Info: #60A5FA')}
+            {makeColorDisplay('error', 'Error: #E86B6B')}
+            {makeColorDisplay('warning', 'Warning: #FB923C')}
+            {makeColorDisplay('success', 'Success: #48BB78')}
+            {makeColorDisplay('dark', 'Dark: #2D3748')}
+            {makeColorDisplay('darkbg', 'Dark BG: #111827')}
 
-        <Separator />
+            <Separator />
 
-        {makeColorDisplay('lightbg', 'Light BG: #EDF2F7')}
-        {makeColorDisplay('light', 'Light: #D7DFE8')}
-        {makeColorDisplay('primary', 'Primary: #9582F2')}
-        {makeColorDisplay('secondary', 'Secondary: #06D5B3')}
-        {makeColorDisplay('info', 'Info: #60A5FA')}
-        {makeColorDisplay('error', 'Error: #E86B6B')}
-        {makeColorDisplay('warning', 'Warning: #FB923C')}
-        {makeColorDisplay('success', 'Success: #48BB78')}
-        {makeColorDisplay('dark', 'Dark: #2D3748')}
-        {makeColorDisplay('darkbg', 'Dark BG: #111827')}
+            <Title theme={theme} color="primary" smallerMobile>
+              This is a sentence to test the Primary Color.
+            </Title>
 
-        <Separator />
+            <Title theme={theme} color="secondary" smallerMobile>
+              This is a sentence to test the Secondary Color.
+            </Title>
 
-        <Title theme={theme} color="primary" smallerMobile>
-          This is a sentence to test the Primary Color.
-        </Title>
+            <Title theme={theme} color="info" smallerMobile>
+              This is a sentence to test the Info Color.
+            </Title>
 
-        <Title theme={theme} color="secondary" smallerMobile>
-          This is a sentence to test the Secondary Color.
-        </Title>
+            <Title theme={theme} color="error" smallerMobile>
+              This is a sentence to test the Error Color.
+            </Title>
 
-        <Title theme={theme} color="info" smallerMobile>
-          This is a sentence to test the Info Color.
-        </Title>
+            <Title theme={theme} color="warning" smallerMobile>
+              This is a sentence to test the Warning Color.
+            </Title>
 
-        <Title theme={theme} color="error" smallerMobile>
-          This is a sentence to test the Error Color.
-        </Title>
+            <Title theme={theme} color="success" smallerMobile>
+              This is a sentence to test the Success Color.
+            </Title>
 
-        <Title theme={theme} color="warning" smallerMobile>
-          This is a sentence to test the Warning Color.
-        </Title>
+            <Separator />
 
-        <Title theme={theme} color="success" smallerMobile>
-          This is a sentence to test the Success Color.
-        </Title>
+            <Image src={banner} alt="banner" noRounded />
 
-        <Separator />
+            <Separator />
 
-        <Image src={banner} alt="banner" noRounded />
+            <div>
+              <ALink href="https://api.kinesis.world" newtab>
+                This is a link to Kinesis API.
+              </ALink>
+            </div>
 
-        <Separator />
+            <div>
+              <ALink color="info" href="/#/sheet">
+                This is a another link that goes nowhere.
+              </ALink>
+            </div>
 
-        <div>
-          <ALink href="https://api.kinesis.world" newtab>
-            This is a link to Kinesis API.
-          </ALink>
-        </div>
+            <Separator />
 
-        <div>
-          <ALink color="info" href="/#/sheet">
-            This is a another link that goes nowhere.
-          </ALink>
-        </div>
+            <div className="w-full lg:w-1/2">
+              <Input
+                title="Input"
+                theme={theme}
+                placeholder="This is an Input box! Try writing something..."
+                value={input}
+                change={(e) => setInput(e.target.value)}
+                className="mb-2"
+                noPadding
+              />
 
-        <Separator />
+              <InputTextArea
+                title="TextArea"
+                theme={theme}
+                placeholder="This is a Textarea! Try writing something..."
+                value={inputText}
+                change={(e) => setInputText(e.target.value)}
+                borderColor="secondary"
+              />
 
-        <div className="w-full lg:w-1/2">
-          <Input
-            title="Input"
-            theme={theme}
-            placeholder="This is an Input box! Try writing something..."
-            value={input}
-            change={(e) => setInput(e.target.value)}
-            className="mb-2"
-            noPadding
-          />
+              <PasswordInput
+                title="PasswordInput"
+                theme={theme}
+                placeholder="This is a PasswordInput! Try writing something secret..."
+                value={password}
+                change={(e) => setPassword(e.target.value)}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                borderColor="error"
+                className="mt-2"
+              />
+            </div>
 
-          <InputTextArea
-            title="TextArea"
-            theme={theme}
-            placeholder="This is a Textarea! Try writing something..."
-            value={inputText}
-            change={(e) => setInputText(e.target.value)}
-            borderColor="secondary"
-          />
-
-          <PasswordInput
-            title="PasswordInput"
-            theme={theme}
-            placeholder="This is a PasswordInput! Try writing something secret..."
-            value={password}
-            change={(e) => setPassword(e.target.value)}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            borderColor="error"
-            className="mt-2"
-          />
-        </div>
-
-        <Checkbox
-          title="Checkbox"
-          value={checked}
-          change={() => setChecked((prev) => !prev)}
-          className="mt-2"
-        >
-          <Text theme={theme}>This is a Checkbox!</Text>
-        </Checkbox>
-
-        <Separator />
-
-        <div className="w-full lg:w-1/3">
-          <ImportantButton
-            title="Important Button"
-            theme={theme}
-            hoverCondition
-          />
-          <ImportantButton
-            title="Important Button (Deactivated)"
-            theme={theme}
-            className="mt-2"
-          />
-
-          <GenericButton click={() => null}>Generic Button</GenericButton>
-          <GenericButton
-            click={() => null}
-            className="p-2 bg-main-info rounded-lg w-full ease-in-out duration-400"
-            color="darkbg"
-          >
-            Generic Button (Customized)
-          </GenericButton>
-
-          <GenericIconButton
-            click={() => null}
-            className="mt-2"
-            icon="clipboard"
-          >
-            Generic Icon Button
-          </GenericIconButton>
-
-          <GenericIconButton
-            click={() => null}
-            className="p-2 bg-main-error rounded-lg w-full ease-in-out duration-400 justify-center mt-2"
-            color="darkbg"
-            icon="clipboard"
-          >
-            Generic Icon Button (Customized)
-          </GenericIconButton>
-
-          <Button theme={theme}>Normal Button</Button>
-          <Button theme={theme} className="p-3 w-full justify-center">
-            Normal Button (Customized)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-          >
-            Normal Button (Colored)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            noBorder
-          >
-            Normal Button (Colored + No Border)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            notHover
-          >
-            Normal Button (Colored + No Hover)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            notHover
-            noBorder
-          >
-            Normal Button (Colored + No Hover/Border)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            transparent
-          >
-            Normal Button (Transparent)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            transparent
-            noBorder
-          >
-            Normal Button (Transparent + No Border)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            transparent
-            notHover
-          >
-            Normal Button (Transparent + No Hover)
-          </Button>
-          <Button
-            theme={theme}
-            className="p-3 w-full justify-center"
-            color="info"
-            transparent
-            notHover
-            noBorder
-          >
-            Normal Button (T + No Hover/Border)
-          </Button>
-
-          <div className="w-full flex justify-center items-center mb-4">
-            <IconButton
-              title="Icon Button"
-              condition
-              theme={theme}
-              icon="user-3"
-              className="mr-2"
-            />
-
-            <IconButton
-              title="Icon Button (Smaller)"
-              condition
-              theme={theme}
-              icon="user-3"
-              className="mr-2"
-              smaller
-            />
-
-            <IconButton
-              title="Icon Button (No Fill)"
-              condition
-              theme={theme}
-              icon="user-3"
-              className="mr-2"
-              noFill
-            />
-
-            <IconButton
-              title="Icon Button (No Fill + Smaller)"
-              condition
-              theme={theme}
-              icon="user-3"
-              className="mr-2"
-              noFill
-              smaller
-            />
-
-            <IconButton
-              title="Icon Button (Customized)"
-              condition
-              theme={theme}
-              icon="user-3"
-              className="mr-2 p-2 rounded-full w-10 h-10"
-            />
-
-            <IconButton
-              title="Icon Button (Customized + No Fill)"
-              condition
-              noFill
-              theme={theme}
-              icon="user-3"
-              className="mr-2 p-2 rounded-full w-10 h-10"
-            />
-
-            <IconButton
-              title="Icon Button (Customized + No Fill + Deactivated)"
-              noFill
-              theme={theme}
-              icon="user-3"
-              className="mr-2 p-2 rounded-full w-10 h-10"
-            />
-          </div>
-
-          <Linker
-            to="/sheet"
-            title="Linker"
-            condition
-            theme={theme}
-            icon="home-4"
-          />
-
-          <Linker
-            to="/sheet"
-            title="Linker (Customized)"
-            condition
-            theme={theme}
-            icon="home-4"
-            className="mt-2 p-2 rounded-lg w-full h-10"
-          />
-
-          <Linker
-            to="/sheet"
-            title="Linker (Customized + No Fill)"
-            condition
-            noFill
-            theme={theme}
-            icon="home-4"
-            className="mt-2 p-2 rounded-lg w-full h-10"
-          />
-
-          <Linker
-            to="/sheet"
-            title="Linker (Customized + No Fill + Smaller)"
-            condition
-            noFill
-            smaller
-            theme={theme}
-            icon="home-4"
-            className="mt-2 p-2 rounded-lg w-full h-10"
-          />
-
-          <Separator />
-
-          <div className="w-full">
-            <Button
-              color="info"
-              theme={theme}
-              className="p-3 w-full justify-center uppercase"
-              click={() => setIsActive(true)}
+            <Checkbox
+              title="Checkbox"
+              value={checked}
+              change={() => setChecked((prev) => !prev)}
+              className="mt-2"
             >
-              Bring up includes/YesNo
-            </Button>
+              <Text theme={theme}>This is a Checkbox!</Text>
+            </Checkbox>
 
-            <Button
-              color="info"
-              theme={theme}
-              className="p-3 w-full justify-center uppercase"
-              click={() => setEditingSomething(true)}
-            >
-              Bring up includes/EditingSomething
-            </Button>
+            <Separator />
+
+            <div className="w-full lg:w-1/3">
+              <ImportantButton
+                title="Important Button"
+                theme={theme}
+                hoverCondition
+              />
+              <ImportantButton
+                title="Important Button (Deactivated)"
+                theme={theme}
+                className="mt-2"
+              />
+
+              <GenericButton click={() => null}>Generic Button</GenericButton>
+              <GenericButton
+                click={() => null}
+                className="p-2 bg-main-info rounded-lg w-full ease-in-out duration-400"
+                color="darkbg"
+              >
+                Generic Button (Customized)
+              </GenericButton>
+
+              <GenericIconButton
+                click={() => null}
+                className="mt-2"
+                icon="clipboard"
+              >
+                Generic Icon Button
+              </GenericIconButton>
+
+              <GenericIconButton
+                click={() => null}
+                className="p-2 bg-main-error rounded-lg w-full ease-in-out duration-400 justify-center mt-2"
+                color="darkbg"
+                icon="clipboard"
+              >
+                Generic Icon Button (Customized)
+              </GenericIconButton>
+
+              <Button theme={theme}>Normal Button</Button>
+              <Button theme={theme} className="p-3 w-full justify-center">
+                Normal Button (Customized)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+              >
+                Normal Button (Colored)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                noBorder
+              >
+                Normal Button (Colored + No Border)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                notHover
+              >
+                Normal Button (Colored + No Hover)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                notHover
+                noBorder
+              >
+                Normal Button (Colored + No Hover/Border)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                transparent
+              >
+                Normal Button (Transparent)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                transparent
+                noBorder
+              >
+                Normal Button (Transparent + No Border)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                transparent
+                notHover
+              >
+                Normal Button (Transparent + No Hover)
+              </Button>
+              <Button
+                theme={theme}
+                className="p-3 w-full justify-center"
+                color="info"
+                transparent
+                notHover
+                noBorder
+              >
+                Normal Button (T + No Hover/Border)
+              </Button>
+
+              <div className="w-full flex justify-center items-center mb-4">
+                <IconButton
+                  title="Icon Button"
+                  condition
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2"
+                />
+
+                <IconButton
+                  title="Icon Button (Smaller)"
+                  condition
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2"
+                  smaller
+                />
+
+                <IconButton
+                  title="Icon Button (No Fill)"
+                  condition
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2"
+                  noFill
+                />
+
+                <IconButton
+                  title="Icon Button (No Fill + Smaller)"
+                  condition
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2"
+                  noFill
+                  smaller
+                />
+
+                <IconButton
+                  title="Icon Button (Customized)"
+                  condition
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2 p-2 rounded-full w-10 h-10"
+                />
+
+                <IconButton
+                  title="Icon Button (Customized + No Fill)"
+                  condition
+                  noFill
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2 p-2 rounded-full w-10 h-10"
+                />
+
+                <IconButton
+                  title="Icon Button (Customized + No Fill + Deactivated)"
+                  noFill
+                  theme={theme}
+                  icon="user-3"
+                  className="mr-2 p-2 rounded-full w-10 h-10"
+                />
+              </div>
+
+              <Linker
+                to="/sheet"
+                title="Linker"
+                condition
+                theme={theme}
+                icon="home-4"
+              />
+
+              <Linker
+                to="/sheet"
+                title="Linker (Customized)"
+                condition
+                theme={theme}
+                icon="home-4"
+                className="mt-2 p-2 rounded-lg w-full h-10"
+              />
+
+              <Linker
+                to="/sheet"
+                title="Linker (Customized + No Fill)"
+                condition
+                noFill
+                theme={theme}
+                icon="home-4"
+                className="mt-2 p-2 rounded-lg w-full h-10"
+              />
+
+              <Linker
+                to="/sheet"
+                title="Linker (Customized + No Fill + Smaller)"
+                condition
+                noFill
+                smaller
+                theme={theme}
+                icon="home-4"
+                className="mt-2 p-2 rounded-lg w-full h-10"
+              />
+
+              <Separator />
+
+              <div className="w-full">
+                <Button
+                  color="info"
+                  theme={theme}
+                  className="p-3 w-full justify-center uppercase"
+                  click={() => setIsActive(true)}
+                >
+                  Bring up includes/YesNo
+                </Button>
+
+                <Button
+                  color="info"
+                  theme={theme}
+                  className="p-3 w-full justify-center uppercase"
+                  click={() => setEditingSomething(true)}
+                >
+                  Bring up includes/EditingSomething
+                </Button>
+              </div>
+            </div>
+
+            <Separator />
+            <Separator />
+            <Separator />
           </div>
         </div>
-
-        <Separator />
-        <Separator />
-        <Separator />
       </div>
 
       <IncludeYesNo

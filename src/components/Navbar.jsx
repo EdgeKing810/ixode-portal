@@ -83,7 +83,7 @@ export default function Navbar({ width, currentPage }) {
       </div>
 
       <div
-        className={`w-screen h-screenm lg:hidden fixed z-50 p-2 transform transition duration-400 ${
+        className={`w-screen h-full lg:hidden fixed z-50 p-2 transform transition duration-400 ${
           showMenu ? 'translate-x-0' : 'translate-x-full'
         } ${
           theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
@@ -144,7 +144,7 @@ export default function Navbar({ width, currentPage }) {
                   : 'Switch to Dark Mode'
               }
               theme={theme}
-              icon="user-3"
+              icon={theme === 'dark' ? 'moon' : 'sun'}
               className="w-full rounded-lg mt-2 p-2"
               condition
               noFill
@@ -154,7 +154,7 @@ export default function Navbar({ width, currentPage }) {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={`py-3 lg:hidden bottom-0 fixed z-30 w-screen flex justify-around border-t-2 border-main-primary ${
           theme === 'light' ? 'bg-main-100' : 'bg-main-900'
         } ease-in-out duration-400`}
@@ -169,7 +169,7 @@ export default function Navbar({ width, currentPage }) {
         >
           <div className={`h-full flex items-center ri-home-4-line`}></div>
         </Link>
-      </div>
+      </div> */}
     </>
   );
 }

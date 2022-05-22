@@ -44,13 +44,13 @@ module.exports = {
       pink: colors.pink,
       rose: colors.rose,
       main: {
-        100: '#EDF2F7', // light bg
-        200: '#00E198', // logo green
-        300: '#9582F2', // logo purple
-        400: '#008BDA', // blue
-        500: '#FFA180', // orange dark
-        600: '#f56565', // red
-        900: '#111827', // dark bg
+        // 100: '#EDF2F7', // light bg
+        // 200: '#00E198', // logo green
+        // 300: '#9582F2', // logo purple
+        // 400: '#008BDA', // blue
+        // 500: '#FFA180', // orange dark
+        // 600: '#f56565', // red
+        // 900: '#111827', // dark bg
 
         lightbg: '#EDF2F7',
         light: '#D7DFE8',

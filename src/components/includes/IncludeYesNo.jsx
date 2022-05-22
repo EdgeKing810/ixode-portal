@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 import {
   Button,
   FullAbsoluteContainer,
   IconButton,
   SubHeading,
-} from "../Components";
+} from '../Components';
 
 export default function IncludeYesNo({
   isActive,
@@ -16,8 +16,8 @@ export default function IncludeYesNo({
 }) {
   return (
     <FullAbsoluteContainer
-      additional={`w-screen h-screen top-0 left-0 lg:px-4 lg:pt-0 ${
-        isActive ? "translate-y-0" : "translate-y-full"
+      additional={`w-screen h-screen left-0 top-0 left-0 lg:pt-0 ${
+        isActive ? 'translate-y-0' : 'translate-y-full'
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsActive(false)}
@@ -25,7 +25,7 @@ export default function IncludeYesNo({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          {currentTerm ? currentTerm : ""}
+          {currentTerm ? currentTerm : ''}
         </SubHeading>
 
         <IconButton
