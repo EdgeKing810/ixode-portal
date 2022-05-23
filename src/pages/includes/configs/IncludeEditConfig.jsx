@@ -3,18 +3,19 @@ import React from "react";
 import {
   FullAbsoluteContainer,
   IconButton,
-  InputTextArea,
+  Input,
   LinkerButton,
   SubHeading,
-} from "../Components";
+} from "../../../components/Components";
 
-export default function IncludeEditSomething({
+export default function IncludeEditConfig({
   isEditing,
   setIsEditing,
   value,
   setValue,
   submitValue,
   theme,
+  keyname,
 }) {
   return (
     <FullAbsoluteContainer
@@ -27,7 +28,12 @@ export default function IncludeEditSomething({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Enter a new Something...
+          Enter a value for{" "}
+          <span
+            className={theme === "light" ? "text-main-dark" : "text-main-light"}
+          >
+            {keyname}
+          </span>
         </SubHeading>
 
         <IconButton
@@ -39,9 +45,9 @@ export default function IncludeEditSomething({
         />
       </div>
 
-      <InputTextArea
-        title=""
-        placeholder=""
+      <Input
+        title="Enter value..."
+        placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}
         theme={theme}

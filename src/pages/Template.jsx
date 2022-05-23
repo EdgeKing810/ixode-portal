@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 
-import { useThemeStore } from '../stores/useThemeStore';
+import { useThemeStore } from "../stores/useThemeStore";
 
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/includes/Sidebar';
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/includes/Sidebar";
 
 export default function Template() {
   const { theme } = useThemeStore((state) => state);
@@ -19,10 +19,10 @@ export default function Template() {
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
+    document.addEventListener("keydown", escFunction, false);
 
     return () => {
-      document.removeEventListener('keydown', escFunction, false);
+      document.removeEventListener("keydown", escFunction, false);
     };
     // eslint-disable-next-line
   }, []);
@@ -30,7 +30,7 @@ export default function Template() {
   return (
     <div
       className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } ease-in-out duration-400 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="template" />

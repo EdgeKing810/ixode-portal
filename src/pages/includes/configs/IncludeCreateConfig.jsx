@@ -3,14 +3,16 @@ import React from "react";
 import {
   FullAbsoluteContainer,
   IconButton,
-  InputTextArea,
+  Input,
   LinkerButton,
   SubHeading,
-} from "../Components";
+} from "../../../components/Components";
 
-export default function IncludeEditSomething({
-  isEditing,
-  setIsEditing,
+export default function IncludeCreateConfig({
+  isCreating,
+  setIsCreating,
+  keyname,
+  setKey,
   value,
   setValue,
   submitValue,
@@ -19,19 +21,19 @@ export default function IncludeEditSomething({
   return (
     <FullAbsoluteContainer
       additional={`w-screen h-screen top-0 left-0 lg:pt-0 ${
-        isEditing ? "translate-y-0" : "translate-y-full"
+        isCreating ? "translate-y-0" : "translate-y-full"
       }`}
       additionalIn="flex flex-col items-center justify-center"
-      outFunction={() => setIsEditing(false)}
+      outFunction={() => setIsCreating(false)}
       theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Enter a new Something...
+          Create a Config
         </SubHeading>
 
         <IconButton
-          click={() => setIsEditing(false)}
+          click={() => setIsCreating(false)}
           condition
           icon="close"
           noFill
@@ -39,21 +41,42 @@ export default function IncludeEditSomething({
         />
       </div>
 
-      <InputTextArea
-        title=""
-        placeholder=""
+      <Input
+        title="Enter key..."
+        placeholder="Enter key..."
+        value={keyname}
+        change={(e) => setKey(e.target.value.trim().split(" ").join("_"))}
+        theme={theme}
+        className="lg:my-2 lg:w-1/2"
+      />
+
+      <Input
+        title="Enter value..."
+        placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}
         theme={theme}
-        className="lg:my-2 lg:w-1/2"
+        className="my-2 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
         <LinkerButton
           title="Submit"
-          condition={value && value.trim().length > 0 ? true : false}
+          condition={
+            keyname &&
+            keyname.trim().length > 0 &&
+            value &&
+            value.trim().length > 0
+              ? true
+              : false
+          }
           click={() =>
-            value && value.trim().length > 0 ? submitValue() : null
+            keyname &&
+            keyname.trim().length > 0 &&
+            value &&
+            value.trim().length > 0
+              ? submitValue()
+              : null
           }
           className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
           theme={theme}

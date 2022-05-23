@@ -5,13 +5,13 @@ import {
   FullAbsoluteContainer,
   IconButton,
   SubHeading,
-} from "../Components";
+} from "../../../components/Components";
 
-export default function IncludeYesNo({
+export default function IncludeDeleteConfig({
   isActive,
   setIsActive,
   nextCallback,
-  currentTerm,
+  keyname,
   theme,
 }) {
   return (
@@ -25,7 +25,13 @@ export default function IncludeYesNo({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          {currentTerm ? currentTerm : ""}
+          Are you sure that you want to delete the{" "}
+          <span
+            className={theme === "light" ? "text-main-dark" : "text-main-light"}
+          >
+            {keyname}
+          </span>{" "}
+          config?
         </SubHeading>
 
         <IconButton

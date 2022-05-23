@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { useThemeStore } from '../stores/useThemeStore';
-import { useUserProfileStore } from '../stores/useUserProfileStore';
-import { fetchData } from '../utils/data';
+import { useThemeStore } from "../stores/useThemeStore";
+import { useUserProfileStore } from "../stores/useUserProfileStore";
+import { fetchData } from "../utils/data";
 
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/includes/Sidebar';
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/includes/Sidebar";
 import {
   ALink,
   ALinker,
@@ -17,7 +17,7 @@ import {
   SmallText,
   Text,
   Title,
-} from '../components/Components';
+} from "../components/Components";
 
 export default function Home() {
   const { theme } = useThemeStore((state) => state);
@@ -30,7 +30,7 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       if (!profile || !profile.id) {
-        navigate('/');
+        navigate("/");
       }
     }, 1000);
 
@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div
       className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } ease-in-out duration-400 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="home" />
@@ -56,7 +56,7 @@ export default function Home() {
 
             <Text theme={theme} nobreak>
               We hope you're making progress on your project... Feel free to
-              read the latest news about{' '}
+              read the latest news about{" "}
               <ALink newtab href="https://blog.konnect.dev">
                 Kinesis API
               </ALink>
@@ -70,7 +70,7 @@ export default function Home() {
               <div className="mb-2 lg:mb-3" key={d.id}>
                 <BigText theme={theme}>
                   <ALink
-                    color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                    color={theme === "light" ? "darkbg" : "lightbg"}
                     href={d.href}
                     newtab
                     noopacity
@@ -87,7 +87,7 @@ export default function Home() {
             <Linker
               theme={theme}
               className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/3"
-              color={theme === 'light' ? 'darkbg' : 'lightbg'}
+              color={theme === "light" ? "darkbg" : "lightbg"}
               borderColor="primary"
               smaller
               transparent
@@ -107,7 +107,7 @@ export default function Home() {
                   key={d.id}
                   theme={theme}
                   className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                  color={theme === "light" ? "darkbg" : "lightbg"}
                   borderColor="primary"
                   transparent
                   href={d.link}
@@ -120,7 +120,7 @@ export default function Home() {
                   <div className="w-full">
                     <BigText
                       theme={theme}
-                      color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                      color={theme === "light" ? "darkbg" : "lightbg"}
                       className="justify-start flex w-full"
                     >
                       {d.title}
@@ -137,7 +137,7 @@ export default function Home() {
           <div className="lg:w-1/3 h-auto w-full border-2 border-main-primary p-4 rounded lg:ml-4 border-opacity-25 mt-2 lg:mt-0">
             <Title
               className="mt-2"
-              color={theme === 'light' ? 'darkbg' : 'lightbg'}
+              color={theme === "light" ? "darkbg" : "lightbg"}
             >
               Join the Community
             </Title>
@@ -150,7 +150,7 @@ export default function Home() {
             <Linker
               theme={theme}
               className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/2"
-              color={theme === 'light' ? 'darkbg' : 'lightbg'}
+              color={theme === "light" ? "darkbg" : "lightbg"}
               borderColor="info"
               smaller
               transparent
@@ -170,7 +170,7 @@ export default function Home() {
                   key={d.id}
                   theme={theme}
                   className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                  color={theme === "light" ? "darkbg" : "lightbg"}
                   transparent
                   href={d.link}
                   condition
@@ -181,7 +181,7 @@ export default function Home() {
                 >
                   <BigText
                     theme={theme}
-                    color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                    color={theme === "light" ? "darkbg" : "lightbg"}
                     className="justify-start flex w-full"
                   >
                     {d.name}

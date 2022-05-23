@@ -1,23 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import { useThemeStore } from '../stores/useThemeStore';
-import { useUserProfileStore } from '../stores/useUserProfileStore';
+import { useThemeStore } from "../stores/useThemeStore";
+import { useUserProfileStore } from "../stores/useUserProfileStore";
 
-import { LocalContext } from '../wrappers/LocalContext';
+import { LocalContext } from "../wrappers/LocalContext";
 
-import logo from '../assets/images/banner_purple.png';
-import background from '../assets/images/background.jpg';
+import logo from "../assets/images/banner_purple.png";
+import background from "../assets/images/background.jpg";
 
-import { automaticLogin, fetchCurrentProfile } from '../utils/fetcher';
+import { automaticLogin, fetchCurrentProfile } from "../utils/fetcher";
 import {
   Button,
   Heading,
   Image,
   Input,
   PasswordInput,
-} from '../components/Components';
+} from "../components/Components";
 
 export default function Login() {
   const { theme, setTheme } = useThemeStore((state) => state);
@@ -27,17 +27,17 @@ export default function Login() {
   const navigate = useNavigate();
 
   // -------------------- LOGIN --------------------
-  const [loginInputs, setLoginInputs] = useState(['', '']);
+  const [loginInputs, setLoginInputs] = useState(["", ""]);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
   // -------------------- SUBMISSION --------------------
   const [submit, setSubmit] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState(false);
 
   useEffect(() => {
     if (profile && profile.uid) {
-      navigate('/home');
+      navigate("/home");
     }
 
     // eslint-disable-next-line
@@ -51,23 +51,23 @@ export default function Login() {
       password: loginInputs[1],
     };
 
-    setLoginInputs(['', '']);
+    setLoginInputs(["", ""]);
     setSubmit(true);
-    setSubmitMessage('Submitting...');
+    setSubmitMessage("Submitting...");
 
     axios
       .post(`${API_URL}/user/login`, data)
       .then(async (resp) => {
         if (resp.data.status === 200) {
-          setSubmitMessage('Logging in...');
+          setSubmitMessage("Logging in...");
           setSubmitError(false);
 
           localStorage.setItem(
-            '_userData',
+            "_userData",
             JSON.stringify({
               uid: resp.data.uid,
               jwt: resp.data.jwt,
-              theme: theme ? theme : 'dark',
+              theme: theme ? theme : "dark",
             })
           );
 
@@ -84,7 +84,7 @@ export default function Login() {
 
             await automaticLogin(API_URL, uid, jwt);
 
-            setTheme(theme ? theme : 'dark');
+            setTheme(theme ? theme : "dark");
           } else {
             console.log(data);
           }
@@ -95,22 +95,22 @@ export default function Login() {
 
         setTimeout(() => {
           setSubmit(false);
-          setSubmitMessage('Submitting...');
+          setSubmitMessage("Submitting...");
           setSubmitError(false);
 
           if (resp.data.status === 200) {
-            navigate('/home');
+            navigate("/home");
           }
         }, 1000);
       })
       .catch((e) => {
         console.log(e);
-        setSubmitMessage('Request Failed :(');
+        setSubmitMessage("Request Failed :(");
         setSubmitError(true);
 
         setTimeout(() => {
           setSubmit(false);
-          setSubmitMessage('Submitting...');
+          setSubmitMessage("Submitting...");
           setSubmitError(false);
         }, 500);
       });
@@ -157,12 +157,12 @@ export default function Login() {
           type="submit"
           theme={theme}
           notHover={!loginInputs.every((v) => v.length > 0)}
-          color={theme === 'light' ? 'dark' : 'primary'}
+          color={theme === "light" ? "dark" : "primary"}
           bgcolor={theme}
           className={`w-full lg:w-auto sm:px-8 py-3 bg-opacity-50 uppercase ${
             loginInputs.every((v) => v.length > 0)
-              ? 'hover:bg-opacity-90 focus:bg-opacity-90'
-              : 'opacity-50'
+              ? "hover:bg-opacity-90 focus:bg-opacity-90"
+              : "opacity-50"
           }`}
         >
           Let's Go!
@@ -176,7 +176,7 @@ export default function Login() {
     <div className="w-5/6 lg:w-full my-2 flex justify-center items-center">
       <div
         className={`${
-          submitError ? 'text-main-error' : 'text-main-success'
+          submitError ? "text-main-error" : "text-main-success"
         } text-2xl lg:text-3xl font-semibold text-center w-full font-noto`}
       >
         {submitMessage}
@@ -189,9 +189,9 @@ export default function Login() {
       className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-400 overflow-none`}
       style={{
         backgroundImage: `url(${background})`,
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
       }}
     >
       <div
@@ -199,9 +199,9 @@ export default function Login() {
       >
         <div
           className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center ${
-            theme === 'light'
-              ? 'bg-gray-200 bg-opacity-25'
-              : 'bg-gray-800 bg-opacity-50'
+            theme === "light"
+              ? "bg-gray-200 bg-opacity-25"
+              : "bg-gray-800 bg-opacity-50"
           } p-4 lg:p-16`}
         >
           <Image

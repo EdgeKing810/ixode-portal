@@ -22,7 +22,7 @@ export const useConfigStore = create(
           updatedConfigs = updatedConfigs.map((c) => {
             let updatedConfig = { ...c };
             if (c.name === name) {
-              updatedConfig.value = { value };
+              updatedConfig.value = value;
               found = true;
             }
             return updatedConfig;

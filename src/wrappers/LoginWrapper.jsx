@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useAlert } from 'react-alert';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
-import { useUserProfileStore } from '../stores/useUserProfileStore';
-import { useThemeStore } from '../stores/useThemeStore';
-import { automaticLogin, fetchCurrentProfile } from '../utils/fetcher';
-import { LocalContext } from './LocalContext';
+import { useUserProfileStore } from "../stores/useUserProfileStore";
+import { useThemeStore } from "../stores/useThemeStore";
+import { automaticLogin, fetchCurrentProfile } from "../utils/fetcher";
+import { LocalContext } from "./LocalContext";
 
-import logo from '../assets/images/banner_purple.png';
+import logo from "../assets/images/banner_purple.png";
 
 export default function LoginWrapper({ children, onlyLoad }) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -22,16 +22,16 @@ export default function LoginWrapper({ children, onlyLoad }) {
 
   useEffect(() => {
     async function fetchLocal() {
-      if (localStorage.getItem('_userData')) {
+      if (localStorage.getItem("_userData")) {
         if (profile.jwt !== undefined && profile.jwt) {
           setLoggedIn(true);
           return;
         }
 
         const { uid, jwt, theme } = JSON.parse(
-          localStorage.getItem('_userData')
+          localStorage.getItem("_userData")
         );
-        setTheme(theme ? theme : 'dark');
+        setTheme(theme ? theme : "dark");
 
         const data = await fetchCurrentProfile(API_URL, uid, jwt);
 
@@ -39,20 +39,20 @@ export default function LoginWrapper({ children, onlyLoad }) {
           setUserProfile({ ...data.user, uid: uid, jwt: jwt });
           setLoggedIn(true);
           await automaticLogin(API_URL, uid, jwt);
-          alert.success('Login Successful!');
+          alert.success("Login Successful!");
           setDidOnce(true);
           // navigate('/home');
         } else {
           console.log(data);
           // localStorage.clear();
-          alert.error('Login Failed');
-          navigate('/');
+          alert.error("Login Failed");
+          navigate("/");
           setDidOnce(true);
         }
       } else {
-        alert.error('Login Failed');
+        alert.error("Login Failed");
         // localStorage.clear();
-        navigate('/');
+        navigate("/");
         setDidOnce(true);
       }
     }
@@ -69,7 +69,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
   const temporaryContainer = (
     <div
       className={`h-screen w-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } overflow-hidden`}
     >
       <div className="overflow-hidden w-full h-full rounded-lg opacity-95 flex flex-col items-center justify-center">
@@ -93,7 +93,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
   ) : (
     <div
       className={`${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } duration-400 ease-in-out`}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   SuperHeading,
@@ -23,45 +23,45 @@ import {
   IconButton,
   Linker,
   Input,
-} from '../components/Components';
+} from "../components/Components";
 
-import IncludeYesNo from '../components/includes/IncludeYesNo';
-import IncludeEditSomething from '../components/includes/IncludeEditSomething';
+import IncludeYesNo from "../components/includes/IncludeYesNo";
+import IncludeEditSomething from "../components/includes/IncludeEditSomething";
 
-import banner from '../assets/images/banner_purple.png';
-import { useThemeStore } from '../stores/useThemeStore';
+import banner from "../assets/images/banner_purple.png";
+import { useThemeStore } from "../stores/useThemeStore";
 
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/includes/Sidebar';
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/includes/Sidebar";
 
 export default function Sheet() {
   const { theme } = useThemeStore((state) => state);
 
-  const [input, setInput] = useState('');
-  const [inputText, setInputText] = useState('');
-  const [password, setPassword] = useState('');
+  const [input, setInput] = useState("");
+  const [inputText, setInputText] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(false);
 
   const [isActive, setIsActive] = useState(false);
   const [editingSomething, setEditingSomething] = useState(false);
-  const [something, setSomething] = useState('');
+  const [something, setSomething] = useState("");
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setIsActive(false);
       setEditingSomething(false);
-      setSomething('');
+      setSomething("");
     }
 
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
+    document.addEventListener("keydown", escFunction, false);
 
     return () => {
-      document.removeEventListener('keydown', escFunction, false);
+      document.removeEventListener("keydown", escFunction, false);
     };
     // eslint-disable-next-line
   }, []);
@@ -165,7 +165,7 @@ export default function Sheet() {
     `;
 
   const flexClass = `w-full flex items-center border-2 border-main-dark border-opacity-25 p-2 rounded-lg mb-2 ${
-    theme === 'light' ? 'hover:bg-main-darkbg' : 'hover:bg-main-lightbg'
+    theme === "light" ? "hover:bg-main-darkbg" : "hover:bg-main-lightbg"
   } bg-opacity-50 ease-in-out duration-400`;
 
   const makeColorDisplay = (color, text) => (
@@ -185,7 +185,7 @@ export default function Sheet() {
   return (
     <div
       className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
+        theme === "light" ? "bg-main-lightbg" : "bg-main-darkbg"
       } ease-in-out duration-400 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="sheet" />
@@ -236,16 +236,16 @@ export default function Sheet() {
 
             <Separator />
 
-            {makeColorDisplay('lightbg', 'Light BG: #EDF2F7')}
-            {makeColorDisplay('light', 'Light: #D7DFE8')}
-            {makeColorDisplay('primary', 'Primary: #9582F2')}
-            {makeColorDisplay('secondary', 'Secondary: #06D5B3')}
-            {makeColorDisplay('info', 'Info: #60A5FA')}
-            {makeColorDisplay('error', 'Error: #E86B6B')}
-            {makeColorDisplay('warning', 'Warning: #FB923C')}
-            {makeColorDisplay('success', 'Success: #48BB78')}
-            {makeColorDisplay('dark', 'Dark: #2D3748')}
-            {makeColorDisplay('darkbg', 'Dark BG: #111827')}
+            {makeColorDisplay("lightbg", "Light BG: #EDF2F7")}
+            {makeColorDisplay("light", "Light: #D7DFE8")}
+            {makeColorDisplay("primary", "Primary: #9582F2")}
+            {makeColorDisplay("secondary", "Secondary: #06D5B3")}
+            {makeColorDisplay("info", "Info: #60A5FA")}
+            {makeColorDisplay("error", "Error: #E86B6B")}
+            {makeColorDisplay("warning", "Warning: #FB923C")}
+            {makeColorDisplay("success", "Success: #48BB78")}
+            {makeColorDisplay("dark", "Dark: #2D3748")}
+            {makeColorDisplay("darkbg", "Dark BG: #111827")}
 
             <Separator />
 
@@ -594,7 +594,7 @@ export default function Sheet() {
         setValue={setSomething}
         submitValue={() => {
           alert(`You inputted ${something}`);
-          setSomething('');
+          setSomething("");
           setEditingSomething(false);
         }}
         theme={theme}
