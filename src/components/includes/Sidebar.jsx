@@ -17,14 +17,7 @@ export default function Sidebar({ currentPage }) {
         theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
       } h-full bg-opacity-50 lg:border-r-4 lg:border-main-primary`}
     >
-      <Image
-        src={banner}
-        alt="banner"
-        className={`w-full p-2 ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        }`}
-        noRounded
-      />
+      <Image src={banner} alt="banner" className={`w-full p-2`} noRounded />
 
       <div className="w-full flex flex-col p-1 lg:p-2">
         {pages.map((p) => (

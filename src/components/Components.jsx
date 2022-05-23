@@ -575,6 +575,7 @@ export const ALinker = ({
   borderColor,
   reverseIcon,
   iconClass,
+  children,
 }) => (
   <a
     href={href}
@@ -606,7 +607,7 @@ export const ALinker = ({
         }`}
       ></div>
     )}
-    {title && <div className={`h-full flex items-center`}>{title}</div>}
+    {children && <div className={`h-full flex items-center`}>{children}</div>}
     {icon && !reverseIcon && (
       <div
         className={`${

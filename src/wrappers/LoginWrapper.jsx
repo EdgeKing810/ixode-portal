@@ -81,7 +81,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
           />
         </div>
 
-        <div className="text-main-300 w-full text-xl lg:text-2xl font-semibold font-gilroy opacity-80 text-center px-4 blink">
+        <div className="text-main-primary w-full text-xl lg:text-2xl font-semibold font-gilroy opacity-80 text-center px-4 blink">
           Trying to automatically log you in...
         </div>
       </div>

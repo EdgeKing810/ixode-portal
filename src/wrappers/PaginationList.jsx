@@ -38,8 +38,8 @@ export default function PaginationList({
           ? 'hover:border-main-primary'
           : 'hover:border-main-secondary'
       } border-2 rounded-lg p-1 duration-400 ease-in-out text-xs lg:text-base`}
-      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-300 border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
-      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-300 border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
+      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
+      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
     />
   );
 }

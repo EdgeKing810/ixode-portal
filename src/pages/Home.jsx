@@ -112,29 +112,24 @@ export default function Home() {
                   transparent
                   href={d.link}
                   condition
-                  title={
-                    <div className="w-full">
-                      <BigText
-                        theme={theme}
-                        color={theme === 'light' ? 'darkbg' : 'lightbg'}
-                        className="justify-start flex w-full"
-                      >
-                        {d.title}
-                      </BigText>
-                      <SmallText
-                        theme={theme}
-                        className="mt-1 text-left"
-                        nobreak
-                      >
-                        {d.description}
-                      </SmallText>
-                    </div>
-                  }
                   icon={d.icon}
                   noFill
                   reverseIcon
                   iconClass={`text-2xl mr-4 text-main-${d.color}`}
-                />
+                >
+                  <div className="w-full">
+                    <BigText
+                      theme={theme}
+                      color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                      className="justify-start flex w-full"
+                    >
+                      {d.title}
+                    </BigText>
+                    <SmallText theme={theme} className="mt-1 text-left" nobreak>
+                      {d.description}
+                    </SmallText>
+                  </div>
+                </ALinker>
               ))}
             </div>
           </div>
@@ -180,19 +175,18 @@ export default function Home() {
                   href={d.link}
                   condition
                   noFill={!d.fill}
-                  title={
-                    <BigText
-                      theme={theme}
-                      color={theme === 'light' ? 'darkbg' : 'lightbg'}
-                      className="justify-start flex w-full"
-                    >
-                      {d.name}
-                    </BigText>
-                  }
                   icon={d.icon}
                   reverseIcon
                   iconClass={`text-2xl mr-4`}
-                />
+                >
+                  <BigText
+                    theme={theme}
+                    color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                    className="justify-start flex w-full"
+                  >
+                    {d.name}
+                  </BigText>
+                </ALinker>
               ))}
             </div>
           </div>

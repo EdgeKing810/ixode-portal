@@ -156,7 +156,7 @@ export default function Navbar({ width, currentPage }) {
 
       {/* <div
         className={`py-3 lg:hidden bottom-0 fixed z-30 w-screen flex justify-around border-t-2 border-main-primary ${
-          theme === 'light' ? 'bg-main-100' : 'bg-main-900'
+          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
         } ease-in-out duration-400`}
       >
         <Link
