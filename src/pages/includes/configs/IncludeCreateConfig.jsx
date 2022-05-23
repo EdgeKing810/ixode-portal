@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   FullAbsoluteContainer,
@@ -6,7 +6,7 @@ import {
   Input,
   LinkerButton,
   SubHeading,
-} from "../../../components/Components";
+} from '../../../components/Components';
 
 export default function IncludeCreateConfig({
   isCreating,
@@ -21,7 +21,7 @@ export default function IncludeCreateConfig({
   return (
     <FullAbsoluteContainer
       additional={`w-screen h-screen top-0 left-0 lg:pt-0 ${
-        isCreating ? "translate-y-0" : "translate-y-full"
+        isCreating ? 'translate-y-0' : 'translate-y-full'
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsCreating(false)}
@@ -45,7 +45,7 @@ export default function IncludeCreateConfig({
         title="Enter key..."
         placeholder="Enter key..."
         value={keyname}
-        change={(e) => setKey(e.target.value.trim().split(" ").join("_"))}
+        change={(e) => setKey(e.target.value.trim().split(' ').join('_'))}
         theme={theme}
         className="lg:my-2 lg:w-1/2"
       />

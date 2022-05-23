@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { useUserProfileStore } from "../stores/useUserProfileStore";
-import { useProfileStore } from "../stores/useProfileStore";
-import { useConfigStore } from "../stores/useConfigStore";
-import { useProjectStore } from "../stores/useProjectStore";
-import { useCollectionStore } from "../stores/useCollectionStore";
+import { useUserProfileStore } from '../stores/useUserProfileStore';
+import { useProfileStore } from '../stores/useProfileStore';
+import { useConfigStore } from '../stores/useConfigStore';
+import { useProjectStore } from '../stores/useProjectStore';
+import { useCollectionStore } from '../stores/useCollectionStore';
 // import { useLimitsStore } from '../stores/useLimitsStore';
-import { useThemeStore } from "../stores/useThemeStore";
+import { useThemeStore } from '../stores/useThemeStore';
 
 export const fetchCurrentProfile = async (API_URL, uid, jwt) => {
   return axios
@@ -14,7 +14,7 @@ export const fetchCurrentProfile = async (API_URL, uid, jwt) => {
       `${API_URL}/user/fetch/one`,
       { uid, target_uid: uid },
       {
-        headers: { Authorization: `Bearer ${jwt ? jwt : ""}` },
+        headers: { Authorization: `Bearer ${jwt ? jwt : ''}` },
       }
     )
     .then((res) => res.data);
@@ -291,7 +291,7 @@ export const logout = async () => {
   setConfigs([]);
   setProjects([]);
   setCollections([]);
-  setTheme("dark");
+  setTheme('dark');
 
   localStorage.clear();
 };

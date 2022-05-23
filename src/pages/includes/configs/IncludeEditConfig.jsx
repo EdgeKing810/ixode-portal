@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   FullAbsoluteContainer,
@@ -6,7 +6,7 @@ import {
   Input,
   LinkerButton,
   SubHeading,
-} from "../../../components/Components";
+} from '../../../components/Components';
 
 export default function IncludeEditConfig({
   isEditing,
@@ -20,7 +20,7 @@ export default function IncludeEditConfig({
   return (
     <FullAbsoluteContainer
       additional={`w-screen h-screen top-0 left-0 lg:pt-0 ${
-        isEditing ? "translate-y-0" : "translate-y-full"
+        isEditing ? 'translate-y-0' : 'translate-y-full'
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsEditing(false)}
@@ -28,9 +28,9 @@ export default function IncludeEditConfig({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Enter a value for{" "}
+          Enter a value for{' '}
           <span
-            className={theme === "light" ? "text-main-dark" : "text-main-light"}
+            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
           >
             {keyname}
           </span>

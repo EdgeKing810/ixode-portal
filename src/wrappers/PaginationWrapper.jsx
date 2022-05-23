@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function usePagination() {
   const [keys, setKeys] = useState([]);
@@ -79,7 +79,7 @@ export default function usePagination() {
 
   const fetchKey = (id, keys) => {
     const notFound = {
-      id: "404",
+      id: '404',
       hasMore: true,
       isLoading: false,
       current: 0,

@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 import {
   Button,
   FullAbsoluteContainer,
   IconButton,
   SubHeading,
-} from "../../../components/Components";
+} from '../../../components/Components';
 
 export default function IncludeDeleteConfig({
   isActive,
@@ -17,7 +17,7 @@ export default function IncludeDeleteConfig({
   return (
     <FullAbsoluteContainer
       additional={`w-screen h-screen left-0 top-0 left-0 lg:pt-0 ${
-        isActive ? "translate-y-0" : "translate-y-full"
+        isActive ? 'translate-y-0' : 'translate-y-full'
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsActive(false)}
@@ -25,12 +25,12 @@ export default function IncludeDeleteConfig({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Are you sure that you want to delete the{" "}
+          Are you sure that you want to delete the{' '}
           <span
-            className={theme === "light" ? "text-main-dark" : "text-main-light"}
+            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
           >
             {keyname}
-          </span>{" "}
+          </span>{' '}
           config?
         </SubHeading>
 
