@@ -27,13 +27,16 @@ export const SubHeading = ({
   color,
   className,
   smallerOnMobile,
+  nobreak,
 }) => (
   <div
     className={`${
       color ? `text-main-${color}` : 'text-main-secondary'
     } w-full ${
       smallerOnMobile ? 'text-base' : 'text-xl'
-    } sm:text-2xl font-semibold font-spartan break-all ${className}`}
+    } sm:text-2xl font-semibold font-spartan ${
+      !nobreak && 'break-all'
+    } ${className}`}
     title={title}
   >
     {children}

@@ -1,10 +1,23 @@
 export const fetchData = () => ({
   navigation: [
-    { name: 'Home', icon: 'home-4' },
-    { name: 'Projects', icon: 'folder-3' },
-    { name: 'Configs', icon: 'tools' },
-    { name: 'Users', icon: 'user-3' },
-    { name: 'Sheet', icon: 'compasses-2' },
+    { name: 'Home', icon: 'home-4', visibility: 'VIEWER,AUTHOR,ADMIN,ROOT' },
+    {
+      name: 'Projects',
+      icon: 'folder-3',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
+    { name: 'Configs', icon: 'tools', visibility: 'ROOT' },
+    { name: 'Users', icon: 'user-3', visibility: 'ROOT' },
+    {
+      name: 'Profile',
+      icon: 'user-settings',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
+    {
+      name: 'Sheet',
+      icon: 'compasses-2',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
   ],
 
   home: {

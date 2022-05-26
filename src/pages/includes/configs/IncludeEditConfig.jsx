@@ -46,7 +46,7 @@ export default function IncludeEditConfig({
       </div>
 
       <Input
-        title="Enter value..."
+        title="Enter value"
         placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}

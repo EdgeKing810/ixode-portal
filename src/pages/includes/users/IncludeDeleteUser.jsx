@@ -7,11 +7,11 @@ import {
   SubHeading,
 } from '../../../components/Components';
 
-export default function IncludeDeleteConfig({
+export default function IncludeDeleteUser({
   isActive,
   setIsActive,
   nextCallback,
-  keyname,
+  username,
   theme,
 }) {
   return (
@@ -25,13 +25,13 @@ export default function IncludeDeleteConfig({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile nobreak>
-          Are you sure that you want to delete the{' '}
+          Are you sure that you want to delete the account of the user{' '}
           <span
             className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
           >
-            {keyname}
-          </span>{' '}
-          config?
+            {username}
+          </span>
+          ?
         </SubHeading>
 
         <IconButton

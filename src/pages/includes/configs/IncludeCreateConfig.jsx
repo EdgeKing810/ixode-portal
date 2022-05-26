@@ -42,7 +42,7 @@ export default function IncludeCreateConfig({
       </div>
 
       <Input
-        title="Enter key..."
+        title="Enter key"
         placeholder="Enter key..."
         value={keyname}
         change={(e) => setKey(e.target.value.trim().split(' ').join('_'))}
@@ -51,7 +51,7 @@ export default function IncludeCreateConfig({
       />
 
       <Input
-        title="Enter value..."
+        title="Enter value"
         placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}

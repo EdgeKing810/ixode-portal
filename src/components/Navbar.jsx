@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import banner from '../assets/images/logo_purple.png';
 
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useThemeStore } from '../stores/useThemeStore';
-import { IconButton, Linker, LinkerButton } from './Components';
+import { IconButton, Linker, LinkerButton, Separator } from './Components';
+
 import { fetchData } from '../utils/data';
+import { logout } from '../utils/fetcher';
 
 export default function Navbar({ width, currentPage }) {
   const { profile } = useUserProfileStore((state) => state);
@@ -14,6 +16,7 @@ export default function Navbar({ width, currentPage }) {
   const [pages] = useState(fetchData().navigation);
 
   const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
 
   const changeTheme = () => {
     let newTheme = theme === 'light' ? 'dark' : 'light';
@@ -114,18 +117,20 @@ export default function Navbar({ width, currentPage }) {
           </p>
 
           <div className="w-4/6 flex flex-col items-center py-2">
-            {pages.map((p) => (
-              <Linker
-                key={`navbar-${p.name}`}
-                to={`/${p.name.toLowerCase()}`}
-                title={p.name}
-                theme={theme}
-                icon={p.icon}
-                className="w-full rounded-lg mt-2 p-2"
-                condition={currentPage !== p.name.toLowerCase()}
-                noFill
-              />
-            ))}
+            {pages
+              .filter((p) => p.visibility.split(',').includes(profile.role))
+              .map((p) => (
+                <Linker
+                  key={`navbar-${p.name}`}
+                  to={`/${p.name.toLowerCase()}`}
+                  title={p.name}
+                  theme={theme}
+                  icon={p.icon}
+                  className="w-full rounded-lg mt-2 p-2"
+                  condition={currentPage !== p.name.toLowerCase()}
+                  noFill
+                />
+              ))}
           </div>
         </div>
 
@@ -152,24 +157,27 @@ export default function Navbar({ width, currentPage }) {
             />
           </div>
         </div>
-      </div>
 
-      {/* <div
-        className={`py-3 lg:hidden bottom-0 fixed z-30 w-screen flex justify-around border-t-2 border-main-primary ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } ease-in-out duration-400`}
-      >
-        <Link
-          to="/home"
-          className={`text-center text-lg px-3 py-2 border-2 border-transparent flex justify-center items-center ${
-            theme === 'light'
-              ? 'bg-main-light text-main-dark'
-              : 'bg-main-dark text-main-light'
-          } hover:border-main-primary focus:border-main-primary font-spartan rounded-full ease-in-out duration-400`}
-        >
-          <div className={`h-full flex items-center ri-home-4-line`}></div>
-        </Link>
-      </div> */}
+        <div className="w-4/6">
+          <Separator />
+
+          <LinkerButton
+            theme={theme}
+            className="py-3 rounded-lg w-full justify-start uppercase hover:border-main-error focus:border-main-error text-main-error -mt-1"
+            click={() => {
+              logout();
+              navigate('/');
+            }}
+            color="error"
+            transparent
+            condition
+            title="Log Out"
+            icon="logout-box"
+            noFill
+            reverseIcon
+          />
+        </div>
+      </div>
     </>
   );
 }

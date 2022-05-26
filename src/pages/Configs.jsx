@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
@@ -12,13 +13,17 @@ import {
   Button,
   Heading,
   IconButton,
+  Input,
   Separator,
+  SubHeading,
   Text,
 } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
-import IncludeEditConfig from './includes/configs/IncludeEditConfig';
+import PaginationList from '../wrappers/PaginationList';
+
 import IncludeCreateConfig from './includes/configs/IncludeCreateConfig';
+import IncludeEditConfig from './includes/configs/IncludeEditConfig';
 import IncludeDeleteConfig from './includes/configs/IncludeDeleteConfig';
 
 export default function Configs() {
@@ -28,8 +33,13 @@ export default function Configs() {
     (state) => state
   );
 
+  const limit = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [filter, setFilter] = useState('');
+
   const { API_URL } = useContext(LocalContext);
   const alert = useAlert();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [key, setKey] = useState('');
@@ -55,6 +65,15 @@ export default function Configs() {
     let timer = setTimeout(() => setIsLoading(false), 4000);
     setIsLoading(!(configs && configs.length > 0));
 
+    if (
+      profile &&
+      profile.role.toUpperCase() !== 'ROOT' &&
+      profile.role.toUpperCase() !== 'ADMIN'
+    ) {
+      alert.error('Not authorized to view Configs');
+      navigate('/home');
+    }
+
     return () => {
       clearTimeout(timer);
       document.removeEventListener('keydown', escFunction, false);
@@ -74,6 +93,7 @@ export default function Configs() {
         .length > 0
     ) {
       alert.error('Config with the same key already exists');
+      return;
     }
 
     alert.info('Processing...');
@@ -199,92 +219,160 @@ export default function Configs() {
 
             <Separator />
 
-            {configs.map((c) => (
-              <div
-                key={`l-${c.name}`}
-                className={`w-full rounded-lg lg:p-2 p-2 flex lg:flex-row flex-col lg:items-center ${
-                  theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                } duration-400 border-2 border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
-              >
-                <Text
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  nobreak
-                  className="w-full lg:w-1/4"
-                >
-                  {c.name}
-                </Text>
+            {configs && configs.length > 0 && (
+              <Input
+                title="Filter Configs"
+                placeholder="Filter Configs..."
+                value={filter}
+                theme={theme}
+                change={(e) => {
+                  setFilter(e.target.value);
+                  setCurrentPage(0);
+                }}
+                className="mb-2"
+              />
+            )}
 
-                <Text
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  nobreak
-                  className={`w-full p-1 my-2 lg:mx-2 rounded-lg ${
+            {configs && configs.length > 0 && (
+              <PaginationList
+                theme={theme}
+                limit={limit}
+                amount={
+                  configs
+                    ? configs.filter(
+                        (c) =>
+                          filter.length <= 0 ||
+                          c.name
+                            .toLowerCase()
+                            .includes(filter.trim().toLowerCase())
+                      ).length
+                    : 0
+                }
+                setter={setCurrentPage}
+                additional="mb-4 lg:mb-2"
+              />
+            )}
+
+            {/* <input
+              name={terms.filter_rooms}
+              title={terms.filter_rooms}
+              className={`w-full mb-2 outline-none rounded-lg p-2 ${
+                theme === 'light' ? 'text-gray-900' : 'text-gray-100'
+              } text-xs sm:text-base opacity-85 hover:opacity-95 focus:opacity-95 ${
+                theme === 'light' ? 'bg-gray-300' : 'bg-gray-800'
+              } font-spartan ${
+                theme === 'light'
+                  ? 'placeholder-gray-800'
+                  : 'placeholder-gray-200'
+              } bg-opacity-50`}
+            /> */}
+
+            {configs &&
+              configs.length > 0 &&
+              filter.length > 0 &&
+              !configs.find((c) =>
+                c.name.toLowerCase().includes(filter.trim().toLowerCase())
+              ) && (
+                <SubHeading color="error">
+                  no config match the filter.
+                </SubHeading>
+              )}
+
+            {configs
+              .filter(
+                (c) =>
+                  filter.length <= 0 ||
+                  c.name.toLowerCase().includes(filter.trim().toLowerCase())
+              )
+              .slice(currentPage * limit, limit + currentPage * limit)
+              .map((c) => (
+                <div
+                  key={`l-${c.name}`}
+                  className={`w-full rounded-lg lg:p-2 p-2 flex lg:flex-row flex-col lg:items-center ${
                     theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                  } overflow-hidden`}
+                  } duration-400 border-2 border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
                 >
-                  {visibility.includes(c.name)
-                    ? c.value
-                    : [...c.value].map(() => '*').join('')}
-                </Text>
-
-                <div className="w-full lg:w-1/4 flex">
-                  <IconButton
-                    title={
-                      visibility.includes(c.name) ? 'Hide value' : 'Show value'
-                    }
-                    condition
-                    noFill={!visibility.includes(c.name)}
+                  <Text
+                    color={theme === 'light' ? 'dark' : 'light'}
                     theme={theme}
-                    icon="eye"
-                    className="mr-2 p-2 rounded-full w-10 h-10"
-                    color="primary"
-                    click={() =>
-                      setVisibility((prev) => {
-                        let updatedVisibility = [...prev];
-                        if (updatedVisibility.includes(c.name)) {
-                          updatedVisibility = updatedVisibility.filter(
-                            (v) => v !== c.name
-                          );
-                        } else {
-                          updatedVisibility = [...updatedVisibility, c.name];
-                        }
-                        return updatedVisibility;
-                      })
-                    }
-                  />
+                    nobreak
+                    className="w-full lg:w-1/4"
+                  >
+                    {c.name}
+                  </Text>
 
-                  <IconButton
-                    title="Edit Config"
-                    condition
-                    noFill={key !== c.name}
+                  <Text
+                    color={theme === 'light' ? 'dark' : 'light'}
                     theme={theme}
-                    icon="pencil"
-                    className="mr-2 p-2 rounded-full w-10 h-10"
-                    color="primary"
-                    click={() => {
-                      setKey(c.name);
-                      setValue(c.value);
-                      setEditingConfig(true);
-                    }}
-                  />
+                    nobreak
+                    className={`w-full p-1 my-2 lg:mx-2 rounded-lg ${
+                      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
+                    } overflow-hidden`}
+                  >
+                    {visibility.includes(c.name)
+                      ? c.value
+                      : [...c.value].map(() => '*').join('')}
+                  </Text>
 
-                  <IconButton
-                    title="Delete Config"
-                    condition
-                    noFill={key !== c.name}
-                    theme={theme}
-                    icon="delete-bin-2"
-                    className="mr-2 p-2 rounded-full w-10 h-10"
-                    color="primary"
-                    click={() => {
-                      setKey(c.name);
-                      setDeletingConfig(true);
-                    }}
-                  />
+                  <div className="w-full lg:w-1/4 flex">
+                    <IconButton
+                      title={
+                        visibility.includes(c.name)
+                          ? 'Hide value'
+                          : 'Show value'
+                      }
+                      condition
+                      noFill={!visibility.includes(c.name)}
+                      theme={theme}
+                      icon="eye"
+                      className="mr-2 p-2 rounded-full w-10 h-10"
+                      color="primary"
+                      click={() =>
+                        setVisibility((prev) => {
+                          let updatedVisibility = [...prev];
+                          if (updatedVisibility.includes(c.name)) {
+                            updatedVisibility = updatedVisibility.filter(
+                              (v) => v !== c.name
+                            );
+                          } else {
+                            updatedVisibility = [...updatedVisibility, c.name];
+                          }
+                          return updatedVisibility;
+                        })
+                      }
+                    />
+
+                    <IconButton
+                      title="Edit Config"
+                      condition
+                      noFill={key !== c.name}
+                      theme={theme}
+                      icon="pencil"
+                      className="mr-2 p-2 rounded-full w-10 h-10"
+                      color="primary"
+                      click={() => {
+                        setKey(c.name);
+                        setValue(c.value);
+                        setEditingConfig(true);
+                      }}
+                    />
+
+                    <IconButton
+                      title="Delete Config"
+                      condition
+                      noFill={key !== c.name}
+                      theme={theme}
+                      icon="delete-bin-2"
+                      className="mr-2 p-2 rounded-full w-10 h-10"
+                      color="primary"
+                      click={() => {
+                        setKey(c.name);
+                        setDeletingConfig(true);
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

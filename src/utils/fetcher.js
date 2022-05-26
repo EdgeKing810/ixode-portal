@@ -22,6 +22,7 @@ export const fetchCurrentProfile = async (API_URL, uid, jwt) => {
 
 export const fetchUserProfile = async (API_URL, uid, jwt) => {
   const { setUserProfile } = useUserProfileStore.getState();
+  const { theme } = useThemeStore.getState();
 
   axios
     .post(
@@ -38,6 +39,15 @@ export const fetchUserProfile = async (API_URL, uid, jwt) => {
           uid: response.data.uid,
           jwt: response.data.jwt,
         });
+
+        localStorage.setItem(
+          '_userData',
+          JSON.stringify({
+            uid: response.data.uid,
+            jwt: response.data.jwt,
+            theme: theme ? theme : 'dark',
+          })
+        );
       } else {
         setUserProfile({});
         console.log(response.data);
