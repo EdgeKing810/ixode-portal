@@ -47,7 +47,7 @@ export default function IncludeCreateConfig({
         value={keyname}
         change={(e) => setKey(e.target.value.trim().split(' ').join('_'))}
         theme={theme}
-        className="lg:my-2 lg:w-1/2"
+        className="mt-2 lg:my-2 lg:w-1/2"
       />
 
       <Input

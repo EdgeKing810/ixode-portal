@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import Configs from './pages/Configs.jsx';
 import Users from './pages/Users.jsx';
+import Profile from './pages/Profile.jsx';
 import Sheet from './pages/Sheet.jsx';
 
 import './assets/css/blinker.css';
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/configs" element={<Configs />} />
           <Route exact path="/users" element={<Users />} />
+          <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/sheet" element={<Sheet />} />
 
           <Route path="*" element={<Navigate to="/home" />} />
