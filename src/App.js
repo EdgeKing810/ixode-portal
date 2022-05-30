@@ -5,6 +5,7 @@ import LoginWrapper from './wrappers/LoginWrapper.jsx';
 
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
+import Projects from './pages/Projects.jsx';
 import Configs from './pages/Configs.jsx';
 import Users from './pages/Users.jsx';
 import Profile from './pages/Profile.jsx';
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
 
           <Route exact path="/home" element={<Home />} />
+          <Route exact path="/projects" element={<Projects />} />
           <Route exact path="/configs" element={<Configs />} />
           <Route exact path="/users" element={<Users />} />
           <Route exact path="/profile" element={<Profile />} />

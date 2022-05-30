@@ -56,8 +56,12 @@ export const Title = ({ title, color, children, className, smallerMobile }) => (
   </div>
 );
 
-export const Separator = () => (
-  <div className={`pt-1 w-full bg-main-dark my-4 rounded-lg opacity-25`} />
+export const Separator = ({ smaller }) => (
+  <div
+    className={`pt-1 w-full bg-main-dark ${
+      smaller ? 'my-2' : 'my-4'
+    } rounded-lg opacity-25`}
+  />
 );
 
 export const BigText = ({ children, color, className, theme, mono }) => (

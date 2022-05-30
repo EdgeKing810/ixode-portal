@@ -14,6 +14,11 @@ export const fetchData = () => ({
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     {
+      name: 'Misc',
+      icon: 'stack',
+      visibility: 'ADMIN,ROOT',
+    },
+    {
       name: 'Sheet',
       icon: 'compasses-2',
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
