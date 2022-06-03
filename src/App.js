@@ -11,6 +11,8 @@ import Users from './pages/Users.jsx';
 import Profile from './pages/Profile.jsx';
 import Sheet from './pages/Sheet.jsx';
 
+import ViewProject from './pages/ViewProject.jsx';
+
 import './assets/css/blinker.css';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route exact path="/users" element={<Users />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/sheet" element={<Sheet />} />
+
+          <Route exact path="/project/:project_id" element={<ViewProject />} />
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>

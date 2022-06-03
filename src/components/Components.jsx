@@ -64,7 +64,14 @@ export const Separator = ({ smaller }) => (
   />
 );
 
-export const BigText = ({ children, color, className, theme, mono }) => (
+export const BigText = ({
+  children,
+  color,
+  className,
+  theme,
+  mono,
+  smallerOnMobile,
+}) => (
   <div
     className={`${
       color
@@ -72,9 +79,9 @@ export const BigText = ({ children, color, className, theme, mono }) => (
         : theme === 'light'
         ? 'text-main-dark'
         : 'text-main-light'
-    } ${className} text-base sm:text-lg font-normal ${
-      mono ? 'font-robomono' : 'font-noto'
-    } break-all`}
+    } ${className} ${
+      smallerOnMobile ? 'text-sm' : 'text-base'
+    } sm:text-lg font-normal ${mono ? 'font-robomono' : 'font-noto'} break-all`}
   >
     {children}
   </div>
@@ -190,6 +197,29 @@ export const ALink = ({
   >
     {children}
   </a>
+);
+
+export const ALinkTo = ({
+  to,
+  children,
+  color,
+  className,
+  noopacity,
+  newtab,
+}) => (
+  <Link
+    to={to}
+    className={`${
+      color ? `text-main-${color}` : 'text-main-secondary'
+    } outline-none w-full font-noto ${className} 
+    ${
+      !noopacity && 'opacity-65'
+    } hover:underline focus:underline hover:opacity-100 focus:opacity-100`}
+    target={newtab ? '_blank' : '_self'}
+    rel="noopenner noreferrer"
+  >
+    {children}
+  </Link>
 );
 
 export const Input = ({

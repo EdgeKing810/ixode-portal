@@ -11,7 +11,7 @@ import { useProjectStore } from '../stores/useProjectStore';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
 import {
-  ALink,
+  ALinkTo,
   BigText,
   Button,
   Heading,
@@ -152,7 +152,7 @@ export default function Projects() {
     const data = {
       uid: profile.uid,
       project_id: projectID,
-      target_uid: uid,
+      target_uid: uid.toLowerCase(),
     };
 
     setAddMember(false);
@@ -187,10 +187,8 @@ export default function Projects() {
     const data = {
       uid: profile.uid,
       project_id: projectID,
-      target_uid: uid,
+      target_uid: uid.toLowerCase(),
     };
-
-    console.log(data);
 
     setRemoveMember(false);
 
@@ -390,13 +388,13 @@ export default function Projects() {
                       nobreak
                       className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
                     >
-                      <ALink
+                      <ALinkTo
                         noopacity
-                        href={`/project/${p.id}`}
+                        to={`/project/${p.id}`}
                         color="primary"
                       >
                         {p.name}
-                      </ALink>
+                      </ALinkTo>
                     </BigText>
 
                     <Text
@@ -532,7 +530,9 @@ export default function Projects() {
         showMembers={showMembers}
         setShowMembers={setShowMembers}
         name={name}
-        members={allProfiles.filter((ap) => members.includes(ap.id))}
+        members={allProfiles.filter((ap) =>
+          members.includes(ap.id.toLowerCase())
+        )}
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
@@ -543,7 +543,9 @@ export default function Projects() {
         showMembers={addMember}
         setShowMembers={setAddMember}
         name={name}
-        members={allProfiles.filter((ap) => !members.includes(ap.id))}
+        members={allProfiles.filter(
+          (ap) => !members.includes(ap.id.toLowerCase())
+        )}
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
@@ -555,7 +557,9 @@ export default function Projects() {
         showMembers={removeMember}
         setShowMembers={setRemoveMember}
         name={name}
-        members={allProfiles.filter((ap) => members.includes(ap.id))}
+        members={allProfiles.filter((ap) =>
+          members.includes(ap.id.toLowerCase())
+        )}
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
