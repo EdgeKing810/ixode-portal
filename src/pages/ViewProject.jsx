@@ -11,7 +11,7 @@ import { useProjectStore } from '../stores/useProjectStore';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
 import {
-  ALink,
+  ALinkTo,
   BigText,
   Button,
   Heading,
@@ -616,7 +616,7 @@ export default function ViewProject() {
         <Sidebar currentPage="projects" />
         <div className="w-full lg:p-8 flex flex-col h-full">
           <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
-            {!projects || projects.length <= 0 ? (
+            {!currentProject || !currentProject.id ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
               ) : (
@@ -931,13 +931,13 @@ export default function ViewProject() {
                         nobreak
                         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
                       >
-                        <ALink
+                        <ALinkTo
                           noopacity
-                          href={`/project/${project_id}/${c.id}`}
+                          to={`/project/${project_id}/collection/${c.id}`}
                           color="primary"
                         >
                           {c.name}
-                        </ALink>
+                        </ALinkTo>
                       </BigText>
 
                       <Text

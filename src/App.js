@@ -12,6 +12,7 @@ import Profile from './pages/Profile.jsx';
 import Sheet from './pages/Sheet.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
+import ViewCollection from './pages/ViewCollection.jsx';
 
 import './assets/css/blinker.css';
 
@@ -30,6 +31,11 @@ function App() {
           <Route exact path="/sheet" element={<Sheet />} />
 
           <Route exact path="/project/:project_id" element={<ViewProject />} />
+          <Route
+            exact
+            path="/project/:project_id/collection/:collection_id"
+            element={<ViewCollection />}
+          />
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
