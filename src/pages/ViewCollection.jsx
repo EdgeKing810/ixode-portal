@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
-import { useProfileStore } from '../stores/useProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
 
 import Navbar from '../components/Navbar';
@@ -28,11 +27,12 @@ import PaginationList from '../wrappers/PaginationList';
 
 import IncludeEditCollection from './includes/collection/IncludeEditCollection';
 import IncludeDeleteCollection from './includes/collection/IncludeDeleteCollection';
+import IncludeCreateStructure from './includes/structures/IncludeCreateStructure';
+import IncludeDeleteStructure from './includes/structures/IncludeDeleteStructure';
 
 export default function ViewCollection() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
-  const { profiles } = useProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
 
   const { API_URL } = useContext(LocalContext);
@@ -48,8 +48,6 @@ export default function ViewCollection() {
 
   const [currentProject, setCurrentProject] = useState(null);
   const [currentCollection, setCurrentCollection] = useState(null);
-  const [projectID, setProjectID] = useState('');
-  const [name, setName] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -71,7 +69,17 @@ export default function ViewCollection() {
   const [editingCustomStructure, setEditingCustomStructure] = useState(false);
   const [deletingCustomStructure, setDeletingCustomStructure] = useState(false);
 
-  let allProfiles = [profile, ...profiles.filter((p) => p.id !== profile.id)];
+  const [structureID, setStructureID] = useState('');
+  const [editStructureID, setEditStructureID] = useState('');
+  const [structureName, setStructureName] = useState('');
+  const [structureType, setStructureType] = useState('TEXT');
+  const [structureDefault, setStructureDefault] = useState('');
+  const [structureMin, setStructureMin] = useState(1);
+  const [structureMax, setStructureMax] = useState(99);
+  const [structureEncrypted, setStructureEncrypted] = useState(false);
+  const [structureUnique, setStructureUnique] = useState(false);
+  const [structureRegex, setStructureRegex] = useState('');
+  const [structureArray, setStructureArray] = useState(false);
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -95,6 +103,7 @@ export default function ViewCollection() {
   useEffect(() => {
     document.addEventListener('keydown', escFunction, false);
 
+    setIsLoading(true);
     let timer = setTimeout(() => setIsLoading(false), 6000);
     setIsLoading(!(projects && projects.length > 0));
 
@@ -122,8 +131,6 @@ export default function ViewCollection() {
       }
 
       setCurrentProject(foundProject);
-      setProjectID(foundProject.id);
-      setName(foundProject.name);
 
       axios
         .post(
@@ -289,6 +296,169 @@ export default function ViewCollection() {
       });
   };
 
+  const submitCreateStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      structure: {
+        id: structureID,
+        name: structureName,
+        stype: structureType,
+        default_val: structureDefault,
+        min: parseInt(structureMin),
+        max: parseInt(structureMax),
+        encrypted: structureEncrypted,
+        unique: structureUnique,
+        regex_pattern: structureRegex,
+        array: structureArray,
+      },
+    };
+
+    axios
+      .post(
+        `${API_URL}/structure/add`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Structure Created!');
+
+          setCreatingStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = [
+              ...updatedCollection.structures,
+              data.structure,
+            ];
+            return updatedCollection;
+          });
+
+          setStructureID('');
+          setEditStructureID('');
+          setStructureName('');
+          setStructureType('TEXT');
+          setStructureDefault('');
+          setStructureMin(1);
+          setStructureMax(99);
+          setStructureEncrypted(false);
+          setStructureUnique(false);
+          setStructureRegex('');
+          setStructureArray(false);
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
+  const submitUpdateStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      structure_id: structureID,
+      structure: {
+        id: editStructureID,
+        name: structureName,
+        stype: structureType,
+        default_val: structureDefault,
+        min: parseInt(structureMin),
+        max: parseInt(structureMax),
+        encrypted: structureEncrypted,
+        unique: structureUnique,
+        regex_pattern: structureRegex,
+        array: structureArray,
+      },
+    };
+
+    axios
+      .post(
+        `${API_URL}/structure/update`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Structure Updated!');
+
+          setEditingStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = [
+              ...updatedCollection.structures.filter(
+                (s) => s.id !== data.structure_id
+              ),
+              data.structure,
+            ];
+            return updatedCollection;
+          });
+
+          setStructureID('');
+          setEditStructureID('');
+          setStructureName('');
+          setStructureType('TEXT');
+          setStructureDefault('');
+          setStructureMin(1);
+          setStructureMax(99);
+          setStructureEncrypted(false);
+          setStructureUnique(false);
+          setStructureRegex('');
+          setStructureArray(false);
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
+  const submitDeleteStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      structure_id: structureID,
+    };
+
+    axios
+      .post(
+        `${API_URL}/structure/delete`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Structure Deleted!');
+
+          setDeletingStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = updatedCollection.structures.filter(
+              (s) => s.id !== data.structure_id
+            );
+            return updatedCollection;
+          });
+
+          setStructureID('');
+          setEditStructureID('');
+          setStructureName('');
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
   return (
     <div
       className={`w-full lg:h-screen ${
@@ -438,7 +608,7 @@ export default function ViewCollection() {
                   color={theme === 'light' ? 'dark' : 'light'}
                   theme={theme}
                   nobreak
-                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase pt-1`}
                   smallerOnMobile
                 >
                   Structures ({currentCollection.structures.length})
@@ -455,6 +625,16 @@ export default function ViewCollection() {
                     className="p-3 w-full lg:w-1/3 justify-center uppercase"
                     click={() => {
                       setCreatingStructure(true);
+                      setStructureID('');
+                      setStructureName('');
+                      setStructureType('TEXT');
+                      setStructureDefault('');
+                      setStructureMin(0);
+                      setStructureMax(99);
+                      setStructureEncrypted(false);
+                      setStructureUnique(false);
+                      setStructureRegex('');
+                      setStructureArray(false);
                     }}
                   >
                     Create a new Structure
@@ -466,7 +646,7 @@ export default function ViewCollection() {
 
             {currentCollection &&
               currentCollection.structures &&
-              currentCollection.structures > 0 && (
+              currentCollection.structures.length > 0 && (
                 <Input
                   title="Filter Structures"
                   placeholder="Filter Structures..."
@@ -482,7 +662,7 @@ export default function ViewCollection() {
 
             {currentCollection &&
               currentCollection.structures &&
-              currentCollection.structures > 0 && (
+              currentCollection.structures.length > 0 && (
                 <PaginationList
                   theme={theme}
                   limit={limit}
@@ -510,7 +690,7 @@ export default function ViewCollection() {
 
             {currentCollection &&
               currentCollection.structures &&
-              currentCollection.structures > 0 &&
+              currentCollection.structures.length > 0 &&
               filter.length > 0 &&
               !currentCollection.structures.find(
                 (s) =>
@@ -527,7 +707,7 @@ export default function ViewCollection() {
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
               {currentCollection &&
                 currentCollection.structures &&
-                currentCollection.structures > 0 &&
+                currentCollection.structures.length > 0 &&
                 currentCollection.structures
                   .filter(
                     (s) =>
@@ -547,7 +727,7 @@ export default function ViewCollection() {
                     <div
                       className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
                         theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
+                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
                       key={s.id}
                     >
                       <BigText
@@ -574,9 +754,17 @@ export default function ViewCollection() {
                               color="primary"
                               click={() => {
                                 setEditingStructure(true);
-                                // setCollectionID(c.id);
-                                // setEditCollectionID(c.id);
-                                // setCollectionName(c.name);
+                                setStructureID(s.id);
+                                setEditStructureID(s.id);
+                                setStructureName(s.name);
+                                setStructureType(s.stype);
+                                setStructureDefault(s.default_val);
+                                setStructureMin(s.min);
+                                setStructureMax(s.max);
+                                setStructureEncrypted(s.encrypted);
+                                setStructureUnique(s.unique);
+                                setStructureRegex(s.regex_pattern);
+                                setStructureArray(s.array);
                               }}
                             />
                           )}
@@ -593,8 +781,8 @@ export default function ViewCollection() {
                               color="primary"
                               click={() => {
                                 setDeletingStructure(true);
-                                // setCollectionID(c.id);
-                                // setCollectionName(c.name);
+                                setStructureID(s.id);
+                                setStructureName(s.name);
                               }}
                             />
                           )}
@@ -609,7 +797,7 @@ export default function ViewCollection() {
                   color={theme === 'light' ? 'dark' : 'light'}
                   theme={theme}
                   nobreak
-                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase pt-1`}
                   smallerOnMobile
                 >
                   Custom Structures (
@@ -638,7 +826,7 @@ export default function ViewCollection() {
 
             {currentCollection &&
               currentCollection.custom_structures &&
-              currentCollection.custom_structures > 0 && (
+              currentCollection.custom_structures.length > 0 && (
                 <Input
                   title="Filter Custom Structures"
                   placeholder="Filter Custom Structures..."
@@ -654,7 +842,7 @@ export default function ViewCollection() {
 
             {currentCollection &&
               currentCollection.custom_structures &&
-              currentCollection.custom_structures > 0 && (
+              currentCollection.custom_structures.length > 0 && (
                 <PaginationList
                   theme={theme}
                   limit={customLimit}
@@ -713,7 +901,7 @@ export default function ViewCollection() {
                     <div
                       className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
                         theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
+                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
                       key={s.id}
                     >
                       <BigText
@@ -811,6 +999,71 @@ export default function ViewCollection() {
         setIsActive={setDeletingCollection}
         submitDeleteCollection={submitDeleteCollection}
         name={collectionName}
+        theme={theme}
+      />
+
+      <IncludeCreateStructure
+        isCreating={creatingStructure}
+        setIsCreating={setCreatingStructure}
+        collectionName={currentCollection && currentCollection.name}
+        name={structureName}
+        setName={setStructureName}
+        structureID={structureID}
+        setStructureID={setStructureID}
+        type={structureType}
+        setType={setStructureType}
+        defaultVal={structureDefault}
+        setDefaultVal={setStructureDefault}
+        min={structureMin}
+        setMin={setStructureMin}
+        max={structureMax}
+        setMax={setStructureMax}
+        encrypted={structureEncrypted}
+        setEncrypted={setStructureEncrypted}
+        unique={structureUnique}
+        setUnique={setStructureUnique}
+        regex={structureRegex}
+        setRegex={setStructureRegex}
+        array={structureArray}
+        setArray={setStructureArray}
+        submitStructure={submitCreateStructure}
+        theme={theme}
+      />
+
+      <IncludeCreateStructure
+        isCreating={editingStructure}
+        setIsCreating={setEditingStructure}
+        collectionName={currentCollection && currentCollection.name}
+        name={structureName}
+        setName={setStructureName}
+        structureID={editStructureID}
+        setStructureID={setEditStructureID}
+        type={structureType}
+        setType={setStructureType}
+        defaultVal={structureDefault}
+        setDefaultVal={setStructureDefault}
+        min={structureMin}
+        setMin={setStructureMin}
+        max={structureMax}
+        setMax={setStructureMax}
+        encrypted={structureEncrypted}
+        setEncrypted={setStructureEncrypted}
+        unique={structureUnique}
+        setUnique={setStructureUnique}
+        regex={structureRegex}
+        setRegex={setStructureRegex}
+        array={structureArray}
+        setArray={setStructureArray}
+        submitStructure={submitUpdateStructure}
+        theme={theme}
+        isEditing
+      />
+
+      <IncludeDeleteStructure
+        isActive={deletingStructure}
+        setIsActive={setDeletingStructure}
+        submitDeleteStructure={submitDeleteStructure}
+        name={structureName}
         theme={theme}
       />
     </div>

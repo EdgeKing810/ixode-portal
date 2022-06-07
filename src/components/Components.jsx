@@ -234,9 +234,11 @@ export const Input = ({
   className,
   type,
   noTransition,
+  min,
+  max,
 }) => (
   <div
-    className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
+    className={`w-full rounded-lg opacity-75 ${!noPadding && 'lg:p-2 p-1'} ${
       !noBorder &&
       `${
         borderColor ? `border-main-${borderColor}` : 'border-main-primary'
@@ -245,7 +247,7 @@ export const Input = ({
       theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
     } font-noto flex justify-start items-center bg-opacity-50 ${className} ${
       !noTransition && 'ease-in-out duration-400'
-    }`}
+    } text-sm lg:text-base`}
   >
     <input
       type={type ? type : 'text'}
@@ -257,10 +259,12 @@ export const Input = ({
         theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
       } font-noto ${!noTransition && 'ease-in-out duration-400'} ${
         theme === 'light' ? 'placeholder-main-dark' : 'placeholder-main-light'
-      } opacity-85`}
+      } opacity-85 text-sm lg:text-base`}
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
+      min={min ? min : 0}
+      max={max ? max : 999999999999999}
     />
   </div>
 );
@@ -479,6 +483,7 @@ export const Button = ({
   noBorder,
   title,
   noTransition,
+  noMargin,
   type,
 }) => (
   <button
@@ -486,7 +491,7 @@ export const Button = ({
     type={type ? type : ''}
     className={`font-noto tracking-wide ${
       color ? `text-main-${color}` : 'text-main-primary'
-    } text-opacity-75 my-2 flex justify-center items-center ${
+    } text-opacity-75 ${!noMargin && 'my-2'} flex justify-center items-center ${
       transparent
         ? 'bg-transparent'
         : bgcolor

@@ -87,4 +87,19 @@ export const fetchData = () => ({
       },
     ],
   },
+  structures: {
+    types: [
+      { id: 'text', name: 'TEXT', type: 'text' },
+      { id: 'email', name: 'EMAIL', type: 'email' },
+      { id: 'password', name: 'PASSWORD', type: 'password' },
+      { id: 'richtext', name: 'RICHTEXT', type: 'text' },
+      { id: 'number', name: 'NUMBER', type: 'number' },
+      { id: 'enum', name: 'ENUM', type: 'hidden' },
+      { id: 'date', name: 'DATE', type: 'date' },
+      { id: 'media', name: 'MEDIA', type: 'hidden' },
+      { id: 'boolean', name: 'BOOLEAN', type: 'checkbox' },
+      { id: 'uid', name: 'UID', type: 'text' },
+      { id: 'json', name: 'JSON', type: 'text' },
+    ],
+  },
 });
