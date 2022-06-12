@@ -205,13 +205,17 @@ export const ALinkTo = ({
   color,
   className,
   noopacity,
+  notfull,
+  notnoto,
   newtab,
 }) => (
   <Link
     to={to}
     className={`${
       color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none w-full font-noto ${className} 
+    } outline-none ${!notfull && 'w-full'} ${
+      !notnoto && 'font-noto'
+    } ${className} 
     ${
       !noopacity && 'opacity-65'
     } hover:underline focus:underline hover:opacity-100 focus:opacity-100`}

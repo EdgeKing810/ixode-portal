@@ -10,6 +10,7 @@ import { useProjectStore } from '../stores/useProjectStore';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
 import {
+  ALinkTo,
   BigText,
   Button,
   Heading,
@@ -571,8 +572,6 @@ export default function ViewCollection() {
       custom_structure_id: customStructureID,
     };
 
-    console.log(data);
-
     axios
       .post(
         `${API_URL}/custom_structure/delete`,
@@ -652,7 +651,15 @@ export default function ViewCollection() {
                     nobreak
                     className="w-full flex uppercase"
                   >
-                    {currentProject.name} {'>'}
+                    <ALinkTo
+                      noopacity
+                      notfull
+                      notnoto
+                      to={`/project/${project_id}`}
+                      color="primary"
+                    >
+                      {currentProject.name} {'>'}
+                    </ALinkTo>
                     <span
                       className={`
                         ${
@@ -1063,7 +1070,13 @@ export default function ViewCollection() {
                         nobreak
                         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
                       >
-                        {s.name}
+                        <ALinkTo
+                          noopacity
+                          to={`/project/${project_id}/collection/${collection_id}/custom/${s.id}`}
+                          color="primary"
+                        >
+                          {s.name}
+                        </ALinkTo>
                       </BigText>
 
                       <SmallText
