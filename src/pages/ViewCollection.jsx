@@ -29,6 +29,8 @@ import IncludeEditCollection from './includes/collection/IncludeEditCollection';
 import IncludeDeleteCollection from './includes/collection/IncludeDeleteCollection';
 import IncludeCreateStructure from './includes/structures/IncludeCreateStructure';
 import IncludeDeleteStructure from './includes/structures/IncludeDeleteStructure';
+import IncludeCreateCustomStructure from './includes/custom_structures/IncludeCreateCustomStructure';
+import IncludeDeleteCustomStructure from './includes/custom_structures/IncludeDeleteCustomStructure';
 
 export default function ViewCollection() {
   const { theme } = useThemeStore((state) => state);
@@ -80,6 +82,13 @@ export default function ViewCollection() {
   const [structureUnique, setStructureUnique] = useState(false);
   const [structureRegex, setStructureRegex] = useState('');
   const [structureArray, setStructureArray] = useState(false);
+
+  const [customStructureID, setCustomStructureID] = useState('');
+  const [editCustomStructureID, setEditCustomStructureID] = useState('');
+  const [customStructureName, setCustomStructureName] = useState('');
+  const [customStructureStructures, setCustomStructureStructures] = useState(
+    []
+  );
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -459,6 +468,145 @@ export default function ViewCollection() {
       });
   };
 
+  const submitCreateCustomStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      custom_structure: {
+        id: customStructureID,
+        name: customStructureName,
+        structures: [],
+      },
+    };
+
+    axios
+      .post(
+        `${API_URL}/custom_structure/add`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Custom Structure Created!');
+
+          setCreatingCustomStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures = [
+              ...updatedCollection.custom_structures,
+              data.custom_structure,
+            ];
+            return updatedCollection;
+          });
+
+          setCustomStructureID('');
+          setEditCustomStructureID('');
+          setCustomStructureName('');
+          setCustomStructureStructures([]);
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
+  const submitUpdateCustomStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      custom_structure_id: customStructureID,
+      custom_structure: {
+        id: editCustomStructureID,
+        name: customStructureName,
+        structures: [...customStructureStructures],
+      },
+    };
+
+    axios
+      .post(
+        `${API_URL}/custom_structure/update`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Custom Structure Updated!');
+
+          setEditingCustomStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures = [
+              ...updatedCollection.custom_structures.filter(
+                (s) => s.id !== data.custom_structure_id
+              ),
+              data.custom_structure,
+            ];
+            return updatedCollection;
+          });
+
+          setCustomStructureID('');
+          setEditCustomStructureID('');
+          setCustomStructureName('');
+          setCustomStructureStructures([]);
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
+  const submitDeleteCustomStructure = () => {
+    const data = {
+      uid: profile.uid,
+      project_id: currentProject.id,
+      collection_id: collectionID,
+      custom_structure_id: customStructureID,
+    };
+
+    console.log(data);
+
+    axios
+      .post(
+        `${API_URL}/custom_structure/delete`,
+        { ...data },
+        {
+          headers: { Authorization: `Bearer ${profile.jwt}` },
+        }
+      )
+      .then(async (res) => {
+        if (res.data.status === 200) {
+          alert.success('Custom Structure Deleted!');
+
+          setDeletingCustomStructure(false);
+
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures =
+              updatedCollection.custom_structures.filter(
+                (s) => s.id !== data.custom_structure_id
+              );
+            return updatedCollection;
+          });
+
+          setCustomStructureID('');
+          setEditCustomStructureID('');
+          setCustomStructureName('');
+          setCustomStructureStructures([]);
+        } else {
+          console.log(res.data);
+          alert.error(res.data.message);
+        }
+      });
+  };
+
   return (
     <div
       className={`w-full lg:h-screen ${
@@ -791,6 +939,8 @@ export default function ViewCollection() {
                   ))}
             </div>
 
+            <Separator />
+
             <div className="flex lg:flex-row flex-col">
               {currentCollection && currentCollection.custom_structures && (
                 <SubHeading
@@ -815,6 +965,9 @@ export default function ViewCollection() {
                     className="p-3 w-full lg:w-1/3 justify-center uppercase"
                     click={() => {
                       setCreatingCustomStructure(true);
+                      setCustomStructureID('');
+                      setEditCustomStructureID('');
+                      setCustomStructureName('');
                     }}
                   >
                     Create a new Custom Structure
@@ -883,7 +1036,7 @@ export default function ViewCollection() {
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
               {currentCollection &&
                 currentCollection.custom_structures &&
-                currentCollection.custom_structures > 0 &&
+                currentCollection.custom_structures.length > 0 &&
                 currentCollection.custom_structures
                   .filter(
                     (s) =>
@@ -913,6 +1066,15 @@ export default function ViewCollection() {
                         {s.name}
                       </BigText>
 
+                      <SmallText
+                        color={theme === 'light' ? 'dark' : 'light'}
+                        theme={theme}
+                        nobreak
+                        className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+                      >
+                        {s.structures.length} structures
+                      </SmallText>
+
                       <Separator smaller />
 
                       <div className="w-full flex">
@@ -928,9 +1090,10 @@ export default function ViewCollection() {
                               color="primary"
                               click={() => {
                                 setEditingCustomStructure(true);
-                                // setCollectionID(c.id);
-                                // setEditCollectionID(c.id);
-                                // setCollectionName(c.name);
+                                setCustomStructureID(s.id);
+                                setEditCustomStructureID(s.id);
+                                setCustomStructureName(s.name);
+                                setCustomStructureStructures(s.structures);
                               }}
                             />
                           )}
@@ -947,8 +1110,9 @@ export default function ViewCollection() {
                               color="primary"
                               click={() => {
                                 setDeletingCustomStructure(true);
-                                // setCollectionID(c.id);
-                                // setCollectionName(c.name);
+                                setCustomStructureID(s.id);
+                                setEditCustomStructureID(s.id);
+                                setCustomStructureName(s.name);
                               }}
                             />
                           )}
@@ -1064,6 +1228,39 @@ export default function ViewCollection() {
         setIsActive={setDeletingStructure}
         submitDeleteStructure={submitDeleteStructure}
         name={structureName}
+        theme={theme}
+      />
+
+      <IncludeCreateCustomStructure
+        isCreating={creatingCustomStructure}
+        setIsCreating={setCreatingCustomStructure}
+        collectionName={currentCollection && currentCollection.name}
+        name={customStructureName}
+        setName={setCustomStructureName}
+        customStructureID={customStructureID}
+        setCustomStructureID={setCustomStructureID}
+        submitCustomStructure={submitCreateCustomStructure}
+        theme={theme}
+      />
+
+      <IncludeCreateCustomStructure
+        isCreating={editingCustomStructure}
+        setIsCreating={setEditingCustomStructure}
+        collectionName={currentCollection && currentCollection.name}
+        name={customStructureName}
+        setName={setCustomStructureName}
+        customStructureID={editCustomStructureID}
+        setCustomStructureID={setEditCustomStructureID}
+        submitCustomStructure={submitUpdateCustomStructure}
+        theme={theme}
+        isEditing
+      />
+
+      <IncludeDeleteCustomStructure
+        isActive={deletingCustomStructure}
+        setIsActive={setDeletingCustomStructure}
+        submitDeleteCustomStructure={submitDeleteCustomStructure}
+        name={customStructureName}
         theme={theme}
       />
     </div>
