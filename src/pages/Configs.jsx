@@ -211,6 +211,8 @@ export default function Configs() {
                 className="p-3 w-full lg:w-1/3 justify-center uppercase"
                 click={() => {
                   setCreatingConfig(true);
+                  setKey('');
+                  setValue('');
                 }}
               >
                 Create a new Config

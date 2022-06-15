@@ -164,6 +164,7 @@ export default function Users() {
           );
         } else {
           console.log(res.data);
+          alert.error(res.data.message);
         }
       });
   };
@@ -204,6 +205,7 @@ export default function Users() {
           updateProfile(data.target_uid, foundProfile);
         } else {
           console.log(res.data);
+          alert.error(res.data.message);
         }
       });
   };
@@ -240,6 +242,7 @@ export default function Users() {
           removeProfile(data.target_uid);
         } else {
           console.log(res.data);
+          alert.error(res.data.message);
         }
       });
   };
