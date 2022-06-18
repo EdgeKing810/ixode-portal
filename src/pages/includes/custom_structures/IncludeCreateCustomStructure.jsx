@@ -4,6 +4,7 @@ import {
   FullAbsoluteContainer,
   IconButton,
   Input,
+  InputTextArea,
   LinkerButton,
   SubHeading,
 } from '../../../components/Components';
@@ -14,6 +15,8 @@ export default function IncludeCreateCustomStructure({
   collectionName,
   name,
   setName,
+  description,
+  setDescription,
   customStructureID,
   setCustomStructureID,
   submitCustomStructure,
@@ -92,6 +95,15 @@ export default function IncludeCreateCustomStructure({
         }
         theme={theme}
         className="mt-2 lg:w-1/2"
+      />
+
+      <InputTextArea
+        title="Enter Description"
+        placeholder="Enter Description... (optional)"
+        value={description}
+        change={(e) => setDescription(e.target.value)}
+        theme={theme}
+        className="my-2 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">

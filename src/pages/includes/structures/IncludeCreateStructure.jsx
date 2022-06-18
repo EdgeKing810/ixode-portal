@@ -7,6 +7,7 @@ import {
   FullAbsoluteContainer,
   IconButton,
   Input,
+  InputTextArea,
   LinkerButton,
   Separator,
   SmallText,
@@ -22,6 +23,8 @@ export default function IncludeCreateStructure({
   collectionName,
   name,
   setName,
+  description,
+  setDescription,
   structureID,
   setStructureID,
   type,
@@ -128,6 +131,15 @@ export default function IncludeCreateStructure({
         }}
         theme={theme}
         className="mt-2 lg:w-1/2"
+      />
+
+      <InputTextArea
+        title="Enter Description"
+        placeholder="Enter Description... (optional)"
+        value={description}
+        change={(e) => setDescription(e.target.value)}
+        theme={theme}
+        className="my-2 lg:w-1/2"
       />
 
       <Input

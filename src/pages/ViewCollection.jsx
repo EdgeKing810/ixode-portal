@@ -20,6 +20,7 @@ import {
   Separator,
   SmallText,
   SubHeading,
+  Text,
 } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
@@ -75,6 +76,7 @@ export default function ViewCollection() {
   const [structureID, setStructureID] = useState('');
   const [editStructureID, setEditStructureID] = useState('');
   const [structureName, setStructureName] = useState('');
+  const [structureDescription, setStructureDescription] = useState('');
   const [structureType, setStructureType] = useState('TEXT');
   const [structureDefault, setStructureDefault] = useState('');
   const [structureMin, setStructureMin] = useState(1);
@@ -87,6 +89,8 @@ export default function ViewCollection() {
   const [customStructureID, setCustomStructureID] = useState('');
   const [editCustomStructureID, setEditCustomStructureID] = useState('');
   const [customStructureName, setCustomStructureName] = useState('');
+  const [customStructureDescription, setCustomStructureDescription] =
+    useState('');
   const [customStructureStructures, setCustomStructureStructures] = useState(
     []
   );
@@ -115,7 +119,6 @@ export default function ViewCollection() {
 
     setIsLoading(true);
     let timer = setTimeout(() => setIsLoading(false), 6000);
-    setIsLoading(!(projects && projects.length > 0));
 
     if (!projects || !profile) {
       navigate('/home');
@@ -314,6 +317,7 @@ export default function ViewCollection() {
       structure: {
         id: structureID,
         name: structureName,
+        description: structureDescription,
         stype: structureType,
         default_val: structureDefault,
         min: parseInt(structureMin),
@@ -351,6 +355,7 @@ export default function ViewCollection() {
           setStructureID('');
           setEditStructureID('');
           setStructureName('');
+          setStructureDescription('');
           setStructureType('TEXT');
           setStructureDefault('');
           setStructureMin(1);
@@ -375,6 +380,7 @@ export default function ViewCollection() {
       structure: {
         id: editStructureID,
         name: structureName,
+        description: structureDescription,
         stype: structureType,
         default_val: structureDefault,
         min: parseInt(structureMin),
@@ -414,6 +420,7 @@ export default function ViewCollection() {
           setStructureID('');
           setEditStructureID('');
           setStructureName('');
+          setStructureDescription('');
           setStructureType('TEXT');
           setStructureDefault('');
           setStructureMin(1);
@@ -462,6 +469,7 @@ export default function ViewCollection() {
           setStructureID('');
           setEditStructureID('');
           setStructureName('');
+          setStructureDescription('');
         } else {
           console.log(res.data);
           alert.error(res.data.message);
@@ -477,6 +485,7 @@ export default function ViewCollection() {
       custom_structure: {
         id: customStructureID,
         name: customStructureName,
+        description: customStructureDescription,
         structures: [],
       },
     };
@@ -507,6 +516,7 @@ export default function ViewCollection() {
           setCustomStructureID('');
           setEditCustomStructureID('');
           setCustomStructureName('');
+          setCustomStructureDescription('');
           setCustomStructureStructures([]);
         } else {
           console.log(res.data);
@@ -524,6 +534,7 @@ export default function ViewCollection() {
       custom_structure: {
         id: editCustomStructureID,
         name: customStructureName,
+        description: customStructureDescription,
         structures: [...customStructureStructures],
       },
     };
@@ -556,6 +567,7 @@ export default function ViewCollection() {
           setCustomStructureID('');
           setEditCustomStructureID('');
           setCustomStructureName('');
+          setCustomStructureDescription('');
           setCustomStructureStructures([]);
         } else {
           console.log(res.data);
@@ -598,6 +610,7 @@ export default function ViewCollection() {
           setCustomStructureID('');
           setEditCustomStructureID('');
           setCustomStructureName('');
+          setCustomStructureDescription('');
           setCustomStructureStructures([]);
         } else {
           console.log(res.data);
@@ -782,6 +795,7 @@ export default function ViewCollection() {
                       setCreatingStructure(true);
                       setStructureID('');
                       setStructureName('');
+                      setStructureDescription('');
                       setStructureType('TEXT');
                       setStructureDefault('');
                       setStructureMin(0);
@@ -894,6 +908,16 @@ export default function ViewCollection() {
                         {s.name}
                       </BigText>
 
+                      <SmallText
+                        color={theme === 'light' ? 'dark' : 'light'}
+                        theme={theme}
+                        nobreak
+                        className={`w-full mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
+                        smallerOnMobile
+                      >
+                        {s.description}
+                      </SmallText>
+
                       <Separator smaller />
 
                       <div className="w-full flex">
@@ -912,6 +936,7 @@ export default function ViewCollection() {
                                 setStructureID(s.id);
                                 setEditStructureID(s.id);
                                 setStructureName(s.name);
+                                setStructureDescription(s.description);
                                 setStructureType(s.stype);
                                 setStructureDefault(s.default_val);
                                 setStructureMin(s.min);
@@ -938,6 +963,7 @@ export default function ViewCollection() {
                                 setDeletingStructure(true);
                                 setStructureID(s.id);
                                 setStructureName(s.name);
+                                setStructureDescription('');
                               }}
                             />
                           )}
@@ -975,6 +1001,7 @@ export default function ViewCollection() {
                       setCustomStructureID('');
                       setEditCustomStructureID('');
                       setCustomStructureName('');
+                      setCustomStructureDescription('');
                     }}
                   >
                     Create a new Custom Structure
@@ -1083,6 +1110,16 @@ export default function ViewCollection() {
                         color={theme === 'light' ? 'dark' : 'light'}
                         theme={theme}
                         nobreak
+                        className={`w-fulloverflow-hidden lg:flex lg:flex-col lg:justify-center`}
+                        smallerOnMobile
+                      >
+                        {s.description}
+                      </SmallText>
+
+                      <SmallText
+                        color={theme === 'light' ? 'dark' : 'light'}
+                        theme={theme}
+                        nobreak
                         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
                       >
                         {s.structures.length} structures
@@ -1106,6 +1143,7 @@ export default function ViewCollection() {
                                 setCustomStructureID(s.id);
                                 setEditCustomStructureID(s.id);
                                 setCustomStructureName(s.name);
+                                setCustomStructureDescription(s.description);
                                 setCustomStructureStructures(s.structures);
                               }}
                             />
@@ -1126,6 +1164,7 @@ export default function ViewCollection() {
                                 setCustomStructureID(s.id);
                                 setEditCustomStructureID(s.id);
                                 setCustomStructureName(s.name);
+                                setCustomStructureDescription(s.description);
                               }}
                             />
                           )}
@@ -1185,6 +1224,8 @@ export default function ViewCollection() {
         collectionName={currentCollection && currentCollection.name}
         name={structureName}
         setName={setStructureName}
+        description={structureDescription}
+        setDescription={setStructureDescription}
         structureID={structureID}
         setStructureID={setStructureID}
         type={structureType}
@@ -1213,6 +1254,8 @@ export default function ViewCollection() {
         collectionName={currentCollection && currentCollection.name}
         name={structureName}
         setName={setStructureName}
+        description={structureDescription}
+        setDescription={setStructureDescription}
         structureID={editStructureID}
         setStructureID={setEditStructureID}
         type={structureType}
@@ -1250,6 +1293,8 @@ export default function ViewCollection() {
         collectionName={currentCollection && currentCollection.name}
         name={customStructureName}
         setName={setCustomStructureName}
+        description={customStructureDescription}
+        setDescription={setCustomStructureDescription}
         customStructureID={customStructureID}
         setCustomStructureID={setCustomStructureID}
         submitCustomStructure={submitCreateCustomStructure}
@@ -1262,6 +1307,8 @@ export default function ViewCollection() {
         collectionName={currentCollection && currentCollection.name}
         name={customStructureName}
         setName={setCustomStructureName}
+        description={customStructureDescription}
+        setDescription={setCustomStructureDescription}
         customStructureID={editCustomStructureID}
         setCustomStructureID={setEditCustomStructureID}
         submitCustomStructure={submitUpdateCustomStructure}
