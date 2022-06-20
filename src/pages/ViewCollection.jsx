@@ -9,30 +9,16 @@ import { useProjectStore } from '../stores/useProjectStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
-import {
-  ALinkTo,
-  BigText,
-  Button,
-  Heading,
-  IconButton,
-  Input,
-  LinkerButton,
-  Separator,
-  SmallText,
-  SubHeading,
-  Text,
-} from '../components/Components';
+import { Heading } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
-import PaginationList from '../wrappers/PaginationList';
-
-import IncludeEditCollection from './includes/collection/IncludeEditCollection';
-import IncludeDeleteCollection from './includes/collection/IncludeDeleteCollection';
-import IncludeCreateStructure from './includes/structures/IncludeCreateStructure';
-import IncludeDeleteStructure from './includes/structures/IncludeDeleteStructure';
-import IncludeCreateCustomStructure from './includes/custom_structures/IncludeCreateCustomStructure';
-import IncludeDeleteCustomStructure from './includes/custom_structures/IncludeDeleteCustomStructure';
+import CollectionDisplay from '../components/collections/CollectionDisplay';
+import StructureMiniDisplay from '../components/structures/StructureMiniDisplay';
+import StructureField from '../components/structures/StructureField';
+import CustomStructureMiniDisplay from '../components/custom_structures/CustomStructureMiniDisplay';
+import CustomStructureField from '../components/custom_structures/CustomStructureField';
+import ViewCollectionIncludes from '../components/viewCollection/ViewCollectionIncludes';
 
 export default function ViewCollection() {
   const { theme } = useThemeStore((state) => state);
@@ -55,7 +41,6 @@ export default function ViewCollection() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [collectionID, setCollectionID] = useState('');
   const [editCollectionID, setEditCollectionID] = useState('');
   const [collectionName, setCollectionName] = useState('');
   const [collectionDescription, setCollectionDescription] = useState('');
@@ -162,7 +147,6 @@ export default function ViewCollection() {
             if (foundCollection) {
               setCurrentCollection(foundCollection);
 
-              setCollectionID(foundCollection.id);
               setEditCollectionID(foundCollection.id);
               setCollectionName(foundCollection.name);
               setCollectionDescription(foundCollection.description);
@@ -177,447 +161,6 @@ export default function ViewCollection() {
 
     // eslint-disable-next-line
   }, [project_id, projects]);
-
-  const submitUpdateCollectionID = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      change: 'ID',
-      data: editCollectionID,
-    };
-
-    axios
-      .post(
-        `${API_URL}/collection/update`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Collection Updated!');
-
-          setEditingCollectionID(false);
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.id = data.data;
-            return updatedCollection;
-          });
-          navigate(`/project/${project_id}/collection/${data.data}`);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitUpdateCollectionName = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      change: 'NAME',
-      data: collectionName,
-    };
-
-    axios
-      .post(
-        `${API_URL}/collection/update`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Collection Updated!');
-
-          setEditingCollectionName(false);
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.name = data.data;
-            return updatedCollection;
-          });
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitUpdateCollectionDescription = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      change: 'DESCRIPTION',
-      data: collectionDescription,
-    };
-
-    axios
-      .post(
-        `${API_URL}/collection/update`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Collection Updated!');
-
-          setEditingCollectionDescription(false);
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.description = data.data;
-            return updatedCollection;
-          });
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitDeleteCollection = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-    };
-
-    axios
-      .post(
-        `${API_URL}/collection/delete`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Collection Deleted!');
-
-          setDeletingCollection(false);
-          navigate(`/project/${project_id}`);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitCreateStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      structure: {
-        id: structureID,
-        name: structureName,
-        description: structureDescription,
-        stype: structureType,
-        default_val: structureDefault,
-        min: parseInt(structureMin),
-        max: parseInt(structureMax),
-        encrypted: structureEncrypted,
-        unique: structureUnique,
-        regex_pattern: structureRegex,
-        array: structureArray,
-      },
-    };
-
-    axios
-      .post(
-        `${API_URL}/structure/add`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Structure Created!');
-
-          setCreatingStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.structures = [
-              ...updatedCollection.structures,
-              data.structure,
-            ];
-            return updatedCollection;
-          });
-
-          setStructureID('');
-          setEditStructureID('');
-          setStructureName('');
-          setStructureDescription('');
-          setStructureType('TEXT');
-          setStructureDefault('');
-          setStructureMin(1);
-          setStructureMax(99);
-          setStructureEncrypted(false);
-          setStructureUnique(false);
-          setStructureRegex('');
-          setStructureArray(false);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitUpdateStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      structure_id: structureID,
-      structure: {
-        id: editStructureID,
-        name: structureName,
-        description: structureDescription,
-        stype: structureType,
-        default_val: structureDefault,
-        min: parseInt(structureMin),
-        max: parseInt(structureMax),
-        encrypted: structureEncrypted,
-        unique: structureUnique,
-        regex_pattern: structureRegex,
-        array: structureArray,
-      },
-    };
-
-    axios
-      .post(
-        `${API_URL}/structure/update`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Structure Updated!');
-
-          setEditingStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.structures = [
-              ...updatedCollection.structures.filter(
-                (s) => s.id !== data.structure_id
-              ),
-              data.structure,
-            ];
-            return updatedCollection;
-          });
-
-          setStructureID('');
-          setEditStructureID('');
-          setStructureName('');
-          setStructureDescription('');
-          setStructureType('TEXT');
-          setStructureDefault('');
-          setStructureMin(1);
-          setStructureMax(99);
-          setStructureEncrypted(false);
-          setStructureUnique(false);
-          setStructureRegex('');
-          setStructureArray(false);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitDeleteStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      structure_id: structureID,
-    };
-
-    axios
-      .post(
-        `${API_URL}/structure/delete`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Structure Deleted!');
-
-          setDeletingStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.structures = updatedCollection.structures.filter(
-              (s) => s.id !== data.structure_id
-            );
-            return updatedCollection;
-          });
-
-          setStructureID('');
-          setEditStructureID('');
-          setStructureName('');
-          setStructureDescription('');
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitCreateCustomStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      custom_structure: {
-        id: customStructureID,
-        name: customStructureName,
-        description: customStructureDescription,
-        structures: [],
-      },
-    };
-
-    axios
-      .post(
-        `${API_URL}/custom_structure/add`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Custom Structure Created!');
-
-          setCreatingCustomStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.custom_structures = [
-              ...updatedCollection.custom_structures,
-              data.custom_structure,
-            ];
-            return updatedCollection;
-          });
-
-          setCustomStructureID('');
-          setEditCustomStructureID('');
-          setCustomStructureName('');
-          setCustomStructureDescription('');
-          setCustomStructureStructures([]);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitUpdateCustomStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      custom_structure_id: customStructureID,
-      custom_structure: {
-        id: editCustomStructureID,
-        name: customStructureName,
-        description: customStructureDescription,
-        structures: [...customStructureStructures],
-      },
-    };
-
-    axios
-      .post(
-        `${API_URL}/custom_structure/update`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Custom Structure Updated!');
-
-          setEditingCustomStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.custom_structures = [
-              ...updatedCollection.custom_structures.filter(
-                (s) => s.id !== data.custom_structure_id
-              ),
-              data.custom_structure,
-            ];
-            return updatedCollection;
-          });
-
-          setCustomStructureID('');
-          setEditCustomStructureID('');
-          setCustomStructureName('');
-          setCustomStructureDescription('');
-          setCustomStructureStructures([]);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitDeleteCustomStructure = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: currentProject.id,
-      collection_id: collectionID,
-      custom_structure_id: customStructureID,
-    };
-
-    axios
-      .post(
-        `${API_URL}/custom_structure/delete`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Custom Structure Deleted!');
-
-          setDeletingCustomStructure(false);
-
-          setCurrentCollection((prev) => {
-            let updatedCollection = { ...prev };
-            updatedCollection.custom_structures =
-              updatedCollection.custom_structures.filter(
-                (s) => s.id !== data.custom_structure_id
-              );
-            return updatedCollection;
-          });
-
-          setCustomStructureID('');
-          setEditCustomStructureID('');
-          setCustomStructureName('');
-          setCustomStructureDescription('');
-          setCustomStructureStructures([]);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
 
   return (
     <div
@@ -653,225 +196,41 @@ export default function ViewCollection() {
               currentProject.id &&
               currentCollection &&
               currentCollection.id && (
-                <div
-                  className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-                    theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                  } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
-                >
-                  <Heading
-                    color="primary"
-                    theme={theme}
-                    nobreak
-                    className="w-full flex uppercase"
-                  >
-                    <ALinkTo
-                      noopacity
-                      notfull
-                      notnoto
-                      to={`/project/${project_id}`}
-                      color="primary"
-                    >
-                      {currentProject.name} {'>'}
-                    </ALinkTo>
-                    <span
-                      className={`
-                        ${
-                          theme === 'light'
-                            ? 'text-main-dark'
-                            : 'text-main-light'
-                        } ml-2
-                      `}
-                    >
-                      {currentCollection.name}
-                    </span>
-                  </Heading>
-
-                  <SmallText
-                    color={theme === 'light' ? 'dark' : 'light'}
-                    theme={theme}
-                    nobreak
-                    className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
-                  >
-                    {currentCollection.structures.length} structures
-                  </SmallText>
-
-                  <SmallText
-                    color={theme === 'light' ? 'dark' : 'light'}
-                    theme={theme}
-                    nobreak
-                    className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
-                  >
-                    {currentCollection.custom_structures.length} custom
-                    structures
-                  </SmallText>
-
-                  <Separator smaller />
-
-                  <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
-                    <LinkerButton
-                      theme={theme}
-                      className="p-2 rounded-lg uppercase w-full"
-                      smaller
-                      transparent
-                      condition
-                      title="Edit Collection ID"
-                      icon="arrow-right-s"
-                      noFill
-                      reverseIcon
-                      click={() => {
-                        setEditingCollectionID(true);
-                      }}
-                    />
-                    <LinkerButton
-                      theme={theme}
-                      className="p-2 rounded-lg uppercase w-full"
-                      smaller
-                      transparent
-                      condition
-                      title="Edit Collection Name"
-                      icon="arrow-right-s"
-                      noFill
-                      reverseIcon
-                      click={() => {
-                        setEditingCollectionName(true);
-                      }}
-                    />
-                    <LinkerButton
-                      theme={theme}
-                      className="p-2 rounded-lg uppercase w-full lg:mt-0"
-                      smaller
-                      transparent
-                      condition
-                      title="Edit Collection Description"
-                      icon="arrow-right-s"
-                      noFill
-                      reverseIcon
-                      click={() => {
-                        setEditingCollectionDescription(true);
-                      }}
-                    />
-                    <LinkerButton
-                      theme={theme}
-                      className="p-2 rounded-lg uppercase w-full lg:mt-0"
-                      smaller
-                      transparent
-                      condition
-                      title="Delete Collection"
-                      icon="delete-bin-2"
-                      noFill
-                      reverseIcon
-                      click={() => {
-                        setDeletingCollection(true);
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-            <Separator />
-
-            <div className="flex lg:flex-row flex-col">
-              {currentCollection && currentCollection.structures && (
-                <SubHeading
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  nobreak
-                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase pt-1`}
-                  smallerOnMobile
-                >
-                  Structures ({currentCollection.structures.length})
-                </SubHeading>
-              )}
-
-              {profile &&
-                ['ROOT', 'ADMIN'].includes(profile.role) &&
-                currentCollection &&
-                currentCollection.id && (
-                  <Button
-                    color={theme === 'light' ? 'dark' : 'light'}
-                    theme={theme}
-                    className="p-3 w-full lg:w-1/3 justify-center uppercase"
-                    click={() => {
-                      setCreatingStructure(true);
-                      setStructureID('');
-                      setStructureName('');
-                      setStructureDescription('');
-                      setStructureType('TEXT');
-                      setStructureDefault('');
-                      setStructureMin(0);
-                      setStructureMax(99);
-                      setStructureEncrypted(false);
-                      setStructureUnique(false);
-                      setStructureRegex('');
-                      setStructureArray(false);
-                    }}
-                  >
-                    Create a new Structure
-                  </Button>
-                )}
-            </div>
-
-            <Separator />
-
-            {currentCollection &&
-              currentCollection.structures &&
-              currentCollection.structures.length > 0 && (
-                <Input
-                  title="Filter Structures"
-                  placeholder="Filter Structures..."
-                  value={filter}
-                  theme={theme}
-                  change={(e) => {
-                    setFilter(e.target.value);
-                    setCurrentPage(0);
-                  }}
-                  className="mb-2"
-                />
-              )}
-
-            {currentCollection &&
-              currentCollection.structures &&
-              currentCollection.structures.length > 0 && (
-                <PaginationList
-                  theme={theme}
-                  limit={limit}
-                  amount={
-                    currentCollection.structures
-                      ? currentCollection.structures.filter(
-                          (s) =>
-                            filter.length <= 0 ||
-                            s.id
-                              .toLowerCase()
-                              .includes(filter.trim().toLowerCase()) ||
-                            s.name
-                              .toLowerCase()
-                              .includes(filter.trim().toLowerCase()) ||
-                            s.stype
-                              .toLowerCase()
-                              .includes(filter.trim().toLowerCase())
-                        ).length
-                      : 0
+                <CollectionDisplay
+                  project_id={project_id}
+                  currentProject={currentProject}
+                  currentCollection={currentCollection}
+                  setEditingCollectionID={setEditingCollectionID}
+                  setEditingCollectionName={setEditingCollectionName}
+                  setEditingCollectionDescription={
+                    setEditingCollectionDescription
                   }
-                  setter={setCurrentPage}
-                  additional="mb-2 lg:mb-4"
+                  setDeletingCollection={setDeletingCollection}
+                  theme={theme}
                 />
               )}
 
-            {currentCollection &&
-              currentCollection.structures &&
-              currentCollection.structures.length > 0 &&
-              filter.length > 0 &&
-              !currentCollection.structures.find(
-                (s) =>
-                  filter.length <= 0 ||
-                  s.id.toLowerCase().includes(filter.trim().toLowerCase()) ||
-                  s.name.toLowerCase().includes(filter.trim().toLowerCase()) ||
-                  s.stype.toLowerCase().includes(filter.trim().toLowerCase())
-              ) && (
-                <SubHeading color="error">
-                  no structure match the filter.
-                </SubHeading>
-              )}
+            <StructureMiniDisplay
+              currentCollection={currentCollection}
+              profile={profile}
+              setCreatingStructure={setCreatingStructure}
+              setStructureID={setStructureID}
+              setStructureName={setStructureName}
+              setStructureDescription={setStructureDescription}
+              setStructureType={setStructureType}
+              setStructureDefault={setStructureDefault}
+              setStructureMin={setStructureMin}
+              setStructureMax={setStructureMax}
+              setStructureEncrypted={setStructureEncrypted}
+              setStructureUnique={setStructureUnique}
+              setStructureRegex={setStructureRegex}
+              setStructureArray={setStructureArray}
+              filter={filter}
+              setFilter={setFilter}
+              setCurrentPage={setCurrentPage}
+              limit={limit}
+              theme={theme}
+            />
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
               {currentCollection &&
@@ -893,179 +252,43 @@ export default function ViewCollection() {
                   )
                   .slice(currentPage * limit, limit + currentPage * limit)
                   .map((s) => (
-                    <div
-                      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-                        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
-                      key={s.id}
-                    >
-                      <BigText
-                        color="primary"
-                        theme={theme}
-                        nobreak
-                        className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
-                      >
-                        {s.name}
-                      </BigText>
-
-                      <SmallText
-                        color={theme === 'light' ? 'dark' : 'light'}
-                        theme={theme}
-                        nobreak
-                        className={`w-full mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
-                        smallerOnMobile
-                      >
-                        {s.description}
-                      </SmallText>
-
-                      <Separator smaller />
-
-                      <div className="w-full flex">
-                        {profile.role &&
-                          ['ROOT', 'ADMIN'].includes(profile.role) && (
-                            <IconButton
-                              title="Edit Structure"
-                              condition
-                              noFill
-                              theme={theme}
-                              icon="pencil"
-                              className="p-2 rounded-full w-10 h-10 mr-2"
-                              color="primary"
-                              click={() => {
-                                setEditingStructure(true);
-                                setStructureID(s.id);
-                                setEditStructureID(s.id);
-                                setStructureName(s.name);
-                                setStructureDescription(s.description);
-                                setStructureType(s.stype);
-                                setStructureDefault(s.default_val);
-                                setStructureMin(s.min);
-                                setStructureMax(s.max);
-                                setStructureEncrypted(s.encrypted);
-                                setStructureUnique(s.unique);
-                                setStructureRegex(s.regex_pattern);
-                                setStructureArray(s.array);
-                              }}
-                            />
-                          )}
-
-                        {profile.role &&
-                          ['ROOT', 'ADMIN'].includes(profile.role) && (
-                            <IconButton
-                              title="Delete Structure"
-                              condition
-                              noFill
-                              theme={theme}
-                              icon="delete-bin-2"
-                              className="p-2 rounded-full w-10 h-10"
-                              color="primary"
-                              click={() => {
-                                setDeletingStructure(true);
-                                setStructureID(s.id);
-                                setStructureName(s.name);
-                                setStructureDescription('');
-                              }}
-                            />
-                          )}
-                      </div>
-                    </div>
+                    <StructureField
+                      key={`sl-${s.id}`}
+                      structure={s}
+                      profile={profile}
+                      setEditingStructure={setEditingStructure}
+                      setStructureID={setStructureID}
+                      setEditStructureID={setEditStructureID}
+                      setStructureName={setStructureName}
+                      setStructureDescription={setStructureDescription}
+                      setStructureType={setStructureType}
+                      setStructureDefault={setStructureDefault}
+                      setStructureMin={setStructureMin}
+                      setStructureMax={setStructureMax}
+                      setStructureEncrypted={setStructureEncrypted}
+                      setStructureUnique={setStructureUnique}
+                      setStructureRegex={setStructureRegex}
+                      setStructureArray={setStructureArray}
+                      setDeletingStructure={setDeletingStructure}
+                      theme={theme}
+                    />
                   ))}
             </div>
 
-            <Separator />
-
-            <div className="flex lg:flex-row flex-col">
-              {currentCollection && currentCollection.custom_structures && (
-                <SubHeading
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  nobreak
-                  className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase pt-1`}
-                  smallerOnMobile
-                >
-                  Custom Structures (
-                  {currentCollection.custom_structures.length})
-                </SubHeading>
-              )}
-
-              {profile &&
-                ['ROOT', 'ADMIN'].includes(profile.role) &&
-                currentCollection &&
-                currentCollection.id && (
-                  <Button
-                    color={theme === 'light' ? 'dark' : 'light'}
-                    theme={theme}
-                    className="p-3 w-full lg:w-1/3 justify-center uppercase"
-                    click={() => {
-                      setCreatingCustomStructure(true);
-                      setCustomStructureID('');
-                      setEditCustomStructureID('');
-                      setCustomStructureName('');
-                      setCustomStructureDescription('');
-                    }}
-                  >
-                    Create a new Custom Structure
-                  </Button>
-                )}
-            </div>
-
-            <Separator />
-
-            {currentCollection &&
-              currentCollection.custom_structures &&
-              currentCollection.custom_structures.length > 0 && (
-                <Input
-                  title="Filter Custom Structures"
-                  placeholder="Filter Custom Structures..."
-                  value={filter}
-                  theme={theme}
-                  change={(e) => {
-                    setFilter(e.target.value);
-                    setCustomCurrentPage(0);
-                  }}
-                  className="mb-2"
-                />
-              )}
-
-            {currentCollection &&
-              currentCollection.custom_structures &&
-              currentCollection.custom_structures.length > 0 && (
-                <PaginationList
-                  theme={theme}
-                  limit={customLimit}
-                  amount={
-                    currentCollection.custom_structures
-                      ? currentCollection.custom_structures.filter(
-                          (s) =>
-                            filter.length <= 0 ||
-                            s.id
-                              .toLowerCase()
-                              .includes(filter.trim().toLowerCase()) ||
-                            s.name
-                              .toLowerCase()
-                              .includes(filter.trim().toLowerCase())
-                        ).length
-                      : 0
-                  }
-                  setter={setCustomCurrentPage}
-                  additional="mb-2 lg:mb-4"
-                />
-              )}
-
-            {currentCollection &&
-              currentCollection.custom_structures &&
-              currentCollection.custom_structures > 0 &&
-              filter.length > 0 &&
-              !currentCollection.custom_structures.find(
-                (s) =>
-                  filter.length <= 0 ||
-                  s.id.toLowerCase().includes(filter.trim().toLowerCase()) ||
-                  s.name.toLowerCase().includes(filter.trim().toLowerCase())
-              ) && (
-                <SubHeading color="error">
-                  no custom structure match the filter.
-                </SubHeading>
-              )}
+            <CustomStructureMiniDisplay
+              currentCollection={currentCollection}
+              profile={profile}
+              setCreatingCustomStructure={setCreatingCustomStructure}
+              setCustomStructureID={setCustomStructureID}
+              setEditCustomStructureID={setEditCustomStructureID}
+              setCustomStructureName={setCustomStructureName}
+              setCustomStructureDescription={setCustomStructureDescription}
+              filter={filter}
+              setFilter={setFilter}
+              setCustomCurrentPage={setCustomCurrentPage}
+              customLimit={customLimit}
+              theme={theme}
+            />
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
               {currentCollection &&
@@ -1085,243 +308,101 @@ export default function ViewCollection() {
                     customLimit + currentCustomPage * customLimit
                   )
                   .map((s) => (
-                    <div
-                      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-                        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
-                      key={s.id}
-                    >
-                      <BigText
-                        color="primary"
-                        theme={theme}
-                        nobreak
-                        className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
-                      >
-                        <ALinkTo
-                          noopacity
-                          to={`/project/${project_id}/collection/${collection_id}/custom/${s.id}`}
-                          color="primary"
-                        >
-                          {s.name}
-                        </ALinkTo>
-                      </BigText>
-
-                      <SmallText
-                        color={theme === 'light' ? 'dark' : 'light'}
-                        theme={theme}
-                        nobreak
-                        className={`w-fulloverflow-hidden lg:flex lg:flex-col lg:justify-center`}
-                        smallerOnMobile
-                      >
-                        {s.description}
-                      </SmallText>
-
-                      <SmallText
-                        color={theme === 'light' ? 'dark' : 'light'}
-                        theme={theme}
-                        nobreak
-                        className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
-                      >
-                        {s.structures.length} structures
-                      </SmallText>
-
-                      <Separator smaller />
-
-                      <div className="w-full flex">
-                        {profile.role &&
-                          ['ROOT', 'ADMIN'].includes(profile.role) && (
-                            <IconButton
-                              title="Edit Structure"
-                              condition
-                              noFill
-                              theme={theme}
-                              icon="pencil"
-                              className="p-2 rounded-full w-10 h-10 mr-2"
-                              color="primary"
-                              click={() => {
-                                setEditingCustomStructure(true);
-                                setCustomStructureID(s.id);
-                                setEditCustomStructureID(s.id);
-                                setCustomStructureName(s.name);
-                                setCustomStructureDescription(s.description);
-                                setCustomStructureStructures(s.structures);
-                              }}
-                            />
-                          )}
-
-                        {profile.role &&
-                          ['ROOT', 'ADMIN'].includes(profile.role) && (
-                            <IconButton
-                              title="Delete Structure"
-                              condition
-                              noFill
-                              theme={theme}
-                              icon="delete-bin-2"
-                              className="p-2 rounded-full w-10 h-10"
-                              color="primary"
-                              click={() => {
-                                setDeletingCustomStructure(true);
-                                setCustomStructureID(s.id);
-                                setEditCustomStructureID(s.id);
-                                setCustomStructureName(s.name);
-                                setCustomStructureDescription(s.description);
-                              }}
-                            />
-                          )}
-                      </div>
-                    </div>
+                    <CustomStructureField
+                      key={`csl-${s.id}`}
+                      structure={s}
+                      profile={profile}
+                      project_id={project_id}
+                      collection_id={collection_id}
+                      setEditingCustomStructure={setEditingCustomStructure}
+                      setCustomStructureID={setCustomStructureID}
+                      setEditCustomStructureID={setEditCustomStructureID}
+                      setCustomStructureName={setCustomStructureName}
+                      setCustomStructureDescription={
+                        setCustomStructureDescription
+                      }
+                      setCustomStructureStructures={
+                        setCustomStructureStructures
+                      }
+                      setDeletingCustomStructure={setDeletingCustomStructure}
+                      theme={theme}
+                    />
                   ))}
             </div>
           </div>
         </div>
       </div>
 
-      <IncludeEditCollection
-        isEditing={editingCollectionID}
-        setIsEditing={setEditingCollectionID}
-        name={collectionName}
-        type="ID"
-        data={editCollectionID}
-        setData={setEditCollectionID}
-        submitUpdate={submitUpdateCollectionID}
-        theme={theme}
-      />
-
-      <IncludeEditCollection
-        isEditing={editingCollectionName}
-        setIsEditing={setEditingCollectionName}
-        name={collectionName}
-        type="Name"
-        data={collectionName}
-        setData={setCollectionName}
-        submitUpdate={submitUpdateCollectionName}
-        theme={theme}
-      />
-
-      <IncludeEditCollection
-        isEditing={editingCollectionDescription}
-        setIsEditing={setEditingCollectionDescription}
-        name={collectionName}
-        type="Description"
-        data={collectionDescription}
-        setData={setCollectionDescription}
-        submitUpdate={submitUpdateCollectionDescription}
-        theme={theme}
-        textarea
-      />
-
-      <IncludeDeleteCollection
-        isActive={deletingCollection}
-        setIsActive={setDeletingCollection}
-        submitDeleteCollection={submitDeleteCollection}
-        name={collectionName}
-        theme={theme}
-      />
-
-      <IncludeCreateStructure
-        isCreating={creatingStructure}
-        setIsCreating={setCreatingStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={structureName}
-        setName={setStructureName}
-        description={structureDescription}
-        setDescription={setStructureDescription}
+      <ViewCollectionIncludes
+        API_URL={API_URL}
+        profile={profile}
+        currentProject={currentProject}
+        currentCollection={currentCollection}
+        setCurrentCollection={setCurrentCollection}
+        editCollectionID={editCollectionID}
+        setEditCollectionID={setEditCollectionID}
+        collectionID={collection_id}
+        collectionName={collectionName}
+        setCollectionName={setCollectionName}
+        collectionDescription={collectionDescription}
+        setCollectionDescription={setCollectionDescription}
+        editingCollectionID={editingCollectionID}
+        setEditingCollectionID={setEditingCollectionID}
+        editingCollectionName={editingCollectionName}
+        setEditingCollectionName={setEditingCollectionName}
+        editingCollectionDescription={editingCollectionDescription}
+        setEditingCollectionDescription={setEditingCollectionDescription}
+        deletingCollection={deletingCollection}
+        setDeletingCollection={setDeletingCollection}
+        creatingStructure={creatingStructure}
+        setCreatingStructure={setCreatingStructure}
         structureID={structureID}
         setStructureID={setStructureID}
-        type={structureType}
-        setType={setStructureType}
-        defaultVal={structureDefault}
-        setDefaultVal={setStructureDefault}
-        min={structureMin}
-        setMin={setStructureMin}
-        max={structureMax}
-        setMax={setStructureMax}
-        encrypted={structureEncrypted}
-        setEncrypted={setStructureEncrypted}
-        unique={structureUnique}
-        setUnique={setStructureUnique}
-        regex={structureRegex}
-        setRegex={setStructureRegex}
-        array={structureArray}
-        setArray={setStructureArray}
-        submitStructure={submitCreateStructure}
-        theme={theme}
-      />
-
-      <IncludeCreateStructure
-        isCreating={editingStructure}
-        setIsCreating={setEditingStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={structureName}
-        setName={setStructureName}
-        description={structureDescription}
-        setDescription={setStructureDescription}
-        structureID={editStructureID}
-        setStructureID={setEditStructureID}
-        type={structureType}
-        setType={setStructureType}
-        defaultVal={structureDefault}
-        setDefaultVal={setStructureDefault}
-        min={structureMin}
-        setMin={setStructureMin}
-        max={structureMax}
-        setMax={setStructureMax}
-        encrypted={structureEncrypted}
-        setEncrypted={setStructureEncrypted}
-        unique={structureUnique}
-        setUnique={setStructureUnique}
-        regex={structureRegex}
-        setRegex={setStructureRegex}
-        array={structureArray}
-        setArray={setStructureArray}
-        submitStructure={submitUpdateStructure}
-        theme={theme}
-        isEditing
-      />
-
-      <IncludeDeleteStructure
-        isActive={deletingStructure}
-        setIsActive={setDeletingStructure}
-        submitDeleteStructure={submitDeleteStructure}
-        name={structureName}
-        theme={theme}
-      />
-
-      <IncludeCreateCustomStructure
-        isCreating={creatingCustomStructure}
-        setIsCreating={setCreatingCustomStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={customStructureName}
-        setName={setCustomStructureName}
-        description={customStructureDescription}
-        setDescription={setCustomStructureDescription}
+        structureName={structureName}
+        setStructureName={setStructureName}
+        structureDescription={structureDescription}
+        setStructureDescription={setStructureDescription}
+        structureType={structureType}
+        setStructureType={setStructureType}
+        structureDefault={structureDefault}
+        setStructureDefault={setStructureDefault}
+        structureMin={structureMin}
+        setStructureMin={setStructureMin}
+        structureMax={structureMax}
+        setStructureMax={setStructureMax}
+        structureEncrypted={structureEncrypted}
+        setStructureEncrypted={setStructureEncrypted}
+        structureUnique={structureUnique}
+        setStructureUnique={setStructureUnique}
+        structureRegex={structureRegex}
+        setStructureRegex={setStructureRegex}
+        structureArray={structureArray}
+        setStructureArray={setStructureArray}
+        editingStructure={editingStructure}
+        setEditingStructure={setEditingStructure}
+        deletingStructure={deletingStructure}
+        setDeletingStructure={setDeletingStructure}
+        editStructureID={editStructureID}
+        setEditStructureID={setEditStructureID}
+        creatingCustomStructure={creatingCustomStructure}
+        setCreatingCustomStructure={setCreatingCustomStructure}
         customStructureID={customStructureID}
         setCustomStructureID={setCustomStructureID}
-        submitCustomStructure={submitCreateCustomStructure}
+        customStructureName={customStructureName}
+        setCustomStructureName={setCustomStructureName}
+        customStructureDescription={customStructureDescription}
+        setCustomStructureDescription={setCustomStructureDescription}
+        editCustomStructureID={editCustomStructureID}
+        setEditCustomStructureID={setEditCustomStructureID}
+        customStructureStructures={customStructureStructures}
+        setCustomStructureStructures={setCustomStructureStructures}
+        editingCustomStructure={editingCustomStructure}
+        setEditingCustomStructure={setEditingCustomStructure}
+        deletingCustomStructure={deletingCustomStructure}
+        setDeletingCustomStructure={setDeletingCustomStructure}
+        navigate={navigate}
         theme={theme}
-      />
-
-      <IncludeCreateCustomStructure
-        isCreating={editingCustomStructure}
-        setIsCreating={setEditingCustomStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={customStructureName}
-        setName={setCustomStructureName}
-        description={customStructureDescription}
-        setDescription={setCustomStructureDescription}
-        customStructureID={editCustomStructureID}
-        setCustomStructureID={setEditCustomStructureID}
-        submitCustomStructure={submitUpdateCustomStructure}
-        theme={theme}
-        isEditing
-      />
-
-      <IncludeDeleteCustomStructure
-        isActive={deletingCustomStructure}
-        setIsActive={setDeletingCustomStructure}
-        submitDeleteCustomStructure={submitDeleteCustomStructure}
-        name={customStructureName}
-        theme={theme}
+        alert={alert}
       />
     </div>
   );

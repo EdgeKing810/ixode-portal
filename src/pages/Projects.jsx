@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
-import axios from 'axios';
 
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
@@ -10,27 +9,13 @@ import { useProjectStore } from '../stores/useProjectStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
-import {
-  ALinkTo,
-  BigText,
-  Button,
-  Heading,
-  IconButton,
-  Input,
-  Separator,
-  SmallText,
-  SubHeading,
-  Text,
-} from '../components/Components';
+import { Heading } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
-import IncludeCreateProject from './includes/projects/IncludeCreateProject';
-import IncludeShowMembers from './includes/projects/IncludeShowMembers';
-import IncludeAddMembers from './includes/projects/IncludeAddMembers';
-import IncludeDeleteMembers from './includes/projects/IncludeDeleteMembers';
-import PaginationList from '../wrappers/PaginationList';
-import IncludeDeleteProject from './includes/projects/IncludeDeleteProject';
+import ProjectItem from '../components/projects/ProjectItem';
+import ProjectsBulk from '../components/projects/ProjectsBulk';
+import ProjectsIncludes from '../components/projects/ProjectsIncludes';
 
 export default function Projects() {
   const { theme } = useThemeStore((state) => state);
@@ -99,159 +84,6 @@ export default function Projects() {
     // eslint-disable-next-line
   }, []);
 
-  const submitCreateProject = () => {
-    const data = {
-      uid: profile.uid,
-      project: {
-        id: projectID,
-        name: name,
-        description: description,
-        api_path: apiPath,
-        members: [...members],
-      },
-    };
-
-    axios
-      .post(
-        `${API_URL}/project/create`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Project Created!');
-
-          setCreatingProject(false);
-
-          setProjectID('');
-          setName('');
-          setDescription('');
-          setApiPath('');
-          setMembers([]);
-
-          addProject(
-            data.project.id,
-            data.project.name,
-            data.project.description,
-            data.project.api_path,
-            [
-              profile.uid,
-              ...data.project.members.filter((m) => m !== profile.uid),
-            ]
-          );
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitAddMember = (uid) => {
-    const data = {
-      uid: profile.uid,
-      project_id: projectID,
-      target_uid: uid.toLowerCase(),
-    };
-
-    setAddMember(false);
-
-    axios
-      .post(
-        `${API_URL}/project/member/add`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Member Added!');
-
-          setProjectID('');
-          setName('');
-          setDescription('');
-          setApiPath('');
-          setMembers([]);
-
-          addProjectMember(data.project_id, data.target_uid);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitRemoveMember = (uid) => {
-    const data = {
-      uid: profile.uid,
-      project_id: projectID,
-      target_uid: uid.toLowerCase(),
-    };
-
-    setRemoveMember(false);
-
-    axios
-      .post(
-        `${API_URL}/project/member/remove`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Member Removed!');
-
-          setProjectID('');
-          setName('');
-          setDescription('');
-          setApiPath('');
-          setMembers([]);
-
-          removeProjectMember(data.project_id, data.target_uid);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
-  const submitDeleteProject = () => {
-    const data = {
-      uid: profile.uid,
-      project_id: projectID,
-    };
-
-    axios
-      .post(
-        `${API_URL}/project/delete`,
-        { ...data },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Project Deleted!');
-
-          setDeletingProject(false);
-
-          setProjectID('');
-          setName('');
-          setDescription('');
-          setApiPath('');
-          setMembers([]);
-
-          removeProject(data.project_id);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
   return (
     <div
       className={`w-full lg:h-screen ${
@@ -275,88 +107,22 @@ export default function Projects() {
               <div></div>
             )}
 
-            {profile &&
-              ['ROOT', 'ADMIN'].includes(profile.role) &&
-              ((projects && projects.length > 0) || !isLoading) && (
-                <Button
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  className="p-3 w-full lg:w-1/3 justify-center uppercase"
-                  click={() => {
-                    setCreatingProject(true);
-                    setProjectID('');
-                    setName('');
-                    setDescription('');
-                    setApiPath('');
-                    setMembers([]);
-                  }}
-                >
-                  Create a new Project
-                </Button>
-              )}
-
-            <Separator />
-
-            {projects && projects.length > 0 && (
-              <Input
-                title="Filter Projects"
-                placeholder="Filter Projects..."
-                value={filter}
-                theme={theme}
-                change={(e) => {
-                  setFilter(e.target.value);
-                  setCurrentPage(0);
-                }}
-                className="mb-2"
-              />
-            )}
-
-            {projects && projects.length > 0 && (
-              <PaginationList
-                theme={theme}
-                limit={limit}
-                amount={
-                  projects
-                    ? projects.filter(
-                        (p) =>
-                          filter.length <= 0 ||
-                          p.name
-                            .toLowerCase()
-                            .includes(filter.trim().toLowerCase()) ||
-                          p.description
-                            .toLowerCase()
-                            .includes(filter.trim().toLowerCase()) ||
-                          p.id
-                            .toLowerCase()
-                            .includes(filter.trim().toLowerCase()) ||
-                          p.api_path
-                            .toLowerCase()
-                            .includes(filter.trim().toLowerCase())
-                      ).length
-                    : 0
-                }
-                setter={setCurrentPage}
-                additional="mb-2 lg:mb-4"
-              />
-            )}
-
-            {projects &&
-              projects.length > 0 &&
-              filter.length > 0 &&
-              !projects.find(
-                (p) =>
-                  filter.length <= 0 ||
-                  p.name.toLowerCase().includes(filter.trim().toLowerCase()) ||
-                  p.description
-                    .toLowerCase()
-                    .includes(filter.trim().toLowerCase()) ||
-                  p.id.toLowerCase().includes(filter.trim().toLowerCase()) ||
-                  p.api_path.toLowerCase().includes(filter.trim().toLowerCase())
-              ) && (
-                <SubHeading color="error">
-                  no project match the filter.
-                </SubHeading>
-              )}
+            <ProjectsBulk
+              profile={profile}
+              projects={projects}
+              setCreatingProject={setCreatingProject}
+              setProjectID={setProjectID}
+              setName={setName}
+              setDescription={setDescription}
+              setApiPath={setApiPath}
+              setMembers={setMembers}
+              filter={filter}
+              setFilter={setFilter}
+              setCurrentPage={setCurrentPage}
+              limit={limit}
+              isLoading={isLoading}
+              theme={theme}
+            />
 
             <div className="w-full lg:grid lg:grid-cols-2 lg:gap-4 flex flex-col">
               {projects
@@ -376,144 +142,32 @@ export default function Projects() {
                 )
                 .slice(currentPage * limit, limit + currentPage * limit)
                 .map((p) => (
-                  <div
-                    className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-                      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                    } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
-                    key={p.id}
-                  >
-                    <BigText
-                      color="primary"
-                      theme={theme}
-                      nobreak
-                      className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
-                    >
-                      <ALinkTo
-                        noopacity
-                        to={`/project/${p.id}`}
-                        color="primary"
-                      >
-                        {p.name}
-                      </ALinkTo>
-                    </BigText>
-
-                    <Text
-                      color={theme === 'light' ? 'dark' : 'light'}
-                      theme={theme}
-                      nobreak
-                      className={`w-full mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
-                    >
-                      {p.description}
-                    </Text>
-
-                    <Text
-                      color="secondary"
-                      theme={theme}
-                      nobreak
-                      className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center ${
-                        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-                      } p-1 rounded-lg`}
-                    >
-                      {p.api_path}
-                    </Text>
-
-                    <SmallText
-                      color={theme === 'light' ? 'dark' : 'light'}
-                      theme={theme}
-                      nobreak
-                      className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
-                    >
-                      {p.members.length} members
-                    </SmallText>
-
-                    <Separator smaller />
-
-                    <div className="w-full flex">
-                      <IconButton
-                        title="View Members"
-                        condition
-                        noFill
-                        theme={theme}
-                        icon="user"
-                        className="p-2 rounded-full w-10 h-10 mr-2"
-                        color="primary"
-                        click={() => {
-                          setShowMembers(true);
-                          setMembers(p.members);
-                          setProjectID(p.id);
-                          setName(p.name);
-                          setMemberCurrentPage(0);
-                        }}
-                      />
-
-                      {profile.role &&
-                        ['ROOT', 'ADMIN'].includes(profile.role) && (
-                          <IconButton
-                            title="Add Member"
-                            condition
-                            noFill
-                            theme={theme}
-                            icon="user-add"
-                            className="p-2 rounded-full w-10 h-10 mr-2"
-                            color="primary"
-                            click={() => {
-                              setAddMember(true);
-                              setMembers(p.members);
-                              setProjectID(p.id);
-                              setName(p.name);
-                              setMemberCurrentPage(0);
-                            }}
-                          />
-                        )}
-
-                      {profile.role &&
-                        ['ROOT', 'ADMIN'].includes(profile.role) && (
-                          <IconButton
-                            title="Remove Member"
-                            condition
-                            noFill
-                            theme={theme}
-                            icon="user-unfollow"
-                            className="p-2 rounded-full w-10 h-10 mr-2"
-                            color="primary"
-                            click={() => {
-                              setRemoveMember(true);
-                              setMembers(p.members);
-                              setProjectID(p.id);
-                              setName(p.name);
-                              setMemberCurrentPage(0);
-                            }}
-                          />
-                        )}
-
-                      {profile.role &&
-                        ['ROOT', 'ADMIN'].includes(profile.role) && (
-                          <IconButton
-                            title="Delete Project"
-                            condition
-                            noFill
-                            theme={theme}
-                            icon="delete-bin-2"
-                            className="p-2 rounded-full w-10 h-10"
-                            color="primary"
-                            click={() => {
-                              setDeletingProject(true);
-                              setProjectID(p.id);
-                              setName(p.name);
-                            }}
-                          />
-                        )}
-                    </div>
-                  </div>
+                  <ProjectItem
+                    key={`prl-${p.id}`}
+                    project={p}
+                    profile={profile}
+                    setShowMembers={setShowMembers}
+                    setMembers={setMembers}
+                    setProjectID={setProjectID}
+                    setName={setName}
+                    setMemberCurrentPage={setMemberCurrentPage}
+                    setAddMember={setAddMember}
+                    setRemoveMember={setRemoveMember}
+                    setDeletingProject={setDeletingProject}
+                    theme={theme}
+                  />
                 ))}
             </div>
           </div>
         </div>
       </div>
 
-      <IncludeCreateProject
-        isCreating={creatingProject}
-        setIsCreating={setCreatingProject}
+      <ProjectsIncludes
+        API_URL={API_URL}
+        profile={profile}
+        allProfiles={allProfiles}
+        creatingProject={creatingProject}
+        setCreatingProject={setCreatingProject}
         name={name}
         setName={setName}
         projectID={projectID}
@@ -521,58 +175,26 @@ export default function Projects() {
         description={description}
         setDescription={setDescription}
         apiPath={apiPath}
-        setAPIPath={setApiPath}
-        submitCreateProject={submitCreateProject}
-        theme={theme}
-      />
-
-      <IncludeShowMembers
+        setApiPath={setApiPath}
+        members={members}
+        setMembers={setMembers}
+        addProject={addProject}
         showMembers={showMembers}
         setShowMembers={setShowMembers}
-        name={name}
-        members={allProfiles.filter((ap) =>
-          members.includes(ap.id.toLowerCase())
-        )}
-        limit={memberLimit}
-        currentPage={memberCurrentPage}
-        setCurrentPage={setMemberCurrentPage}
+        memberLimit={memberLimit}
+        memberCurrentPage={memberCurrentPage}
+        setMemberCurrentPage={setMemberCurrentPage}
+        addMember={addMember}
+        setAddMember={setAddMember}
+        addProjectMember={addProjectMember}
+        removeMember={removeMember}
+        setRemoveMember={setRemoveMember}
+        removeProjectMember={removeProjectMember}
+        deletingProject={deletingProject}
+        setDeletingProject={setDeletingProject}
+        removeProject={removeProject}
         theme={theme}
-      />
-
-      <IncludeAddMembers
-        showMembers={addMember}
-        setShowMembers={setAddMember}
-        name={name}
-        members={allProfiles.filter(
-          (ap) => !members.includes(ap.id.toLowerCase())
-        )}
-        limit={memberLimit}
-        currentPage={memberCurrentPage}
-        setCurrentPage={setMemberCurrentPage}
-        submitAddMember={submitAddMember}
-        theme={theme}
-      />
-
-      <IncludeDeleteMembers
-        showMembers={removeMember}
-        setShowMembers={setRemoveMember}
-        name={name}
-        members={allProfiles.filter((ap) =>
-          members.includes(ap.id.toLowerCase())
-        )}
-        limit={memberLimit}
-        currentPage={memberCurrentPage}
-        setCurrentPage={setMemberCurrentPage}
-        submitRemoveMember={submitRemoveMember}
-        theme={theme}
-      />
-
-      <IncludeDeleteProject
-        isActive={deletingProject}
-        setIsActive={setDeletingProject}
-        submitDeleteProject={submitDeleteProject}
-        name={name}
-        theme={theme}
+        alert={alert}
       />
     </div>
   );

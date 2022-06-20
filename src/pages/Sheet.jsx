@@ -66,30 +66,6 @@ export default function Sheet() {
     // eslint-disable-next-line
   }, []);
 
-  // const changeTheme = () => {
-  //   setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  // };
-
-  // const FloatingButton = (
-  //   <div className="fixed p-2 w-20 flex justify-end lg:px-8 z-0 right-0">
-  //     <button
-  //       onClick={() => changeTheme()}
-  //       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-  //       className={`p-2 w-12 h-12 rounded-lg ${
-  //         theme === 'light' ? 'bg-main-dark' : 'bg-main-dark'
-  //       } absolute border-main-primary border-2 opacity-90 z-40`}
-  //     >
-  //       <i
-  //         className={`w-full h-full flex items-center justify-center text-xl ri-${
-  //           theme === 'light' ? 'sun' : 'moon'
-  //         }-fill ${
-  //           theme === 'light' ? 'text-light-300' : 'text-dark-300'
-  //         } duration-500 ease-in-out`}
-  //       />
-  //     </button>
-  //   </div>
-  // );
-
   // eslint-disable-next-line
   const _ = `
     bg-main-lightbg
@@ -588,6 +564,7 @@ export default function Sheet() {
       />
 
       <IncludeEditSomething
+        title="Enter a new Something..."
         isEditing={editingSomething}
         setIsEditing={setEditingSomething}
         value={something}

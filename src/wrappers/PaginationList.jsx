@@ -16,7 +16,7 @@ export default function PaginationList({
       previousLabel={previousLabel}
       nextLabel={nextLabel}
       breakLabel={'...'}
-      pageCount={amount / limit}
+      pageCount={Math.floor(amount / limit)}
       marginPagesDisplayed={2}
       pageRangeDisplayed={1}
       onPageChange={(i) => setter(i.selected)}

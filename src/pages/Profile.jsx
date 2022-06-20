@@ -1,19 +1,20 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
-import axios from 'axios';
 
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
-import { Button, IconButton, Separator, Text } from '../components/Components';
+import { Button, Separator } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
-import IncludeEditData from './includes/profile/IncludeEditData';
-import IncludeChangePassword from './includes/profile/IncludeChangePassword';
+import { submitProfileRequest } from '../components/profile/profile.utils';
+import ProfileField from '../components/profile/ProfileField';
+
+import ProfileIncludes from '../components/profile/ProfileIncludes';
 
 export default function Profile() {
   const { theme } = useThemeStore((state) => state);
@@ -91,56 +92,84 @@ export default function Profile() {
     },
   ];
 
-  const submitRequest = (change, setter, data) => {
-    const postData = {
-      uid: profile.uid,
-      change,
-      data: data,
-    };
-
-    axios
-      .post(
-        `${API_URL}/user/update`,
-        { ...postData },
-        {
-          headers: { Authorization: `Bearer ${profile.jwt}` },
-        }
-      )
-      .then(async (res) => {
-        if (res.data.status === 200) {
-          alert.success('Profile Updated!');
-          setter(postData.data);
-          setData('');
-          setNextCallback(() => null);
-
-          setEditingUser(false);
-          setEditString('');
-          setEditingPassword(false);
-        } else {
-          console.log(res.data);
-          alert.error(res.data.message);
-        }
-      });
-  };
-
   const submitFirstName = (data) => {
-    submitRequest('FIRSTNAME', (d) => setProfileFirstName(d), data);
+    submitProfileRequest(
+      API_URL,
+      'FIRSTNAME',
+      (d) => setProfileFirstName(d),
+      data,
+      profile,
+      setData,
+      setNextCallback,
+      setEditingUser,
+      setEditString,
+      setEditingPassword,
+      alert
+    );
   };
 
   const submitLastName = (data) => {
-    submitRequest('LASTNAME', (d) => setProfileLastName(d), data);
+    submitProfileRequest(
+      API_URL,
+      'LASTNAME',
+      (d) => setProfileLastName(d),
+      data,
+      profile,
+      setData,
+      setNextCallback,
+      setEditingUser,
+      setEditString,
+      setEditingPassword,
+      alert
+    );
   };
 
   const submitUsername = (data) => {
-    submitRequest('USERNAME', (d) => setProfileUsername(d), data);
+    submitProfileRequest(
+      API_URL,
+      'USERNAME',
+      (d) => setProfileUsername(d),
+      data,
+      profile,
+      setData,
+      setNextCallback,
+      setEditingUser,
+      setEditString,
+      setEditingPassword,
+      alert
+    );
   };
 
   const submitEmail = (data) => {
-    submitRequest('EMAIL', (d) => setProfileEmail(d), data);
+    submitProfileRequest(
+      API_URL,
+      'EMAIL',
+      (d) => setProfileEmail(d),
+      data,
+      profile,
+      setData,
+      setNextCallback,
+      setEditingUser,
+      setEditString,
+      setEditingPassword,
+      alert
+    );
   };
 
   const submitPassword = (data) => {
-    submitRequest('PASSWORD', () => null, data);
+    submitProfileRequest(
+      API_URL,
+      'PASSWORD',
+      () => null,
+      data,
+      profile,
+      setData,
+      setNextCallback,
+      setEditingUser,
+      setEditString,
+      setEditingPassword,
+      alert
+    );
 
     setPassword('');
     setPasswordCheck('');
@@ -163,48 +192,15 @@ export default function Profile() {
         <div className="w-full lg:p-8 flex flex-col h-full">
           <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25">
             {mapData.map((d) => (
-              <div
-                className={`w-full rounded-lg lg:p-2 p-2 flex lg:flex-row flex-col lg:items-center ${
-                  theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                } duration-400 border-2 border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
-                key={d.id}
-              >
-                <Text
-                  color="secondary"
-                  theme={theme}
-                  nobreak
-                  className="w-full lg:h-10 lg:flex lg:flex-col lg:justify-center uppercase"
-                >
-                  {d.name}
-                </Text>
-
-                <Text
-                  color={theme === 'light' ? 'dark' : 'light'}
-                  theme={theme}
-                  nobreak
-                  className={`w-full my-2 lg:my-0 overflow-hidden lg:h-10 lg:flex lg:flex-col lg:justify-center`}
-                >
-                  {d.data}
-                </Text>
-
-                <div className="w-full lg:w-1/4 flex lg:justify-end">
-                  <IconButton
-                    title="Edit"
-                    condition
-                    noFill
-                    theme={theme}
-                    icon="pencil"
-                    className="p-2 rounded-full w-10 h-10"
-                    color="primary"
-                    click={() => {
-                      setEditingUser(true);
-                      setEditString(d.name);
-                      setData(d.data);
-                      setNextCallback(d.callback);
-                    }}
-                  />
-                </div>
-              </div>
+              <ProfileField
+                key={`pl-${d.id}`}
+                field={d}
+                setEditingUser={setEditingUser}
+                setEditString={setEditString}
+                setData={setData}
+                setNextCallback={setNextCallback}
+                theme={theme}
+              />
             ))}
 
             <Separator />
@@ -224,17 +220,13 @@ export default function Profile() {
         </div>
       </div>
 
-      <IncludeEditData
-        isEditing={editingUser}
-        setIsEditing={setEditingUser}
-        title={editString}
+      <ProfileIncludes
+        editingUser={editingUser}
+        setEditingUser={setEditingUser}
+        editString={editString}
         data={data}
         setData={setData}
-        submitUpdate={(d) => nextCallback(d)}
-        theme={theme}
-      />
-
-      <IncludeChangePassword
+        nextCallback={nextCallback}
         editingPassword={editingPassword}
         setEditingPassword={setEditingPassword}
         password={password}
@@ -245,7 +237,6 @@ export default function Profile() {
         setShowPassword={setShowPassword}
         showPasswordCheck={showPasswordCheck}
         setShowPasswordCheck={setShowPasswordCheck}
-        submitUpdate={(d) => nextCallback(d)}
         theme={theme}
       />
     </div>

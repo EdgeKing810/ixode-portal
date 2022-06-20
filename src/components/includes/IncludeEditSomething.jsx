@@ -9,6 +9,7 @@ import {
 } from '../Components';
 
 export default function IncludeEditSomething({
+  title,
   isEditing,
   setIsEditing,
   value,
@@ -27,7 +28,7 @@ export default function IncludeEditSomething({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Enter a new Something...
+          {title}
         </SubHeading>
 
         <IconButton
