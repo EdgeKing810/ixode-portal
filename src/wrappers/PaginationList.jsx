@@ -11,12 +11,18 @@ export default function PaginationList({
   const previousLabel = 'Prev';
   const nextLabel = 'Next';
 
+  let pageCount = Math.floor(amount / limit);
+
+  if (pageCount <= 0) {
+    return <div></div>;
+  }
+
   return (
     <ReactPaginate
       previousLabel={previousLabel}
       nextLabel={nextLabel}
       breakLabel={'...'}
-      pageCount={Math.floor(amount / limit)}
+      pageCount={pageCount}
       marginPagesDisplayed={2}
       pageRangeDisplayed={1}
       onPageChange={(i) => setter(i.selected)}

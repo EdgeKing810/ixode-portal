@@ -165,6 +165,7 @@ export default function Users() {
         editingUser={editingUser}
         setEditingUser={setEditingUser}
         currentID={currentID}
+        setCurrentID={setCurrentID}
         updateProfile={updateProfile}
         deletingUser={deletingUser}
         setDeletingUser={setDeletingUser}

@@ -53,7 +53,7 @@ export default function ProjectsBulk({
             setFilter(e.target.value);
             setCurrentPage(0);
           }}
-          className="mb-2"
+          className="lg:mb-4 mb-2"
         />
       )}
 

@@ -10,6 +10,7 @@ import {
 
 export default function CollectionDisplay({
   project_id,
+  profile,
   currentProject,
   currentCollection,
   setEditingCollectionID,
@@ -68,64 +69,66 @@ export default function CollectionDisplay({
 
       <Separator smaller />
 
-      <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
-        <LinkerButton
-          theme={theme}
-          className="p-2 rounded-lg uppercase w-full"
-          smaller
-          transparent
-          condition
-          title="Edit Collection ID"
-          icon="arrow-right-s"
-          noFill
-          reverseIcon
-          click={() => {
-            setEditingCollectionID(true);
-          }}
-        />
-        <LinkerButton
-          theme={theme}
-          className="p-2 rounded-lg uppercase w-full"
-          smaller
-          transparent
-          condition
-          title="Edit Collection Name"
-          icon="arrow-right-s"
-          noFill
-          reverseIcon
-          click={() => {
-            setEditingCollectionName(true);
-          }}
-        />
-        <LinkerButton
-          theme={theme}
-          className="p-2 rounded-lg uppercase w-full lg:mt-0"
-          smaller
-          transparent
-          condition
-          title="Edit Collection Description"
-          icon="arrow-right-s"
-          noFill
-          reverseIcon
-          click={() => {
-            setEditingCollectionDescription(true);
-          }}
-        />
-        <LinkerButton
-          theme={theme}
-          className="p-2 rounded-lg uppercase w-full lg:mt-0"
-          smaller
-          transparent
-          condition
-          title="Delete Collection"
-          icon="delete-bin-2"
-          noFill
-          reverseIcon
-          click={() => {
-            setDeletingCollection(true);
-          }}
-        />
-      </div>
+      {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
+        <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
+          <LinkerButton
+            theme={theme}
+            className="p-2 rounded-lg uppercase w-full"
+            smaller
+            transparent
+            condition
+            title="Edit Collection ID"
+            icon="arrow-right-s"
+            noFill
+            reverseIcon
+            click={() => {
+              setEditingCollectionID(true);
+            }}
+          />
+          <LinkerButton
+            theme={theme}
+            className="p-2 rounded-lg uppercase w-full"
+            smaller
+            transparent
+            condition
+            title="Edit Collection Name"
+            icon="arrow-right-s"
+            noFill
+            reverseIcon
+            click={() => {
+              setEditingCollectionName(true);
+            }}
+          />
+          <LinkerButton
+            theme={theme}
+            className="p-2 rounded-lg uppercase w-full lg:mt-0"
+            smaller
+            transparent
+            condition
+            title="Edit Collection Description"
+            icon="arrow-right-s"
+            noFill
+            reverseIcon
+            click={() => {
+              setEditingCollectionDescription(true);
+            }}
+          />
+          <LinkerButton
+            theme={theme}
+            className="p-2 rounded-lg uppercase w-full lg:mt-0"
+            smaller
+            transparent
+            condition
+            title="Delete Collection"
+            icon="delete-bin-2"
+            noFill
+            reverseIcon
+            click={() => {
+              setDeletingCollection(true);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -198,6 +198,7 @@ export default function ViewCollection() {
               currentCollection.id && (
                 <CollectionDisplay
                   project_id={project_id}
+                  profile={profile}
                   currentProject={currentProject}
                   currentCollection={currentCollection}
                   setEditingCollectionID={setEditingCollectionID}
