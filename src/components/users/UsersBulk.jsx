@@ -19,9 +19,10 @@ export default function UsersBulk({
     <div className="w-full">
       {((allProfiles && allProfiles.length > 0) || !isLoading) && (
         <Button
-          color={theme === 'light' ? 'dark' : 'light'}
+          color="dark"
+          bgcolor="primary"
           theme={theme}
-          className="p-3 w-full lg:w-1/3 justify-center uppercase"
+          className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
           click={() => {
             setCreatingUser(true);
             setUsername('');

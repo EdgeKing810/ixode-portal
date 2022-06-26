@@ -19,9 +19,10 @@ export default function ConfigsBulk({
     <div className="w-full">
       {((configs && configs.length > 0) || !isLoading) && (
         <Button
-          color={theme === 'light' ? 'dark' : 'light'}
+          color="dark"
+          bgcolor="primary"
           theme={theme}
-          className="p-3 w-full lg:w-1/3 justify-center uppercase"
+          className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
           click={() => {
             setCreatingConfig(true);
             setKey('');

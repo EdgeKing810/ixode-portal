@@ -70,65 +70,66 @@ export default function ProjectDisplay({
       </SmallText>
 
       {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-        <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
+        <div className="w-full">
           <Separator smaller />
-
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full"
-            smaller
-            transparent
-            condition
-            title="Update Project ID"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingProject('ID');
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full"
-            smaller
-            transparent
-            condition
-            title="Update Project Name"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingProject('Name');
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full lg:mt-0"
-            smaller
-            transparent
-            condition
-            title="Update Project Description"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingProject('Description');
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full lg:mt-0"
-            smaller
-            transparent
-            condition
-            title="Update Project API Path"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingProject('API Path');
-            }}
-          />
+          <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
+            <LinkerButton
+              theme={theme}
+              className="p-2 rounded-lg uppercase w-full"
+              smaller
+              transparent
+              condition
+              title="Update Project ID"
+              icon="arrow-right-s"
+              noFill
+              reverseIcon
+              click={() => {
+                setEditingProject('ID');
+              }}
+            />
+            <LinkerButton
+              theme={theme}
+              className="p-2 rounded-lg uppercase w-full"
+              smaller
+              transparent
+              condition
+              title="Update Project Name"
+              icon="arrow-right-s"
+              noFill
+              reverseIcon
+              click={() => {
+                setEditingProject('Name');
+              }}
+            />
+            <LinkerButton
+              theme={theme}
+              className="p-2 rounded-lg uppercase w-full lg:mt-0"
+              smaller
+              transparent
+              condition
+              title="Update Project Description"
+              icon="arrow-right-s"
+              noFill
+              reverseIcon
+              click={() => {
+                setEditingProject('Description');
+              }}
+            />
+            <LinkerButton
+              theme={theme}
+              className="p-2 rounded-lg uppercase w-full lg:mt-0"
+              smaller
+              transparent
+              condition
+              title="Update Project API Path"
+              icon="arrow-right-s"
+              noFill
+              reverseIcon
+              click={() => {
+                setEditingProject('API Path');
+              }}
+            />
+          </div>
         </div>
       )}
 

@@ -38,9 +38,10 @@ export default function ViewProjectBulk({
           ['ROOT', 'ADMIN'].includes(profile.role) &&
           ((collections && collections.length > 0) || !isLoading) && (
             <Button
-              color={theme === 'light' ? 'dark' : 'light'}
+              color="dark"
+              bgcolor="primary"
               theme={theme}
-              className="p-3 w-full lg:w-1/3 justify-center uppercase"
+              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
               click={() => {
                 setCreatingCollection(true);
                 setCollectionID('');

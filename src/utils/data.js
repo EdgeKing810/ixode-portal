@@ -14,6 +14,11 @@ export const fetchData = () => ({
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     {
+      name: 'Media',
+      icon: 'camera',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
+    {
       name: 'Misc',
       icon: 'stack',
       visibility: 'ADMIN,ROOT',
@@ -21,7 +26,7 @@ export const fetchData = () => ({
     {
       name: 'Sheet',
       icon: 'compasses-2',
-      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+      visibility: 'ADMIN,ROOT',
     },
   ],
 

@@ -170,7 +170,7 @@ export default function Sheet() {
       >
         <Sidebar currentPage="sheet" />
         <div className="w-full lg:p-8 flex flex-col lg:flex-row">
-          <div className="p-2 w-full lg:overflow-y-scroll h-full">
+          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             <SuperHeading>This is a SuperHeading.</SuperHeading>
             <Heading>This is a Heading.</Heading>
             <SubHeading className="mb-2">This is a SubHeading.</SubHeading>
