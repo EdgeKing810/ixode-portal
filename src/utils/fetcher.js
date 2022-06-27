@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProfileStore } from '../stores/useProfileStore';
 import { useConfigStore } from '../stores/useConfigStore';
+import { useMediaStore } from '../stores/useMediaStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useCollectionStore } from '../stores/useCollectionStore';
 // import { useLimitsStore } from '../stores/useLimitsStore';
@@ -155,6 +156,56 @@ export const fetchOneConfig = async (API_URL, uid, name, jwt) => {
     });
 };
 
+const fetchMedia = async (API_URL, uid, jwt, offset, currentMedia) => {
+  const { setMedia } = useMediaStore.getState();
+
+  axios
+    .post(
+      `${API_URL}/media/fetch?offset=${offset}&limit=20`,
+      { uid: uid },
+      {
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    )
+    .then(async (response) => {
+      if (response.data.status === 200) {
+        setMedia([...currentMedia]);
+        if (currentMedia.length < response.data.amount) {
+          await fetchMedia(API_URL, uid, jwt, offset + 1, [
+            ...currentMedia,
+            ...response.data.medias,
+          ]);
+        }
+      } else {
+        console.log(response.data);
+      }
+    });
+};
+
+export const fetchOneMedia = async (API_URL, uid, id, jwt) => {
+  const { updateMedia, removeMedia } = useMediaStore.getState();
+
+  axios
+    .post(
+      `${API_URL}/media/fetch/one`,
+      { uid: uid, media_id: id },
+      {
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    )
+    .then((response) => {
+      if (response.data.status === 200) {
+        updateMedia(id, response.data.media.name);
+      } else {
+        if (response.data.status === 404) {
+          removeMedia(id);
+        } else {
+          console.log(response.data);
+        }
+      }
+    });
+};
+
 const fetchProjects = async (API_URL, uid, jwt, offset, currentProjects) => {
   const { setProjects } = useProjectStore.getState();
 
@@ -285,6 +336,7 @@ export const automaticLogin = async (API_URL, uid, jwt) => {
   await fetchUserProfile(API_URL, uid, jwt);
   await fetchProfiles(API_URL, uid, jwt, 0, []);
   await fetchConfigs(API_URL, uid, jwt, 0, []);
+  await fetchMedia(API_URL, uid, jwt, 0, []);
   await fetchProjects(API_URL, uid, jwt, 0, []);
 };
 
@@ -292,6 +344,7 @@ export const logout = async () => {
   const { setUserProfile } = useUserProfileStore.getState();
   const { setProfiles } = useProfileStore.getState();
   const { setConfigs } = useConfigStore.getState();
+  const { setMedia } = useMediaStore.getState();
   const { setProjects } = useProjectStore.getState();
   const { setCollections } = useCollectionStore.getState();
   const { setTheme } = useThemeStore.getState();
@@ -299,6 +352,7 @@ export const logout = async () => {
   setUserProfile({});
   setProfiles([]);
   setConfigs([]);
+  setMedia([]);
   setProjects([]);
   setCollections([]);
   setTheme('dark');
