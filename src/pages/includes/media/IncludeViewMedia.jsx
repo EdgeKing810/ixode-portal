@@ -35,11 +35,11 @@ export default function IncludeViewMedia({
         />
       </div>
 
-      <div className="w-full lg:w-1/2 mt-4">
+      <div className="w-full lg:w-1/2 mt-4 lg:max-h-150">
         <Image
           src={url}
           alt={name}
-          className="w-full object-scale-down"
+          className="w-full h-full object-scale-down"
           noRounded
           noFillnn
         />

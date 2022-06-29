@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  BigText,
   Button,
   FullAbsoluteContainer,
   IconButton,
@@ -12,7 +11,6 @@ import {
 export default function IncludeDeleteMedia({
   isActive,
   setIsActive,
-  id,
   name,
   url,
   theme,
@@ -41,11 +39,11 @@ export default function IncludeDeleteMedia({
         />
       </div>
 
-      <div className="w-full lg:w-1/2 mt-4">
+      <div className="w-full lg:w-1/2 mt-4 lg:max-h-150">
         <Image
           src={url}
           alt={name}
-          className="w-full object-scale-down"
+          className="w-full h-full object-scale-down"
           noRounded
           noFillnn
         />

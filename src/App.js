@@ -10,6 +10,7 @@ import Configs from './pages/Configs.jsx';
 import Users from './pages/Users.jsx';
 import Profile from './pages/Profile.jsx';
 import Media from './pages/Media.jsx';
+import Misc from './pages/Misc.jsx';
 import Sheet from './pages/Sheet.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
@@ -30,6 +31,7 @@ function App() {
           <Route exact path="/users" element={<Users />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/media" element={<Media />} />
+          <Route exact path="/misc" element={<Misc />} />
           <Route exact path="/sheet" element={<Sheet />} />
 
           <Route exact path="/project/:project_id" element={<ViewProject />} />
