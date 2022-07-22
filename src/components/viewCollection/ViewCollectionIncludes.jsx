@@ -73,6 +73,8 @@ export default function ViewCollectionIncludes({
   setStructureRegex,
   structureArray,
   setStructureArray,
+  structureRequired,
+  setStructureRequired,
   editingStructure,
   setEditingStructure,
   deletingStructure,
@@ -223,6 +225,8 @@ export default function ViewCollectionIncludes({
         setRegex={setStructureRegex}
         array={structureArray}
         setArray={setStructureArray}
+        required={structureRequired}
+        setRequired={setStructureRequired}
         submitStructure={() =>
           submitCreateStructure(
             API_URL,
@@ -251,6 +255,8 @@ export default function ViewCollectionIncludes({
             setStructureRegex,
             structureArray,
             setStructureArray,
+            structureRequired,
+            setStructureRequired,
             setEditStructureID,
             setCreatingStructure,
             setCurrentCollection,
@@ -287,6 +293,8 @@ export default function ViewCollectionIncludes({
         setRegex={setStructureRegex}
         array={structureArray}
         setArray={setStructureArray}
+        required={structureRequired}
+        setRequired={setStructureRequired}
         submitStructure={() =>
           submitUpdateStructure(
             API_URL,
@@ -315,6 +323,8 @@ export default function ViewCollectionIncludes({
             setStructureRegex,
             structureArray,
             setStructureArray,
+            structureRequired,
+            setStructureRequired,
             editStructureID,
             setEditStructureID,
             setEditingStructure,

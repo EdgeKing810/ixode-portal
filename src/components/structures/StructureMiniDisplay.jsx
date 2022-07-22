@@ -18,6 +18,7 @@ export default function StructureMiniDisplay({
   setStructureUnique,
   setStructureRegex,
   setStructureArray,
+  setStructureRequired,
   filter,
   setFilter,
   setCurrentPage,
@@ -63,6 +64,7 @@ export default function StructureMiniDisplay({
                 setStructureUnique(false);
                 setStructureRegex('');
                 setStructureArray(false);
+                setStructureRequired(false);
               }}
             >
               Create a new Structure

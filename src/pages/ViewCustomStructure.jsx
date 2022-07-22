@@ -67,7 +67,8 @@ export default function ViewCustomStructure() {
   const [structureUnique, setStructureUnique] = useState(false);
   const [structureRegex, setStructureRegex] = useState('');
   const [structureArray, setStructureArray] = useState(false);
-  useState('');
+  const [structureRequired, setStructureRequired] = useState(false);
+
   const [customStructureStructures, setCustomStructureStructures] = useState(
     []
   );
@@ -259,6 +260,7 @@ export default function ViewCustomStructure() {
               setStructureUnique={setStructureUnique}
               setStructureRegex={setStructureRegex}
               setStructureArray={setStructureArray}
+              setStructureRequired={setStructureRequired}
               filter={filter}
               setFilter={setFilter}
               setCurrentPage={setCurrentPage}
@@ -303,6 +305,7 @@ export default function ViewCustomStructure() {
                       setStructureUnique={setStructureUnique}
                       setStructureRegex={setStructureRegex}
                       setStructureArray={setStructureArray}
+                      setStructureRequired={setStructureRequired}
                       setDeletingStructure={setDeletingStructure}
                       theme={theme}
                     />
@@ -343,6 +346,8 @@ export default function ViewCustomStructure() {
         setStructureRegex={setStructureRegex}
         structureArray={structureArray}
         setStructureArray={setStructureArray}
+        structureRequired={structureRequired}
+        setStructureRequired={setStructureRequired}
         editingStructure={editingStructure}
         setEditingStructure={setEditingStructure}
         deletingStructure={deletingStructure}

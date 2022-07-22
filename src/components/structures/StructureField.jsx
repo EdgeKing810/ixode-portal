@@ -18,6 +18,7 @@ export default function StructureField({
   setStructureUnique,
   setStructureRegex,
   setStructureArray,
+  setStructureRequired,
   setDeletingStructure,
   theme,
 }) {
@@ -73,6 +74,7 @@ export default function StructureField({
               setStructureUnique(structure.unique);
               setStructureRegex(structure.regex_pattern);
               setStructureArray(structure.array);
+              setStructureRequired(structure.required);
             }}
           />
         )}

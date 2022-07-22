@@ -71,6 +71,7 @@ export default function ViewCollection() {
   const [structureUnique, setStructureUnique] = useState(false);
   const [structureRegex, setStructureRegex] = useState('');
   const [structureArray, setStructureArray] = useState(false);
+  const [structureRequired, setStructureRequired] = useState(false);
 
   const [customStructureID, setCustomStructureID] = useState('');
   const [editCustomStructureID, setEditCustomStructureID] = useState('');
@@ -254,6 +255,7 @@ export default function ViewCollection() {
               setStructureUnique={setStructureUnique}
               setStructureRegex={setStructureRegex}
               setStructureArray={setStructureArray}
+              setStructureRequired={setStructureRequired}
               filter={filter}
               setFilter={setFilter}
               setCurrentPage={setCurrentPage}
@@ -298,6 +300,7 @@ export default function ViewCollection() {
                       setStructureUnique={setStructureUnique}
                       setStructureRegex={setStructureRegex}
                       setStructureArray={setStructureArray}
+                      setStructureRequired={setStructureRequired}
                       setDeletingStructure={setDeletingStructure}
                       theme={theme}
                     />
@@ -409,6 +412,8 @@ export default function ViewCollection() {
         setStructureRegex={setStructureRegex}
         structureArray={structureArray}
         setStructureArray={setStructureArray}
+        structureRequired={structureRequired}
+        setStructureRequired={setStructureRequired}
         editingStructure={editingStructure}
         setEditingStructure={setEditingStructure}
         deletingStructure={deletingStructure}

@@ -43,6 +43,8 @@ export default function IncludeCreateStructure({
   setRegex,
   array,
   setArray,
+  required,
+  setRequired,
   submitStructure,
   theme,
   isEditing,
@@ -262,6 +264,18 @@ export default function IncludeCreateStructure({
       />
 
       <div className="w-full lg:w-1/2 flex justify-start mt-2">
+        <Text color="primary" className="uppercase w-1/2 lg:w-1/3 text-left">
+          Is Required?
+        </Text>
+
+        <Checkbox value={required} color="primary" change={setRequired} />
+
+        <Text color={theme === 'light' ? 'dark' : 'light'} mono>
+          {required === true ? 'true' : 'false'}
+        </Text>
+      </div>
+
+      <div className="w-full lg:w-1/2 flex justify-start mt-1">
         <Text color="primary" className="uppercase w-1/2 lg:w-1/3 text-left">
           Should Encrypt?
         </Text>

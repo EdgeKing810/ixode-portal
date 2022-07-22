@@ -27,6 +27,8 @@ export const submitCreateStructure = (
   setStructureRegex,
   structureArray,
   setStructureArray,
+  structureRequired,
+  setStructureRequired,
   setEditStructureID,
   setCreatingStructure,
   setCurrentCollection,
@@ -50,6 +52,7 @@ export const submitCreateStructure = (
       unique: structureUnique,
       regex_pattern: structureRegex,
       array: structureArray,
+      required: structureRequired,
     },
   };
 
@@ -88,6 +91,7 @@ export const submitCreateStructure = (
         setStructureUnique(false);
         setStructureRegex('');
         setStructureArray(false);
+        setStructureRequired(false);
       } else {
         console.log(res.data);
         alert.error(res.data.message);
@@ -122,6 +126,8 @@ export const submitUpdateStructure = (
   setStructureRegex,
   structureArray,
   setStructureArray,
+  structureRequired,
+  setStructureRequired,
   editStructureID,
   setEditStructureID,
   setEditingStructure,
@@ -147,6 +153,7 @@ export const submitUpdateStructure = (
       unique: structureUnique,
       regex_pattern: structureRegex,
       array: structureArray,
+      required: structureRequired,
     },
   };
 
@@ -187,6 +194,7 @@ export const submitUpdateStructure = (
         setStructureUnique(false);
         setStructureRegex('');
         setStructureArray(false);
+        setStructureRequired(false);
       } else {
         console.log(res.data);
         alert.error(res.data.message);
