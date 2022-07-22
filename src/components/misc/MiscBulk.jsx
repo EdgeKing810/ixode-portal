@@ -10,6 +10,8 @@ export default function MiscBulk({
   setIsProcessing,
   uri,
   setUri,
+  name,
+  setName,
   isLoading,
   theme,
 }) {

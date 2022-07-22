@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  BigText,
   FullAbsoluteContainer,
   IconButton,
   Input,
@@ -18,6 +17,8 @@ export default function IncludeTestMongo({
   setIsProcessing,
   uri,
   setUri,
+  name,
+  setName,
   submitTest,
   theme,
 }) {
@@ -70,11 +71,28 @@ export default function IncludeTestMongo({
             className="my-2"
           />
 
+          <Input
+            title="Enter DB Name"
+            placeholder="Enter DB Name... e.g kinesis_db"
+            value={name}
+            change={(e) => setName(e.target.value)}
+            theme={theme}
+            className="my-2"
+          />
+
           <div className="w-full lg:w-1/2 flex justify-start">
             <LinkerButton
               title="Test"
-              condition={uri && uri.trim().length > 0 ? true : false}
-              click={() => (uri && uri.trim().length > 0 ? submitTest() : null)}
+              condition={
+                uri && uri.trim().length > 0 && name && name.length > 0
+                  ? true
+                  : false
+              }
+              click={() =>
+                uri && uri.trim().length > 0 && name && name.length > 0
+                  ? submitTest()
+                  : null
+              }
               className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
               theme={theme}
             />

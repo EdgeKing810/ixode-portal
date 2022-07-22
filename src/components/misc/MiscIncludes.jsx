@@ -13,6 +13,8 @@ export default function ConfigsIncludes({
   setIsProcessing,
   uri,
   setUri,
+  name,
+  setName,
   updateConfig,
   theme,
   alert,
@@ -26,12 +28,15 @@ export default function ConfigsIncludes({
         setIsProcessing={setIsProcessing}
         uri={uri}
         setUri={setUri}
+        name={name}
+        setName={setName}
         submitTest={() =>
           submitTestMongo(
             API_URL,
             profile,
             setIsProcessing,
             uri,
+            name,
             updateConfig,
             setTestingMongoConnection,
             alert

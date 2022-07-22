@@ -26,6 +26,7 @@ export default function Misc() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [uri, setUri] = useState('');
+  const [name, setName] = useState('');
   const [testingMongoConnection, setTestingMongoConnection] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -38,9 +39,13 @@ export default function Misc() {
   }, []);
 
   useEffect(() => {
-    let foundConfig = configs.filter((c) => c.name === 'MONGO_URI');
-    if (foundConfig.length > 0) {
-      setUri(foundConfig[0].value);
+    let foundConfigURI = configs.filter((c) => c.name === 'MONGO_URI');
+    if (foundConfigURI.length > 0) {
+      setUri(foundConfigURI[0].value);
+    }
+    let foundConfigName = configs.filter((c) => c.name === 'DB_NAME');
+    if (foundConfigName.length > 0) {
+      setName(foundConfigName[0].value);
     }
   }, [isLoading, configs]);
 
@@ -93,6 +98,8 @@ export default function Misc() {
               setIsProcessing={setIsProcessing}
               uri={uri}
               setUri={setUri}
+              name={name}
+              setName={setName}
               isLoading={isLoading}
               theme={theme}
             />
@@ -109,6 +116,8 @@ export default function Misc() {
         setIsProcessing={setIsProcessing}
         uri={uri}
         setUri={setUri}
+        name={name}
+        setName={setName}
         updateConfig={updateConfig}
         theme={theme}
         alert={alert}
