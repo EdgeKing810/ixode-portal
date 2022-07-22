@@ -99,7 +99,7 @@ export default function CustomStructureMiniDisplay({
 
       {currentCollection &&
         currentCollection.custom_structures &&
-        currentCollection.custom_structures > 0 &&
+        currentCollection.custom_structures.length > 0 &&
         filter.length > 0 &&
         !currentCollection.custom_structures.find(
           (s) =>

@@ -81,7 +81,9 @@ export const submitUpdateCustomStructure = (
   customStructureStructures,
   setCustomStructureStructures,
   setCurrentCollection,
-  alert
+  alert,
+  dontReset,
+  navigate
 ) => {
   const data = {
     uid: profile.uid,
@@ -121,11 +123,20 @@ export const submitUpdateCustomStructure = (
           return updatedCollection;
         });
 
-        setCustomStructureID('');
-        setEditCustomStructureID('');
-        setCustomStructureName('');
-        setCustomStructureDescription('');
-        setCustomStructureStructures([]);
+        if (!dontReset) {
+          setCustomStructureID('');
+          setEditCustomStructureID('');
+          setCustomStructureName('');
+          setCustomStructureDescription('');
+          setCustomStructureStructures([]);
+        } else {
+          setCustomStructureID(editCustomStructureID);
+          if (navigate) {
+            navigate(
+              `/project/${currentProject.id}/collection/${collectionID}/custom/${editCustomStructureID}`
+            );
+          }
+        }
       } else {
         console.log(res.data);
         alert.error(res.data.message);
@@ -146,7 +157,9 @@ export const submitDeleteCustomStructure = (
   setCustomStructureStructures,
   setDeletingCustomStructure,
   setCurrentCollection,
-  alert
+  alert,
+  dontReset,
+  navigate
 ) => {
   const data = {
     uid: profile.uid,
@@ -178,11 +191,19 @@ export const submitDeleteCustomStructure = (
           return updatedCollection;
         });
 
-        setCustomStructureID('');
-        setEditCustomStructureID('');
-        setCustomStructureName('');
-        setCustomStructureDescription('');
-        setCustomStructureStructures([]);
+        if (!dontReset) {
+          setCustomStructureID('');
+          setEditCustomStructureID('');
+          setCustomStructureName('');
+          setCustomStructureDescription('');
+          setCustomStructureStructures([]);
+        } else {
+          if (navigate) {
+            navigate(
+              `/project/${currentProject.id}/collection/${collectionID}`
+            );
+          }
+        }
       } else {
         console.log(res.data);
         alert.error(res.data.message);

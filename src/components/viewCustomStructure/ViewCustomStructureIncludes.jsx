@@ -1,23 +1,12 @@
 import React from 'react';
-import IncludeDeleteCollection from '../../pages/includes/collection/IncludeDeleteCollection';
 
-import IncludeEditCollection from '../../pages/includes/collection/IncludeEditCollection';
-
-import IncludeCreateCustomStructure from '../../pages/includes/custom_structures/IncludeCreateCustomStructure';
+import IncludeEditCustomStructure from '../../pages/includes/custom_structures/IncludeEditCustomStructure';
 import IncludeDeleteCustomStructure from '../../pages/includes/custom_structures/IncludeDeleteCustomStructure';
 
 import IncludeCreateStructure from '../../pages/includes/structures/IncludeCreateStructure';
 import IncludeDeleteStructure from '../../pages/includes/structures/IncludeDeleteStructure';
 
 import {
-  submitDeleteCollection,
-  submitUpdateCollectionDescription,
-  submitUpdateCollectionID,
-  submitUpdateCollectionName,
-} from '../collections/collection.utils';
-
-import {
-  submitCreateCustomStructure,
   submitDeleteCustomStructure,
   submitUpdateCustomStructure,
 } from '../custom_structures/custom_structure.utils';
@@ -28,27 +17,13 @@ import {
   submitUpdateStructure,
 } from '../structures/structure.utils';
 
-export default function ViewCollectionIncludes({
+export default function ViewCustomStructureIncludes({
   API_URL,
   profile,
   currentProject,
   currentCollection,
   setCurrentCollection,
-  editCollectionID,
-  setEditCollectionID,
   collectionID,
-  collectionName,
-  setCollectionName,
-  collectionDescription,
-  setCollectionDescription,
-  editingCollectionID,
-  setEditingCollectionID,
-  editingCollectionName,
-  setEditingCollectionName,
-  editingCollectionDescription,
-  setEditingCollectionDescription,
-  deletingCollection,
-  setDeletingCollection,
   creatingStructure,
   setCreatingStructure,
   structureID,
@@ -79,10 +54,7 @@ export default function ViewCollectionIncludes({
   setDeletingStructure,
   editStructureID,
   setEditStructureID,
-  creatingCustomStructure,
-  setCreatingCustomStructure,
   customStructureID,
-  setCustomStructureID,
   customStructureName,
   setCustomStructureName,
   customStructureDescription,
@@ -91,8 +63,12 @@ export default function ViewCollectionIncludes({
   setEditCustomStructureID,
   customStructureStructures,
   setCustomStructureStructures,
-  editingCustomStructure,
-  setEditingCustomStructure,
+  editingCustomStructureID,
+  setEditingCustomStructureID,
+  editingCustomStructureName,
+  setEditingCustomStructureName,
+  editingCustomStructureDescription,
+  setEditingCustomStructureDescription,
   deletingCustomStructure,
   setDeletingCustomStructure,
   navigate,
@@ -101,100 +77,104 @@ export default function ViewCollectionIncludes({
 }) {
   return (
     <div className="w-full">
-      <IncludeEditCollection
-        isEditing={editingCollectionID}
-        setIsEditing={setEditingCollectionID}
-        name={collectionName}
+      <IncludeEditCustomStructure
+        isEditing={editingCustomStructureID}
+        setIsEditing={setEditingCustomStructureID}
+        name={customStructureName}
         type="ID"
-        data={editCollectionID}
-        setData={setEditCollectionID}
+        data={editCustomStructureID}
+        setData={setEditCustomStructureID}
         submitUpdate={() =>
-          submitUpdateCollectionID(
+          submitUpdateCustomStructure(
             API_URL,
             profile,
             currentProject,
             collectionID,
-            editCollectionID,
-            setEditingCollectionID,
+            customStructureID,
             () => null,
+            customStructureName,
+            setCustomStructureName,
+            customStructureDescription,
+            setCustomStructureDescription,
+            editCustomStructureID,
+            setEditCustomStructureID,
+            () => null,
+            customStructureStructures,
+            setCustomStructureStructures,
+            setCurrentCollection,
             alert,
             true,
-            setCurrentCollection,
             navigate
           )
         }
         theme={theme}
       />
 
-      <IncludeEditCollection
-        isEditing={editingCollectionName}
-        setIsEditing={setEditingCollectionName}
-        name={collectionName}
+      <IncludeEditCustomStructure
+        isEditing={editingCustomStructureName}
+        setIsEditing={setEditingCustomStructureName}
+        name={customStructureName}
         type="Name"
-        data={collectionName}
-        setData={setCollectionName}
+        data={customStructureName}
+        setData={setCustomStructureName}
         submitUpdate={() =>
-          submitUpdateCollectionName(
+          submitUpdateCustomStructure(
             API_URL,
             profile,
             currentProject,
             collectionID,
-            collectionName,
-            setEditingCollectionName,
+            customStructureID,
             () => null,
+            customStructureName,
+            setCustomStructureName,
+            customStructureDescription,
+            setCustomStructureDescription,
+            editCustomStructureID,
+            setEditCustomStructureID,
+            () => null,
+            customStructureStructures,
+            setCustomStructureStructures,
+            setCurrentCollection,
             alert,
             true,
-            setCurrentCollection,
             navigate
           )
         }
         theme={theme}
       />
 
-      <IncludeEditCollection
-        isEditing={editingCollectionDescription}
-        setIsEditing={setEditingCollectionDescription}
-        name={collectionName}
+      <IncludeEditCustomStructure
+        isEditing={editingCustomStructureDescription}
+        setIsEditing={setEditingCustomStructureDescription}
+        name={customStructureName}
         type="Description"
-        data={collectionDescription}
-        setData={setCollectionDescription}
+        data={customStructureDescription}
+        setData={setCustomStructureDescription}
         submitUpdate={() =>
-          submitUpdateCollectionDescription(
+          submitUpdateCustomStructure(
             API_URL,
             profile,
             currentProject,
             collectionID,
-            collectionDescription,
-            setEditingCollectionDescription,
+            customStructureID,
             () => null,
+            customStructureName,
+            setCustomStructureName,
+            customStructureDescription,
+            setCustomStructureDescription,
+            editCustomStructureID,
+            setEditCustomStructureID,
+            () => null,
+            customStructureStructures,
+            setCustomStructureStructures,
+            setCurrentCollection,
             alert,
             true,
-            setCurrentCollection,
             navigate
           )
         }
         theme={theme}
         textarea
-      />
-
-      <IncludeDeleteCollection
-        isActive={deletingCollection}
-        setIsActive={setDeletingCollection}
-        submitDeleteCollection={() =>
-          submitDeleteCollection(
-            API_URL,
-            profile,
-            collectionID,
-            currentProject,
-            setDeletingCollection,
-            () => null,
-            alert,
-            true,
-            navigate
-          )
-        }
-        name={collectionName}
-        theme={theme}
       />
 
       <IncludeCreateStructure
@@ -254,8 +234,8 @@ export default function ViewCollectionIncludes({
             setEditStructureID,
             setCreatingStructure,
             setCurrentCollection,
-            '',
-            alert
+            alert,
+            customStructureID
           )
         }
         theme={theme}
@@ -319,8 +299,8 @@ export default function ViewCollectionIncludes({
             setEditStructureID,
             setEditingStructure,
             setCurrentCollection,
-            '',
-            alert
+            alert,
+            customStructureID
           )
         }
         theme={theme}
@@ -343,79 +323,12 @@ export default function ViewCollectionIncludes({
             setEditStructureID,
             setDeletingStructure,
             setCurrentCollection,
-            '',
-            alert
+            alert,
+            customStructureID
           )
         }
         name={structureName}
         theme={theme}
-      />
-
-      <IncludeCreateCustomStructure
-        isCreating={creatingCustomStructure}
-        setIsCreating={setCreatingCustomStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={customStructureName}
-        setName={setCustomStructureName}
-        description={customStructureDescription}
-        setDescription={setCustomStructureDescription}
-        customStructureID={customStructureID}
-        setCustomStructureID={setCustomStructureID}
-        submitCustomStructure={() =>
-          submitCreateCustomStructure(
-            API_URL,
-            profile,
-            currentProject,
-            collectionID,
-            customStructureID,
-            setCustomStructureID,
-            customStructureName,
-            setCustomStructureName,
-            customStructureDescription,
-            setCustomStructureDescription,
-            setEditCustomStructureID,
-            setCreatingCustomStructure,
-            setCustomStructureStructures,
-            setCurrentCollection,
-            alert
-          )
-        }
-        theme={theme}
-      />
-
-      <IncludeCreateCustomStructure
-        isCreating={editingCustomStructure}
-        setIsCreating={setEditingCustomStructure}
-        collectionName={currentCollection && currentCollection.name}
-        name={customStructureName}
-        setName={setCustomStructureName}
-        description={customStructureDescription}
-        setDescription={setCustomStructureDescription}
-        customStructureID={editCustomStructureID}
-        setCustomStructureID={setEditCustomStructureID}
-        submitCustomStructure={() =>
-          submitUpdateCustomStructure(
-            API_URL,
-            profile,
-            currentProject,
-            collectionID,
-            customStructureID,
-            setCustomStructureID,
-            customStructureName,
-            setCustomStructureName,
-            customStructureDescription,
-            setCustomStructureDescription,
-            editCustomStructureID,
-            setEditCustomStructureID,
-            setEditingCustomStructure,
-            customStructureStructures,
-            setCustomStructureStructures,
-            setCurrentCollection,
-            alert
-          )
-        }
-        theme={theme}
-        isEditing
       />
 
       <IncludeDeleteCustomStructure
@@ -428,14 +341,16 @@ export default function ViewCollectionIncludes({
             currentProject,
             collectionID,
             customStructureID,
-            setCustomStructureID,
+            () => null,
             setCustomStructureName,
             setCustomStructureDescription,
             setEditCustomStructureID,
             setCustomStructureStructures,
             setDeletingCustomStructure,
             setCurrentCollection,
-            alert
+            alert,
+            true,
+            navigate
           )
         }
         name={customStructureName}

@@ -13,52 +13,48 @@ import { Heading } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
-import CollectionDisplay from '../components/collections/CollectionDisplay';
+import CustomStructureDisplay from '../components/custom_structures/CustomStructureDisplay';
 import StructureMiniDisplay from '../components/structures/StructureMiniDisplay';
 import StructureField from '../components/structures/StructureField';
-import CustomStructureMiniDisplay from '../components/custom_structures/CustomStructureMiniDisplay';
-import CustomStructureField from '../components/custom_structures/CustomStructureField';
-import ViewCollectionIncludes from '../components/viewCollection/ViewCollectionIncludes';
+import ViewCustomStructureIncludes from '../components/viewCustomStructure/ViewCustomStructureIncludes';
 
-export default function ViewCollection() {
+export default function ViewCustomStructure() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
 
   const { API_URL } = useContext(LocalContext);
-  const { project_id, collection_id } = useParams();
+  const { project_id, collection_id, custom_structure_id } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
 
   const limit = 6;
   const [currentPage, setCurrentPage] = useState(0);
-  const customLimit = 6;
-  const [currentCustomPage, setCustomCurrentPage] = useState(0);
   const [filter, setFilter] = useState('');
-  const [customFilter, setCustomFilter] = useState('');
 
   const [currentProject, setCurrentProject] = useState(null);
   const [currentCollection, setCurrentCollection] = useState(null);
+  const [currentCustomStructure, setCurrentCustomStructure] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [editCollectionID, setEditCollectionID] = useState('');
-  const [collectionName, setCollectionName] = useState('');
-  const [collectionDescription, setCollectionDescription] = useState('');
-  const [editingCollectionID, setEditingCollectionID] = useState(false);
-  const [editingCollectionName, setEditingCollectionName] = useState(false);
-  const [editingCollectionDescription, setEditingCollectionDescription] =
+  const [editCustomStructureID, setEditCustomStructureID] = useState('');
+  const [customStructureName, setCustomStructureName] = useState('');
+  const [customStructureDescription, setCustomStructureDescription] =
+    useState('');
+  const [editingCustomStructureID, setEditingCustomStructureID] =
     useState(false);
-  const [deletingCollection, setDeletingCollection] = useState(false);
+  const [editingCustomStructureName, setEditingCustomStructureName] =
+    useState(false);
+  const [
+    editingCustomStructureDescription,
+    setEditingCustomStructureDescription,
+  ] = useState(false);
+  const [deletingCustomStructure, setDeletingCustomStructure] = useState(false);
 
   const [creatingStructure, setCreatingStructure] = useState(false);
   const [editingStructure, setEditingStructure] = useState(false);
   const [deletingStructure, setDeletingStructure] = useState(false);
-
-  const [creatingCustomStructure, setCreatingCustomStructure] = useState(false);
-  const [editingCustomStructure, setEditingCustomStructure] = useState(false);
-  const [deletingCustomStructure, setDeletingCustomStructure] = useState(false);
-
   const [structureID, setStructureID] = useState('');
   const [editStructureID, setEditStructureID] = useState('');
   const [structureName, setStructureName] = useState('');
@@ -71,29 +67,22 @@ export default function ViewCollection() {
   const [structureUnique, setStructureUnique] = useState(false);
   const [structureRegex, setStructureRegex] = useState('');
   const [structureArray, setStructureArray] = useState(false);
-
-  const [customStructureID, setCustomStructureID] = useState('');
-  const [editCustomStructureID, setEditCustomStructureID] = useState('');
-  const [customStructureName, setCustomStructureName] = useState('');
-  const [customStructureDescription, setCustomStructureDescription] =
-    useState('');
+  useState('');
   const [customStructureStructures, setCustomStructureStructures] = useState(
     []
   );
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
-      setEditingCollectionID(false);
-      setEditingCollectionName(false);
-      setEditingCollectionDescription(false);
-      setDeletingCollection(false);
+      setEditingCustomStructureID(false);
+      setEditingCustomStructureName(false);
+      setEditingCustomStructureDescription(false);
+      setDeletingCustomStructure(false);
 
       setCreatingStructure(false);
       setEditingStructure(false);
       setDeletingStructure(false);
 
-      setCreatingCustomStructure(false);
-      setEditingCustomStructure(false);
       setDeletingCustomStructure(false);
     }
 
@@ -175,9 +164,17 @@ export default function ViewCollection() {
 
               setCurrentCollection(foundCollection);
 
-              setEditCollectionID(foundCollection.id);
-              setCollectionName(foundCollection.name);
-              setCollectionDescription(foundCollection.description);
+              let current = foundCollection.custom_structures.find(
+                (cs) => cs.id === custom_structure_id
+              );
+
+              if (current && current.id) {
+                setCurrentCustomStructure(current);
+
+                setEditCustomStructureID(current.id);
+                setCustomStructureName(current.name);
+                setCustomStructureDescription(current.description);
+              }
             }
           } else {
             console.log(res.data);
@@ -206,13 +203,17 @@ export default function ViewCollection() {
             {!currentProject ||
             !currentProject.id ||
             !currentCollection ||
-            !currentCollection.id ? (
+            !currentCollection.id ||
+            !currentCustomStructure ||
+            !currentCustomStructure.id ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
               ) : !currentProject ? (
                 <Heading color="error">Project not found.</Heading>
               ) : !currentCollection ? (
                 <Heading color="error">Collection not found.</Heading>
+              ) : !currentCustomStructure ? (
+                <Heading color="error">Custom Structure not found.</Heading>
               ) : (
                 <div></div>
               )
@@ -223,24 +224,28 @@ export default function ViewCollection() {
             {currentProject &&
               currentProject.id &&
               currentCollection &&
-              currentCollection.id && (
-                <CollectionDisplay
+              currentCollection.id &&
+              currentCustomStructure &&
+              currentCustomStructure.id && (
+                <CustomStructureDisplay
                   project_id={project_id}
+                  collection_id={collection_id}
                   profile={profile}
                   currentProject={currentProject}
                   currentCollection={currentCollection}
-                  setEditingCollectionID={setEditingCollectionID}
-                  setEditingCollectionName={setEditingCollectionName}
-                  setEditingCollectionDescription={
-                    setEditingCollectionDescription
+                  currentCustomStructure={currentCustomStructure}
+                  setEditingCustomStructureID={setEditingCustomStructureID}
+                  setEditingCustomStructureName={setEditingCustomStructureName}
+                  setEditingCustomStructureDescription={
+                    setEditingCustomStructureDescription
                   }
-                  setDeletingCollection={setDeletingCollection}
+                  setDeletingCustomStructure={setDeletingCustomStructure}
                   theme={theme}
                 />
               )}
 
             <StructureMiniDisplay
-              currentCollection={currentCollection}
+              currentCollection={currentCustomStructure}
               profile={profile}
               setCreatingStructure={setCreatingStructure}
               setStructureID={setStructureID}
@@ -262,10 +267,10 @@ export default function ViewCollection() {
             />
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
-              {currentCollection &&
-                currentCollection.structures &&
-                currentCollection.structures.length > 0 &&
-                currentCollection.structures
+              {currentCustomStructure &&
+                currentCustomStructure.structures &&
+                currentCustomStructure.structures.length > 0 &&
+                currentCustomStructure.structures
                   .filter(
                     (s) =>
                       filter.length <= 0 ||
@@ -303,88 +308,17 @@ export default function ViewCollection() {
                     />
                   ))}
             </div>
-
-            <CustomStructureMiniDisplay
-              currentCollection={currentCollection}
-              profile={profile}
-              setCreatingCustomStructure={setCreatingCustomStructure}
-              setCustomStructureID={setCustomStructureID}
-              setEditCustomStructureID={setEditCustomStructureID}
-              setCustomStructureName={setCustomStructureName}
-              setCustomStructureDescription={setCustomStructureDescription}
-              filter={customFilter}
-              setFilter={setCustomFilter}
-              setCustomCurrentPage={setCustomCurrentPage}
-              customLimit={customLimit}
-              theme={theme}
-            />
-
-            <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
-              {currentCollection &&
-                currentCollection.custom_structures &&
-                currentCollection.custom_structures.length > 0 &&
-                currentCollection.custom_structures
-                  .filter(
-                    (s) =>
-                      customFilter.length <= 0 ||
-                      s.id
-                        .toLowerCase()
-                        .includes(customFilter.trim().toLowerCase()) ||
-                      s.name
-                        .toLowerCase()
-                        .includes(customFilter.trim().toLowerCase())
-                  )
-                  .slice(
-                    currentCustomPage * customLimit,
-                    customLimit + currentCustomPage * customLimit
-                  )
-                  .map((s) => (
-                    <CustomStructureField
-                      key={`csl-${s.id}`}
-                      structure={s}
-                      profile={profile}
-                      project_id={project_id}
-                      collection_id={collection_id}
-                      setEditingCustomStructure={setEditingCustomStructure}
-                      setCustomStructureID={setCustomStructureID}
-                      setEditCustomStructureID={setEditCustomStructureID}
-                      setCustomStructureName={setCustomStructureName}
-                      setCustomStructureDescription={
-                        setCustomStructureDescription
-                      }
-                      setCustomStructureStructures={
-                        setCustomStructureStructures
-                      }
-                      setDeletingCustomStructure={setDeletingCustomStructure}
-                      theme={theme}
-                    />
-                  ))}
-            </div>
           </div>
         </div>
       </div>
 
-      <ViewCollectionIncludes
+      <ViewCustomStructureIncludes
         API_URL={API_URL}
         profile={profile}
         currentProject={currentProject}
         currentCollection={currentCollection}
         setCurrentCollection={setCurrentCollection}
-        editCollectionID={editCollectionID}
-        setEditCollectionID={setEditCollectionID}
-        collectionID={collection_id}
-        collectionName={collectionName}
-        setCollectionName={setCollectionName}
-        collectionDescription={collectionDescription}
-        setCollectionDescription={setCollectionDescription}
-        editingCollectionID={editingCollectionID}
-        setEditingCollectionID={setEditingCollectionID}
-        editingCollectionName={editingCollectionName}
-        setEditingCollectionName={setEditingCollectionName}
-        editingCollectionDescription={editingCollectionDescription}
-        setEditingCollectionDescription={setEditingCollectionDescription}
-        deletingCollection={deletingCollection}
-        setDeletingCollection={setDeletingCollection}
+        collectionID={currentCollection && currentCollection.id}
         creatingStructure={creatingStructure}
         setCreatingStructure={setCreatingStructure}
         structureID={structureID}
@@ -415,10 +349,7 @@ export default function ViewCollection() {
         setDeletingStructure={setDeletingStructure}
         editStructureID={editStructureID}
         setEditStructureID={setEditStructureID}
-        creatingCustomStructure={creatingCustomStructure}
-        setCreatingCustomStructure={setCreatingCustomStructure}
-        customStructureID={customStructureID}
-        setCustomStructureID={setCustomStructureID}
+        customStructureID={custom_structure_id}
         customStructureName={customStructureName}
         setCustomStructureName={setCustomStructureName}
         customStructureDescription={customStructureDescription}
@@ -427,8 +358,14 @@ export default function ViewCollection() {
         setEditCustomStructureID={setEditCustomStructureID}
         customStructureStructures={customStructureStructures}
         setCustomStructureStructures={setCustomStructureStructures}
-        editingCustomStructure={editingCustomStructure}
-        setEditingCustomStructure={setEditingCustomStructure}
+        editingCustomStructureID={editingCustomStructureID}
+        setEditingCustomStructureID={setEditingCustomStructureID}
+        editingCustomStructureName={editingCustomStructureName}
+        setEditingCustomStructureName={setEditingCustomStructureName}
+        editingCustomStructureDescription={editingCustomStructureDescription}
+        setEditingCustomStructureDescription={
+          setEditingCustomStructureDescription
+        }
         deletingCustomStructure={deletingCustomStructure}
         setDeletingCustomStructure={setDeletingCustomStructure}
         navigate={navigate}

@@ -15,6 +15,7 @@ import Sheet from './pages/Sheet.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
+import ViewCustomStructure from './pages/ViewCustomStructure.jsx';
 
 import './assets/css/blinker.css';
 
@@ -39,6 +40,11 @@ function App() {
             exact
             path="/project/:project_id/collection/:collection_id"
             element={<ViewCollection />}
+          />
+          <Route
+            exact
+            path="/project/:project_id/collection/:collection_id/custom/:custom_structure_id"
+            element={<ViewCustomStructure />}
           />
 
           <Route path="*" element={<Navigate to="/home" />} />

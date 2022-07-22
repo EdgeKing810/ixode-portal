@@ -30,12 +30,14 @@ export const submitCreateStructure = (
   setEditStructureID,
   setCreatingStructure,
   setCurrentCollection,
+  customStructureID,
   alert
 ) => {
   const data = {
     uid: profile.uid,
     project_id: currentProject.id,
     collection_id: collectionID,
+    custom_structure_id: customStructureID,
     structure: {
       id: structureID,
       name: structureName,
@@ -124,6 +126,7 @@ export const submitUpdateStructure = (
   setEditStructureID,
   setEditingStructure,
   setCurrentCollection,
+  customStructureID,
   alert
 ) => {
   const data = {
@@ -131,6 +134,7 @@ export const submitUpdateStructure = (
     project_id: currentProject.id,
     collection_id: collectionID,
     structure_id: structureID,
+    custom_structure_id: customStructureID,
     structure: {
       id: editStructureID,
       name: structureName,
@@ -202,6 +206,7 @@ export const submitDeleteStructure = (
   setEditStructureID,
   setDeletingStructure,
   setCurrentCollection,
+  customStructureID,
   alert
 ) => {
   const data = {
@@ -209,6 +214,7 @@ export const submitDeleteStructure = (
     project_id: currentProject.id,
     collection_id: collectionID,
     structure_id: structureID,
+    custom_structure_id: customStructureID,
   };
 
   axios
