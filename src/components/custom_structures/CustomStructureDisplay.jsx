@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   ALinkTo,
+  BigText,
   Heading,
   LinkerButton,
   Separator,
@@ -32,6 +33,7 @@ export default function CustomStructureDisplay({
         theme={theme}
         nobreak
         className="w-full flex uppercase"
+        smallerOnMobile
       >
         <ALinkTo
           noopacity
@@ -61,11 +63,23 @@ export default function CustomStructureDisplay({
         </span>
       </Heading>
 
+      <BigText
+        color={theme === 'light' ? 'dark' : 'light'}
+        theme={theme}
+        nobreak
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center`}
+        smallerOnMobile
+      >
+        {currentCustomStructure.description}
+      </BigText>
+
+      <Separator smaller />
+
       <SmallText
         color={theme === 'light' ? 'dark' : 'light'}
         theme={theme}
         nobreak
-        className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {currentCustomStructure.structures.length} structures
       </SmallText>

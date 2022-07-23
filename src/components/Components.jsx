@@ -10,11 +10,17 @@ export const SuperHeading = ({ title, children, className }) => (
   </div>
 );
 
-export const Heading = ({ title, children, color, className }) => (
+export const Heading = ({
+  title,
+  children,
+  color,
+  className,
+  smallerOnMobile,
+}) => (
   <div
-    className={`${
-      color ? `text-main-${color}` : 'text-main-primary'
-    } w-full text-2xl sm:text-4xl font-bold font-spartan break-all mb-2 ${className}`}
+    className={`${color ? `text-main-${color}` : 'text-main-primary'} w-full ${
+      smallerOnMobile ? 'text-base' : 'text-2xl'
+    } sm:text-4xl font-bold font-spartan break-all mb-2 ${className}`}
     title={title}
   >
     {children}
@@ -87,7 +93,15 @@ export const BigText = ({
   </div>
 );
 
-export const Text = ({ children, color, className, theme, mono, nobreak }) => (
+export const Text = ({
+  children,
+  color,
+  className,
+  theme,
+  mono,
+  nobreak,
+  smallerOnMobile,
+}) => (
   <div
     className={`${
       color
@@ -95,7 +109,9 @@ export const Text = ({ children, color, className, theme, mono, nobreak }) => (
         : theme === 'light'
         ? 'text-main-dark'
         : 'text-main-light'
-    } ${className} text-sm sm:text-base font-normal font-noto ${
+    } ${className} ${
+      smallerOnMobile ? 'text-xs' : 'text-sm'
+    } sm:text-base font-normal font-noto ${
       mono ? 'font-robomono' : 'font-noto'
     } ${!nobreak && 'break-all'}`}
   >

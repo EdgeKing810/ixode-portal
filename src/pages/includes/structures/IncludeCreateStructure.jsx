@@ -74,10 +74,10 @@ export default function IncludeCreateStructure({
 
   return (
     <FullAbsoluteContainer
-      additional={`w-screen h-screen top-0 left-0 lg:pt-0 ${
+      additional={`w-screen h-screen top-0 left-0 lg:pt-20 ${
         isCreating ? 'translate-y-0' : 'translate-y-full'
       }`}
-      additionalIn="flex flex-col items-center justify-center"
+      additionalIn="flex flex-col items-center justify-center overflow-y-scroll lg:overflow-y-none h-full lg:py-0 lg:pr-0 pt-20 pr-2"
       outFunction={() => setIsCreating(false)}
       theme={theme}
     >
@@ -225,12 +225,12 @@ export default function IncludeCreateStructure({
               value={defaultVal}
               change={(e) => setDefaultVal(e.target.value)}
               theme={theme}
-              className="mt-2 lg:w-1/2"
+              className="mt-2 lg:w-1/2 mb-2"
               min={min}
               max={max}
             />
           ) : (
-            <div className="w-full lg:w-1/2 flex justify-start">
+            <div className="w-full lg:w-1/2 flex justify-start mb-2">
               <Checkbox
                 value={defaultVal}
                 color="primary"
@@ -244,6 +244,32 @@ export default function IncludeCreateStructure({
           )}
         </>
       )}
+
+      <div className="w-full lg:w-1/2">
+        <div
+          className={`w-full flex justify-start ${
+            types.find((t) => t.name === type).format.length > 50 && 'flex-col'
+          } lg:flex-row`}
+        >
+          <Text
+            color="primary"
+            className="uppercase text-left pr-1 lg:mb-0 mb-1"
+            mono
+            smallerOnMobile
+          >
+            Format:
+          </Text>
+
+          <Text
+            color={theme === 'light' ? 'dark' : 'light'}
+            mono
+            smallerOnMobile
+          >
+            {types.find((t) => t.name === type).format}
+          </Text>
+        </div>
+        <Separator smaller />
+      </div>
 
       <BigText
         color="primary"

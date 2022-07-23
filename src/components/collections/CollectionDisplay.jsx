@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   ALinkTo,
+  BigText,
   Heading,
   LinkerButton,
   Separator,
@@ -49,11 +50,23 @@ export default function CollectionDisplay({
         </span>
       </Heading>
 
+      <BigText
+        color={theme === 'light' ? 'dark' : 'light'}
+        theme={theme}
+        nobreak
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center`}
+        smallerOnMobile
+      >
+        {currentCollection.description}
+      </BigText>
+
+      <Separator smaller />
+
       <SmallText
         color={theme === 'light' ? 'dark' : 'light'}
         theme={theme}
         nobreak
-        className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {currentCollection.structures.length} structures
       </SmallText>

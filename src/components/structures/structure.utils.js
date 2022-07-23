@@ -1,4 +1,8 @@
 import axios from 'axios';
+import {
+  convertDateToBackendFormat,
+  convertDateTimeToBackendFormat,
+} from '../../utils/timestamp';
 
 export const submitCreateStructure = (
   API_URL,
@@ -35,6 +39,13 @@ export const submitCreateStructure = (
   customStructureID,
   alert
 ) => {
+  let finalDefault = structureDefault;
+  if (structureType === 'DATETIME') {
+    finalDefault = convertDateTimeToBackendFormat(new Date(structureDefault));
+  } else if (structureType === 'DATE') {
+    finalDefault = convertDateToBackendFormat(new Date(structureDefault));
+  }
+
   const data = {
     uid: profile.uid,
     project_id: currentProject.id,
@@ -45,7 +56,7 @@ export const submitCreateStructure = (
       name: structureName,
       description: structureDescription,
       stype: structureType,
-      default_val: structureDefault,
+      default_val: finalDefault,
       min: parseInt(structureMin),
       max: parseInt(structureMax),
       encrypted: structureEncrypted,
@@ -135,6 +146,13 @@ export const submitUpdateStructure = (
   customStructureID,
   alert
 ) => {
+  let finalDefault = structureDefault;
+  if (structureType === 'DATETIME') {
+    finalDefault = convertDateTimeToBackendFormat(new Date(structureDefault));
+  } else if (structureType === 'DATE') {
+    finalDefault = convertDateToBackendFormat(new Date(structureDefault));
+  }
+
   const data = {
     uid: profile.uid,
     project_id: currentProject.id,
@@ -146,7 +164,7 @@ export const submitUpdateStructure = (
       name: structureName,
       description: structureDescription,
       stype: structureType,
-      default_val: structureDefault,
+      default_val: finalDefault,
       min: parseInt(structureMin),
       max: parseInt(structureMax),
       encrypted: structureEncrypted,
