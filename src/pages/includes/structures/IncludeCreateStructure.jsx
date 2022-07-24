@@ -16,8 +16,11 @@ import {
 } from '../../../components/Components';
 
 import { fetchData } from '../../../utils/data';
+import { handleImage } from '../../../utils/handleImage';
 
 export default function IncludeCreateStructure({
+  API_URL,
+  PUBLIC_URL,
   isCreating,
   setIsCreating,
   collectionName,
@@ -48,6 +51,8 @@ export default function IncludeCreateStructure({
   submitStructure,
   theme,
   isEditing,
+  addMedia,
+  alert,
 }) {
   let types = fetchData().structures.types;
 
@@ -180,7 +185,11 @@ export default function IncludeCreateStructure({
             title="Enter Min Value"
             placeholder=""
             value={min}
-            change={(e) => setMin(e.target.value)}
+            change={(e) => {
+              if (e.target.value === '' || parseInt(e.target.value) >= 0) {
+                setMin(e.target.value);
+              }
+            }}
             theme={theme}
           />
         </div>
@@ -198,7 +207,11 @@ export default function IncludeCreateStructure({
             title="Enter Max Value"
             placeholder=""
             value={max}
-            change={(e) => setMax(e.target.value)}
+            change={(e) => {
+              if (e.target.value === '' || parseInt(e.target.value) >= 0) {
+                setMax(e.target.value);
+              }
+            }}
             theme={theme}
           />
         </div>
@@ -217,30 +230,70 @@ export default function IncludeCreateStructure({
             Specify Default Value (Optional)
           </BigText>
 
-          {types.find((t) => t.name === type).type !== 'checkbox' ? (
+          {!['checkbox', 'custom-media'].includes(
+            types.find((t) => t.name === type).type
+          ) ? (
             <Input
               type={types.find((t) => t.name === type).type}
               title="Enter Default Value"
               placeholder="Enter Default Value..."
               value={defaultVal}
-              change={(e) => setDefaultVal(e.target.value)}
+              change={(e) => {
+                setDefaultVal(e.target.value);
+              }}
               theme={theme}
               className="mt-2 lg:w-1/2 mb-2"
               min={min}
               max={max}
             />
-          ) : (
+          ) : types.find((t) => t.name === type).type === 'checkbox' ? (
             <div className="w-full lg:w-1/2 flex justify-start mb-2">
               <Checkbox
-                value={defaultVal}
+                value={
+                  defaultVal === 'true'
+                    ? true
+                    : defaultVal === 'false'
+                    ? false
+                    : defaultVal
+                }
                 color="primary"
                 change={setDefaultVal}
               />
 
               <Text color={theme === 'light' ? 'dark' : 'light'} mono>
-                {defaultVal === true ? 'true' : 'false'}
+                {defaultVal === true || defaultVal === 'true'
+                  ? 'true'
+                  : 'false'}
               </Text>
             </div>
+          ) : types.find((t) => t.name === type).type === 'custom-media' ? (
+            <div className="w-full lg:w-1/2 flex justify-start mb-2">
+              <Button
+                color="dark"
+                bgcolor="primary"
+                theme={theme}
+                className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
+                click={() =>
+                  handleImage(
+                    alert,
+                    API_URL,
+                    PUBLIC_URL,
+                    (i) => {
+                      if (i) {
+                        setDefaultVal(`${PUBLIC_URL}/${i[0]}`);
+                        addMedia(i[1], i[0]);
+                      }
+                    },
+                    true,
+                    false
+                  )
+                }
+              >
+                Upload
+              </Button>
+            </div>
+          ) : (
+            <div></div>
           )}
         </>
       )}

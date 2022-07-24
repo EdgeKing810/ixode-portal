@@ -30,6 +30,8 @@ import {
 
 export default function ViewCollectionIncludes({
   API_URL,
+  PUBLIC_URL,
+  addMedia,
   profile,
   currentProject,
   currentCollection,
@@ -91,8 +93,6 @@ export default function ViewCollectionIncludes({
   setCustomStructureDescription,
   editCustomStructureID,
   setEditCustomStructureID,
-  customStructureStructures,
-  setCustomStructureStructures,
   editingCustomStructure,
   setEditingCustomStructure,
   deletingCustomStructure,
@@ -200,6 +200,9 @@ export default function ViewCollectionIncludes({
       />
 
       <IncludeCreateStructure
+        API_URL={API_URL}
+        PUBLIC_URL={PUBLIC_URL}
+        addMedia={addMedia}
         isCreating={creatingStructure}
         setIsCreating={setCreatingStructure}
         collectionName={currentCollection && currentCollection.name}
@@ -227,6 +230,7 @@ export default function ViewCollectionIncludes({
         setArray={setStructureArray}
         required={structureRequired}
         setRequired={setStructureRequired}
+        alert={alert}
         submitStructure={() =>
           submitCreateStructure(
             API_URL,
@@ -268,6 +272,9 @@ export default function ViewCollectionIncludes({
       />
 
       <IncludeCreateStructure
+        API_URL={API_URL}
+        PUBLIC_URL={PUBLIC_URL}
+        addMedia={addMedia}
         isCreating={editingStructure}
         setIsCreating={setEditingStructure}
         collectionName={currentCollection && currentCollection.name}
@@ -295,6 +302,7 @@ export default function ViewCollectionIncludes({
         setArray={setStructureArray}
         required={structureRequired}
         setRequired={setStructureRequired}
+        alert={alert}
         submitStructure={() =>
           submitUpdateStructure(
             API_URL,
@@ -353,8 +361,8 @@ export default function ViewCollectionIncludes({
             setEditStructureID,
             setDeletingStructure,
             setCurrentCollection,
-            '',
-            alert
+            alert,
+            ''
           )
         }
         name={structureName}
@@ -385,7 +393,6 @@ export default function ViewCollectionIncludes({
             setCustomStructureDescription,
             setEditCustomStructureID,
             setCreatingCustomStructure,
-            setCustomStructureStructures,
             setCurrentCollection,
             alert
           )
@@ -418,8 +425,9 @@ export default function ViewCollectionIncludes({
             editCustomStructureID,
             setEditCustomStructureID,
             setEditingCustomStructure,
-            customStructureStructures,
-            setCustomStructureStructures,
+            currentCollection.custom_structures.find(
+              (cs) => cs.id === customStructureID
+            ).structures,
             setCurrentCollection,
             alert
           )
@@ -442,7 +450,6 @@ export default function ViewCollectionIncludes({
             setCustomStructureName,
             setCustomStructureDescription,
             setEditCustomStructureID,
-            setCustomStructureStructures,
             setDeletingCustomStructure,
             setCurrentCollection,
             alert

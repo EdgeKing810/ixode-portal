@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
+import { useMediaStore } from '../stores/useMediaStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
@@ -24,8 +25,9 @@ export default function ViewCollection() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
+  const { addMedia } = useMediaStore((state) => state);
 
-  const { API_URL } = useContext(LocalContext);
+  const { API_URL, PUBLIC_URL } = useContext(LocalContext);
   const { project_id, collection_id } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
@@ -78,9 +80,6 @@ export default function ViewCollection() {
   const [customStructureName, setCustomStructureName] = useState('');
   const [customStructureDescription, setCustomStructureDescription] =
     useState('');
-  const [customStructureStructures, setCustomStructureStructures] = useState(
-    []
-  );
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -355,9 +354,6 @@ export default function ViewCollection() {
                       setCustomStructureDescription={
                         setCustomStructureDescription
                       }
-                      setCustomStructureStructures={
-                        setCustomStructureStructures
-                      }
                       setDeletingCustomStructure={setDeletingCustomStructure}
                       theme={theme}
                     />
@@ -369,6 +365,8 @@ export default function ViewCollection() {
 
       <ViewCollectionIncludes
         API_URL={API_URL}
+        PUBLIC_URL={PUBLIC_URL}
+        addMedia={addMedia}
         profile={profile}
         currentProject={currentProject}
         currentCollection={currentCollection}
@@ -430,8 +428,6 @@ export default function ViewCollection() {
         setCustomStructureDescription={setCustomStructureDescription}
         editCustomStructureID={editCustomStructureID}
         setEditCustomStructureID={setEditCustomStructureID}
-        customStructureStructures={customStructureStructures}
-        setCustomStructureStructures={setCustomStructureStructures}
         editingCustomStructure={editingCustomStructure}
         setEditingCustomStructure={setEditingCustomStructure}
         deletingCustomStructure={deletingCustomStructure}

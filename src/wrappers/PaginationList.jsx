@@ -11,7 +11,7 @@ export default function PaginationList({
   const previousLabel = 'Prev';
   const nextLabel = 'Next';
 
-  let pageCount = Math.floor(amount / limit);
+  let pageCount = Math.ceil(amount / limit);
 
   if (pageCount <= 0) {
     return <div></div>;

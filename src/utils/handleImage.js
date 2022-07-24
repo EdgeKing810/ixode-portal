@@ -33,6 +33,9 @@ export const handleImage = async (
     } else {
       alert.success('Image successfully uploaded!');
       if (pure) {
+        if (setContent) {
+          setContent([uploadResult[1], uploadResult[2]]);
+        }
         return [uploadResult[1], uploadResult[2]];
       } else {
         if (icon) {

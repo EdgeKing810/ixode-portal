@@ -1,4 +1,5 @@
 import React from 'react';
+import { converToLocalDateTime } from '../../utils/timestamp';
 
 import { BigText, IconButton, Separator, SmallText } from '../Components';
 
@@ -67,7 +68,11 @@ export default function StructureField({
               setStructureName(structure.name);
               setStructureDescription(structure.description);
               setStructureType(structure.stype);
-              setStructureDefault(structure.default_val);
+              setStructureDefault(
+                structure.stype === 'DATETIME'
+                  ? converToLocalDateTime(structure.default_val)
+                  : structure.default_val
+              );
               setStructureMin(structure.min);
               setStructureMax(structure.max);
               setStructureEncrypted(structure.encrypted);

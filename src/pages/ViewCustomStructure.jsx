@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
+import { useMediaStore } from '../stores/useMediaStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
@@ -22,8 +23,9 @@ export default function ViewCustomStructure() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
+  const { addMedia } = useMediaStore((state) => state);
 
-  const { API_URL } = useContext(LocalContext);
+  const { API_URL, PUBLIC_URL } = useContext(LocalContext);
   const { project_id, collection_id, custom_structure_id } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
@@ -68,10 +70,6 @@ export default function ViewCustomStructure() {
   const [structureRegex, setStructureRegex] = useState('');
   const [structureArray, setStructureArray] = useState(false);
   const [structureRequired, setStructureRequired] = useState(false);
-
-  const [customStructureStructures, setCustomStructureStructures] = useState(
-    []
-  );
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -227,14 +225,17 @@ export default function ViewCustomStructure() {
               currentCollection &&
               currentCollection.id &&
               currentCustomStructure &&
-              currentCustomStructure.id && (
+              currentCustomStructure.id &&
+              currentCollection.custom_structures && (
                 <CustomStructureDisplay
                   project_id={project_id}
                   collection_id={collection_id}
                   profile={profile}
                   currentProject={currentProject}
                   currentCollection={currentCollection}
-                  currentCustomStructure={currentCustomStructure}
+                  currentCustomStructure={currentCollection.custom_structures.find(
+                    (cs) => cs.id === custom_structure_id
+                  )}
                   setEditingCustomStructureID={setEditingCustomStructureID}
                   setEditingCustomStructureName={setEditingCustomStructureName}
                   setEditingCustomStructureDescription={
@@ -245,35 +246,45 @@ export default function ViewCustomStructure() {
                 />
               )}
 
-            <StructureMiniDisplay
-              currentCollection={currentCustomStructure}
-              profile={profile}
-              setCreatingStructure={setCreatingStructure}
-              setStructureID={setStructureID}
-              setStructureName={setStructureName}
-              setStructureDescription={setStructureDescription}
-              setStructureType={setStructureType}
-              setStructureDefault={setStructureDefault}
-              setStructureMin={setStructureMin}
-              setStructureMax={setStructureMax}
-              setStructureEncrypted={setStructureEncrypted}
-              setStructureUnique={setStructureUnique}
-              setStructureRegex={setStructureRegex}
-              setStructureArray={setStructureArray}
-              setStructureRequired={setStructureRequired}
-              filter={filter}
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
-              limit={limit}
-              theme={theme}
-            />
+            {currentCollection && currentCollection.custom_structures && (
+              <StructureMiniDisplay
+                currentCollection={currentCollection.custom_structures.find(
+                  (cs) => cs.id === custom_structure_id
+                )}
+                profile={profile}
+                setCreatingStructure={setCreatingStructure}
+                setStructureID={setStructureID}
+                setStructureName={setStructureName}
+                setStructureDescription={setStructureDescription}
+                setStructureType={setStructureType}
+                setStructureDefault={setStructureDefault}
+                setStructureMin={setStructureMin}
+                setStructureMax={setStructureMax}
+                setStructureEncrypted={setStructureEncrypted}
+                setStructureUnique={setStructureUnique}
+                setStructureRegex={setStructureRegex}
+                setStructureArray={setStructureArray}
+                setStructureRequired={setStructureRequired}
+                filter={filter}
+                setFilter={setFilter}
+                setCurrentPage={setCurrentPage}
+                limit={limit}
+                theme={theme}
+              />
+            )}
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
               {currentCustomStructure &&
-                currentCustomStructure.structures &&
-                currentCustomStructure.structures.length > 0 &&
-                currentCustomStructure.structures
-                  .filter(
+                currentCustomStructure.id &&
+                currentCollection.custom_structures.find(
+                  (cs) => cs.id === custom_structure_id
+                ).structures &&
+                currentCollection.custom_structures.find(
+                  (cs) => cs.id === custom_structure_id
+                ).structures.length > 0 &&
+                currentCollection.custom_structures
+                  .find((cs) => cs.id === custom_structure_id)
+                  .structures.filter(
                     (s) =>
                       filter.length <= 0 ||
                       s.id
@@ -317,6 +328,8 @@ export default function ViewCustomStructure() {
 
       <ViewCustomStructureIncludes
         API_URL={API_URL}
+        PUBLIC_URL={PUBLIC_URL}
+        addMedia={addMedia}
         profile={profile}
         currentProject={currentProject}
         currentCollection={currentCollection}
@@ -361,8 +374,6 @@ export default function ViewCustomStructure() {
         setCustomStructureDescription={setCustomStructureDescription}
         editCustomStructureID={editCustomStructureID}
         setEditCustomStructureID={setEditCustomStructureID}
-        customStructureStructures={customStructureStructures}
-        setCustomStructureStructures={setCustomStructureStructures}
         editingCustomStructureID={editingCustomStructureID}
         setEditingCustomStructureID={setEditingCustomStructureID}
         editingCustomStructureName={editingCustomStructureName}

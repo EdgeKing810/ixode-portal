@@ -18,7 +18,6 @@ export default function CustomStructureField({
   setEditCustomStructureID,
   setCustomStructureName,
   setCustomStructureDescription,
-  setCustomStructureStructures,
   setDeletingCustomStructure,
   theme,
 }) {
@@ -81,7 +80,6 @@ export default function CustomStructureField({
               setEditCustomStructureID(structure.id);
               setCustomStructureName(structure.name);
               setCustomStructureDescription(structure.description);
-              setCustomStructureStructures(structure.structures);
             }}
           />
         )}

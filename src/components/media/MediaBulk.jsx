@@ -25,16 +25,16 @@ export default function MediaBulk({
           bgcolor="primary"
           theme={theme}
           className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-          click={() => {
+          click={() =>
             handleImage(
               alert,
               API_URL,
               PUBLIC_URL,
-              (i) => (i ? addMedia(i[0], i[1]) : null),
+              (i) => (i ? addMedia(i[1], i[0]) : null),
               true,
               false
-            );
-          }}
+            )
+          }
         >
           Upload
         </Button>

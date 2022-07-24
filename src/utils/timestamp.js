@@ -18,9 +18,10 @@ export const convertDateToBackendFormat = (dat) => {
   let year = tmp
     .getFullYear()
     .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let month = tmp
-    .getMonth()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let month = parseInt(tmp.getMonth() + 1).toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
   let date = tmp
     .getDate()
     .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
@@ -37,9 +38,10 @@ export const convertDateTimeToBackendFormat = (dat) => {
   let year = tmp
     .getFullYear()
     .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let month = tmp
-    .getMonth()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let month = parseInt(tmp.getMonth() + 1).toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
   let date = tmp
     .getDate()
     .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
@@ -80,8 +82,36 @@ export const convertDateTimeToBackendFormat = (dat) => {
   goodD = `${year}-${month}-${date} ${hours}:${minutes}:${seconds} ${
     beyond ? '+' : '-'
   }${timezoneHours}:${timezoneMinutes}`;
+  console.log(goodD);
 
   return goodD;
+};
+
+export const converToLocalDateTime = (dat) => {
+  let dt = new Date(dat);
+
+  let year = dt
+    .getFullYear()
+    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let month = parseInt(dt.getMonth() + 1).toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  let date = dt
+    .getDate()
+    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+
+  let hours = dt
+    .getHours()
+    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let minutes = dt
+    .getMinutes()
+    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let seconds = dt
+    .getSeconds()
+    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+
+  return `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
 };
 
 export const convert = (date, absolute) => {

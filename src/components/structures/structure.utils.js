@@ -36,8 +36,8 @@ export const submitCreateStructure = (
   setEditStructureID,
   setCreatingStructure,
   setCurrentCollection,
-  customStructureID,
-  alert
+  alert,
+  customStructureID
 ) => {
   let finalDefault = structureDefault;
   if (structureType === 'DATETIME') {
@@ -56,7 +56,12 @@ export const submitCreateStructure = (
       name: structureName,
       description: structureDescription,
       stype: structureType,
-      default_val: finalDefault,
+      default_val:
+        finalDefault === true
+          ? 'true'
+          : finalDefault === false
+          ? 'false'
+          : finalDefault,
       min: parseInt(structureMin),
       max: parseInt(structureMax),
       encrypted: structureEncrypted,
@@ -81,14 +86,32 @@ export const submitCreateStructure = (
 
         setCreatingStructure(false);
 
-        setCurrentCollection((prev) => {
-          let updatedCollection = { ...prev };
-          updatedCollection.structures = [
-            ...updatedCollection.structures,
-            data.structure,
-          ];
-          return updatedCollection;
-        });
+        if (customStructureID.length <= 0) {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = [
+              ...updatedCollection.structures,
+              data.structure,
+            ];
+            return updatedCollection;
+          });
+        } else {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures =
+              updatedCollection.custom_structures.map((cs) => {
+                let updatedCustomStructure = { ...cs };
+                if (updatedCustomStructure.id === customStructureID) {
+                  updatedCustomStructure.structures = [
+                    ...updatedCustomStructure.structures,
+                    data.structure,
+                  ];
+                }
+                return updatedCustomStructure;
+              });
+            return updatedCollection;
+          });
+        }
 
         setStructureID('');
         setEditStructureID('');
@@ -143,8 +166,8 @@ export const submitUpdateStructure = (
   setEditStructureID,
   setEditingStructure,
   setCurrentCollection,
-  customStructureID,
-  alert
+  alert,
+  customStructureID
 ) => {
   let finalDefault = structureDefault;
   if (structureType === 'DATETIME') {
@@ -164,7 +187,12 @@ export const submitUpdateStructure = (
       name: structureName,
       description: structureDescription,
       stype: structureType,
-      default_val: finalDefault,
+      default_val:
+        finalDefault === true
+          ? 'true'
+          : finalDefault === false
+          ? 'false'
+          : finalDefault,
       min: parseInt(structureMin),
       max: parseInt(structureMax),
       encrypted: structureEncrypted,
@@ -189,16 +217,36 @@ export const submitUpdateStructure = (
 
         setEditingStructure(false);
 
-        setCurrentCollection((prev) => {
-          let updatedCollection = { ...prev };
-          updatedCollection.structures = [
-            ...updatedCollection.structures.filter(
-              (s) => s.id !== data.structure_id
-            ),
-            data.structure,
-          ];
-          return updatedCollection;
-        });
+        if (customStructureID.length <= 0) {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = [
+              ...updatedCollection.structures.filter(
+                (s) => s.id !== data.structure_id
+              ),
+              data.structure,
+            ];
+            return updatedCollection;
+          });
+        } else {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures =
+              updatedCollection.custom_structures.map((cs) => {
+                let updatedCustomStructure = { ...cs };
+                if (updatedCustomStructure.id === customStructureID) {
+                  updatedCustomStructure.structures = [
+                    ...updatedCustomStructure.structures.filter(
+                      (s) => s.id !== data.structure_id
+                    ),
+                    data.structure,
+                  ];
+                }
+                return updatedCustomStructure;
+              });
+            return updatedCollection;
+          });
+        }
 
         setStructureID('');
         setEditStructureID('');
@@ -232,8 +280,8 @@ export const submitDeleteStructure = (
   setEditStructureID,
   setDeletingStructure,
   setCurrentCollection,
-  customStructureID,
-  alert
+  alert,
+  customStructureID
 ) => {
   const data = {
     uid: profile.uid,
@@ -257,13 +305,32 @@ export const submitDeleteStructure = (
 
         setDeletingStructure(false);
 
-        setCurrentCollection((prev) => {
-          let updatedCollection = { ...prev };
-          updatedCollection.structures = updatedCollection.structures.filter(
-            (s) => s.id !== data.structure_id
-          );
-          return updatedCollection;
-        });
+        if (customStructureID.length <= 0) {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.structures = updatedCollection.structures.filter(
+              (s) => s.id !== data.structure_id
+            );
+            return updatedCollection;
+          });
+        } else {
+          setCurrentCollection((prev) => {
+            let updatedCollection = { ...prev };
+            updatedCollection.custom_structures =
+              updatedCollection.custom_structures.map((cs) => {
+                let updatedCustomStructure = { ...cs };
+                if (updatedCustomStructure.id === customStructureID) {
+                  updatedCustomStructure.structures = [
+                    ...updatedCustomStructure.structures.filter(
+                      (s) => s.id !== data.structure_id
+                    ),
+                  ];
+                }
+                return updatedCustomStructure;
+              });
+            return updatedCollection;
+          });
+        }
 
         setStructureID('');
         setEditStructureID('');

@@ -13,7 +13,6 @@ export const submitCreateCustomStructure = (
   setCustomStructureDescription,
   setEditCustomStructureID,
   setCreatingCustomStructure,
-  setCustomStructureStructures,
   setCurrentCollection,
   alert
 ) => {
@@ -56,7 +55,6 @@ export const submitCreateCustomStructure = (
         setEditCustomStructureID('');
         setCustomStructureName('');
         setCustomStructureDescription('');
-        setCustomStructureStructures([]);
       } else {
         console.log(res.data);
         alert.error(res.data.message);
@@ -79,7 +77,6 @@ export const submitUpdateCustomStructure = (
   setEditCustomStructureID,
   setEditingCustomStructure,
   customStructureStructures,
-  setCustomStructureStructures,
   setCurrentCollection,
   alert,
   dontReset,
@@ -128,14 +125,11 @@ export const submitUpdateCustomStructure = (
           setEditCustomStructureID('');
           setCustomStructureName('');
           setCustomStructureDescription('');
-          setCustomStructureStructures([]);
         } else {
           setCustomStructureID(editCustomStructureID);
-          if (navigate) {
-            navigate(
-              `/project/${currentProject.id}/collection/${collectionID}/custom/${editCustomStructureID}`
-            );
-          }
+          navigate(
+            `/project/${currentProject.id}/collection/${collectionID}/custom/${editCustomStructureID}`
+          );
         }
       } else {
         console.log(res.data);
@@ -154,7 +148,6 @@ export const submitDeleteCustomStructure = (
   setCustomStructureName,
   setCustomStructureDescription,
   setEditCustomStructureID,
-  setCustomStructureStructures,
   setDeletingCustomStructure,
   setCurrentCollection,
   alert,
@@ -196,7 +189,6 @@ export const submitDeleteCustomStructure = (
           setEditCustomStructureID('');
           setCustomStructureName('');
           setCustomStructureDescription('');
-          setCustomStructureStructures([]);
         } else {
           if (navigate) {
             navigate(

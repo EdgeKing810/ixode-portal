@@ -136,7 +136,7 @@ export const fetchData = () => ({
       {
         id: 'media',
         name: 'MEDIA',
-        type: 'hidden',
+        type: 'custom-media',
         format: 'https://api.kinesis.world/public/summer.jpg',
       },
       { id: 'boolean', name: 'BOOLEAN', type: 'checkbox', format: '☑️' },
