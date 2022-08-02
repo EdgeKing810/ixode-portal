@@ -163,7 +163,9 @@ export const useCollectionStore = create(
                     updatedCustomStructure.name = name;
                     updatedCustomStructure.structures =
                       updatedCustomStructure.structures.map((s) => {
-                        let updatedStructure = { ...s };
+                        let updatedStructure = {
+                          ...s,
+                        };
                         if (s.id === structure.id) {
                           updatedStructure.name = structure.name;
                           updatedStructure.stype = structure.stype;

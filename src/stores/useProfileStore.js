@@ -15,7 +15,14 @@ export const useProfileStore = create(
           return {
             profiles: [
               ...updatedProfiles,
-              { id: profileID, first_name, last_name, username, email, role },
+              {
+                id: profileID,
+                first_name,
+                last_name,
+                username,
+                email,
+                role,
+              },
             ],
           };
         }),
@@ -35,7 +42,9 @@ export const useProfileStore = create(
           if (found) {
             return { profiles: [...updatedProfiles] };
           } else {
-            return { profiles: [...updatedProfiles, { ...update }] };
+            return {
+              profiles: [...updatedProfiles, { ...update }],
+            };
           }
         }),
 

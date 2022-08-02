@@ -1,6 +1,15 @@
 export const fetchData = () => ({
   navigation: [
-    { name: 'Home', icon: 'home-4', visibility: 'VIEWER,AUTHOR,ADMIN,ROOT' },
+    {
+      name: 'Home',
+      icon: 'home-4',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
+    {
+      name: 'Data',
+      icon: 'database-2',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
     {
       name: 'Projects',
       icon: 'folder-3',
@@ -94,7 +103,12 @@ export const fetchData = () => ({
   },
   structures: {
     types: [
-      { id: 'text', name: 'TEXT', type: 'text', format: 'This is an example' },
+      {
+        id: 'text',
+        name: 'TEXT',
+        type: 'text',
+        format: 'This is an example',
+      },
       {
         id: 'email',
         name: 'EMAIL',
@@ -140,7 +154,12 @@ export const fetchData = () => ({
         format: 'https://api.kinesis.world/public/summer.jpg',
       },
       { id: 'boolean', name: 'BOOLEAN', type: 'checkbox', format: '☑️' },
-      { id: 'uid', name: 'UID', type: 'text', format: 'abcd-efgh-ijkl-mnop' },
+      {
+        id: 'uid',
+        name: 'UID',
+        type: 'text',
+        format: 'abcd-efgh-ijkl-mnop',
+      },
       {
         id: 'json',
         name: 'JSON',

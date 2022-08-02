@@ -15,16 +15,18 @@ export const convertDateToBackendFormat = (dat) => {
   let goodD = '';
   let tmp = new Date(dat);
 
-  let year = tmp
-    .getFullYear()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let year = tmp.getFullYear().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
   let month = parseInt(tmp.getMonth() + 1).toLocaleString('en-US', {
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
-  let date = tmp
-    .getDate()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let date = tmp.getDate().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
   goodD = `${year}-${month}-${date}`;
 
@@ -35,26 +37,31 @@ export const convertDateTimeToBackendFormat = (dat) => {
   let goodD = '';
   let tmp = new Date(dat);
 
-  let year = tmp
-    .getFullYear()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let year = tmp.getFullYear().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
   let month = parseInt(tmp.getMonth() + 1).toLocaleString('en-US', {
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
-  let date = tmp
-    .getDate()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let date = tmp.getDate().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
-  let hours = tmp
-    .getHours()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let minutes = tmp
-    .getMinutes()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let seconds = tmp
-    .getSeconds()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let hours = tmp.getHours().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  let minutes = tmp.getMinutes().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  let seconds = tmp.getSeconds().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
   let timezoneOffset = parseInt(tmp.getTimezoneOffset());
   let beyond = timezoneOffset <= 0;
@@ -90,26 +97,31 @@ export const convertDateTimeToBackendFormat = (dat) => {
 export const converToLocalDateTime = (dat) => {
   let dt = new Date(dat);
 
-  let year = dt
-    .getFullYear()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let year = dt.getFullYear().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
   let month = parseInt(dt.getMonth() + 1).toLocaleString('en-US', {
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
-  let date = dt
-    .getDate()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let date = dt.getDate().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
-  let hours = dt
-    .getHours()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let minutes = dt
-    .getMinutes()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
-  let seconds = dt
-    .getSeconds()
-    .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  let hours = dt.getHours().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  let minutes = dt.getMinutes().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  let seconds = dt.getSeconds().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
 
   return `${year}-${month}-${date}T${hours}:${minutes}:${seconds}`;
 };

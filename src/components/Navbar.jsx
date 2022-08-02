@@ -80,7 +80,9 @@ export default function Navbar({ width, currentPage }) {
         <div className="w-full mt-2">
           <div
             className="pt-1 bg-main-primary"
-            style={{ width: `${width !== undefined ? width : 100}%` }}
+            style={{
+              width: `${width !== undefined ? width : 100}%`,
+            }}
           ></div>
         </div>
       </div>

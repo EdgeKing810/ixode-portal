@@ -12,12 +12,14 @@ import Profile from './pages/Profile.jsx';
 import Media from './pages/Media.jsx';
 import Misc from './pages/Misc.jsx';
 import Sheet from './pages/Sheet.jsx';
+import DataHome from './pages/DataHome.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
 import ViewCustomStructure from './pages/ViewCustomStructure.jsx';
 
 import './assets/css/blinker.css';
+import ViewDataProject from './pages/ViewDataProject.jsx';
 
 function App() {
   return (
@@ -34,8 +36,10 @@ function App() {
           <Route exact path="/media" element={<Media />} />
           <Route exact path="/misc" element={<Misc />} />
           <Route exact path="/sheet" element={<Sheet />} />
+          <Route exact path="/data" element={<DataHome />} />
 
           <Route exact path="/project/:project_id" element={<ViewProject />} />
+          <Route exact path="/p/:project_id" element={<ViewProject />} />
           <Route
             exact
             path="/project/:project_id/collection/:collection_id"
@@ -43,8 +47,29 @@ function App() {
           />
           <Route
             exact
+            path="/p/:project_id/c/:collection_id"
+            element={<ViewCollection />}
+          />
+          <Route
+            exact
             path="/project/:project_id/collection/:collection_id/custom/:custom_structure_id"
             element={<ViewCustomStructure />}
+          />
+          <Route
+            exact
+            path="/p/:project_id/c/:collection_id/cs/:custom_structure_id"
+            element={<ViewCustomStructure />}
+          />
+
+          <Route
+            exact
+            path="/data/project/:project_id"
+            element={<ViewDataProject />}
+          />
+          <Route
+            exact
+            path="/data/p/:project_id"
+            element={<ViewDataProject />}
           />
 
           <Route path="*" element={<Navigate to="/home" />} />

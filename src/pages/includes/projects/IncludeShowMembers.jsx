@@ -55,12 +55,12 @@ export default function IncludeShowMembers({
             .map((m) => (
               <div
                 key={`l-${m.id}`}
-                className={`w-full flex items-center rounded-lg items-center ${
+                className={`w-full flex rounded-lg items-center ${
                   theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
                 } -mt-2 ease-in-out duration-400`}
               >
                 <Button
-                  className={`w-full flex p-2 flex items-center ${
+                  className={`w-full flex p-2 items-center ${
                     theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
                   }`}
                   theme={theme}

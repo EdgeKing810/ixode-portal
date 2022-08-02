@@ -30,7 +30,9 @@ export const useConfigStore = create(
           if (found) {
             return { configs: [...updatedConfigs] };
           } else {
-            return { configs: [...updatedConfigs, { name, value }] };
+            return {
+              configs: [...updatedConfigs, { name, value }],
+            };
           }
         }),
 
