@@ -76,7 +76,7 @@ export default function ViewDataProject() {
     if (foundProject) {
       if (
         !profile ||
-        (!['ROOT', 'ADMIN', 'AUTHOR'].includes(profile.role) &&
+        (!['ROOT', 'ADMIN'].includes(profile.role) &&
           !foundProject.members.includes(profile.id))
       ) {
         alert.error('Not Authorized to view data for this Project');

@@ -41,7 +41,7 @@ export default function ConfigItem({
           : [...config.value].map(() => '*').join('')}
       </Text>
 
-      <div className="w-full lg:w-1/4 flex">
+      <div className="w-full lg:w-1/4 flex lg:justify-end">
         <IconButton
           title={visibility.includes(config.name) ? 'Hide value' : 'Show value'}
           condition

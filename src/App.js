@@ -18,8 +18,10 @@ import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
 import ViewCustomStructure from './pages/ViewCustomStructure.jsx';
 
-import './assets/css/blinker.css';
 import ViewDataProject from './pages/ViewDataProject.jsx';
+import ViewDataCollection from './pages/ViewDataCollection.jsx';
+
+import './assets/css/blinker.css';
 
 function App() {
   return (
@@ -70,6 +72,16 @@ function App() {
             exact
             path="/data/p/:project_id"
             element={<ViewDataProject />}
+          />
+          <Route
+            exact
+            path="/data/project/:project_id/collection/:collection_id"
+            element={<ViewDataCollection />}
+          />
+          <Route
+            exact
+            path="/data/p/:project_id/c/:collection_id"
+            element={<ViewDataCollection />}
           />
 
           <Route path="*" element={<Navigate to="/home" />} />
