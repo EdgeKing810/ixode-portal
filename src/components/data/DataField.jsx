@@ -54,7 +54,7 @@ export default function DataField({
           className="p-2 rounded-full w-10 h-10 mr-2"
           color="primary"
           click={() =>
-            navigate(`/data/p/${project_id}/c/${collection_id}/d/${data.id}`)
+            navigate(`/data/p/${project_id}/c/${collection_id}/d/e/${data.id}`)
           }
         />
 

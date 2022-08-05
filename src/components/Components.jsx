@@ -299,7 +299,10 @@ export const InputTextArea = ({
   borderColor,
   theme,
   className,
+  type,
   noTransition,
+  min,
+  max,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
@@ -315,6 +318,7 @@ export const InputTextArea = ({
   >
     <textarea
       title={title}
+      type={type ? type : 'text'}
       name={title}
       className={`w-full outline-none rounded-lg p-2 ${
         theme === 'light' ? 'text-main-darkbg' : 'text-main-lightbg'
@@ -326,6 +330,8 @@ export const InputTextArea = ({
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
+      min={min ? min : 0}
+      max={max ? max : 999999999999999}
     />
   </div>
 );
@@ -343,6 +349,8 @@ export const PasswordInput = ({
   showPassword,
   setShowPassword,
   noTransition,
+  min,
+  max,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
@@ -375,6 +383,8 @@ export const PasswordInput = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => change(e)}
+        min={min ? min : 0}
+        max={max ? max : 999999999999999}
       />
 
       <button

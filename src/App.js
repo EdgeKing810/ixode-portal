@@ -22,6 +22,7 @@ import ViewDataProject from './pages/ViewDataProject.jsx';
 import ViewDataCollection from './pages/ViewDataCollection.jsx';
 
 import './assets/css/blinker.css';
+import Data from './pages/Data.jsx';
 
 function App() {
   return (
@@ -82,6 +83,26 @@ function App() {
             exact
             path="/data/p/:project_id/c/:collection_id"
             element={<ViewDataCollection />}
+          />
+          <Route
+            exact
+            path="/data/project/:project_id/collection/:collection_id/data/create"
+            element={<Data />}
+          />
+          <Route
+            exact
+            path="/data/p/:project_id/c/:collection_id/d/create"
+            element={<Data />}
+          />
+          <Route
+            exact
+            path="/data/project/:project_id/collection/:collection_id/data/edit/:data_id"
+            element={<Data />}
+          />
+          <Route
+            exact
+            path="/data/p/:project_id/c/:collection_id/d/e/:data_id"
+            element={<Data />}
           />
 
           <Route path="*" element={<Navigate to="/home" />} />

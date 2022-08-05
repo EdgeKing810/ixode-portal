@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
+import { useMediaStore } from '../stores/useMediaStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
@@ -13,29 +14,28 @@ import { Heading } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
-import DataCollectionDisplay from '../components/data/DataCollectionDisplay';
-import DataMiniDisplay from '../components/data/DataMiniDisplay';
-import DataField from '../components/data/DataField';
+import DataStructureDisplay from '../components/data/DataStructureDisplay';
 import DataViewCollectionIncludes from '../components/data/DataViewCollectionIncludes';
-import { generateDataFromRaw } from '../utils/dataProcessor';
 
-export default function ViewDataCollection() {
+import {
+  generateDataFromCollection,
+  generateDataFromRaw,
+} from '../utils/dataProcessor';
+
+export default function Data() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
+  const { addMedia } = useMediaStore((state) => state);
 
-  const { API_URL } = useContext(LocalContext);
-  const { project_id, collection_id } = useParams();
+  const { API_URL, PUBLIC_URL } = useContext(LocalContext);
+  const { project_id, collection_id, data_id } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
 
-  const limit = 6;
-  const [currentPage, setCurrentPage] = useState(0);
-  const [filter, setFilter] = useState('');
-
   const [currentProject, setCurrentProject] = useState(null);
   const [currentCollection, setCurrentCollection] = useState(null);
-  const [currentData, setCurrentData] = useState([]);
+  const [currentData, setCurrentData] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [dataID, setDataID] = useState('');
@@ -124,47 +124,55 @@ export default function ViewDataCollection() {
 
               setCurrentCollection(foundCollection);
 
-              axios
-                .post(
-                  `${API_URL}/data/fetch`,
-                  {
-                    uid: profile.uid,
-                    project_id: project_id,
-                    collection_id: collection_id,
-                  },
-                  {
-                    headers: { Authorization: `Bearer ${profile.jwt}` },
-                  }
-                )
-                .then(async (res) => {
-                  if (res.data.status === 200) {
-                    let pairs = res.data.pairs;
-                    let dataIDs = res.data.data_ids;
+              if (data_id) {
+                axios
+                  .post(
+                    `${API_URL}/data/fetch/one`,
+                    {
+                      uid: profile.uid,
+                      project_id: project_id,
+                      collection_id: collection_id,
+                      data_id: data_id,
+                    },
+                    {
+                      headers: { Authorization: `Bearer ${profile.jwt}` },
+                    }
+                  )
+                  .then(async (res) => {
+                    if (res.data.status === 200) {
+                      let pair = res.data.pair;
+                      let dataID = res.data.data_id;
 
-                    if (pairs && pairs.length > 0) {
-                      for (let i = 0; i < pairs.length; i++) {
+                      if (pair) {
                         let allCurrentData = generateDataFromRaw(
                           foundCollection,
-                          pairs[i],
-                          dataIDs[i]
+                          pair,
+                          dataID
                         );
 
-                        setCurrentData((prev) => [
-                          ...prev,
-                          {
-                            id: allCurrentData[0].data_id,
-                            pairs: [...allCurrentData],
-                          },
-                        ]);
+                        setCurrentData({
+                          id: allCurrentData[0].data_id,
+                          pairs: [...allCurrentData],
+                        });
                       }
+                    } else {
+                      console.log(res.data);
+                      alert.error(res.data.message);
                     }
-                  } else {
-                    console.log(res.data);
-                    alert.error(res.data.message);
-                  }
 
-                  setIsLoading(false);
+                    setIsLoading(false);
+                  });
+              } else {
+                let allCurrentData =
+                  generateDataFromCollection(foundCollection);
+
+                setCurrentData({
+                  id: allCurrentData[0].data_id,
+                  pairs: [...allCurrentData],
                 });
+
+                setIsLoading(false);
+              }
             }
           } else {
             console.log(res.data);
@@ -214,51 +222,26 @@ export default function ViewDataCollection() {
             {currentProject &&
               currentProject.id &&
               currentCollection &&
-              currentCollection.id && (
-                <DataCollectionDisplay
+              currentCollection.id &&
+              currentData &&
+              currentData.id && (
+                <DataStructureDisplay
+                  API_URL={API_URL}
+                  PUBLIC_URL={PUBLIC_URL}
+                  profile={profile}
+                  currentData={currentData}
+                  setCurrentData={setCurrentData}
+                  addMedia={addMedia}
                   project_id={project_id}
+                  collection_id={collection_id}
+                  data_id={data_id}
                   currentProject={currentProject}
                   currentCollection={currentCollection}
                   theme={theme}
+                  alert={alert}
+                  navigate={navigate}
                 />
               )}
-
-            <DataMiniDisplay
-              currentData={currentData}
-              projectID={project_id}
-              collectionID={collection_id}
-              profile={profile}
-              filter={filter}
-              setFilter={setFilter}
-              setCurrentPage={setCurrentPage}
-              limit={limit}
-              theme={theme}
-              navigate={navigate}
-            />
-
-            <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
-              {currentData &&
-                currentData.length > 0 &&
-                currentData
-                  .filter(
-                    (d) =>
-                      filter.length <= 0 ||
-                      d.id.toLowerCase().includes(filter.trim().toLowerCase())
-                  )
-                  .slice(currentPage * limit, limit + currentPage * limit)
-                  .map((d) => (
-                    <DataField
-                      key={`dfl-${d.id}`}
-                      data={d}
-                      project_id={project_id}
-                      collection_id={collection_id}
-                      setDataID={setDataID}
-                      setDeletingData={setDeletingData}
-                      theme={theme}
-                      navigate={navigate}
-                    />
-                  ))}
-            </div>
           </div>
         </div>
       </div>

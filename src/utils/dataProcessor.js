@@ -1,12 +1,19 @@
 // FRONTEND:
 
+import {
+  convertDateTimeToBackendFormat,
+  convertDateToBackendFormat,
+} from './timestamp';
+
 // {
 //     data_id: String,
 //     project_id: String,
 //     collection_id: String,
 //     pair_id: String,
 //     structure_id: String,
+//     structure_name: String,
 //     custom_structure_id: String,
+//     custom_structure_name: String,
 //     default_val: String,
 //     value: String,
 //     dtype: String,
@@ -16,6 +23,7 @@
 //     required: Boolean,
 //     regex_pattern: String,
 //     array: Boolean,
+//     dummy_bool: Boolean,
 // }
 
 // BACKEND:
@@ -35,7 +43,9 @@
 // }
 
 const uid = () => {
-  return Date.now().toString(36) + Math.random().toString(36);
+  let gen = Date.now().toString(36) + Math.random().toString(36);
+  gen = gen.split('.').join('_');
+  return gen;
 };
 
 export const getDataValue = (
@@ -83,7 +93,51 @@ export const setDataValue = (
   return updatedData;
 };
 
-export const generateDataFromStructure = (collection) => {
+export const getDummyBool = (
+  allData,
+  data_id,
+  pair_id,
+  structure_id,
+  custom_structure_id
+) => {
+  let dummyBool = false;
+  for (let i = 0; i < allData.length; i++) {
+    if (
+      allData[i].data_id === data_id &&
+      allData[i].pair_id === pair_id &&
+      allData[i].structure_id === structure_id &&
+      allData[i].custom_structure_id === custom_structure_id
+    ) {
+      dummyBool = allData[i].dummy_bool;
+      break;
+    }
+  }
+  return dummyBool;
+};
+
+export const switchDummyBool = (
+  allData,
+  data_id,
+  pair_id,
+  structure_id,
+  custom_structure_id
+) => {
+  let updatedData = [...allData];
+  for (let i = 0; i < updatedData.length; i++) {
+    if (
+      updatedData[i].data_id === data_id &&
+      updatedData[i].pair_id === pair_id &&
+      updatedData[i].structure_id === structure_id &&
+      updatedData[i].custom_structure_id === custom_structure_id
+    ) {
+      updatedData[i].dummy_bool = !updatedData[i].dummy_bool;
+      break;
+    }
+  }
+  return updatedData;
+};
+
+export const generateDataFromCollection = (collection) => {
   const dataID = uid();
   const projectID = collection.project_id;
   const collectionID = collection.id;
@@ -99,7 +153,9 @@ export const generateDataFromStructure = (collection) => {
       collection_id: collectionID,
       pair_id: uid(),
       structure_id: structure.id,
+      structure_name: structure.name,
       custom_structure_id: '',
+      custom_structure_name: '',
       default_val: structure.default_val,
       value: '',
       dtype: structure.stype.toLowerCase(),
@@ -109,6 +165,7 @@ export const generateDataFromStructure = (collection) => {
       required: structure.required,
       regex_pattern: structure.regex_pattern,
       array: structure.array,
+      dummy_bool: false,
     });
   }
 
@@ -116,7 +173,7 @@ export const generateDataFromStructure = (collection) => {
     const custom_structure = collection.custom_structures[i];
 
     for (let j = 0; j < custom_structure.structures.length; j++) {
-      const structure = custom_structure.structures.structures[j];
+      const structure = custom_structure.structures[j];
 
       allData.push({
         data_id: dataID,
@@ -124,7 +181,9 @@ export const generateDataFromStructure = (collection) => {
         collection_id: collectionID,
         pair_id: uid(),
         structure_id: structure.id,
+        structure_name: structure.name,
         custom_structure_id: custom_structure.id,
+        custom_structure_name: custom_structure.name,
         default_val: structure.default_val,
         value: '',
         dtype: structure.stype.toLowerCase(),
@@ -134,6 +193,7 @@ export const generateDataFromStructure = (collection) => {
         required: structure.required,
         regex_pattern: structure.regex_pattern,
         array: structure.array,
+        dummy_bool: false,
       });
     }
   }
@@ -141,8 +201,8 @@ export const generateDataFromStructure = (collection) => {
   return allData;
 };
 
-export const generateDataFromRaw = (collection, rawPair) => {
-  const dataID = uid();
+export const generateDataFromRaw = (collection, rawPair, data_id) => {
+  const dataID = data_id;
   const projectID = collection.project_id;
   const collectionID = collection.id;
 
@@ -166,7 +226,9 @@ export const generateDataFromRaw = (collection, rawPair) => {
       collection_id: collectionID,
       pair_id: uid(),
       structure_id: structure.id,
+      structure_name: structure.name,
       custom_structure_id: '',
+      custom_structure_name: '',
       default_val: structure.default_val,
       value: value,
       dtype: structure.stype.toLowerCase(),
@@ -176,6 +238,7 @@ export const generateDataFromRaw = (collection, rawPair) => {
       required: structure.required,
       regex_pattern: structure.regex_pattern,
       array: structure.array,
+      dummy_bool: false,
     });
   }
 
@@ -183,11 +246,11 @@ export const generateDataFromRaw = (collection, rawPair) => {
     const custom_structure = collection.custom_structures[i];
 
     for (let j = 0; j < custom_structure.structures.length; j++) {
-      const structure = custom_structure.structures.structures[j];
+      const structure = custom_structure.structures[j];
       let value = '';
 
       for (let k = 0; k < rawPair.custom_structures.length; k++) {
-        const currentCustomPair = rawPair.custom_structures[j];
+        const currentCustomPair = rawPair.custom_structures[k];
         if (currentCustomPair.id === custom_structure.id) {
           for (let l = 0; l < currentCustomPair.structures.length; l++) {
             const currentPair = currentCustomPair.structures[l];
@@ -206,7 +269,9 @@ export const generateDataFromRaw = (collection, rawPair) => {
         collection_id: collectionID,
         pair_id: uid(),
         structure_id: structure.id,
+        structure_name: structure.name,
         custom_structure_id: custom_structure.id,
+        custom_structure_name: custom_structure.name,
         default_val: structure.default_val,
         value: value,
         dtype: structure.stype.toLowerCase(),
@@ -216,6 +281,7 @@ export const generateDataFromRaw = (collection, rawPair) => {
         required: structure.required,
         regex_pattern: structure.regex_pattern,
         array: structure.array,
+        dummy_bool: false,
       });
     }
   }
@@ -232,10 +298,23 @@ export const convertDataToRaw = (allData) => {
   for (let i = 0; i < allData.length; i++) {
     let data = allData[i];
 
+    let finalValue = data.value;
+    if (data.dtype.toUpperCase() === 'DATETIME') {
+      finalValue = convertDateTimeToBackendFormat(new Date(data.value));
+    } else if (data.dtype.toUpperCase() === 'DATE') {
+      finalValue = convertDateToBackendFormat(new Date(data.value));
+    } else if (['BOOLEAN', 'BOOL'].includes(data.dtype.toUpperCase())) {
+      if (finalValue === true) {
+        finalValue = 'true';
+      } else {
+        finalValue = 'false';
+      }
+    }
+
     if (data.custom_structure_id.length <= 0) {
       structures.push({
         id: data.structure_id,
-        value: data.value,
+        value: finalValue,
       });
     } else {
       if (tmpCustomStructureStore[data.custom_structure_id] === undefined) {
@@ -246,7 +325,7 @@ export const convertDataToRaw = (allData) => {
         ...tmpCustomStructureStore[data.custom_structure_id],
         {
           id: data.structure_id,
-          value: data.value,
+          value: finalValue,
         },
       ];
     }
@@ -268,6 +347,18 @@ export const convertDataToRaw = (allData) => {
 
 export const validateData = (currentData, PUBLIC_URL) => {
   let value = currentData.value;
+  if (currentData.dtype.toUpperCase() === 'DATETIME') {
+    value = convertDateTimeToBackendFormat(new Date(value));
+  } else if (currentData.dtype.toUpperCase() === 'DATE') {
+    value = convertDateToBackendFormat(new Date(value));
+  } else if (['BOOLEAN', 'BOOL'].includes(currentData.dtype.toUpperCase())) {
+    if (value === true) {
+      value = 'true';
+    } else {
+      value = 'false';
+    }
+  }
+
   let usedDefault = false;
   let actualData = [];
 
@@ -310,7 +401,7 @@ export const validateData = (currentData, PUBLIC_URL) => {
 
     if (currentData.regex_pattern.length > 1) {
       let re = new RegExp(currentData.regex_pattern);
-      if (!re.match(v)) {
+      if (!re.test(v)) {
         return {
           valid: false,
           message: 'Value does not match regex pattern',
@@ -343,7 +434,7 @@ const validateDataType = (data, dtype, required, PUBLIC_URL) => {
       '^([a-z0-9_+]([a-z0-9_+.]*[a-z0-9_+])?)@([a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,6})'
     );
 
-    if (!emailRegex.match(data)) {
+    if (!emailRegex.test(data)) {
       return { valid: false, message: 'Invalid email address' };
     }
   }
@@ -363,7 +454,7 @@ const validateDataType = (data, dtype, required, PUBLIC_URL) => {
   if (dtype === 'uid') {
     let uidRegex = new RegExp('^(?:[a-zA-Z0-9]{1,20}-){3}[a-zA-Z0-9]{1,20}$');
 
-    if (!uidRegex.match(data)) {
+    if (!uidRegex.test(data)) {
       return { valid: false, message: 'Invalid UID' };
     }
   }
