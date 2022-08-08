@@ -3,6 +3,7 @@
 import {
   convertDateTimeToBackendFormat,
   convertDateToBackendFormat,
+  converToLocalDateTime,
 } from './timestamp';
 
 // {
@@ -130,11 +131,34 @@ export const switchDummyBool = (
       updatedData[i].structure_id === structure_id &&
       updatedData[i].custom_structure_id === custom_structure_id
     ) {
-      updatedData[i].dummy_bool = !updatedData[i].dummy_bool;
+      if (
+        updatedData[i].dummy_bool === true ||
+        updatedData[i].dummy_bool === 'true'
+      ) {
+        updatedData[i].dummy_bool = false;
+      } else {
+        updatedData[i].dummy_bool = true;
+      }
       break;
     }
   }
   return updatedData;
+};
+
+const processDefaultVal = (val, dtype) => {
+  let value = val;
+
+  if (['DATETIME'].includes(dtype.toUpperCase())) {
+    value = converToLocalDateTime(value);
+  } else if (['BOOLEAN', 'BOOL'].includes(dtype.toUpperCase())) {
+    if (value === true || value === 'true') {
+      value = 'true';
+    } else {
+      value = 'false';
+    }
+  }
+
+  return value;
 };
 
 export const generateDataFromCollection = (collection) => {
@@ -157,7 +181,7 @@ export const generateDataFromCollection = (collection) => {
       custom_structure_id: '',
       custom_structure_name: '',
       default_val: structure.default_val,
-      value: '',
+      value: processDefaultVal(structure.default_val, structure.stype),
       dtype: structure.stype.toLowerCase(),
       min: structure.min,
       max: structure.max,
@@ -185,7 +209,7 @@ export const generateDataFromCollection = (collection) => {
         custom_structure_id: custom_structure.id,
         custom_structure_name: custom_structure.name,
         default_val: structure.default_val,
-        value: '',
+        value: processDefaultVal(structure.default_val, structure.stype),
         dtype: structure.stype.toLowerCase(),
         min: structure.min,
         max: structure.max,
@@ -230,7 +254,9 @@ export const generateDataFromRaw = (collection, rawPair, data_id) => {
       custom_structure_id: '',
       custom_structure_name: '',
       default_val: structure.default_val,
-      value: value,
+      value: value
+        ? processDefaultVal(value, structure.stype)
+        : processDefaultVal(structure.default_val, structure.stype),
       dtype: structure.stype.toLowerCase(),
       min: structure.min,
       max: structure.max,
@@ -273,7 +299,9 @@ export const generateDataFromRaw = (collection, rawPair, data_id) => {
         custom_structure_id: custom_structure.id,
         custom_structure_name: custom_structure.name,
         default_val: structure.default_val,
-        value: value,
+        value: value
+          ? processDefaultVal(value, structure.stype)
+          : processDefaultVal(structure.default_val, structure.stype),
         dtype: structure.stype.toLowerCase(),
         min: structure.min,
         max: structure.max,

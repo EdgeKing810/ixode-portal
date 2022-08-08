@@ -29,7 +29,7 @@ export default function Data() {
   const { addMedia } = useMediaStore((state) => state);
 
   const { API_URL, PUBLIC_URL } = useContext(LocalContext);
-  const { project_id, collection_id, data_id } = useParams();
+  const { project_id, collection_id, data_id, mode } = useParams();
   const alert = useAlert();
   const navigate = useNavigate();
 
@@ -40,6 +40,9 @@ export default function Data() {
   const [isLoading, setIsLoading] = useState(true);
   const [dataID, setDataID] = useState('');
   const [deletingData, setDeletingData] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const isEditing = ['edit', 'e'].includes(mode.toLowerCase());
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -57,6 +60,10 @@ export default function Data() {
 
     if (!projects || !profile) {
       navigate('/home');
+    }
+
+    if (profile.role === 'VIEWER' && isEditing) {
+      navigate(`/data/p/${project_id}/c/${collection_id}`);
     }
 
     return () => {
@@ -177,8 +184,6 @@ export default function Data() {
           } else {
             console.log(res.data);
           }
-
-          setIsLoading(false);
         });
     }
 
@@ -240,6 +245,9 @@ export default function Data() {
                   theme={theme}
                   alert={alert}
                   navigate={navigate}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  isEditing={isEditing}
                 />
               )}
           </div>

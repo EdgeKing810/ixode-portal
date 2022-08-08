@@ -252,6 +252,7 @@ export default function ViewDataCollection() {
                       data={d}
                       project_id={project_id}
                       collection_id={collection_id}
+                      profile={profile}
                       setDataID={setDataID}
                       setDeletingData={setDeletingData}
                       theme={theme}

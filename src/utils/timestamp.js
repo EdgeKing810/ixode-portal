@@ -89,7 +89,7 @@ export const convertDateTimeToBackendFormat = (dat) => {
   goodD = `${year}-${month}-${date} ${hours}:${minutes}:${seconds} ${
     beyond ? '+' : '-'
   }${timezoneHours}:${timezoneMinutes}`;
-  console.log(goodD);
+  // console.log(goodD);
 
   return goodD;
 };

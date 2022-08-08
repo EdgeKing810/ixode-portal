@@ -111,17 +111,11 @@ export const submitDeleteData = (
     )
     .then(async (res) => {
       if (res.data.status === 200) {
+        console.log(res.data);
         alert.success('Data Deleted!');
 
         setDeletingData(false);
-
-        setCurrentData((prev) => {
-          let updatedData = { ...prev };
-          updatedData.data = updatedData.data.filter(
-            (d) => d.data_id !== data.data_id
-          );
-          return updatedData;
-        });
+        setCurrentData((prev) => prev.filter((d) => d.id !== dataID));
 
         setDataID('');
       } else {

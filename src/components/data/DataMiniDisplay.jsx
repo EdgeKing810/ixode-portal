@@ -32,7 +32,7 @@ export default function DataMiniDisplay({
           </SubHeading>
         )}
 
-        {profile && (
+        {profile && profile.role !== 'VIEWER' && (
           <Button
             color="dark"
             bgcolor="primary"

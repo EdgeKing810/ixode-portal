@@ -10,6 +10,7 @@ export default function DataField({
   setDeletingData,
   theme,
   navigate,
+  profile,
 }) {
   return (
     <div
@@ -26,7 +27,7 @@ export default function DataField({
       >
         <ALinkTo
           noopacity
-          to={`/data/p/${project_id}/c/${collection_id}/d/${data.id}`}
+          to={`/data/p/${project_id}/c/${collection_id}/d/v/${data.id}`}
           color="primary"
         >
           {data.id}
@@ -44,34 +45,38 @@ export default function DataField({
 
       <Separator smaller />
 
-      <div className="w-full flex">
-        <IconButton
-          title="Edit Data"
-          condition
-          noFill
-          theme={theme}
-          icon="pencil"
-          className="p-2 rounded-full w-10 h-10 mr-2"
-          color="primary"
-          click={() =>
-            navigate(`/data/p/${project_id}/c/${collection_id}/d/e/${data.id}`)
-          }
-        />
+      {profile && profile.role !== 'VIEWER' && (
+        <div className="w-full flex">
+          <IconButton
+            title="Edit Data"
+            condition
+            noFill
+            theme={theme}
+            icon="pencil"
+            className="p-2 rounded-full w-10 h-10 mr-2"
+            color="primary"
+            click={() =>
+              navigate(
+                `/data/p/${project_id}/c/${collection_id}/d/e/${data.id}`
+              )
+            }
+          />
 
-        <IconButton
-          title="Delete Data"
-          condition
-          noFill
-          theme={theme}
-          icon="delete-bin-2"
-          className="p-2 rounded-full w-10 h-10"
-          color="primary"
-          click={() => {
-            setDeletingData(true);
-            setDataID(data.id);
-          }}
-        />
-      </div>
+          <IconButton
+            title="Delete Data"
+            condition
+            noFill
+            theme={theme}
+            icon="delete-bin-2"
+            className="p-2 rounded-full w-10 h-10"
+            color="primary"
+            click={() => {
+              setDeletingData(true);
+              setDataID(data.id);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

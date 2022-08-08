@@ -3,7 +3,7 @@ import React from 'react';
 const LocalContext = React.createContext();
 
 function LocalContextProvider({ children }) {
-  // const API_URL = 'http://localhost:8000';
+  // const API_URL = 'http://localhost:8080/api/v2';
   const API_URL = 'https://api.kinesis.world/api/v2';
   const PUBLIC_URL = 'https://api.kinesis.world';
 

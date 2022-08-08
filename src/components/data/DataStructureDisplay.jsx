@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  ALink,
   ALinkTo,
   BigText,
   Button,
@@ -17,9 +18,9 @@ import {
 import { fetchData } from '../../utils/data';
 import {
   getDataValue,
-  getDummyBool,
+  // getDummyBool,
   setDataValue,
-  switchDummyBool,
+  // switchDummyBool,
   validateData,
 } from '../../utils/dataProcessor';
 import { handleImage } from '../../utils/handleImage';
@@ -40,6 +41,9 @@ export default function DataStructureDisplay({
   theme,
   alert,
   navigate,
+  showPassword,
+  setShowPassword,
+  isEditing,
 }) {
   const makeInput = (dataObject) => {
     const types = fetchData().structures.types;
@@ -75,7 +79,7 @@ export default function DataStructureDisplay({
         {!['checkbox', 'custom-media'].includes(current.type) ? (
           current.type === 'password' ? (
             <PasswordInput
-              title="Enter Value"
+              title={dataObject.structure_name}
               placeholder={`Enter Value... ${
                 dataObject.default_val && `e.g ${dataObject.default_val}`
               }`}
@@ -97,26 +101,31 @@ export default function DataStructureDisplay({
               className="mt-2 mb-2"
               min={dataObject.min}
               max={dataObject.max}
-              showPassword={getDummyBool(
-                currentData.pairs,
-                dataObject.data_id,
-                dataObject.pair_id,
-                dataObject.structure_id,
-                dataObject.custom_structure_id
-              )}
-              setShowPassword={() =>
-                switchDummyBool(
-                  currentData.pairs,
-                  dataObject.data_id,
-                  dataObject.pair_id,
-                  dataObject.structure_id,
-                  dataObject.custom_structure_id
-                )
-              }
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+              // showPassword={getDummyBool(
+              //   currentData.pairs,
+              //   dataObject.data_id,
+              //   dataObject.pair_id,
+              //   dataObject.structure_id,
+              //   dataObject.custom_structure_id
+              // )}
+              // setShowPassword={() => {
+              //   setCurrentData((prev) => ({
+              //     id: prev.id,
+              //     pairs: switchDummyBool(
+              //       currentData.pairs,
+              //       dataObject.data_id,
+              //       dataObject.pair_id,
+              //       dataObject.structure_id,
+              //       dataObject.custom_structure_id
+              //     ),
+              //   }));
+              // }}
             />
           ) : current.type === 'markdown' ? (
             <InputTextArea
-              title="Enter Value"
+              title={dataObject.structure_name}
               placeholder={`Enter Value... ${
                 dataObject.default_val && `e.g ${dataObject.default_val}`
               }`}
@@ -143,7 +152,7 @@ export default function DataStructureDisplay({
           ) : (
             <Input
               type={current.type}
-              title="Enter Value"
+              title={dataObject.structure_name}
               placeholder={`Enter Value... ${
                 dataObject.default_val && `e.g ${dataObject.default_val}`
               }`}
@@ -198,7 +207,18 @@ export default function DataStructureDisplay({
             </Text>
           </div>
         ) : current.type === 'custom-media' ? (
-          <div className="w-full lg:w-1/2 flex justify-start mb-2">
+          <div className="w-full lg:w-1/2 flex flex-col justify-start mb-2">
+            <ALink
+              noopacity
+              notfull
+              notnoto
+              color="secondary"
+              href={currentVal}
+              newtab
+            >
+              {currentVal}
+            </ALink>
+
             <Button
               color="dark"
               bgcolor="primary"
@@ -233,6 +253,110 @@ export default function DataStructureDisplay({
             >
               Upload
             </Button>
+          </div>
+        ) : (
+          <div></div>
+        )}
+
+        {!v.valid && <SmallText color="error">* {v.message}</SmallText>}
+      </div>
+    );
+  };
+
+  const makeReadOnlyInput = (dataObject) => {
+    const types = fetchData().structures.types;
+    const current = types.find(
+      (t) => t.name.toLowerCase() === dataObject.dtype.toLowerCase()
+    );
+
+    if (current.type === 'hidden') {
+      return <div key={`it1-${dataObject.pair_id}`}></div>;
+    }
+
+    let currentVal = getDataValue(
+      currentData.pairs,
+      dataObject.data_id,
+      dataObject.pair_id,
+      dataObject.structure_id,
+      dataObject.custom_structure_id
+    );
+
+    let v = validateData(dataObject, PUBLIC_URL);
+
+    return (
+      <div className="w-full" key={`it1-${dataObject.pair_id}`}>
+        <BigText color="primary" className="mt-2 uppercase text-left w-full">
+          {dataObject.custom_structure_name && (
+            <span className="text-main-secondary">
+              {dataObject.custom_structure_name} {'>'}{' '}
+            </span>
+          )}{' '}
+          {dataObject.structure_name}
+        </BigText>
+
+        {!['checkbox', 'custom-media'].includes(current.type) ? (
+          current.type === 'password' ? (
+            <PasswordInput
+              title={dataObject.structure_name}
+              placeholder=""
+              value={currentVal}
+              change={() => null}
+              theme={theme}
+              className="mt-2 mb-2"
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+            />
+          ) : current.type === 'markdown' ? (
+            <InputTextArea
+              title={dataObject.structure_name}
+              placeholder=""
+              value={currentVal}
+              change={() => null}
+              theme={theme}
+              className="mt-2 mb-2"
+              noTransition
+            />
+          ) : (
+            <Input
+              type={current.type}
+              title={dataObject.structure_name}
+              placeholder=""
+              value={currentVal}
+              change={() => null}
+              theme={theme}
+              className="mt-2 mb-2"
+            />
+          )
+        ) : current.type === 'checkbox' ? (
+          <div className="w-full flex justify-start mb-2">
+            <Checkbox
+              value={
+                currentVal === 'true'
+                  ? true
+                  : currentVal === 'false'
+                  ? false
+                  : currentVal
+              }
+              color="primary"
+              change={() => null}
+            />
+
+            <Text color={theme === 'light' ? 'dark' : 'light'} mono>
+              {currentVal === 'true' || currentVal === true ? 'true' : 'false'}
+            </Text>
+          </div>
+        ) : current.type === 'custom-media' ? (
+          <div className="w-full lg:w-1/2 flex flex-col justify-start mb-2">
+            <ALink
+              noopacity
+              notfull
+              notnoto
+              color="secondary"
+              href={currentVal}
+              newtab
+            >
+              {currentVal}
+            </ALink>
           </div>
         ) : (
           <div></div>
@@ -279,41 +403,47 @@ export default function DataStructureDisplay({
       {currentData && currentData.id && currentData.pairs.length > 0 ? (
         <div className="w-full">
           {currentData.pairs.map((dataObject) => (
-            <div key={`it-${dataObject.pair_id}`}>{makeInput(dataObject)}</div>
+            <div key={`it-${dataObject.pair_id}`}>
+              {isEditing
+                ? makeInput(dataObject)
+                : makeReadOnlyInput(dataObject)}
+            </div>
           ))}
 
           <Separator />
 
-          <Button
-            color="dark"
-            bgcolor="primary"
-            theme={theme}
-            className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-            click={() =>
-              data_id && data_id.length > 0
-                ? submitUpdateData(
-                    API_URL,
-                    profile,
-                    project_id,
-                    collection_id,
-                    data_id,
-                    currentData.pairs,
-                    alert,
-                    navigate
-                  )
-                : submitCreateData(
-                    API_URL,
-                    profile,
-                    project_id,
-                    collection_id,
-                    currentData.pairs,
-                    alert,
-                    navigate
-                  )
-            }
-          >
-            Submit
-          </Button>
+          {isEditing && (
+            <Button
+              color="dark"
+              bgcolor="primary"
+              theme={theme}
+              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
+              click={() =>
+                data_id && data_id.length > 0
+                  ? submitUpdateData(
+                      API_URL,
+                      profile,
+                      project_id,
+                      collection_id,
+                      data_id,
+                      currentData.pairs,
+                      alert,
+                      navigate
+                    )
+                  : submitCreateData(
+                      API_URL,
+                      profile,
+                      project_id,
+                      collection_id,
+                      currentData.pairs,
+                      alert,
+                      navigate
+                    )
+              }
+            >
+              Submit
+            </Button>
+          )}
         </div>
       ) : (
         <SubHeading color="error">
