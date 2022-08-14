@@ -19,6 +19,12 @@ import StructureMiniDisplay from '../components/structures/StructureMiniDisplay'
 import StructureField from '../components/structures/StructureField';
 import ViewCustomStructureIncludes from '../components/viewCustomStructure/ViewCustomStructureIncludes';
 
+import StructurePicker from '../components/structures/StructurePicker';
+import {
+  submitCreateStructure,
+  submitUpdateStructure,
+} from '../components/structures/structure.utils';
+
 export default function ViewCustomStructure() {
   const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
@@ -197,175 +203,269 @@ export default function ViewCustomStructure() {
         className={`w-full p-2 lg:px-0 lg:pb-0 pt-20 flex lg:overflow-y-hidden lg:h-full`}
       >
         <Sidebar currentPage="projects" />
-        <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
-            {!currentProject ||
-            !currentProject.id ||
-            !currentCollection ||
-            !currentCollection.id ||
-            !currentCustomStructure ||
-            !currentCustomStructure.id ? (
-              isLoading ? (
-                <Heading className="blink">Loading...</Heading>
-              ) : !currentProject ? (
-                <Heading color="error">Project not found.</Heading>
-              ) : !currentCollection ? (
-                <Heading color="error">Collection not found.</Heading>
-              ) : !currentCustomStructure ? (
-                <Heading color="error">Custom Structure not found.</Heading>
+        {!creatingStructure && !editingStructure ? (
+          <div className="w-full lg:p-8 flex flex-col h-full">
+            <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+              {!currentProject ||
+              !currentProject.id ||
+              !currentCollection ||
+              !currentCollection.id ||
+              !currentCustomStructure ||
+              !currentCustomStructure.id ? (
+                isLoading ? (
+                  <Heading className="blink">Loading...</Heading>
+                ) : !currentProject ? (
+                  <Heading color="error">Project not found.</Heading>
+                ) : !currentCollection ? (
+                  <Heading color="error">Collection not found.</Heading>
+                ) : !currentCustomStructure ? (
+                  <Heading color="error">Custom Structure not found.</Heading>
+                ) : (
+                  <div></div>
+                )
               ) : (
                 <div></div>
-              )
-            ) : (
-              <div></div>
-            )}
+              )}
 
-            {currentProject &&
-              currentProject.id &&
-              currentCollection &&
-              currentCollection.id &&
-              currentCustomStructure &&
-              currentCustomStructure.id &&
-              currentCollection.custom_structures && (
-                <CustomStructureDisplay
-                  project_id={project_id}
-                  collection_id={collection_id}
-                  profile={profile}
-                  currentProject={currentProject}
-                  currentCollection={currentCollection}
-                  currentCustomStructure={currentCollection.custom_structures.find(
+              {currentProject &&
+                currentProject.id &&
+                currentCollection &&
+                currentCollection.id &&
+                currentCustomStructure &&
+                currentCustomStructure.id &&
+                currentCollection.custom_structures && (
+                  <CustomStructureDisplay
+                    project_id={project_id}
+                    collection_id={collection_id}
+                    profile={profile}
+                    currentProject={currentProject}
+                    currentCollection={currentCollection}
+                    currentCustomStructure={currentCollection.custom_structures.find(
+                      (cs) => cs.id === custom_structure_id
+                    )}
+                    setEditingCustomStructureID={setEditingCustomStructureID}
+                    setEditingCustomStructureName={
+                      setEditingCustomStructureName
+                    }
+                    setEditingCustomStructureDescription={
+                      setEditingCustomStructureDescription
+                    }
+                    setDeletingCustomStructure={setDeletingCustomStructure}
+                    theme={theme}
+                  />
+                )}
+
+              {currentCollection && currentCollection.custom_structures && (
+                <StructureMiniDisplay
+                  currentCollection={currentCollection.custom_structures.find(
                     (cs) => cs.id === custom_structure_id
                   )}
-                  setEditingCustomStructureID={setEditingCustomStructureID}
-                  setEditingCustomStructureName={setEditingCustomStructureName}
-                  setEditingCustomStructureDescription={
-                    setEditingCustomStructureDescription
-                  }
-                  setDeletingCustomStructure={setDeletingCustomStructure}
+                  profile={profile}
+                  setCreatingStructure={setCreatingStructure}
+                  setStructureID={setStructureID}
+                  setStructureName={setStructureName}
+                  setStructureDescription={setStructureDescription}
+                  setStructureType={setStructureType}
+                  setStructureDefault={setStructureDefault}
+                  setStructureMin={setStructureMin}
+                  setStructureMax={setStructureMax}
+                  setStructureEncrypted={setStructureEncrypted}
+                  setStructureUnique={setStructureUnique}
+                  setStructureRegex={setStructureRegex}
+                  setStructureArray={setStructureArray}
+                  setStructureRequired={setStructureRequired}
+                  filter={filter}
+                  setFilter={setFilter}
+                  setCurrentPage={setCurrentPage}
+                  limit={limit}
                   theme={theme}
                 />
               )}
 
-            {currentCollection && currentCollection.custom_structures && (
-              <StructureMiniDisplay
-                currentCollection={currentCollection.custom_structures.find(
-                  (cs) => cs.id === custom_structure_id
-                )}
-                profile={profile}
-                setCreatingStructure={setCreatingStructure}
-                setStructureID={setStructureID}
-                setStructureName={setStructureName}
-                setStructureDescription={setStructureDescription}
-                setStructureType={setStructureType}
-                setStructureDefault={setStructureDefault}
-                setStructureMin={setStructureMin}
-                setStructureMax={setStructureMax}
-                setStructureEncrypted={setStructureEncrypted}
-                setStructureUnique={setStructureUnique}
-                setStructureRegex={setStructureRegex}
-                setStructureArray={setStructureArray}
-                setStructureRequired={setStructureRequired}
-                filter={filter}
-                setFilter={setFilter}
-                setCurrentPage={setCurrentPage}
-                limit={limit}
-                theme={theme}
-              />
-            )}
-
-            <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
-              {currentCustomStructure &&
-                currentCustomStructure.id &&
-                currentCollection.custom_structures.find(
-                  (cs) => cs.id === custom_structure_id
-                ).structures &&
-                currentCollection.custom_structures.find(
-                  (cs) => cs.id === custom_structure_id
-                ).structures.length > 0 &&
-                currentCollection.custom_structures
-                  .find((cs) => cs.id === custom_structure_id)
-                  .structures.filter(
-                    (s) =>
-                      filter.length <= 0 ||
-                      s.id
-                        .toLowerCase()
-                        .includes(filter.trim().toLowerCase()) ||
-                      s.name
-                        .toLowerCase()
-                        .includes(filter.trim().toLowerCase()) ||
-                      s.stype
-                        .toLowerCase()
-                        .includes(filter.trim().toLowerCase())
-                  )
-                  .slice(currentPage * limit, limit + currentPage * limit)
-                  .map((s) => (
-                    <StructureField
-                      key={`sl-${s.id}`}
-                      structure={s}
-                      profile={profile}
-                      setEditingStructure={setEditingStructure}
-                      setStructureID={setStructureID}
-                      setEditStructureID={setEditStructureID}
-                      setStructureName={setStructureName}
-                      setStructureDescription={setStructureDescription}
-                      setStructureType={setStructureType}
-                      setStructureDefault={setStructureDefault}
-                      setStructureMin={setStructureMin}
-                      setStructureMax={setStructureMax}
-                      setStructureEncrypted={setStructureEncrypted}
-                      setStructureUnique={setStructureUnique}
-                      setStructureRegex={setStructureRegex}
-                      setStructureArray={setStructureArray}
-                      setStructureRequired={setStructureRequired}
-                      setDeletingStructure={setDeletingStructure}
-                      theme={theme}
-                    />
-                  ))}
+              <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
+                {currentCustomStructure &&
+                  currentCustomStructure.id &&
+                  currentCollection.custom_structures.find(
+                    (cs) => cs.id === custom_structure_id
+                  ).structures &&
+                  currentCollection.custom_structures.find(
+                    (cs) => cs.id === custom_structure_id
+                  ).structures.length > 0 &&
+                  currentCollection.custom_structures
+                    .find((cs) => cs.id === custom_structure_id)
+                    .structures.filter(
+                      (s) =>
+                        filter.length <= 0 ||
+                        s.id
+                          .toLowerCase()
+                          .includes(filter.trim().toLowerCase()) ||
+                        s.name
+                          .toLowerCase()
+                          .includes(filter.trim().toLowerCase()) ||
+                        s.stype
+                          .toLowerCase()
+                          .includes(filter.trim().toLowerCase())
+                    )
+                    .slice(currentPage * limit, limit + currentPage * limit)
+                    .map((s) => (
+                      <StructureField
+                        key={`sl-${s.id}`}
+                        structure={s}
+                        profile={profile}
+                        setEditingStructure={setEditingStructure}
+                        setStructureID={setStructureID}
+                        setEditStructureID={setEditStructureID}
+                        setStructureName={setStructureName}
+                        setStructureDescription={setStructureDescription}
+                        setStructureType={setStructureType}
+                        setStructureDefault={setStructureDefault}
+                        setStructureMin={setStructureMin}
+                        setStructureMax={setStructureMax}
+                        setStructureEncrypted={setStructureEncrypted}
+                        setStructureUnique={setStructureUnique}
+                        setStructureRegex={setStructureRegex}
+                        setStructureArray={setStructureArray}
+                        setStructureRequired={setStructureRequired}
+                        setDeletingStructure={setDeletingStructure}
+                        theme={theme}
+                      />
+                    ))}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <StructurePicker
+            API_URL={API_URL}
+            PUBLIC_URL={PUBLIC_URL}
+            addMedia={addMedia}
+            isCreating={
+              creatingStructure ? creatingStructure : editingStructure
+            }
+            setIsCreating={
+              creatingStructure ? setCreatingStructure : setEditingStructure
+            }
+            collectionName={currentCollection && currentCollection.name}
+            name={structureName}
+            setName={setStructureName}
+            description={structureDescription}
+            setDescription={setStructureDescription}
+            structureID={creatingStructure ? structureID : editStructureID}
+            setStructureID={
+              creatingStructure ? setStructureID : setEditStructureID
+            }
+            type={structureType}
+            setType={setStructureType}
+            defaultVal={structureDefault}
+            setDefaultVal={setStructureDefault}
+            min={structureMin}
+            setMin={setStructureMin}
+            max={structureMax}
+            setMax={setStructureMax}
+            encrypted={structureEncrypted}
+            setEncrypted={setStructureEncrypted}
+            unique={structureUnique}
+            setUnique={setStructureUnique}
+            regex={structureRegex}
+            setRegex={setStructureRegex}
+            array={structureArray}
+            setArray={setStructureArray}
+            required={structureRequired}
+            setRequired={setStructureRequired}
+            alert={alert}
+            submitStructure={() =>
+              creatingStructure
+                ? submitCreateStructure(
+                    API_URL,
+                    profile,
+                    currentProject,
+                    collection_id,
+                    structureID,
+                    setStructureID,
+                    structureName,
+                    setStructureName,
+                    structureDescription,
+                    setStructureDescription,
+                    structureType,
+                    setStructureType,
+                    structureDefault,
+                    setStructureDefault,
+                    structureMin,
+                    setStructureMin,
+                    structureMax,
+                    setStructureMax,
+                    structureEncrypted,
+                    setStructureEncrypted,
+                    structureUnique,
+                    setStructureUnique,
+                    structureRegex,
+                    setStructureRegex,
+                    structureArray,
+                    setStructureArray,
+                    structureRequired,
+                    setStructureRequired,
+                    setEditStructureID,
+                    setCreatingStructure,
+                    setCurrentCollection,
+                    alert,
+                    custom_structure_id
+                  )
+                : submitUpdateStructure(
+                    API_URL,
+                    profile,
+                    currentProject,
+                    collection_id,
+                    structureID,
+                    setStructureID,
+                    structureName,
+                    setStructureName,
+                    structureDescription,
+                    setStructureDescription,
+                    structureType,
+                    setStructureType,
+                    structureDefault,
+                    setStructureDefault,
+                    structureMin,
+                    setStructureMin,
+                    structureMax,
+                    setStructureMax,
+                    structureEncrypted,
+                    setStructureEncrypted,
+                    structureUnique,
+                    setStructureUnique,
+                    structureRegex,
+                    setStructureRegex,
+                    structureArray,
+                    setStructureArray,
+                    structureRequired,
+                    setStructureRequired,
+                    editStructureID,
+                    setEditStructureID,
+                    setEditingStructure,
+                    setCurrentCollection,
+                    alert,
+                    custom_structure_id
+                  )
+            }
+            theme={theme}
+            isEditing={!creatingStructure}
+          />
+        )}
       </div>
 
       <ViewCustomStructureIncludes
         API_URL={API_URL}
-        PUBLIC_URL={PUBLIC_URL}
-        addMedia={addMedia}
         profile={profile}
         currentProject={currentProject}
         currentCollection={currentCollection}
         setCurrentCollection={setCurrentCollection}
-        collectionID={currentCollection && currentCollection.id}
-        creatingStructure={creatingStructure}
-        setCreatingStructure={setCreatingStructure}
+        collectionID={collection_id}
         structureID={structureID}
         setStructureID={setStructureID}
         structureName={structureName}
         setStructureName={setStructureName}
-        structureDescription={structureDescription}
         setStructureDescription={setStructureDescription}
-        structureType={structureType}
-        setStructureType={setStructureType}
-        structureDefault={structureDefault}
-        setStructureDefault={setStructureDefault}
-        structureMin={structureMin}
-        setStructureMin={setStructureMin}
-        structureMax={structureMax}
-        setStructureMax={setStructureMax}
-        structureEncrypted={structureEncrypted}
-        setStructureEncrypted={setStructureEncrypted}
-        structureUnique={structureUnique}
-        setStructureUnique={setStructureUnique}
-        structureRegex={structureRegex}
-        setStructureRegex={setStructureRegex}
-        structureArray={structureArray}
-        setStructureArray={setStructureArray}
-        structureRequired={structureRequired}
-        setStructureRequired={setStructureRequired}
-        editingStructure={editingStructure}
-        setEditingStructure={setEditingStructure}
         deletingStructure={deletingStructure}
         setDeletingStructure={setDeletingStructure}
-        editStructureID={editStructureID}
         setEditStructureID={setEditStructureID}
         customStructureID={custom_structure_id}
         customStructureName={customStructureName}

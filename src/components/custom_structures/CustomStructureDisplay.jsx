@@ -32,7 +32,7 @@ export default function CustomStructureDisplay({
         color="primary"
         theme={theme}
         nobreak
-        className="w-full flex uppercase"
+        className="w-full flex lg:flex-row flex-col uppercase"
         smallerOnMobile
       >
         <ALinkTo
@@ -50,13 +50,13 @@ export default function CustomStructureDisplay({
           notnoto
           to={`/project/${project_id}/collection/${collection_id}`}
           color="secondary"
-          className="ml-2"
+          className="lg:ml-2"
         >
           {currentCollection.name} {'>'}
         </ALinkTo>
         <span
           className={`
-          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} ml-2
+          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} lg:ml-2
         `}
         >
           {currentCustomStructure.name}

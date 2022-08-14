@@ -426,7 +426,8 @@ export default function DataStructureDisplay({
         color="primary"
         theme={theme}
         nobreak
-        className="w-full flex uppercase"
+        className="w-full flex lg:flex-row flex-col uppercase"
+        smallerOnMobile
       >
         <ALinkTo
           noopacity
@@ -443,7 +444,7 @@ export default function DataStructureDisplay({
           notnoto
           to={`/data/p/${project_id}/c/${collection_id}`}
           color="secondary"
-          className="pl-2"
+          className="lg:pl-2"
         >
           {currentCollection.name}
         </ALinkTo>

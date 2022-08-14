@@ -30,7 +30,8 @@ export default function CollectionDisplay({
         color="primary"
         theme={theme}
         nobreak
-        className="w-full flex uppercase"
+        className="w-full flex lg:flex-row flex-col uppercase"
+        smallerOnMobile
       >
         <ALinkTo
           noopacity
@@ -43,7 +44,7 @@ export default function CollectionDisplay({
         </ALinkTo>
         <span
           className={`
-          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} ml-2
+          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} lg:ml-2
         `}
         >
           {currentCollection.name}
