@@ -7,17 +7,20 @@ import {
   LinkerButton,
   Separator,
   SubHeading,
-  Text,
 } from '../../../components/Components';
 
-export default function IncludeTestMongo({
+export default function IncludeTestSMTP({
   isTesting,
   setIsTesting,
   isProcessing,
-  uri,
-  setUri,
-  name,
-  setName,
+  smtpUsername,
+  setSmtpUsername,
+  smtpPassword,
+  setSmtpPassword,
+  smtpHost,
+  setSmtpHost,
+  smtpPort,
+  setSmtpPort,
   submitTest,
   theme,
 }) {
@@ -32,7 +35,7 @@ export default function IncludeTestMongo({
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Test MongoDB Connection
+          Test SMTP Credentials
         </SubHeading>
 
         <IconButton
@@ -48,33 +51,38 @@ export default function IncludeTestMongo({
         <div className="w-full lg:w-1/2">
           <Separator smaller />
 
-          <Text color="primary" mono>
-            <span className="text-main-secondary">mongodb://</span>
-            username
-            <span className="text-main-secondary">:</span>
-            password
-            <span className="text-main-secondary">@</span>
-            host
-            <span className="text-main-secondary">:</span>
-            port
-            <span className="text-main-secondary">/</span>
-            database
-          </Text>
-
           <Input
-            title="Enter uri"
-            placeholder="Enter uri..."
-            value={uri}
-            change={(e) => setUri(e.target.value)}
+            title="Enter username"
+            placeholder="Enter username..."
+            value={smtpUsername}
+            change={(e) => setSmtpUsername(e.target.value)}
             theme={theme}
             className="my-2"
           />
 
           <Input
-            title="Enter DB Name"
-            placeholder="Enter DB Name... e.g kinesis_db"
-            value={name}
-            change={(e) => setName(e.target.value)}
+            title="Enter password"
+            placeholder="Enter password..."
+            value={smtpPassword}
+            change={(e) => setSmtpPassword(e.target.value)}
+            theme={theme}
+            className="my-2"
+          />
+
+<Input
+            title="Enter host"
+            placeholder="Enter host... e.g smtp.gmail.com"
+            value={smtpHost}
+            change={(e) => setSmtpHost(e.target.value)}
+            theme={theme}
+            className="my-2"
+          />
+
+<Input
+            title="Enter port"
+            placeholder="Enter port... e.g 587"
+            value={smtpPort}
+            change={(e) => setSmtpPort(e.target.value)}
             theme={theme}
             className="my-2"
           />
@@ -83,12 +91,12 @@ export default function IncludeTestMongo({
             <LinkerButton
               title="Test"
               condition={
-                uri && uri.trim().length > 0 && name && name.length > 0
+                smtpHost && smtpHost.trim().length > 0 && smtpUsername && smtpUsername.length > 0
                   ? true
                   : false
               }
               click={() =>
-                uri && uri.trim().length > 0 && name && name.length > 0
+                smtpHost && smtpHost.trim().length > 0 && smtpUsername && smtpUsername.length > 0
                   ? submitTest()
                   : null
               }

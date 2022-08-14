@@ -29,7 +29,7 @@ export default function PaginationList({
       containerClassName={`flex justify-center items-center ${
         theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
       } w-full rounded-lg p-1 opacity-50 duration-400 ease-in-out ${additional}`}
-      activeLinkClassName={'bg-main-dark'}
+      activeLinkClassName={'bg-main-darkbg'}
       previousLinkClassName={`mr-2 font-gilroy ${
         theme === 'light' ? 'text-main-primary' : 'text-main-secondary'
       } border-transparent ${

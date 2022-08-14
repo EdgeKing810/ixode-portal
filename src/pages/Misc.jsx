@@ -29,24 +29,39 @@ export default function Misc() {
   const [name, setName] = useState('');
   const [testingMongoConnection, setTestingMongoConnection] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  
+  const [smtpUsername, setSmtpUsername] = useState('');
+  const [smtpPassword, setSmtpPassword] = useState('');
+  const [smtpHost, setSmtpHost] = useState('');
+  const [smtpPort, setSmtpPort] = useState('');
+  const [testingSmtp, setTestingSmtp] = useState(false);
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setTestingMongoConnection(false);
+      setTestingSmtp(false)
     }
 
     // eslint-disable-next-line
   }, []);
 
+  const findAndSet = (key, setter) => {
+    const config = configs.find((c) => c.key === key);
+    if (config && config.value && config.value.length > 0) {
+      setter(config.value);
+    }
+  }
+
   useEffect(() => {
-    let foundConfigURI = configs.filter((c) => c.name === 'MONGO_URI');
-    if (foundConfigURI.length > 0) {
-      setUri(foundConfigURI[0].value);
-    }
-    let foundConfigName = configs.filter((c) => c.name === 'DB_NAME');
-    if (foundConfigName.length > 0) {
-      setName(foundConfigName[0].value);
-    }
+    findAndSet('MONGO_URI', setUri);
+    findAndSet('DB_NAME', setName);
+
+    findAndSet('SMTP_USERNAME', setSmtpUsername);
+    findAndSet('SMTP_PASSWORD', setSmtpPassword);
+    findAndSet('SMTP_HOST', setSmtpHost);
+    findAndSet('SMTP_PORT', setSmtpPort);
+
+    // eslint-disable-next-line
   }, [isLoading, configs]);
 
   useEffect(() => {
@@ -94,6 +109,7 @@ export default function Misc() {
               configs={configs}
               testingMongoConnection={testingMongoConnection}
               setTestingMongoConnection={setTestingMongoConnection}
+              setTestingSmtp={setTestingSmtp}
               isProcessing={isProcessing}
               setIsProcessing={setIsProcessing}
               uri={uri}
@@ -118,6 +134,16 @@ export default function Misc() {
         setUri={setUri}
         name={name}
         setName={setName}
+        smtpUsername={smtpUsername}
+        setSmtpUsername={setSmtpUsername}
+        smtpPassword={smtpPassword}
+        setSmtpPassword={setSmtpPassword}
+        smtpHost={smtpHost}
+        setSmtpHost={setSmtpHost}
+        smtpPort={smtpPort}
+        setSmtpPort={setSmtpPort}
+        testingSmtp={testingSmtp}
+        setTestingSmtp={setTestingSmtp}
         updateConfig={updateConfig}
         theme={theme}
         alert={alert}

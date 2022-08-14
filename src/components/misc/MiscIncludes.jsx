@@ -1,8 +1,9 @@
 import React from 'react';
 
 import IncludeTestMongo from '../../pages/includes/misc/IncludeTestMongo';
+import IncludeTestSMTP from '../../pages/includes/misc/IncludeTestSMTP'
 
-import { submitTestMongo } from './misc.utils';
+import { submitTestMongo, submitTestSMTP } from './misc.utils';
 
 export default function ConfigsIncludes({
   API_URL,
@@ -15,6 +16,16 @@ export default function ConfigsIncludes({
   setUri,
   name,
   setName,
+  smtpUsername,
+setSmtpUsername,
+smtpPassword,
+setSmtpPassword,
+smtpHost,
+setSmtpHost,
+smtpPort,
+setSmtpPort,
+testingSmtp,
+setTestingSmtp,
   updateConfig,
   theme,
   alert,
@@ -39,6 +50,36 @@ export default function ConfigsIncludes({
             name,
             updateConfig,
             setTestingMongoConnection,
+            alert
+          )
+        }
+        theme={theme}
+      />
+
+<IncludeTestSMTP
+        isTesting={testingSmtp}
+        setIsTesting={setTestingSmtp}
+        isProcessing={isProcessing}
+        setIsProcessing={setIsProcessing}
+        smtpUsername={smtpUsername}
+        setSmtpUsername={setSmtpUsername}
+        smtpPassword={smtpPassword}
+        setSmtpPassword={setSmtpPassword}
+        smtpHost={smtpHost}
+        setSmtpHost={setSmtpHost}
+        smtpPort={smtpPort}
+        setSmtpPort={setSmtpPort}
+        submitTest={() =>
+          submitTestSMTP(
+            API_URL,
+            profile,
+            setIsProcessing,
+            smtpUsername,
+            smtpPassword,
+            smtpHost,
+            smtpPort,
+            updateConfig,
+            setTestingSmtp,
             alert
           )
         }

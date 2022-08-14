@@ -3,15 +3,8 @@ import React from 'react';
 import { LinkerButton } from '../Components';
 
 export default function MiscBulk({
-  configs,
-  testingMongoConnection,
   setTestingMongoConnection,
-  isProcessing,
-  setIsProcessing,
-  uri,
-  setUri,
-  name,
-  setName,
+  setTestingSmtp,
   isLoading,
   theme,
 }) {
@@ -27,6 +20,15 @@ export default function MiscBulk({
         click={() => setTestingMongoConnection(true)}
         title="Test Mongo Connection"
         icon="database-2"
+        condition
+      />
+
+<LinkerButton
+        theme={theme}
+        className="p-3 w-full justify-center uppercase rounded-lg"
+        click={() => setTestingSmtp(true)}
+        title="Test SMTP Credentials"
+        icon="mail-send"
         condition
       />
     </div>
