@@ -62,11 +62,11 @@ export const Title = ({ title, color, children, className, smallerMobile }) => (
   </div>
 );
 
-export const Separator = ({ smaller }) => (
+export const Separator = ({ smaller, color, opaque }) => (
   <div
-    className={`pt-1 w-full bg-main-dark ${
+    className={`pt-1 w-full ${color ? `bg-main-${color}` : 'bg-main-dark'} ${
       smaller ? 'my-2' : 'my-4'
-    } rounded-lg opacity-25`}
+    } rounded-lg ${opaque ? 'opacity-100' : 'opacity-25'}`}
   />
 );
 

@@ -27,7 +27,7 @@ export default function PaginationList({
       pageRangeDisplayed={1}
       onPageChange={(i) => setter(i.selected)}
       containerClassName={`flex justify-center items-center ${
-        theme === 'light' ? 'bg-gray-300' : 'bg-gray-700'
+        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
       } w-full rounded-lg p-1 opacity-50 duration-400 ease-in-out ${additional}`}
       activeLinkClassName={'bg-main-dark'}
       previousLinkClassName={`mr-2 font-gilroy ${
@@ -44,8 +44,8 @@ export default function PaginationList({
           ? 'hover:border-main-primary'
           : 'hover:border-main-secondary'
       } border-2 rounded-lg p-1 duration-400 ease-in-out text-xs lg:text-base`}
-      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
-      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-300 duration-400 ease-in-out text-xs lg:text-base"
+      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-secondary duration-400 ease-in-out text-xs lg:text-base"
+      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-secondary duration-400 ease-in-out text-xs lg:text-base"
     />
   );
 }

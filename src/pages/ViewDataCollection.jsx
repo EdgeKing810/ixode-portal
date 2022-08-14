@@ -154,6 +154,7 @@ export default function ViewDataCollection() {
                           {
                             id: allCurrentData[0].data_id,
                             pairs: [...allCurrentData],
+                            published: pairs[i].published,
                           },
                         ]);
                       }
@@ -249,7 +250,9 @@ export default function ViewDataCollection() {
                   .map((d) => (
                     <DataField
                       key={`dfl-${d.id}`}
+                      API_URL={API_URL}
                       data={d}
+                      setCurrentData={setCurrentData}
                       project_id={project_id}
                       collection_id={collection_id}
                       profile={profile}
@@ -257,6 +260,7 @@ export default function ViewDataCollection() {
                       setDeletingData={setDeletingData}
                       theme={theme}
                       navigate={navigate}
+                      alert={alert}
                     />
                   ))}
             </div>

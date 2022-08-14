@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { ALinkTo, IconButton, Separator, SmallText } from '../Components';
+import { submitPublishData } from './data.utils';
 
 export default function DataField({
+  API_URL,
   data,
+  setCurrentData,
   project_id,
   collection_id,
   setDataID,
@@ -11,6 +14,7 @@ export default function DataField({
   theme,
   navigate,
   profile,
+  alert,
 }) {
   return (
     <div
@@ -43,7 +47,11 @@ export default function DataField({
         {data.pairs.length} pairs
       </SmallText>
 
-      <Separator smaller />
+      <Separator
+        smaller
+        color={data.published ? 'success' : 'warning'}
+        opaque
+      />
 
       {profile && profile.role !== 'VIEWER' && (
         <div className="w-full flex">
@@ -68,12 +76,34 @@ export default function DataField({
             noFill
             theme={theme}
             icon="delete-bin-2"
-            className="p-2 rounded-full w-10 h-10"
+            className="p-2 rounded-full w-10 h-10 mr-2"
             color="primary"
             click={() => {
               setDeletingData(true);
               setDataID(data.id);
             }}
+          />
+
+          <IconButton
+            title={`${data.published ? 'Unpublish' : 'Publish'} Data`}
+            condition
+            noFill
+            theme={theme}
+            icon={data.published ? 'flag-2' : 'send-plane-2'}
+            className="p-2 rounded-full w-10 h-10"
+            color="primary"
+            click={() =>
+              submitPublishData(
+                API_URL,
+                profile,
+                project_id,
+                collection_id,
+                data.id,
+                setCurrentData,
+                !data.published,
+                alert
+              )
+            }
           />
         </div>
       )}

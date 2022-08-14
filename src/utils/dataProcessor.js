@@ -41,6 +41,7 @@ import {
 //             value: String,
 //         }[],
 //     }[],
+//     published: Boolean,
 // }
 
 const uid = () => {
@@ -190,6 +191,7 @@ export const generateDataFromCollection = (collection) => {
       regex_pattern: structure.regex_pattern,
       array: structure.array,
       dummy_bool: false,
+      published: false,
     });
   }
 
@@ -218,6 +220,7 @@ export const generateDataFromCollection = (collection) => {
         regex_pattern: structure.regex_pattern,
         array: structure.array,
         dummy_bool: false,
+        published: false,
       });
     }
   }
@@ -265,6 +268,7 @@ export const generateDataFromRaw = (collection, rawPair, data_id) => {
       regex_pattern: structure.regex_pattern,
       array: structure.array,
       dummy_bool: false,
+      published: rawPair.published,
     });
   }
 
@@ -310,6 +314,7 @@ export const generateDataFromRaw = (collection, rawPair, data_id) => {
         regex_pattern: structure.regex_pattern,
         array: structure.array,
         dummy_bool: false,
+        published: rawPair.published,
       });
     }
   }
@@ -370,6 +375,7 @@ export const convertDataToRaw = (allData) => {
   return {
     structures,
     custom_structures,
+    published: allData[0].published,
   };
 };
 

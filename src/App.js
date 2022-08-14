@@ -86,12 +86,12 @@ function App() {
           />
           <Route
             exact
-            path="/data/project/:project_id/collection/:collection_id/data/create"
+            path="/data/project/:project_id/collection/:collection_id/data/:mode"
             element={<Data />}
           />
           <Route
             exact
-            path="/data/p/:project_id/c/:collection_id/d/create"
+            path="/data/p/:project_id/c/:collection_id/d/:mode"
             element={<Data />}
           />
           <Route

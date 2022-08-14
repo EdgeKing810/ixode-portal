@@ -160,6 +160,7 @@ export default function Data() {
                         setCurrentData({
                           id: allCurrentData[0].data_id,
                           pairs: [...allCurrentData],
+                          published: pair.published,
                         });
                       }
                     } else {
@@ -176,6 +177,7 @@ export default function Data() {
                 setCurrentData({
                   id: allCurrentData[0].data_id,
                   pairs: [...allCurrentData],
+                  published: false,
                 });
 
                 setIsLoading(false);
@@ -248,6 +250,7 @@ export default function Data() {
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}
                   isEditing={isEditing}
+                  isCreating={['undefined', undefined].includes(data_id)}
                 />
               )}
           </div>

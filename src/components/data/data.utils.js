@@ -111,13 +111,68 @@ export const submitDeleteData = (
     )
     .then(async (res) => {
       if (res.data.status === 200) {
-        console.log(res.data);
         alert.success('Data Deleted!');
 
         setDeletingData(false);
         setCurrentData((prev) => prev.filter((d) => d.id !== dataID));
 
         setDataID('');
+      } else {
+        console.log(res.data);
+        alert.error(res.data.message);
+      }
+    });
+};
+
+export const submitPublishData = (
+  API_URL,
+  profile,
+  projectID,
+  collectionID,
+  dataID,
+  setCurrentData,
+  publishing,
+  alert
+) => {
+  const data = {
+    uid: profile.uid,
+    data_id: dataID,
+    project_id: projectID,
+    collection_id: collectionID,
+    publish: publishing,
+  };
+
+  if (publishing) {
+    alert.info('Publishing...');
+  } else {
+    alert.info('Unpublishing...');
+  }
+
+  axios
+    .post(
+      `${API_URL}/data/publish`,
+      { ...data },
+      {
+        headers: { Authorization: `Bearer ${profile.jwt}` },
+      }
+    )
+    .then(async (res) => {
+      if (res.data.status === 200) {
+        if (publishing) {
+          alert.success('Data Published!');
+        } else {
+          alert.success('Data Unpublished!');
+        }
+
+        setCurrentData((prev) =>
+          prev.map((d) => {
+            let update = { ...d };
+            if (d.id === dataID) {
+              update.published = publishing;
+            }
+            return update;
+          })
+        );
       } else {
         console.log(res.data);
         alert.error(res.data.message);

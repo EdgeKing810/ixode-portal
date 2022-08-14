@@ -6,9 +6,9 @@ import {
   BigText,
   Button,
   Checkbox,
+  GenericIconButton,
   Heading,
   Input,
-  InputTextArea,
   PasswordInput,
   Separator,
   SmallText,
@@ -25,6 +25,9 @@ import {
 } from '../../utils/dataProcessor';
 import { handleImage } from '../../utils/handleImage';
 import { submitCreateData, submitUpdateData } from './data.utils';
+
+import Parser from '../../processors/markdownEngine';
+import MDEditor, { commands } from '@uiw/react-md-editor';
 
 export default function DataStructureDisplay({
   API_URL,
@@ -43,9 +46,13 @@ export default function DataStructureDisplay({
   navigate,
   showPassword,
   setShowPassword,
+  isCreating,
   isEditing,
 }) {
-  const makeInput = (dataObject) => {
+  const svgPath =
+    'M716.8 921.6a51.2 51.2 0 1 1 0 102.4H307.2a51.2 51.2 0 1 1 0-102.4h409.6zM475.8016 382.1568a51.2 51.2 0 0 1 72.3968 0l144.8448 144.8448a51.2 51.2 0 0 1-72.448 72.3968L563.2 541.952V768a51.2 51.2 0 0 1-45.2096 50.8416L512 819.2a51.2 51.2 0 0 1-51.2-51.2v-226.048l-57.3952 57.4464a51.2 51.2 0 0 1-67.584 4.2496l-4.864-4.2496a51.2 51.2 0 0 1 0-72.3968zM512 0c138.6496 0 253.4912 102.144 277.1456 236.288l10.752 0.3072C924.928 242.688 1024 348.0576 1024 476.5696 1024 608.9728 918.8352 716.8 788.48 716.8a51.2 51.2 0 1 1 0-102.4l8.3968-0.256C866.2016 609.6384 921.6 550.0416 921.6 476.5696c0-76.4416-59.904-137.8816-133.12-137.8816h-97.28v-51.2C691.2 184.9856 610.6624 102.4 512 102.4S332.8 184.9856 332.8 287.488v51.2H235.52c-73.216 0-133.12 61.44-133.12 137.8816C102.4 552.96 162.304 614.4 235.52 614.4l5.9904 0.3584A51.2 51.2 0 0 1 235.52 716.8C105.1648 716.8 0 608.9728 0 476.5696c0-132.1984 104.8064-239.872 234.8544-240.2816C258.5088 102.144 373.3504 0 512 0z';
+
+  const makeInput = (dataObject, published) => {
     const types = fetchData().structures.types;
     const current = types.find(
       (t) => t.name.toLowerCase() === dataObject.dtype.toLowerCase()
@@ -95,6 +102,7 @@ export default function DataStructureDisplay({
                     dataObject.custom_structure_id,
                     e.target.value
                   ),
+                  published: published,
                 }));
               }}
               theme={theme}
@@ -120,17 +128,18 @@ export default function DataStructureDisplay({
               //       dataObject.structure_id,
               //       dataObject.custom_structure_id
               //     ),
+              //     published: published
               //   }));
               // }}
             />
           ) : current.type === 'markdown' ? (
-            <InputTextArea
+            <MDEditor
               title={dataObject.structure_name}
               placeholder={`Enter Value... ${
                 dataObject.default_val && `e.g ${dataObject.default_val}`
               }`}
               value={currentVal}
-              change={(e) => {
+              onChange={(e) => {
                 setCurrentData((prev) => ({
                   id: prev.id,
                   pairs: setDataValue(
@@ -139,15 +148,60 @@ export default function DataStructureDisplay({
                     dataObject.pair_id,
                     dataObject.structure_id,
                     dataObject.custom_structure_id,
-                    e.target.value
+                    e
                   ),
+                  published: published,
                 }));
               }}
-              theme={theme}
-              className="mt-2 mb-2"
+              visiableDragbar={true}
+              preview="edit"
+              minHeight="500"
+              className="mb-2 mt-2"
               min={dataObject.min}
               max={dataObject.max}
-              noTransition
+              autoFocus={false}
+              extraCommands={[
+                commands.group([], {
+                  name: 'upload-image',
+                  groupName: 'upload-image',
+                  icon: (
+                    <svg viewBox="0 0 1024 1024" width="12" height="12">
+                      <path fill="currentColor" d={svgPath} />
+                    </svg>
+                  ),
+                  children: () => {
+                    return <div></div>;
+                  },
+                  execute: () => {
+                    handleImage(
+                      alert,
+                      API_URL,
+                      PUBLIC_URL,
+                      (i) => {
+                        if (i) {
+                          setCurrentData((prev) => ({
+                            id: prev.id,
+                            pairs: setDataValue(
+                              currentData.pairs,
+                              dataObject.data_id,
+                              dataObject.pair_id,
+                              dataObject.structure_id,
+                              dataObject.custom_structure_id,
+                              `${currentVal}\n![](${PUBLIC_URL}/${i[0]})`
+                            ),
+                            published: published,
+                          }));
+
+                          addMedia(i[1], i[0]);
+                        }
+                      },
+                      true,
+                      false
+                    );
+                  },
+                  buttonProps: { 'aria-label': 'Insert title' },
+                }),
+              ]}
             />
           ) : (
             <Input
@@ -168,6 +222,7 @@ export default function DataStructureDisplay({
                     dataObject.custom_structure_id,
                     e.target.value
                   ),
+                  published: published,
                 }));
               }}
               theme={theme}
@@ -198,6 +253,7 @@ export default function DataStructureDisplay({
                     dataObject.custom_structure_id,
                     checked
                   ),
+                  published: published,
                 }));
               }}
             />
@@ -241,6 +297,7 @@ export default function DataStructureDisplay({
                           dataObject.custom_structure_id,
                           `${PUBLIC_URL}/${i[0]}`
                         ),
+                        published: published,
                       }));
 
                       addMedia(i[1], i[0]);
@@ -307,15 +364,7 @@ export default function DataStructureDisplay({
               setShowPassword={setShowPassword}
             />
           ) : current.type === 'markdown' ? (
-            <InputTextArea
-              title={dataObject.structure_name}
-              placeholder=""
-              value={currentVal}
-              change={() => null}
-              theme={theme}
-              className="mt-2 mb-2"
-              noTransition
-            />
+            <Parser>{currentVal}</Parser>
           ) : (
             <Input
               type={current.type}
@@ -400,13 +449,60 @@ export default function DataStructureDisplay({
         </ALinkTo>
       </Heading>
 
+      {profile && profile.role !== 'VIEWER' && (
+        <div className="w-full flex mt-2">
+          {!isEditing && !isCreating && (
+            <GenericIconButton
+              click={() =>
+                navigate(
+                  `/data/p/${project_id}/c/${collection_id}/d/e/${data_id}`
+                )
+              }
+              className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center lg:py-3"
+              color={theme === 'dark' ? 'light' : 'dark'}
+              icon="pencil"
+            >
+              Edit
+            </GenericIconButton>
+          )}
+
+          {isEditing && !isCreating && (
+            <GenericIconButton
+              click={() =>
+                navigate(
+                  `/data/p/${project_id}/c/${collection_id}/d/v/${data_id}`
+                )
+              }
+              className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center lg:py-3"
+              color={theme === 'dark' ? 'light' : 'dark'}
+              icon="eye"
+            >
+              View
+            </GenericIconButton>
+          )}
+
+          {/* {!isEditing && <GenericIconButton
+            click={() =>
+              navigate(
+                `/data/p/${project_id}/c/${collection_id}/d/v/${data_id}`
+              )
+            }
+            className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center ml-2 lg:py-3"
+            color={theme === 'dark' ? 'light' : 'dark'}
+            icon="delete-bin-2"
+          >
+            Delete
+          </GenericIconButton>} */}
+        </div>
+      )}
+
       {currentData && currentData.id && currentData.pairs.length > 0 ? (
         <div className="w-full">
           {currentData.pairs.map((dataObject) => (
             <div key={`it-${dataObject.pair_id}`}>
-              {isEditing
-                ? makeInput(dataObject)
-                : makeReadOnlyInput(dataObject)}
+              {isEditing || isCreating
+                ? makeInput(dataObject, currentData.published)
+                : makeReadOnlyInput(dataObject, currentData.published)}
             </div>
           ))}
 
@@ -419,7 +515,7 @@ export default function DataStructureDisplay({
               theme={theme}
               className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
               click={() =>
-                data_id && data_id.length > 0
+                !isCreating
                   ? submitUpdateData(
                       API_URL,
                       profile,
