@@ -23,7 +23,7 @@ export default function MiscBulk({
         condition
       />
 
-<LinkerButton
+      <LinkerButton
         theme={theme}
         className="p-3 w-full justify-center uppercase rounded-lg"
         click={() => setTestingSmtp(true)}

@@ -33,10 +33,15 @@ export const fetchData = () => ({
       visibility: 'ADMIN,ROOT',
     },
     {
-      name: 'Sheet',
-      icon: 'compasses-2',
+      name: 'Events',
+      icon: 'history',
       visibility: 'ADMIN,ROOT',
     },
+    // {
+    //   name: 'Sheet',
+    //   icon: 'compasses-2',
+    //   visibility: 'ADMIN,ROOT',
+    // },
   ],
 
   home: {
@@ -101,6 +106,7 @@ export const fetchData = () => ({
       },
     ],
   },
+
   structures: {
     types: [
       {
@@ -168,4 +174,39 @@ export const fetchData = () => ({
       },
     ],
   },
+
+  events: [
+    { type: 'config_create', logo: 'tools;add' },
+    { type: 'config_update', logo: 'tools;settings-2' },
+    { type: 'config_delete', logo: 'tools;delete-bin-2' },
+    { type: 'user_create', logo: 'user-3;add' },
+    { type: 'user_role_update', logo: 'user-3;star' },
+    { type: 'user_delete', logo: 'user-3;delete-bin-2' },
+    { type: 'project_create', logo: 'folder-3;add' },
+    { type: 'project_update_id', logo: 'folder-3;settings-2' },
+    { type: 'project_update_name', logo: 'folder-3;settings-2' },
+    { type: 'project_update_description', logo: 'folder-3;settings-2' },
+    { type: 'project_update_api_path', logo: 'folder-3;settings-2' },
+    { type: 'project_delete', logo: 'folder-3;delete-bin-2' },
+    { type: 'project_add_member', logo: 'folder-3;user-add' },
+    { type: 'project_remove_member', logo: 'folder-3;user-unfollow' },
+    { type: 'collection_create', logo: 'file;add' },
+    { type: 'collection_update_id', logo: 'file;settings-2' },
+    { type: 'collection_update_name', logo: 'file;settings-2' },
+    { type: 'collection_update_description', logo: 'file;settings-2' },
+    { type: 'collection_delete', logo: 'file;delete-bin-2' },
+    { type: 'structure_create', logo: 'car;add' },
+    { type: 'structure_create_custom', logo: 'taxi;add' },
+    { type: 'structure_update', logo: 'car;settings-2' },
+    { type: 'structure_update_custom', logo: 'taxi;settings-2' },
+    { type: 'structure_delete', logo: 'car;delete-bin-2' },
+    { type: 'structure_delete_custom', logo: 'taxi;delete-bin-2' },
+    { type: 'custom_structure_create', logo: 'truck;add' },
+    { type: 'custom_structure_update', logo: 'truck;settings-2' },
+    { type: 'custom_structure_delete', logo: 'truck;delete-bin-2' },
+    { type: 'data_create', logo: 'database-2;add' },
+    { type: 'data_update', logo: 'database-2;settings-2' },
+    { type: 'data_delete', logo: 'database-2;delete-bin-2' },
+    { type: 'data_publish', logo: 'database-2;star' },
+  ],
 });

@@ -6,6 +6,7 @@ import { useConfigStore } from '../stores/useConfigStore';
 import { useMediaStore } from '../stores/useMediaStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useCollectionStore } from '../stores/useCollectionStore';
+import { useEventStore } from '../stores/useEventStore';
 // import { useLimitsStore } from '../stores/useLimitsStore';
 import { useThemeStore } from '../stores/useThemeStore';
 
@@ -332,12 +333,69 @@ export const fetchOneCollection = async (
     });
 };
 
+const fetchEvents = async (API_URL, uid, jwt, offset, currentEvents) => {
+  const { setEvents } = useEventStore.getState();
+
+  axios
+    .post(
+      `${API_URL}/event/fetch?offset=${offset}&limit=20`,
+      { uid: uid },
+      {
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    )
+    .then(async (response) => {
+      if (response.data.status === 200) {
+        setEvents([...currentEvents]);
+        if (currentEvents.length < response.data.amount) {
+          await fetchEvents(API_URL, uid, jwt, offset + 1, [
+            ...currentEvents,
+            ...response.data.events,
+          ]);
+        }
+      } else {
+        console.log(response.data);
+      }
+    });
+};
+
+export const fetchOneEvent = async (API_URL, uid, id, jwt) => {
+  const { updateEvent, removeEvent } = useEventStore.getState();
+
+  axios
+    .post(
+      `${API_URL}/event/fetch/one`,
+      { uid: uid, event_id: id },
+      {
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    )
+    .then((response) => {
+      if (response.data.status === 200) {
+        updateEvent(
+          id,
+          response.data.event.event_type,
+          response.data.event.description,
+          response.data.event.timestamp,
+          response.data.event.redirect
+        );
+      } else {
+        if (response.data.status === 404) {
+          removeEvent(id);
+        } else {
+          console.log(response.data);
+        }
+      }
+    });
+};
+
 export const automaticLogin = async (API_URL, uid, jwt) => {
   await fetchUserProfile(API_URL, uid, jwt);
   await fetchProfiles(API_URL, uid, jwt, 0, []);
   await fetchConfigs(API_URL, uid, jwt, 0, []);
   await fetchMedia(API_URL, uid, jwt, 0, []);
   await fetchProjects(API_URL, uid, jwt, 0, []);
+  await fetchEvents(API_URL, uid, jwt, 0, []);
 };
 
 export const logout = async () => {
@@ -347,6 +405,7 @@ export const logout = async () => {
   const { setMedia } = useMediaStore.getState();
   const { setProjects } = useProjectStore.getState();
   const { setCollections } = useCollectionStore.getState();
+  const { setEvents } = useEventStore.getState();
   const { setTheme } = useThemeStore.getState();
 
   setUserProfile({});
@@ -355,6 +414,7 @@ export const logout = async () => {
   setMedia([]);
   setProjects([]);
   setCollections([]);
+  setEvents([]);
   setTheme('dark');
 
   localStorage.clear();

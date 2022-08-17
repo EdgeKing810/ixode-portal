@@ -1,7 +1,7 @@
 import React from 'react';
 
 import IncludeTestMongo from '../../pages/includes/misc/IncludeTestMongo';
-import IncludeTestSMTP from '../../pages/includes/misc/IncludeTestSMTP'
+import IncludeTestSMTP from '../../pages/includes/misc/IncludeTestSMTP';
 
 import { submitTestMongo, submitTestSMTP } from './misc.utils';
 
@@ -17,15 +17,15 @@ export default function ConfigsIncludes({
   name,
   setName,
   smtpUsername,
-setSmtpUsername,
-smtpPassword,
-setSmtpPassword,
-smtpHost,
-setSmtpHost,
-smtpPort,
-setSmtpPort,
-testingSmtp,
-setTestingSmtp,
+  setSmtpUsername,
+  smtpPassword,
+  setSmtpPassword,
+  smtpHost,
+  setSmtpHost,
+  smtpPort,
+  setSmtpPort,
+  testingSmtp,
+  setTestingSmtp,
   updateConfig,
   theme,
   alert,
@@ -56,7 +56,7 @@ setTestingSmtp,
         theme={theme}
       />
 
-<IncludeTestSMTP
+      <IncludeTestSMTP
         isTesting={testingSmtp}
         setIsTesting={setTestingSmtp}
         isProcessing={isProcessing}

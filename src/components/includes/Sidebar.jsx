@@ -33,7 +33,7 @@ export default function Sidebar({ currentPage }) {
             <Linker
               key={`nav-${p.name}`}
               theme={theme}
-              className="py-3 pl-24 rounded-lg w-full justify-start uppercase"
+              className={`py-2 rounded-lg w-full flex justify-center uppercase`}
               color={
                 currentPage === p.name.toLowerCase() ? 'primary' : 'secondary'
               }
@@ -44,6 +44,11 @@ export default function Sidebar({ currentPage }) {
               icon={p.icon}
               noFill
               reverseIcon
+              customInner={`w-36 flex overflow-hidden rounded-lg border-4 px-4 py-2 border-opacity-25 ${
+                currentPage === p.name.toLowerCase()
+                  ? 'border-transparent'
+                  : `border-main-${theme}bg`
+              }`}
             />
           ))}
 

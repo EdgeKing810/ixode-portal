@@ -69,7 +69,7 @@ export default function IncludeTestSMTP({
             className="my-2"
           />
 
-<Input
+          <Input
             title="Enter host"
             placeholder="Enter host... e.g smtp.gmail.com"
             value={smtpHost}
@@ -78,7 +78,7 @@ export default function IncludeTestSMTP({
             className="my-2"
           />
 
-<Input
+          <Input
             title="Enter port"
             placeholder="Enter port... e.g 587"
             value={smtpPort}
@@ -91,12 +91,18 @@ export default function IncludeTestSMTP({
             <LinkerButton
               title="Test"
               condition={
-                smtpHost && smtpHost.trim().length > 0 && smtpUsername && smtpUsername.length > 0
+                smtpHost &&
+                smtpHost.trim().length > 0 &&
+                smtpUsername &&
+                smtpUsername.length > 0
                   ? true
                   : false
               }
               click={() =>
-                smtpHost && smtpHost.trim().length > 0 && smtpUsername && smtpUsername.length > 0
+                smtpHost &&
+                smtpHost.trim().length > 0 &&
+                smtpUsername &&
+                smtpUsername.length > 0
                   ? submitTest()
                   : null
               }

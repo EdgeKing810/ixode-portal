@@ -22,7 +22,7 @@ const submitConfig = (API_URL, profile, key, value, updateConfig) => {
         console.log(res.data);
       }
     });
-}
+};
 
 export const submitTestMongo = (
   API_URL,

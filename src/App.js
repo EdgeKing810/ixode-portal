@@ -13,6 +13,7 @@ import Media from './pages/Media.jsx';
 import Misc from './pages/Misc.jsx';
 import Sheet from './pages/Sheet.jsx';
 import DataHome from './pages/DataHome.jsx';
+import Events from './pages/Events.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
@@ -104,6 +105,7 @@ function App() {
             path="/data/p/:project_id/c/:collection_id/d/:mode/:data_id"
             element={<Data />}
           />
+          <Route exact path="/events" element={<Events />} />
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>

@@ -29,7 +29,7 @@ export default function Misc() {
   const [name, setName] = useState('');
   const [testingMongoConnection, setTestingMongoConnection] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
   const [smtpUsername, setSmtpUsername] = useState('');
   const [smtpPassword, setSmtpPassword] = useState('');
   const [smtpHost, setSmtpHost] = useState('');
@@ -39,7 +39,7 @@ export default function Misc() {
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       setTestingMongoConnection(false);
-      setTestingSmtp(false)
+      setTestingSmtp(false);
     }
 
     // eslint-disable-next-line
@@ -50,7 +50,7 @@ export default function Misc() {
     if (config && config.value && config.value.length > 0) {
       setter(config.value);
     }
-  }
+  };
 
   useEffect(() => {
     findAndSet('MONGO_URI', setUri);

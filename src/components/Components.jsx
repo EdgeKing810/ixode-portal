@@ -580,19 +580,17 @@ export const IconButton = ({
   </button>
 );
 
-export const Linker = ({
+export const LinkerChildren = ({
+  children,
   to,
   title,
-  icon,
   theme,
   condition,
   className,
   smaller,
-  noFill,
   noTransition,
   color,
   borderColor,
-  reverseIcon,
 }) => (
   <Link
     to={to}
@@ -615,22 +613,56 @@ export const Linker = ({
         : 'opacity-50'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
-    {icon && reverseIcon && (
-      <div
-        className={`mr-2 h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
-    {title && <div className={`h-full flex items-center`}>{title}</div>}
-    {icon && !reverseIcon && (
-      <div
-        className={`ml-2 h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
+    {children}
   </Link>
+);
+
+export const Linker = ({
+  to,
+  title,
+  icon,
+  theme,
+  condition,
+  className,
+  smaller,
+  noFill,
+  noTransition,
+  color,
+  borderColor,
+  reverseIcon,
+  customInner,
+}) => (
+  <LinkerChildren
+    to={to}
+    title={title}
+    theme={theme}
+    condition={condition}
+    className={className}
+    smaller={smaller}
+    noTransition={noTransition}
+    color={color}
+    borderColor={borderColor}
+  >
+    <div
+      className={customInner ? `${customInner}` : 'w-full flex justify-center'}
+    >
+      {icon && reverseIcon && (
+        <div
+          className={`mr-2 h-full flex items-center ri-${icon}-${
+            condition && !noFill ? 'fill' : 'line'
+          }`}
+        ></div>
+      )}
+      {title && <div className={`h-full flex items-center`}>{title}</div>}
+      {icon && !reverseIcon && (
+        <div
+          className={`ml-2 h-full flex items-center ri-${icon}-${
+            condition && !noFill ? 'fill' : 'line'
+          }`}
+        ></div>
+      )}
+    </div>
+  </LinkerChildren>
 );
 
 export const ALinker = ({
