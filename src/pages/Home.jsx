@@ -87,8 +87,7 @@ export default function Home() {
             <Linker
               theme={theme}
               className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/3"
-              color={theme === 'light' ? 'darkbg' : 'lightbg'}
-              borderColor="primary"
+              color={theme === 'light' ? 'light' : 'dark'}
               smaller
               transparent
               to="/blog"
@@ -107,8 +106,7 @@ export default function Home() {
                   key={d.id}
                   theme={theme}
                   className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme === 'light' ? 'darkbg' : 'lightbg'}
-                  borderColor="primary"
+                  color={theme}
                   transparent
                   href={d.link}
                   condition
@@ -150,8 +148,7 @@ export default function Home() {
             <Linker
               theme={theme}
               className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/2"
-              color={theme === 'light' ? 'darkbg' : 'lightbg'}
-              borderColor="info"
+              color={theme}
               smaller
               transparent
               to="/roadmap"
@@ -160,6 +157,7 @@ export default function Home() {
               icon="arrow-right-s"
               noFill
               reverseIcon
+              textColor="info"
             />
 
             <Separator />
@@ -170,18 +168,18 @@ export default function Home() {
                   key={d.id}
                   theme={theme}
                   className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                  color={theme === 'light' ? 'light' : 'dark'}
                   transparent
                   href={d.link}
                   condition
                   noFill={!d.fill}
                   icon={d.icon}
                   reverseIcon
-                  iconClass={`text-2xl mr-4`}
+                  iconClass={`text-2xl mr-4 ${theme === 'light' ? 'text-main-dark' : 'text-main-light'}`}
                 >
                   <BigText
                     theme={theme}
-                    color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                    color={theme === 'light' ? 'dark' : 'light'}
                     className="justify-start flex w-full"
                   >
                     {d.name}

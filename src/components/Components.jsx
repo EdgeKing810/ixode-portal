@@ -591,6 +591,7 @@ export const LinkerChildren = ({
   noTransition,
   color,
   borderColor,
+  textColor
 }) => (
   <Link
     to={to}
@@ -601,16 +602,16 @@ export const LinkerChildren = ({
       smaller ? 'text-sm lg:text-lg' : 'text-lg'
     } border-2 border-transparent flex ${
       (!className || !className.includes('justify')) && 'justify-center'
-    } items-center ${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'} ${
-      color ? `text-main-${color}` : 'text-main-primary'
+    } items-center ${
+      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
     } ${
       condition
         ? color
           ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
-        : 'opacity-50'
+            ? `bg-main-${borderColor} hover:opacity-65 focus:opacity-65`
+            : `bg-main-${color} hover:opacity-65 focus:opacity-65`
+          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
+        : `bg-main-${theme} ${textColor ? '' :theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
     {children}
@@ -631,6 +632,7 @@ export const Linker = ({
   borderColor,
   reverseIcon,
   customInner,
+  textColor
 }) => (
   <LinkerChildren
     to={to}
@@ -642,6 +644,7 @@ export const Linker = ({
     noTransition={noTransition}
     color={color}
     borderColor={borderColor}
+    textColor={textColor}
   >
     <div
       className={customInner ? `${customInner}` : 'w-full flex justify-center'}
@@ -680,6 +683,7 @@ export const ALinker = ({
   reverseIcon,
   iconClass,
   children,
+  textColor
 }) => (
   <a
     href={href}
@@ -690,16 +694,16 @@ export const ALinker = ({
       smaller ? 'text-sm lg:text-lg' : 'text-lg'
     } border-2 border-transparent flex ${
       (!className || !className.includes('justify')) && 'justify-center'
-    } items-center ${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'} ${
-      color ? `text-main-${color}` : 'text-main-primary'
+    } items-center ${
+      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
     } ${
       condition
         ? color
           ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
-        : 'opacity-50'
+            ? `bg-main-${borderColor} hover:opacity-65 focus:opacity-65`
+            : `bg-main-${color} hover:opacity-65 focus:opacity-65`
+          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
+        : `bg-main-${theme} ${textColor ? '' : theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
     {icon && reverseIcon && (
@@ -734,6 +738,8 @@ export const LinkerButton = ({
   smaller,
   noFill,
   noTransition,
+  color,
+  textColor
 }) => (
   <button
     onClick={(e) => click(e)}
@@ -741,11 +747,13 @@ export const LinkerButton = ({
     className={`mt-2 text-center ${
       smaller ? 'text-sm lg:text-lg' : 'text-lg'
     } border-2 border-transparent flex justify-center items-center ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } text-main-primary ${
+      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
+    } ${
       condition
-        ? 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
-        : 'opacity-50'
+        ? color
+          ? `bg-main-${color} hover:opacity-65 focus:opacity-65`
+          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
+        : `bg-main-${theme} ${textColor ? '' : theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
     {title && (
@@ -772,7 +780,7 @@ export const FullAbsoluteContainer = ({
   moreAdditional,
 }) => (
   <div
-    className={`w-screen ${additional} lg:h-full h-screen top-0 left-0 ${
+    className={`w-screen fullabs ${additional} lg:h-full h-screen top-0 left-0 ${
       !additional.includes('z-') && 'z-20'
     } fixed transform ease-in-out duration-400`}
     onKeyPress={(e) => e.key === 'Escape' && outFunction()}
@@ -780,7 +788,7 @@ export const FullAbsoluteContainer = ({
     <div
       className={`${
         theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } opacity-95 w-full h-full px-2 lg:px-0 ${additionalIn}`}
+      } opacity-85 w-full h-full px-2 lg:px-0 ${additionalIn}`}
     >
       <div
         className={`${

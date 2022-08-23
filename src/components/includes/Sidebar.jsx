@@ -34,7 +34,8 @@ export default function Sidebar({ currentPage }) {
               key={`nav-${p.name}`}
               theme={theme}
               className={`py-2 rounded-lg w-full flex justify-center uppercase`}
-              color={
+              color={theme}
+              textColor={
                 currentPage === p.name.toLowerCase() ? 'primary' : 'secondary'
               }
               transparent
@@ -52,16 +53,17 @@ export default function Sidebar({ currentPage }) {
 
         <LinkerButton
           theme={theme}
-          className="py-3 rounded-lg w-full justify-start uppercase hover:border-main-error focus:border-main-error text-main-error -mt-1"
+          className="py-3 rounded-lg w-full justify-start uppercase -mt-1"
           click={() => {
             logout();
             navigate('/');
           }}
-          color="error"
+          color={theme}
           transparent
           condition
           title="Log Out"
           icon="logout-box"
+          textColor="error"
           noFill
           reverseIcon
         />
