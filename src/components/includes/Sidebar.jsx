@@ -44,11 +44,7 @@ export default function Sidebar({ currentPage }) {
               icon={p.icon}
               noFill
               reverseIcon
-              customInner={`w-36 flex overflow-hidden rounded-lg border-4 px-4 py-2 border-opacity-25 ${
-                currentPage === p.name.toLowerCase()
-                  ? 'border-transparent'
-                  : `border-main-${theme}bg`
-              }`}
+              customInner={`w-full flex justify-left overflow-hidden rounded-lg pl-6 py-2`}
             />
           ))}
 

@@ -488,7 +488,7 @@ export const GenericIconButton = ({
       color ? `text-main-${color}` : 'text-main-secondary'
     } outline-none ${
       extraSmall ? 'text-xxs' : 'text-xs'
-    } sm:text-sm font-noto opacity-80 hover:opacity-100 focus:opacity-100 flex ${className} ${
+    } sm:text-sm font-noto opacity-65 hover:opacity-100 focus:opacity-100 flex ${className} ${
       !noTransition && 'ease-in-out duration-400'
     }`}
   >
@@ -564,9 +564,9 @@ export const IconButton = ({
       condition
         ? color
           ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-80 focus:opacity-80 text-main-${color}`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-80 focus:opacity-80 text-main-${color}`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80 text-main-primary'
+            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65 text-main-${color}`
+            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65 text-main-${color}`
+          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65 text-main-primary'
         : 'opacity-50 text-main-primary'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
@@ -607,9 +607,9 @@ export const LinkerChildren = ({
       condition
         ? color
           ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-80 focus:opacity-80`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-80 focus:opacity-80`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
+            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65`
+            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65`
+          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
         : 'opacity-50'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
@@ -696,9 +696,9 @@ export const ALinker = ({
       condition
         ? color
           ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-80 focus:opacity-80`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-80 focus:opacity-80`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
+            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65`
+            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65`
+          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
         : 'opacity-50'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
@@ -744,7 +744,7 @@ export const LinkerButton = ({
       theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
     } text-main-primary ${
       condition
-        ? 'hover:border-main-primary focus:border-main-primary hover:opacity-80 focus:opacity-80'
+        ? 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65'
         : 'opacity-50'
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
