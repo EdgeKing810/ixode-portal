@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ALinkTo, IconButton, Separator, SmallText } from '../Components';
+import { ALinkTo, SmallText } from '../Components';
 import { submitPublishData } from './data.utils';
 
 export default function DataField({
@@ -11,21 +11,17 @@ export default function DataField({
   collection_id,
   setDataID,
   setDeletingData,
-  theme,
   navigate,
   profile,
   alert,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
       key={data.id}
     >
       <SmallText
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -39,60 +35,49 @@ export default function DataField({
       </SmallText>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {data.pairs.length} pairs
       </SmallText>
 
-      <Separator
-        smaller
-        color={data.published ? 'success' : 'warning'}
-        opaque
+      <div
+        className={`pt-1 w-full ${
+          data.published ? 'bg-success' : 'bg-warning'
+        } my-2 rounded-lg`}
       />
 
       {profile && profile.role !== 'VIEWER' && (
-        <div className="w-full flex">
-          <IconButton
+        <div className="w-full flex lg:mt-2">
+          <button
+            className="btn btn-warning btn-outline btn-sm btn-circle mr-2"
             title="Edit Data"
-            condition
-            noFill
-            theme={theme}
-            icon="pencil"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() =>
+            onClick={() => {
               navigate(
                 `/data/p/${project_id}/c/${collection_id}/d/e/${data.id}`
-              )
-            }
-          />
+              );
+            }}
+          >
+            <i className={`ri-pencil-line`} />
+          </button>
 
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle mr-2"
             title="Delete Data"
-            condition
-            noFill
-            theme={theme}
-            icon="delete-bin-2"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setDeletingData(true);
               setDataID(data.id);
             }}
-          />
+          >
+            <i className={`ri-delete-bin-2-line`} />
+          </button>
 
-          <IconButton
+          <button
+            className={`btn ${
+              data.published ? 'btn-warning' : 'btn-success'
+            } btn-outline btn-sm btn-circle`}
             title={`${data.published ? 'Unpublish' : 'Publish'} Data`}
-            condition
-            noFill
-            theme={theme}
-            icon={data.published ? 'flag-2' : 'send-plane-2'}
-            className="p-2 rounded-full w-10 h-10"
-            color="primary"
-            click={() =>
+            onClick={() => {
               submitPublishData(
                 API_URL,
                 profile,
@@ -102,9 +87,15 @@ export default function DataField({
                 setCurrentData,
                 !data.published,
                 alert
-              )
-            }
-          />
+              );
+            }}
+          >
+            <i
+              className={`ri-${
+                data.published ? 'flag-2' : 'send-plane-2'
+              }-line`}
+            />
+          </button>
         </div>
       )}
     </div>

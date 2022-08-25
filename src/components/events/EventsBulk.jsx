@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaginationList from '../../wrappers/PaginationList';
-import { Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function EventsBulk({
   events,
@@ -9,18 +9,16 @@ export default function EventsBulk({
   setFilter,
   setCurrentPage,
   limit,
-  theme,
 }) {
   return (
     <div className="w-full">
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {events && events.length > 0 && (
         <Input
           title="Filter Events"
           placeholder="Filter Events..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -31,7 +29,6 @@ export default function EventsBulk({
 
       {events && events.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             events

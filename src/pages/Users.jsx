@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProfileStore } from '../stores/useProfileStore';
 
@@ -17,7 +16,6 @@ import UsersIncludes from '../components/users/UsersIncludes';
 import UsersBulk from '../components/users/UsersBulk';
 
 export default function Users() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { profiles, addProfile, updateProfile, removeProfile } =
     useProfileStore((state) => state);
@@ -74,9 +72,7 @@ export default function Users() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="users" />
       <div
@@ -84,7 +80,7 @@ export default function Users() {
       >
         <Sidebar currentPage="users" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!allProfiles || allProfiles.length <= 0 ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -105,7 +101,6 @@ export default function Users() {
               setCurrentPage={setCurrentPage}
               limit={limit}
               isLoading={isLoading}
-              theme={theme}
             />
 
             {allProfiles
@@ -138,7 +133,6 @@ export default function Users() {
                   setEditingUser={setEditingUser}
                   setDeletingUser={setDeletingUser}
                   navigate={navigate}
-                  theme={theme}
                 />
               ))}
           </div>
@@ -170,7 +164,6 @@ export default function Users() {
         deletingUser={deletingUser}
         setDeletingUser={setDeletingUser}
         removeProfile={removeProfile}
-        theme={theme}
         alert={alert}
       />
     </div>

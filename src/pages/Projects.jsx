@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProfileStore } from '../stores/useProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
@@ -18,7 +17,6 @@ import ProjectsBulk from '../components/projects/ProjectsBulk';
 import ProjectsIncludes from '../components/projects/ProjectsIncludes';
 
 export default function Projects() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { profiles } = useProfileStore((state) => state);
   const {
@@ -86,9 +84,7 @@ export default function Projects() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="projects" />
       <div
@@ -96,7 +92,7 @@ export default function Projects() {
       >
         <Sidebar currentPage="projects" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25">
             {!projects || projects.length <= 0 ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -121,7 +117,6 @@ export default function Projects() {
               setCurrentPage={setCurrentPage}
               limit={limit}
               isLoading={isLoading}
-              theme={theme}
             />
 
             <div className="w-full lg:grid lg:grid-cols-2 lg:gap-4 flex flex-col">
@@ -154,7 +149,6 @@ export default function Projects() {
                     setAddMember={setAddMember}
                     setRemoveMember={setRemoveMember}
                     setDeletingProject={setDeletingProject}
-                    theme={theme}
                   />
                 ))}
             </div>
@@ -193,7 +187,6 @@ export default function Projects() {
         deletingProject={deletingProject}
         setDeletingProject={setDeletingProject}
         removeProject={removeProject}
-        theme={theme}
         alert={alert}
       />
     </div>

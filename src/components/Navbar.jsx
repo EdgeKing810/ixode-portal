@@ -5,7 +5,6 @@ import banner from '../assets/images/logo_purple.png';
 
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useThemeStore } from '../stores/useThemeStore';
-import { IconButton, Linker, LinkerButton, Separator } from './Components';
 
 import { fetchData } from '../utils/data';
 import { logout } from '../utils/fetcher';
@@ -22,6 +21,13 @@ export default function Navbar({ width, currentPage }) {
     let newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
 
+    document
+      .getElementById('root')
+      .setAttribute(
+        'data-theme',
+        newTheme === 'light' ? 'moonlight' : 'shadow'
+      );
+
     localStorage.setItem(
       '_userData',
       JSON.stringify({
@@ -35,149 +41,129 @@ export default function Navbar({ width, currentPage }) {
   return (
     <>
       <div
-        className={`w-full fixed z-50 h-16 lg:h-20 ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } py-2 lg:pb-4 lg:pt-2 duration-400 ease-in-out lg:overflow-y-hidden`}
+        className={`w-full fixed z-50 h-16 lg:h-20 bg-base-200 py-2 lg:py-0 duration-300 ease-in-out lg:overflow-y-hidden`}
       >
-        <div className="flex w-full h-full justify-between items-center px-2 lg:px-4">
+        <div className="flex w-full h-full justify-between items-center px-2 lg:px-4 lg:border-b-4 lg:border-primary">
           <div className="w-2/5 sm:w-1/5 h-full flex justify-start items-center">
             <Link className="h-full flex justify-start items-center" to="/home">
               <img
                 src={banner}
                 alt="banner"
-                className="h-4/5 sm:h-3/5 lg:h-full object-scale-down"
+                className="h-4/5 sm:h-3/5 lg:h-full object-scale-down lg:py-2"
               />
             </Link>
           </div>
 
           <div className="sm:w-1/5 h-full flex justify-end items-center relative">
-            <IconButton
+            <button
+              className="btn btn-accent btn-circle ml-1 lg:ml-2"
               title="Change Theme"
-              condition
-              theme={theme}
-              icon={theme === 'light' ? 'sun' : 'moon'}
-              color={theme === 'light' ? 'dark' : 'light'}
-              borderColor="primary"
-              className="p-2 rounded-full ml-1 lg:ml-2 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 lg:border-4"
-              click={() => changeTheme()}
-              noFill
-            />
+              onClick={() => changeTheme()}
+            >
+              <i className={`ri-${theme === 'light' ? 'sun' : 'moon'}-line`} />
+            </button>
 
-            <IconButton
+            <button
+              className="btn btn-circle btn-outline ml-2 lg:hidden"
               title="Menu"
-              condition
-              theme={theme}
-              icon="menu"
-              color={theme === 'light' ? 'dark' : 'light'}
-              borderColor="primary"
-              className="p-2 rounded-full ml-1 lg:ml-2 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 lg:hidden"
-              click={() => setShowMenu(true)}
-              noFill
-            />
+              onClick={() => setShowMenu(true)}
+            >
+              <i className={`ri-menu-line`} />
+            </button>
           </div>
-        </div>
-
-        <div className="w-full mt-2">
-          <div
-            className="pt-1 bg-main-primary"
-            style={{
-              width: `${width !== undefined ? width : 100}%`,
-            }}
-          ></div>
         </div>
       </div>
 
       <div
-        className={`w-screen h-full lg:hidden fixed z-50 p-2 transform transition duration-400 ${
+        className={`w-screen h-full lg:hidden fixed z-50 p-2 transform transition duration-300 ${
           showMenu ? 'translate-x-0' : 'translate-x-full'
-        } ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } opacity-95 left-0 top-0 flex flex-col items-center`}
+        } bg-base-300 bg-opacity-85 fullabs left-0 top-0 flex flex-col items-center`}
         onClick={() => {
           setShowMenu(false);
         }}
       >
         <div className="w-full flex justify-end pt-1">
-          <IconButton
+          <button
+            className="btn btn-circle btn-outline ml-1 lg:ml-2 lg:hidden"
             title="Close"
-            condition
-            theme={theme}
-            icon="close"
-            color={theme === 'light' ? 'dark' : 'light'}
-            borderColor="primary"
-            className="p-2 rounded-full w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 lg:hidden"
-            click={() => setShowMenu(true)}
-            noFill
-          />
+            onClick={() => setShowMenu(false)}
+          >
+            <i className={`ri-close-line`} />
+          </button>
         </div>
 
         <div className="w-full flex flex-col items-center justify-center">
-          <p
-            className={`text-main-primary font-spartan text-3xl font-semibold`}
-          >
+          <p className={`text-primary font-spartan text-3xl font-semibold`}>
             Navigation
           </p>
 
-          <div className="w-4/6 flex flex-col items-center py-2">
+          <ul className="w-4/6 flex flex-col items-center py-2">
             {pages
               .filter((p) => p.visibility.split(',').includes(profile.role))
               .map((p) => (
-                <Linker
+                <li
                   key={`navbar-${p.name}`}
-                  to={`/${p.name.toLowerCase()}`}
+                  className="mt-2 w-full"
                   title={p.name}
-                  theme={theme}
-                  icon={p.icon}
-                  className="w-full rounded-lg mt-2 p-2"
-                  condition={currentPage !== p.name.toLowerCase()}
-                  noFill
-                />
+                >
+                  <button
+                    onClick={() => navigate(`/${p.name.toLowerCase()}`)}
+                    className={`btn w-full flex gap-2 ${
+                      currentPage === p.name.toLowerCase()
+                        ? 'no-animation btn-secondary btn-outline'
+                        : 'btn-ghost'
+                    }`}
+                  >
+                    {p.name}
+                    <span className={`ri-${p.icon}-line`} />
+                  </button>
+                </li>
               ))}
-          </div>
+          </ul>
         </div>
 
         <div className="w-full flex flex-col items-center justify-center mt-2">
-          <p
-            className={`text-main-primary font-spartan text-3xl font-semibold`}
-          >
+          <p className={`text-primary font-spartan text-3xl font-semibold`}>
             Misc
           </p>
 
           <div className="w-4/6 flex items-center py-2">
-            <LinkerButton
+            <button
               title={
                 theme === 'dark'
                   ? 'Switch to Light Mode'
                   : 'Switch to Dark Mode'
               }
-              theme={theme}
-              icon={theme === 'dark' ? 'moon' : 'sun'}
-              className="w-full rounded-lg mt-2 p-2"
-              condition
-              noFill
-              click={() => changeTheme()}
-            />
+              onClick={() => {
+                changeTheme();
+              }}
+              className={`btn w-full flex justify-center gap-2 btn-outline mt-2`}
+            >
+              {theme === 'dark'
+                ? 'Switch to Light Mode'
+                : 'Switch to Dark Mode'}
+              <span
+                className={`ri-${theme === 'dark' ? 'moon' : 'sun'}-line`}
+              />
+            </button>
           </div>
         </div>
 
         <div className="w-4/6">
-          <Separator />
+          <div
+            className={`pt-1 w-full bg-base-accent my-4 rounded-lg opacity-25`}
+          />
 
-          <LinkerButton
-            theme={theme}
-            className="py-3 rounded-lg w-full justify-start uppercase hover:border-main-error focus:border-main-error text-main-error -mt-1"
-            click={() => {
+          <button
+            onClick={() => {
               logout();
               navigate('/');
             }}
-            color="error"
-            transparent
-            condition
-            title="Log Out"
-            icon="logout-box"
-            noFill
-            reverseIcon
-          />
+            className={`btn w-full flex justify-center gap-2 btn-error btn-outline mt-2`}
+          >
+            Log Out
+            <span className={`ri-logout-box-line`} />
+          </button>
         </div>
       </div>
     </>

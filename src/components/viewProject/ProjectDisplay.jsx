@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-  BigText,
-  Heading,
-  IconButton,
-  LinkerButton,
-  Separator,
-  SmallText,
-  Text,
-} from '../Components';
+import { BigText, Heading, SmallText, Text } from '../Components';
 
 export default function ProjectDisplay({
   currentProject,
@@ -22,17 +14,13 @@ export default function ProjectDisplay({
   setAddMember,
   setRemoveMember,
   setDeletingProject,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
     >
       <Heading
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -40,8 +28,6 @@ export default function ProjectDisplay({
       </Heading>
 
       <BigText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full -mt-2 mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
         smallerOnMobile
@@ -51,18 +37,13 @@ export default function ProjectDisplay({
 
       <Text
         color="secondary"
-        theme={theme}
         nobreak
-        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } p-1 rounded-lg`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center bg-base-300 p-1 rounded-lg`}
       >
         {currentProject.api_path}
       </Text>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
@@ -71,141 +52,105 @@ export default function ProjectDisplay({
 
       {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
         <div className="w-full">
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
           <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
-            <LinkerButton
-              theme={theme}
-              className="p-2 rounded-lg uppercase w-full"
-              smaller
-              transparent
-              condition
+            <button
+              className="btn btn-warning btn-outline gap-2"
               title="Update Project ID"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
-              click={() => {
-                setEditingProject('ID');
-              }}
-            />
-            <LinkerButton
-              theme={theme}
-              className="p-2 rounded-lg uppercase w-full"
-              smaller
-              transparent
-              condition
+              onClick={() => setEditingProject('ID')}
+            >
+              Update Project ID
+              <i className={`ri-arrow-right-s-line`} />
+            </button>
+            <button
+              className="btn btn-warning btn-outline gap-2"
               title="Update Project Name"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
-              click={() => {
-                setEditingProject('Name');
-              }}
-            />
-            <LinkerButton
-              theme={theme}
-              className="p-2 rounded-lg uppercase w-full lg:mt-0"
-              smaller
-              transparent
-              condition
+              onClick={() => setEditingProject('Name')}
+            >
+              Update Project Name
+              <i className={`ri-arrow-right-s-line`} />
+            </button>
+            <button
+              className="btn btn-warning btn-outline gap-2"
               title="Update Project Description"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
-              click={() => {
-                setEditingProject('Description');
-              }}
-            />
-            <LinkerButton
-              theme={theme}
-              className="p-2 rounded-lg uppercase w-full lg:mt-0"
-              smaller
-              transparent
-              condition
+              onClick={() => setEditingProject('Description')}
+            >
+              Update Project Description
+              <i className={`ri-arrow-right-s-line`} />
+            </button>
+            <button
+              className="btn btn-warning btn-outline gap-2"
               title="Update Project API Path"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
-              click={() => {
-                setEditingProject('API Path');
-              }}
-            />
+              onClick={() => setEditingProject('API Path')}
+            >
+              Update Project API Path
+              <i className={`ri-arrow-right-s-line`} />
+            </button>
           </div>
         </div>
       )}
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       <div className="w-full flex">
-        <IconButton
+        <button
+          className="btn btn-info btn-outline btn-sm btn-circle mr-2"
           title="View Members"
-          condition
-          noFill
-          theme={theme}
-          icon="user"
-          className="p-2 rounded-full w-10 h-10 mr-2"
-          color="primary"
-          click={() => {
+          onClick={() => {
             setShowMembers(true);
             setMembers(currentProject.members);
             setProjectID(currentProject.id);
             setName(currentProject.name);
             setMemberCurrentPage(0);
           }}
-        />
+        >
+          <i className={`ri-user-line`} />
+        </button>
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-success btn-outline btn-sm btn-circle mr-2"
             title="Add Member"
-            condition
-            noFill
-            theme={theme}
-            icon="user-add"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setAddMember(true);
               setMembers(currentProject.members);
               setProjectID(currentProject.id);
               setName(currentProject.name);
               setMemberCurrentPage(0);
             }}
-          />
+          >
+            <i className={`ri-user-add-line`} />
+          </button>
         )}
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle mr-2"
             title="Remove Member"
-            condition
-            noFill
-            theme={theme}
-            icon="user-unfollow"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setRemoveMember(true);
               setMembers(currentProject.members);
               setProjectID(currentProject.id);
               setName(currentProject.name);
               setMemberCurrentPage(0);
             }}
-          />
+          >
+            <i className={`ri-user-unfollow-line`} />
+          </button>
         )}
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle"
             title="Delete Project"
-            condition
-            noFill
-            theme={theme}
-            icon="delete-bin-2"
-            className="p-2 rounded-full w-10 h-10"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setDeletingProject(true);
               setProjectID(currentProject.id);
               setName(currentProject.name);
             }}
-          />
+          >
+            <i className={`ri-delete-bin-2-line`} />
+          </button>
         )}
       </div>
     </div>

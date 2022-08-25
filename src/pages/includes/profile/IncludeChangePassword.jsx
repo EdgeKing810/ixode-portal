@@ -2,8 +2,6 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
-  LinkerButton,
   PasswordInput,
   SubHeading,
 } from '../../../components/Components';
@@ -20,7 +18,6 @@ export default function IncludeChangePassword({
   showPasswordCheck,
   setShowPasswordCheck,
   submitUpdate,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -29,20 +26,18 @@ export default function IncludeChangePassword({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setEditingPassword(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Change Password
         </SubHeading>
 
-        <IconButton
-          click={() => setEditingPassword(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setEditingPassword(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <PasswordInput
@@ -50,7 +45,6 @@ export default function IncludeChangePassword({
         placeholder={`Enter Password...`}
         value={password}
         change={(e) => setPassword(e.target.value)}
-        theme={theme}
         className="mt-2 lg:my-2 lg:w-1/2"
         showPassword={showPassword}
         setShowPassword={setShowPassword}
@@ -61,24 +55,23 @@ export default function IncludeChangePassword({
         placeholder={`Enter Password Again...`}
         value={passwordCheck}
         change={(e) => setPasswordCheck(e.target.value)}
-        theme={theme}
         className="my-2 lg:w-1/2"
         showPassword={showPasswordCheck}
         setShowPassword={setShowPasswordCheck}
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={
+          className={`btn w-full lg:w-1/2 gap-2 ${
             password &&
             password.trim().length > 0 &&
             passwordCheck &&
             passwordCheck.trim().length > 0
-              ? true
-              : false
-          }
-          click={() =>
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             password &&
             password.trim().length > 0 &&
             passwordCheck &&
@@ -86,9 +79,9 @@ export default function IncludeChangePassword({
               ? submitUpdate(password)
               : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

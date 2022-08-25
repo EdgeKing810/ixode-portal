@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useMediaStore } from '../stores/useMediaStore';
@@ -29,7 +28,6 @@ import {
 import StructurePicker from '../components/structures/StructurePicker';
 
 export default function ViewCollection() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
   const { addMedia } = useMediaStore((state) => state);
@@ -199,9 +197,7 @@ export default function ViewCollection() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="projects" />
       <div
@@ -210,7 +206,7 @@ export default function ViewCollection() {
         <Sidebar currentPage="projects" />
         {!creatingStructure && !editingStructure ? (
           <div className="w-full lg:p-8 flex flex-col h-full">
-            <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+            <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
               {!currentProject ||
               !currentProject.id ||
               !currentCollection ||
@@ -243,7 +239,6 @@ export default function ViewCollection() {
                       setEditingCollectionDescription
                     }
                     setDeletingCollection={setDeletingCollection}
-                    theme={theme}
                   />
                 )}
 
@@ -267,7 +262,6 @@ export default function ViewCollection() {
                 setFilter={setFilter}
                 setCurrentPage={setCurrentPage}
                 limit={limit}
-                theme={theme}
               />
 
               <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
@@ -309,7 +303,6 @@ export default function ViewCollection() {
                         setStructureArray={setStructureArray}
                         setStructureRequired={setStructureRequired}
                         setDeletingStructure={setDeletingStructure}
-                        theme={theme}
                       />
                     ))}
               </div>
@@ -326,7 +319,6 @@ export default function ViewCollection() {
                 setFilter={setCustomFilter}
                 setCustomCurrentPage={setCustomCurrentPage}
                 customLimit={customLimit}
-                theme={theme}
               />
 
               <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
@@ -363,7 +355,6 @@ export default function ViewCollection() {
                           setCustomStructureDescription
                         }
                         setDeletingCustomStructure={setDeletingCustomStructure}
-                        theme={theme}
                       />
                     ))}
               </div>
@@ -482,7 +473,6 @@ export default function ViewCollection() {
                     ''
                   )
             }
-            theme={theme}
             isEditing={!creatingStructure}
           />
         )}
@@ -532,7 +522,6 @@ export default function ViewCollection() {
         deletingCustomStructure={deletingCustomStructure}
         setDeletingCustomStructure={setDeletingCustomStructure}
         navigate={navigate}
-        theme={theme}
         alert={alert}
       />
     </div>

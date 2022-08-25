@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
 
@@ -20,7 +19,6 @@ import DataViewCollectionIncludes from '../components/data/DataViewCollectionInc
 import { generateDataFromRaw } from '../utils/dataProcessor';
 
 export default function ViewDataCollection() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
 
@@ -180,9 +178,7 @@ export default function ViewDataCollection() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="data" />
       <div
@@ -190,7 +186,7 @@ export default function ViewDataCollection() {
       >
         <Sidebar currentPage="data" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!currentProject ||
             !currentProject.id ||
             !currentCollection ||
@@ -220,7 +216,6 @@ export default function ViewDataCollection() {
                   project_id={project_id}
                   currentProject={currentProject}
                   currentCollection={currentCollection}
-                  theme={theme}
                 />
               )}
 
@@ -233,7 +228,6 @@ export default function ViewDataCollection() {
               setFilter={setFilter}
               setCurrentPage={setCurrentPage}
               limit={limit}
-              theme={theme}
               navigate={navigate}
             />
 
@@ -258,7 +252,6 @@ export default function ViewDataCollection() {
                       profile={profile}
                       setDataID={setDataID}
                       setDeletingData={setDeletingData}
-                      theme={theme}
                       navigate={navigate}
                       alert={alert}
                     />
@@ -278,7 +271,6 @@ export default function ViewDataCollection() {
         setDataID={setDataID}
         deletingData={deletingData}
         setDeletingData={setDeletingData}
-        theme={theme}
         alert={alert}
       />
     </div>

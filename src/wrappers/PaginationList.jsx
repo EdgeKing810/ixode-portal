@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
-export default function PaginationList({
-  theme,
-  limit,
-  amount,
-  setter,
-  additional,
-}) {
+export default function PaginationList({ limit, amount, setter, additional }) {
   const previousLabel = 'Prev';
   const nextLabel = 'Next';
 
@@ -26,26 +20,12 @@ export default function PaginationList({
       marginPagesDisplayed={2}
       pageRangeDisplayed={1}
       onPageChange={(i) => setter(i.selected)}
-      containerClassName={`flex justify-center items-center ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } w-full rounded-lg p-1 opacity-50 duration-400 ease-in-out ${additional}`}
-      activeLinkClassName={'bg-main-darkbg'}
-      previousLinkClassName={`mr-2 font-gilroy ${
-        theme === 'light' ? 'text-main-primary' : 'text-main-secondary'
-      } border-transparent ${
-        theme === 'light'
-          ? 'hover:border-main-primary'
-          : 'hover:border-main-secondary'
-      } border-2 rounded-lg p-1 duration-400 ease-in-out text-xs lg:text-base`}
-      nextLinkClassName={`ml-2 font-gilroy ${
-        theme === 'light' ? 'text-main-primary' : 'text-main-secondary'
-      } border-transparent ${
-        theme === 'light'
-          ? 'hover:border-main-primary'
-          : 'hover:border-main-secondary'
-      } border-2 rounded-lg p-1 duration-400 ease-in-out text-xs lg:text-base`}
-      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-secondary duration-400 ease-in-out text-xs lg:text-base"
-      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-main-secondary duration-400 ease-in-out text-xs lg:text-base"
+      containerClassName={`flex justify-center items-center bg-base-200 w-full rounded-lg p-1 opacity-50 duration-300 ease-in-out ${additional}`}
+      activeLinkClassName={'bg-base-100'}
+      previousLinkClassName={`mr-2 font-gilroy text-secondary border-transparent hover:border-secondary border-2 rounded-lg p-1 duration-300 ease-in-out text-xs lg:text-base`}
+      nextLinkClassName={`ml-2 font-gilroy text-secondary border-transparent hover:border-secondary border-2 rounded-lg p-1 duration-300 ease-in-out text-xs lg:text-base`}
+      pageLinkClassName="pt-1 mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-base-content border-2 border-transparent hover:border-secondary duration-300 ease-in-out text-xs lg:text-base"
+      breakLinkClassName="mx-1 p-1 rounded-full h-8 w-8 flex items-center justify-center text-main-primary border-2 border-transparent hover:border-secondary duration-300 ease-in-out text-xs lg:text-base"
     />
   );
 }

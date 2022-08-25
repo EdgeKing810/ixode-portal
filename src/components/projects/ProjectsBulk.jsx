@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaginationList from '../../wrappers/PaginationList';
-import { Button, Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function ProjectsBulk({
   profile,
@@ -17,19 +17,16 @@ export default function ProjectsBulk({
   setCurrentPage,
   limit,
   isLoading,
-  theme,
 }) {
   return (
     <div className="w-full">
       {profile &&
         ['ROOT', 'ADMIN'].includes(profile.role) &&
         ((projects && projects.length > 0) || !isLoading) && (
-          <Button
-            color="dark"
-            bgcolor="primary"
-            theme={theme}
-            className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-            click={() => {
+          <button
+            className="btn btn-primary btn-outline gap-2 w-full lg:w-1/3"
+            title="Create a new Project"
+            onClick={() => {
               setCreatingProject(true);
               setProjectID('');
               setName('');
@@ -39,17 +36,16 @@ export default function ProjectsBulk({
             }}
           >
             Create a new Project
-          </Button>
+          </button>
         )}
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {projects && projects.length > 0 && (
         <Input
           title="Filter Projects"
           placeholder="Filter Projects..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -60,7 +56,6 @@ export default function ProjectsBulk({
 
       {projects && projects.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             projects

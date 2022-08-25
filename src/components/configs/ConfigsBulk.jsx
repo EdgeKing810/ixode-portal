@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaginationList from '../../wrappers/PaginationList';
-import { Button, Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function ConfigsBulk({
   configs,
@@ -13,34 +13,30 @@ export default function ConfigsBulk({
   setCurrentPage,
   limit,
   isLoading,
-  theme,
 }) {
   return (
     <div className="w-full">
       {((configs && configs.length > 0) || !isLoading) && (
-        <Button
-          color="dark"
-          bgcolor="primary"
-          theme={theme}
-          className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-          click={() => {
+        <button
+          className="btn btn-primary btn-outline w-full lg:w-1/3"
+          title="Create a new Config"
+          onClick={() => {
             setCreatingConfig(true);
             setKey('');
             setValue('');
           }}
         >
           Create a new Config
-        </Button>
+        </button>
       )}
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {configs && configs.length > 0 && (
         <Input
           title="Filter Configs"
           placeholder="Filter Configs..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -51,7 +47,6 @@ export default function ConfigsBulk({
 
       {configs && configs.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             configs

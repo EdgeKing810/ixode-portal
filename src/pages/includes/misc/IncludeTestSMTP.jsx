@@ -2,10 +2,7 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
-  LinkerButton,
-  Separator,
   SubHeading,
 } from '../../../components/Components';
 
@@ -22,7 +19,6 @@ export default function IncludeTestSMTP({
   smtpPort,
   setSmtpPort,
   submitTest,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -31,32 +27,29 @@ export default function IncludeTestSMTP({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsTesting(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Test SMTP Credentials
         </SubHeading>
 
-        <IconButton
-          click={() => setIsTesting(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsTesting(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       {!isProcessing && (
         <div className="w-full lg:w-1/2">
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
           <Input
             title="Enter username"
             placeholder="Enter username..."
             value={smtpUsername}
             change={(e) => setSmtpUsername(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
@@ -65,7 +58,6 @@ export default function IncludeTestSMTP({
             placeholder="Enter password..."
             value={smtpPassword}
             change={(e) => setSmtpPassword(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
@@ -74,7 +66,6 @@ export default function IncludeTestSMTP({
             placeholder="Enter host... e.g smtp.gmail.com"
             value={smtpHost}
             change={(e) => setSmtpHost(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
@@ -83,22 +74,21 @@ export default function IncludeTestSMTP({
             placeholder="Enter port... e.g 587"
             value={smtpPort}
             change={(e) => setSmtpPort(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
           <div className="w-full lg:w-1/2 flex justify-start">
-            <LinkerButton
+            <button
               title="Test"
-              condition={
+              className={`btn w-full gap-2 ${
                 smtpHost &&
                 smtpHost.trim().length > 0 &&
                 smtpUsername &&
                 smtpUsername.length > 0
-                  ? true
-                  : false
-              }
-              click={() =>
+                  ? 'no-animation btn-primary btn-outline'
+                  : 'btn-ghost btn-disabled'
+              }`}
+              onClick={() =>
                 smtpHost &&
                 smtpHost.trim().length > 0 &&
                 smtpUsername &&
@@ -106,9 +96,9 @@ export default function IncludeTestSMTP({
                   ? submitTest()
                   : null
               }
-              className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-              theme={theme}
-            />
+            >
+              Test
+            </button>
           </div>
         </div>
       )}

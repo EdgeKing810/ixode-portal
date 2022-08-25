@@ -1,10 +1,7 @@
 import React from 'react';
 
 import {
-  Button,
   FullAbsoluteContainer,
-  IconButton,
-  Image,
   SubHeading,
 } from '../../../components/Components';
 
@@ -13,7 +10,6 @@ export default function IncludeDeleteMedia({
   setIsActive,
   name,
   url,
-  theme,
   nextCallback,
 }) {
   return (
@@ -23,50 +19,42 @@ export default function IncludeDeleteMedia({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsActive(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile nobreak>
           Are you sure that you want to delete the following media?
         </SubHeading>
 
-        <IconButton
-          click={() => setIsActive(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsActive(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <div className="w-full lg:w-1/2 mt-4 lg:max-h-150">
-        <Image
+        <img
           src={url}
           alt={name}
-          className="w-full h-full object-scale-down"
-          noRounded
-          noFillnn
+          className={`flex justify-center items-center w-full h-full object-scale-down`}
         />
       </div>
 
       <div className="w-full lg:w-1/2 mt-4 flex justify-center">
-        <Button
-          color="error"
-          theme={theme}
-          className="py-2 lg:py-3 w-1/2 justify-center uppercase"
-          click={() => nextCallback()}
+        <button
+          className={`btn w-1/2 gap-2 no-animation btn-error btn-outline`}
+          onClick={() => nextCallback()}
         >
           Yes
-        </Button>
+        </button>
 
-        <Button
-          color="success"
-          theme={theme}
-          className="py-2 lg:py-3 w-1/2 justify-center uppercase ml-4"
-          click={() => setIsActive(false)}
+        <button
+          className={`btn w-1/2 gap-2 no-animation btn-success btn-outline ml-4`}
+          onClick={() => setIsActive(false)}
         >
           No
-        </Button>
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

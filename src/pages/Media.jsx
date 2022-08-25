@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useMediaStore } from '../stores/useMediaStore';
 
@@ -16,7 +15,6 @@ import MediaBulk from '../components/media/MediaBulk';
 import MediaIncludes from '../components/media/MediaIncludes';
 
 export default function Media() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { media, addMedia, updateMedia, removeMedia } = useMediaStore(
     (state) => state
@@ -61,9 +59,7 @@ export default function Media() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="media" />
       <div
@@ -71,7 +67,7 @@ export default function Media() {
       >
         <Sidebar currentPage="media" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!media || media.length <= 0 ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -93,7 +89,6 @@ export default function Media() {
               setCurrentPage={setCurrentPage}
               limit={limit}
               isLoading={isLoading}
-              theme={theme}
             />
 
             <div className="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 lg:gap-4">
@@ -111,7 +106,6 @@ export default function Media() {
                     key={`ml-${m.name}`}
                     media={m}
                     profile={profile}
-                    theme={theme}
                     id={id}
                     setID={setID}
                     name={name}
@@ -145,7 +139,6 @@ export default function Media() {
         deletingMedia={deletingMedia}
         setDeletingMedia={setDeletingMedia}
         removeMedia={removeMedia}
-        theme={theme}
         alert={alert}
       />
     </div>

@@ -44,7 +44,6 @@ export default function ProjectsIncludes({
   deletingProject,
   setDeletingProject,
   removeProject,
-  theme,
   alert,
 }) {
   return (
@@ -79,7 +78,6 @@ export default function ProjectsIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeShowMembers
@@ -92,7 +90,6 @@ export default function ProjectsIncludes({
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
-        theme={theme}
       />
 
       <IncludeAddMembers
@@ -121,7 +118,6 @@ export default function ProjectsIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeDeleteMembers
@@ -150,7 +146,6 @@ export default function ProjectsIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeDeleteProject
@@ -172,7 +167,6 @@ export default function ProjectsIncludes({
           )
         }
         name={name}
-        theme={theme}
       />
     </div>
   );

@@ -1,9 +1,7 @@
 import React from 'react';
 
 import {
-  Button,
   FullAbsoluteContainer,
-  IconButton,
   SmallText,
   SubHeading,
   Text,
@@ -19,7 +17,6 @@ export default function IncludeDeleteMembers({
   currentPage,
   setCurrentPage,
   submitRemoveMember,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -28,25 +25,18 @@ export default function IncludeDeleteMembers({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setShowMembers(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center mb-2">
         <SubHeading color="primary" smallerOnMobile nobreak>
-          Remove members from{' '}
-          <span
-            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
-          >
-            {name}
-          </span>
+          Remove members from <span className="text-base-content">{name}</span>
         </SubHeading>
 
-        <IconButton
-          click={() => setShowMembers(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setShowMembers(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <div className="w-full lg:w-1/2 h-full">
@@ -56,48 +46,36 @@ export default function IncludeDeleteMembers({
             .map((m) => (
               <div
                 key={`l-${m.id}`}
-                className={`w-full flex items-center rounded-lg items-center ${
-                  theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-                } mb-2 ease-in-out duration-400`}
+                className={`w-full flex items-center rounded-lg bg-base-200 mb-2 ease-in-out duration-300 border-primary border-2 lg:border-4`}
               >
-                <Button
-                  className={`w-full flex p-2 flex items-center`}
-                  theme={theme}
+                <div
+                  className={`w-full flex p-2 items-center bg-base-200 rounded-lg`}
                 >
                   <div className="w-full flex flex-col">
                     <Text
                       color="primary"
-                      theme={theme}
                       nobreak
                       className={`w-full text-left`}
                     >
                       {m.first_name} {m.last_name}
                     </Text>
 
-                    <SmallText
-                      color={theme === 'light' ? 'dark' : 'light'}
-                      theme={theme}
-                      nobreak
-                      className={`w-full text-left lg:mt-2`}
-                    >
+                    <SmallText nobreak className={`w-full text-left lg:mt-2`}>
                       {m.username}
                     </SmallText>
                   </div>
-                </Button>
-                <IconButton
-                  theme={theme}
-                  click={() => submitRemoveMember(m.id)}
-                  icon="close"
-                  className="mx-2 p-2 rounded-full w-10 h-10"
-                  condition
-                  noFill
-                />
+                </div>
+                <button
+                  className="btn mx-2 btn-error btn-outline btn-sm btn-circle"
+                  onClick={() => submitRemoveMember(m.id)}
+                >
+                  <i className={`ri-close-line`} />
+                </button>
               </div>
             ))}
 
         {showMembers && members && members.length > 0 && (
           <PaginationList
-            theme={theme}
             limit={limit}
             amount={members.length}
             setter={setCurrentPage}

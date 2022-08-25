@@ -13,7 +13,7 @@ export const useThemeStore = create(
             'body'
           ).className = `w-screen overflow-x-hidden ${
             value === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-          } duration-400 ease-in-out`;
+          } duration-300 ease-in-out`;
 
           return { theme: value };
         }),

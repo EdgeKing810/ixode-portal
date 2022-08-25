@@ -1,12 +1,6 @@
 import React from 'react';
 
-import {
-  ALinkTo,
-  BigText,
-  IconButton,
-  Separator,
-  SmallText,
-} from '../Components';
+import { ALinkTo, BigText, SmallText } from '../Components';
 
 export default function CustomStructureField({
   structure,
@@ -19,18 +13,14 @@ export default function CustomStructureField({
   setCustomStructureName,
   setCustomStructureDescription,
   setDeletingCustomStructure,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
       key={structure.id}
     >
       <BigText
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -44,8 +34,6 @@ export default function CustomStructureField({
       </BigText>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-fulloverflow-hidden lg:flex lg:flex-col lg:justify-center`}
         smallerOnMobile
@@ -54,53 +42,45 @@ export default function CustomStructureField({
       </SmallText>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {structure.structures.length} structures
       </SmallText>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
-      <div className="w-full flex">
+      <div className="w-full flex lg:mt-2">
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-warning btn-outline btn-sm btn-circle mr-2"
             title="Edit Structure"
-            condition
-            noFill
-            theme={theme}
-            icon="pencil"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setEditingCustomStructure(true);
               setCustomStructureID(structure.id);
               setEditCustomStructureID(structure.id);
               setCustomStructureName(structure.name);
               setCustomStructureDescription(structure.description);
             }}
-          />
+          >
+            <i className={`ri-pencil-line`} />
+          </button>
         )}
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle"
             title="Delete Structure"
-            condition
-            noFill
-            theme={theme}
-            icon="delete-bin-2"
-            className="p-2 rounded-full w-10 h-10"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setDeletingCustomStructure(true);
               setCustomStructureID(structure.id);
               setEditCustomStructureID(structure.id);
               setCustomStructureName(structure.name);
               setCustomStructureDescription(structure.description);
             }}
-          />
+          >
+            <i className={`ri-delete-bin-2-line`} />
+          </button>
         )}
       </div>
     </div>

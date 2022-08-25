@@ -1,11 +1,8 @@
 import React from 'react';
 
 import {
-  Button,
   FullAbsoluteContainer,
-  IconButton,
   Input,
-  LinkerButton,
   SubHeading,
   Text,
   Title,
@@ -25,7 +22,6 @@ export default function IncludeCreateUser({
   role,
   setRole,
   submitUser,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -34,20 +30,18 @@ export default function IncludeCreateUser({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsCreating(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Create a new user
         </SubHeading>
 
-        <IconButton
-          click={() => setIsCreating(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsCreating(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <Input
@@ -55,7 +49,6 @@ export default function IncludeCreateUser({
         placeholder="Enter First Name..."
         value={firstName}
         change={(e) => setFirstName(e.target.value)}
-        theme={theme}
         className="lg:my-2 my-1 lg:w-1/2"
       />
 
@@ -64,7 +57,6 @@ export default function IncludeCreateUser({
         placeholder="Enter Last Name..."
         value={lastName}
         change={(e) => setLastName(e.target.value)}
-        theme={theme}
         className="lg:my-2 my-1 lg:w-1/2"
       />
 
@@ -73,7 +65,6 @@ export default function IncludeCreateUser({
         placeholder="Enter Username..."
         value={username}
         change={(e) => setUsername(e.target.value)}
-        theme={theme}
         className="lg:my-2 my-1 lg:w-1/2"
       />
 
@@ -82,15 +73,12 @@ export default function IncludeCreateUser({
         placeholder="Enter Email Address..."
         value={email}
         change={(e) => setEmail(e.target.value)}
-        theme={theme}
         className="lg:my-2 my-1 lg:w-1/2"
       />
 
       <Text
-        color={theme === 'light' ? 'dark' : 'light'}
         nobreak
-        className="lg:mt-0 lg:mb-2 my-2 text-left w-full lg:w-1/2 bg-main-primary bg-opacity-50 p-1 rounded"
-        theme={theme}
+        className="lg:mt-0 lg:mb-2 my-2 text-left w-full lg:w-1/2 bg-primary bg-opacity-50 p-1 rounded"
       >
         The user will get an automatic email with details on how to login. No
         further action is required on your end.
@@ -100,45 +88,46 @@ export default function IncludeCreateUser({
         Select a Role
       </Title>
 
-      <div className="w-full lg:w-1/2 flex -mt-2">
-        <Button
-          className="w-full py-2 rounded-r-none"
-          click={() => setRole('ROOT')}
-          color={role === 'ROOT' ? 'secondary' : 'primary'}
-          theme={theme}
+      <div className="w-full lg:w-1/2 flex my-2">
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'ROOT' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none`}
+          onClick={() => setRole('ROOT')}
         >
           ROOT
-        </Button>
-        <Button
-          className="w-full py-2 rounded-r-none rounded-l-none"
-          click={() => setRole('ADMIN')}
-          color={role === 'ADMIN' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'ADMIN' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none rounded-l-none`}
+          onClick={() => setRole('ADMIN')}
         >
           ADMIN
-        </Button>
-        <Button
-          className="w-full py-2 rounded-r-none rounded-l-none"
-          click={() => setRole('AUTHOR')}
-          color={role === 'AUTHOR' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'AUTHOR' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none rounded-l-none`}
+          onClick={() => setRole('AUTHOR')}
         >
           AUTHOR
-        </Button>
-        <Button
-          className="w-full py-2 rounded-l-none"
-          click={() => setRole('VIEWER')}
-          color={role === 'VIEWER' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'VIEWER' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-l-none`}
+          onClick={() => setRole('VIEWER')}
         >
           VIEWER
-        </Button>
+        </button>
       </div>
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={
+          className={`btn w-full lg:w-1/2 gap-2 ${
             firstName &&
             firstName.trim().length > 0 &&
             lastName &&
@@ -147,10 +136,10 @@ export default function IncludeCreateUser({
             username.trim().length > 0 &&
             email &&
             email.trim().length > 0
-              ? true
-              : false
-          }
-          click={() =>
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             firstName &&
             firstName.trim().length > 0 &&
             lastName &&
@@ -162,9 +151,9 @@ export default function IncludeCreateUser({
               ? submitUser()
               : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

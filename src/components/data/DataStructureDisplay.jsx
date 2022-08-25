@@ -1,16 +1,12 @@
 import React from 'react';
 
 import {
-  ALink,
   ALinkTo,
   BigText,
-  Button,
   Checkbox,
-  GenericIconButton,
   Heading,
   Input,
   PasswordInput,
-  Separator,
   SmallText,
   SubHeading,
   Text,
@@ -18,9 +14,7 @@ import {
 import { fetchData } from '../../utils/data';
 import {
   getDataValue,
-  // getDummyBool,
   setDataValue,
-  // switchDummyBool,
   validateData,
 } from '../../utils/dataProcessor';
 import { handleImage } from '../../utils/handleImage';
@@ -41,7 +35,6 @@ export default function DataStructureDisplay({
   data_id,
   currentProject,
   currentCollection,
-  theme,
   alert,
   navigate,
   showPassword,
@@ -76,7 +69,7 @@ export default function DataStructureDisplay({
       <div className="w-full" key={`it1-${dataObject.pair_id}`}>
         <BigText color="primary" className="mt-2 uppercase text-left w-full">
           {dataObject.custom_structure_name && (
-            <span className="text-main-secondary">
+            <span className="text-secondary">
               {dataObject.custom_structure_name} {'>'}{' '}
             </span>
           )}{' '}
@@ -105,7 +98,6 @@ export default function DataStructureDisplay({
                   published: published,
                 }));
               }}
-              theme={theme}
               className="mt-2 mb-2"
               min={dataObject.min}
               max={dataObject.max}
@@ -225,7 +217,6 @@ export default function DataStructureDisplay({
                   published: published,
                 }));
               }}
-              theme={theme}
               className="mt-2 mb-2"
               min={dataObject.min}
               max={dataObject.max}
@@ -258,29 +249,25 @@ export default function DataStructureDisplay({
               }}
             />
 
-            <Text color={theme === 'light' ? 'dark' : 'light'} mono>
+            <Text color="base-content" mono>
               {currentVal === 'true' || currentVal === true ? 'true' : 'false'}
             </Text>
           </div>
         ) : current.type === 'custom-media' ? (
           <div className="w-full lg:w-1/2 flex flex-col justify-start mb-2">
-            <ALink
-              noopacity
-              notfull
-              notnoto
-              color="secondary"
+            <a
+              className="hover:underline focus:underline font-noto outline-none text-secondary"
+              target="_blank"
+              rel="noopenner noreferrer"
               href={currentVal}
-              newtab
             >
               {currentVal}
-            </ALink>
+            </a>
 
-            <Button
-              color="dark"
-              bgcolor="primary"
-              theme={theme}
-              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-              click={() =>
+            <button
+              className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+              title="Upload"
+              onClick={() =>
                 handleImage(
                   alert,
                   API_URL,
@@ -309,7 +296,7 @@ export default function DataStructureDisplay({
               }
             >
               Upload
-            </Button>
+            </button>
           </div>
         ) : (
           <div></div>
@@ -344,7 +331,7 @@ export default function DataStructureDisplay({
       <div className="w-full" key={`it1-${dataObject.pair_id}`}>
         <BigText color="primary" className="mt-2 uppercase text-left w-full">
           {dataObject.custom_structure_name && (
-            <span className="text-main-secondary">
+            <span className="text-secondary">
               {dataObject.custom_structure_name} {'>'}{' '}
             </span>
           )}{' '}
@@ -358,7 +345,6 @@ export default function DataStructureDisplay({
               placeholder=""
               value={currentVal}
               change={() => null}
-              theme={theme}
               className="mt-2 mb-2"
               showPassword={showPassword}
               setShowPassword={setShowPassword}
@@ -372,7 +358,6 @@ export default function DataStructureDisplay({
               placeholder=""
               value={currentVal}
               change={() => null}
-              theme={theme}
               className="mt-2 mb-2"
             />
           )
@@ -390,22 +375,20 @@ export default function DataStructureDisplay({
               change={() => null}
             />
 
-            <Text color={theme === 'light' ? 'dark' : 'light'} mono>
+            <Text color="base-content" mono>
               {currentVal === 'true' || currentVal === true ? 'true' : 'false'}
             </Text>
           </div>
         ) : current.type === 'custom-media' ? (
           <div className="w-full lg:w-1/2 flex flex-col justify-start mb-2">
-            <ALink
-              noopacity
-              notfull
-              notnoto
-              color="secondary"
+            <a
+              className="hover:underline focus:underline font-noto outline-none text-secondary"
+              target="_blank"
+              rel="noopenner noreferrer"
               href={currentVal}
-              newtab
             >
               {currentVal}
-            </ALink>
+            </a>
           </div>
         ) : (
           <div></div>
@@ -418,13 +401,10 @@ export default function DataStructureDisplay({
 
   return (
     <div
-      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
     >
       <Heading
         color="primary"
-        theme={theme}
         nobreak
         className="w-full flex lg:flex-row flex-col uppercase"
         smallerOnMobile
@@ -453,47 +433,34 @@ export default function DataStructureDisplay({
       {profile && profile.role !== 'VIEWER' && (
         <div className="w-full flex mt-2">
           {!isEditing && !isCreating && (
-            <GenericIconButton
-              click={() =>
+            <button
+              className="btn btn-info w-full lg:w-1/3 btn-outline gap-2"
+              title="Edit"
+              onClick={() =>
                 navigate(
                   `/data/p/${project_id}/c/${collection_id}/d/e/${data_id}`
                 )
               }
-              className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center lg:py-3"
-              color={theme === 'dark' ? 'light' : 'dark'}
-              icon="pencil"
             >
               Edit
-            </GenericIconButton>
+              <i className={`ri-pencil-line`} />
+            </button>
           )}
 
           {isEditing && !isCreating && (
-            <GenericIconButton
-              click={() =>
+            <button
+              className="btn btn-info w-full lg:w-1/3 btn-outline gap-2"
+              title="View"
+              onClick={() =>
                 navigate(
                   `/data/p/${project_id}/c/${collection_id}/d/v/${data_id}`
                 )
               }
-              className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center lg:py-3"
-              color={theme === 'dark' ? 'light' : 'dark'}
-              icon="eye"
             >
               View
-            </GenericIconButton>
+              <i className={`ri-eye-line`} />
+            </button>
           )}
-
-          {/* {!isEditing && <GenericIconButton
-            click={() =>
-              navigate(
-                `/data/p/${project_id}/c/${collection_id}/d/v/${data_id}`
-              )
-            }
-            className="p-2 bg-main-darkbg rounded-lg w-full ease-in-out duration-400 justify-center ml-2 lg:py-3"
-            color={theme === 'dark' ? 'light' : 'dark'}
-            icon="delete-bin-2"
-          >
-            Delete
-          </GenericIconButton>} */}
         </div>
       )}
 
@@ -507,15 +474,13 @@ export default function DataStructureDisplay({
             </div>
           ))}
 
-          <Separator />
+          <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
           {isEditing && (
-            <Button
-              color="dark"
-              bgcolor="primary"
-              theme={theme}
-              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-              click={() =>
+            <button
+              className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+              title="Submit"
+              onClick={() => () =>
                 !isCreating
                   ? submitUpdateData(
                       API_URL,
@@ -535,11 +500,10 @@ export default function DataStructureDisplay({
                       currentData.pairs,
                       alert,
                       navigate
-                    )
-              }
+                    )}
             >
               Submit
-            </Button>
+            </button>
           )}
         </div>
       ) : (

@@ -13,17 +13,11 @@ export default function MediaIncludes({
   setID,
   name,
   setName,
-  media,
-  addMedia,
   viewingMedia,
   setViewingMedia,
-  editingMedia,
-  setEditingMedia,
-  updateMedia,
   deletingMedia,
   setDeletingMedia,
   removeMedia,
-  theme,
   alert,
 }) {
   return (
@@ -33,7 +27,6 @@ export default function MediaIncludes({
         setIsActive={setViewingMedia}
         name={name}
         url={`${PUBLIC_URL}/${name}`}
-        theme={theme}
       />
 
       <IncludeDeleteMedia
@@ -54,7 +47,6 @@ export default function MediaIncludes({
             alert
           )
         }
-        theme={theme}
       />
     </div>
   );

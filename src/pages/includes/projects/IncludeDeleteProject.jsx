@@ -1,9 +1,7 @@
 import React from 'react';
 
 import {
-  Button,
   FullAbsoluteContainer,
-  IconButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -12,7 +10,6 @@ export default function IncludeDeleteProject({
   setIsActive,
   submitDeleteProject,
   name,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -21,46 +18,35 @@ export default function IncludeDeleteProject({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsActive(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile nobreak>
           Are you sure that you want to delete the{' '}
-          <span
-            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
-          >
-            {name}
-          </span>{' '}
-          project?
+          <span className="text-base-content">{name}</span> project?
         </SubHeading>
 
-        <IconButton
-          click={() => setIsActive(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsActive(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <div className="w-full lg:w-1/2 mt-4 flex justify-center">
-        <Button
-          color="error"
-          theme={theme}
-          className="py-2 lg:py-3 w-1/2 justify-center uppercase"
-          click={() => submitDeleteProject()}
+        <button
+          className={`btn w-1/2 gap-2 no-animation btn-error btn-outline`}
+          onClick={() => submitDeleteProject()}
         >
           Yes
-        </Button>
+        </button>
 
-        <Button
-          color="success"
-          theme={theme}
-          className="py-2 lg:py-3 w-1/2 justify-center uppercase ml-4"
-          click={() => setIsActive(false)}
+        <button
+          className={`btn w-1/2 gap-2 no-animation btn-success btn-outline ml-4`}
+          onClick={() => setIsActive(false)}
         >
           No
-        </Button>
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

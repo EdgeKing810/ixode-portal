@@ -2,10 +2,8 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
   InputTextArea,
-  LinkerButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -20,7 +18,6 @@ export default function IncludeCreateCustomStructure({
   customStructureID,
   setCustomStructureID,
   submitCustomStructure,
-  theme,
   isEditing,
 }) {
   return (
@@ -30,48 +27,27 @@ export default function IncludeCreateCustomStructure({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsCreating(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         {!isEditing ? (
           <SubHeading color="primary" smallerOnMobile>
             Create a Custom Structure in{' '}
-            <span
-              className={
-                theme === 'light' ? 'text-main-dark' : 'text-main-light'
-              }
-            >
-              {collectionName}
-            </span>
+            <span className="text-base-content">{collectionName}</span>
           </SubHeading>
         ) : (
           <SubHeading color="primary" smallerOnMobile>
-            Edit{' '}
-            <span
-              className={
-                theme === 'light' ? 'text-main-dark' : 'text-main-light'
-              }
-            >
-              {name}
-            </span>{' '}
-            Custom Structure in{' '}
-            <span
-              className={
-                theme === 'light' ? 'text-main-dark' : 'text-main-light'
-              }
-            >
-              {collectionName}
-            </span>
+            Edit <span className="text-base-content">{name}</span> Custom
+            Structure in{' '}
+            <span className="text-base-content">{collectionName}</span>
           </SubHeading>
         )}
 
-        <IconButton
-          click={() => setIsCreating(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsCreating(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <Input
@@ -82,7 +58,6 @@ export default function IncludeCreateCustomStructure({
           setName(e.target.value);
           setCustomStructureID(e.target.value.trim().toLowerCase());
         }}
-        theme={theme}
         className="mt-2 lg:w-1/2"
       />
 
@@ -93,7 +68,6 @@ export default function IncludeCreateCustomStructure({
         change={(e) =>
           setCustomStructureID(e.target.value.trim().toLowerCase())
         }
-        theme={theme}
         className="mt-2 lg:w-1/2"
       />
 
@@ -102,22 +76,21 @@ export default function IncludeCreateCustomStructure({
         placeholder="Enter Description... (optional)"
         value={description}
         change={(e) => setDescription(e.target.value)}
-        theme={theme}
         className="my-2 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={
+          className={`btn w-full lg:w-1/2 gap-2 ${
             name &&
             name.trim().length > 0 &&
             customStructureID &&
             customStructureID.trim().length > 0
-              ? true
-              : false
-          }
-          click={() =>
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             name &&
             name.trim().length > 0 &&
             customStructureID &&
@@ -125,9 +98,9 @@ export default function IncludeCreateCustomStructure({
               ? submitCustomStructure()
               : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

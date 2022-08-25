@@ -34,7 +34,6 @@ export default function UsersIncludes({
   deletingUser,
   setDeletingUser,
   removeProfile,
-  theme,
   alert,
 }) {
   return (
@@ -72,7 +71,6 @@ export default function UsersIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeUpdateRole
@@ -95,7 +93,6 @@ export default function UsersIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeDeleteUser
@@ -114,7 +111,6 @@ export default function UsersIncludes({
             alert
           )
         }
-        theme={theme}
       />
     </div>
   );

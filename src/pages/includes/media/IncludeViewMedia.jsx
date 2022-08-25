@@ -1,19 +1,8 @@
 import React from 'react';
 
-import {
-  BigText,
-  FullAbsoluteContainer,
-  IconButton,
-  Image,
-} from '../../../components/Components';
+import { BigText, FullAbsoluteContainer } from '../../../components/Components';
 
-export default function IncludeViewMedia({
-  isActive,
-  setIsActive,
-  name,
-  url,
-  theme,
-}) {
+export default function IncludeViewMedia({ isActive, setIsActive, name, url }) {
   return (
     <FullAbsoluteContainer
       additional={`w-screen h-screen left-0 top-0 left-0 lg:pt-0 ${
@@ -21,25 +10,23 @@ export default function IncludeViewMedia({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsActive(false)}
-      theme={theme}
     >
-      <div className="flex w-full lg:w-1/2 justify-between items-center">
+      <div className="flex w-full lg:w-1/2 h-1/2 justify-between items-center">
         <BigText color="primary">{name}</BigText>
 
-        <IconButton
-          click={() => setIsActive(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsActive(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
-      <div className="w-full lg:w-1/2 mt-4 lg:max-h-150">
-        <Image
+      <div className="w-full h-full flex items-center justify-center lg:w-1/2 mt-4 lg:max-h-150">
+        <img
           src={url}
           alt={name}
-          className="w-full h-full object-scale-down"
+          className="w-full h-full object-contain lg:object-scale-down"
           noRounded
           noFillnn
         />

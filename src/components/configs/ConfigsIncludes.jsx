@@ -27,7 +27,6 @@ export default function ConfigsIncludes({
   deletingConfig,
   setDeletingConfig,
   removeConfig,
-  theme,
   alert,
 }) {
   return (
@@ -53,7 +52,6 @@ export default function ConfigsIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeEditConfig
@@ -74,7 +72,6 @@ export default function ConfigsIncludes({
             alert
           )
         }
-        theme={theme}
         keyname={keyname}
       />
 
@@ -94,7 +91,6 @@ export default function ConfigsIncludes({
             alert
           )
         }
-        theme={theme}
       />
     </div>
   );

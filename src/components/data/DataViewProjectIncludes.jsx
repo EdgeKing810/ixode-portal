@@ -11,7 +11,6 @@ export default function DataViewProjectIncludes({
   memberLimit,
   memberCurrentPage,
   setMemberCurrentPage,
-  theme,
 }) {
   return (
     <div className="w-full">
@@ -25,7 +24,6 @@ export default function DataViewProjectIncludes({
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
-        theme={theme}
       />
     </div>
   );

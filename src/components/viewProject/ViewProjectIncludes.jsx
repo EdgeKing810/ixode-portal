@@ -81,7 +81,6 @@ export default function ViewProjectIncludes({
   deletingCollection,
   setDeletingCollection,
   navigate,
-  theme,
   alert,
 }) {
   return (
@@ -165,7 +164,6 @@ export default function ViewProjectIncludes({
         }
         textarea={editingProject === 'Description'}
         format={editingProject === 'API Path'}
-        theme={theme}
       />
 
       <IncludeShowMembers
@@ -178,7 +176,6 @@ export default function ViewProjectIncludes({
         limit={memberLimit}
         currentPage={memberCurrentPage}
         setCurrentPage={setMemberCurrentPage}
-        theme={theme}
       />
 
       <IncludeAddMembers
@@ -202,7 +199,6 @@ export default function ViewProjectIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeDeleteMembers
@@ -226,7 +222,6 @@ export default function ViewProjectIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeDeleteProject
@@ -244,7 +239,6 @@ export default function ViewProjectIncludes({
           )
         }
         name={name}
-        theme={theme}
       />
 
       <IncludeCreateCollection
@@ -272,7 +266,6 @@ export default function ViewProjectIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCollection
@@ -297,7 +290,6 @@ export default function ViewProjectIncludes({
             () => null
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCollection
@@ -322,7 +314,6 @@ export default function ViewProjectIncludes({
             () => null
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCollection
@@ -347,7 +338,6 @@ export default function ViewProjectIncludes({
             () => null
           )
         }
-        theme={theme}
         textarea
       />
 
@@ -368,7 +358,6 @@ export default function ViewProjectIncludes({
           )
         }
         name={collectionName}
-        theme={theme}
       />
     </div>
   );

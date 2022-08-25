@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useMediaStore } from '../stores/useMediaStore';
@@ -26,7 +25,6 @@ import {
 } from '../components/structures/structure.utils';
 
 export default function ViewCustomStructure() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
   const { addMedia } = useMediaStore((state) => state);
@@ -194,9 +192,7 @@ export default function ViewCustomStructure() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="projects" />
       <div
@@ -205,7 +201,7 @@ export default function ViewCustomStructure() {
         <Sidebar currentPage="projects" />
         {!creatingStructure && !editingStructure ? (
           <div className="w-full lg:p-8 flex flex-col h-full">
-            <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+            <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
               {!currentProject ||
               !currentProject.id ||
               !currentCollection ||
@@ -251,7 +247,6 @@ export default function ViewCustomStructure() {
                       setEditingCustomStructureDescription
                     }
                     setDeletingCustomStructure={setDeletingCustomStructure}
-                    theme={theme}
                   />
                 )}
 
@@ -278,7 +273,6 @@ export default function ViewCustomStructure() {
                   setFilter={setFilter}
                   setCurrentPage={setCurrentPage}
                   limit={limit}
-                  theme={theme}
                 />
               )}
 
@@ -327,7 +321,6 @@ export default function ViewCustomStructure() {
                         setStructureArray={setStructureArray}
                         setStructureRequired={setStructureRequired}
                         setDeletingStructure={setDeletingStructure}
-                        theme={theme}
                       />
                     ))}
               </div>
@@ -446,7 +439,6 @@ export default function ViewCustomStructure() {
                     custom_structure_id
                   )
             }
-            theme={theme}
             isEditing={!creatingStructure}
           />
         )}
@@ -485,7 +477,6 @@ export default function ViewCustomStructure() {
         deletingCustomStructure={deletingCustomStructure}
         setDeletingCustomStructure={setDeletingCustomStructure}
         navigate={navigate}
-        theme={theme}
         alert={alert}
       />
     </div>

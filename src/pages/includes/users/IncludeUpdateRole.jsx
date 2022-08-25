@@ -1,12 +1,8 @@
 import React from 'react';
 
 import {
-  Button,
   FullAbsoluteContainer,
-  IconButton,
-  LinkerButton,
   SubHeading,
-  //   Title,
 } from '../../../components/Components';
 
 export default function IncludeUpdateRole({
@@ -16,7 +12,6 @@ export default function IncludeUpdateRole({
   role,
   setRole,
   submitUser,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -25,74 +20,69 @@ export default function IncludeUpdateRole({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsUpdating(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" className="mb-2" smallerOnMobile nobreak>
           Update role for the user{' '}
-          <span
-            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
-          >
-            {username}
-          </span>
+          <span className="text-base-content">{username}</span>
         </SubHeading>
 
-        <IconButton
-          click={() => setIsUpdating(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsUpdating(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
-      {/* <Title color="primary" className="lg:w-1/2">
-        Select a Role
-      </Title> */}
-
-      <div className="w-full lg:w-1/2 flex -mt-2">
-        <Button
-          className="w-full py-2 rounded-r-none"
-          click={() => setRole('ROOT')}
-          color={role === 'ROOT' ? 'secondary' : 'primary'}
-          theme={theme}
+      <div className="w-full lg:w-1/2 flex my-2">
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'ROOT' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none`}
+          onClick={() => setRole('ROOT')}
         >
           ROOT
-        </Button>
-        <Button
-          className="w-full py-2 rounded-r-none rounded-l-none"
-          click={() => setRole('ADMIN')}
-          color={role === 'ADMIN' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'ADMIN' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none rounded-l-none`}
+          onClick={() => setRole('ADMIN')}
         >
           ADMIN
-        </Button>
-        <Button
-          className="w-full py-2 rounded-r-none rounded-l-none"
-          click={() => setRole('AUTHOR')}
-          color={role === 'AUTHOR' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'AUTHOR' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-r-none rounded-l-none`}
+          onClick={() => setRole('AUTHOR')}
         >
           AUTHOR
-        </Button>
-        <Button
-          className="w-full py-2 rounded-l-none"
-          click={() => setRole('VIEWER')}
-          color={role === 'VIEWER' ? 'secondary' : 'primary'}
-          theme={theme}
+        </button>
+
+        <button
+          className={`btn w-1/4 gap-2 no-animation ${
+            role === 'VIEWER' ? 'btn-secondary' : 'btn-primary'
+          } btn-outline rounded-l-none`}
+          onClick={() => setRole('VIEWER')}
         >
           VIEWER
-        </Button>
+        </button>
       </div>
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={role && role.trim().length > 0 ? true : false}
-          click={() => (role && role.trim().length > 0 ? submitUser() : null)}
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+          className={`btn w-full lg:w-1/2 gap-2 ${
+            role && role.trim().length > 0
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() => (role && role.trim().length > 0 ? submitUser() : null)}
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

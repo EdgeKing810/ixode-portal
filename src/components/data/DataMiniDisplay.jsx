@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaginationList from '../../wrappers/PaginationList';
-import { Button, Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function DataMiniDisplay({
   currentData,
@@ -12,18 +12,15 @@ export default function DataMiniDisplay({
   setFilter,
   setCurrentPage,
   limit,
-  theme,
   navigate,
 }) {
   return (
     <div className="w-full">
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       <div className="flex lg:flex-row flex-col">
         {currentData && (
           <SubHeading
-            color={theme === 'light' ? 'dark' : 'light'}
-            theme={theme}
             nobreak
             className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase pt-1`}
             smallerOnMobile
@@ -33,28 +30,25 @@ export default function DataMiniDisplay({
         )}
 
         {profile && profile.role !== 'VIEWER' && (
-          <Button
-            color="dark"
-            bgcolor="primary"
-            theme={theme}
-            className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-            click={() =>
+          <button
+            className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+            title="Create a new Custom Structure"
+            onClick={() =>
               navigate(`/data/p/${projectID}/c/${collectionID}/d/create`)
             }
           >
             Create a new Data Object
-          </Button>
+          </button>
         )}
       </div>
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {currentData && currentData.length > 0 && (
         <Input
           title="Filter Data"
           placeholder="Filter Data..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -65,7 +59,6 @@ export default function DataMiniDisplay({
 
       {currentData && currentData.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             currentData

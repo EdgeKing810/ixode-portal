@@ -11,7 +11,6 @@ import Users from './pages/Users.jsx';
 import Profile from './pages/Profile.jsx';
 import Media from './pages/Media.jsx';
 import Misc from './pages/Misc.jsx';
-import Sheet from './pages/Sheet.jsx';
 import DataHome from './pages/DataHome.jsx';
 import Events from './pages/Events.jsx';
 
@@ -39,7 +38,6 @@ function App() {
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/media" element={<Media />} />
           <Route exact path="/misc" element={<Misc />} />
-          <Route exact path="/sheet" element={<Sheet />} />
           <Route exact path="/data" element={<DataHome />} />
 
           <Route exact path="/project/:project_id" element={<ViewProject />} />

@@ -2,14 +2,9 @@ import React from 'react';
 
 import {
   BigText,
-  Button,
   Checkbox,
-  IconButton,
   Input,
   InputTextArea,
-  LinkerButton,
-  Separator,
-  SmallText,
   SubHeading,
   Text,
 } from '../Components';
@@ -47,7 +42,6 @@ export default function StructurePicker({
   required,
   setRequired,
   submitStructure,
-  theme,
   isEditing,
   addMedia,
   alert,
@@ -57,67 +51,43 @@ export default function StructurePicker({
   const typeSelector = () => (
     <div className="w-full grid lg:grid-cols-4 grid-cols-3 gap-2">
       {types.map((t) => (
-        <Button
-          className="w-full pt-1 lg:py-2 rounded-lg"
-          click={() => {
+        <button
+          onClick={() => {
             setType(t.name);
             setDefaultVal('');
           }}
-          theme={theme}
-          key={`type-${t.id}`}
-          noMargin
+          className={`btn gap-2 no-animation ${
+            type === t.name ? 'btn-secondary' : 'btn-primary'
+          } btn-outline`}
         >
-          <SmallText color={type === t.name ? 'secondary' : 'primary'}>
-            {t.name}
-          </SmallText>
-        </Button>
+          {t.name}
+        </button>
       ))}
     </div>
   );
 
   return (
     <div className="w-full lg:p-8 flex flex-col h-full">
-      <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 overflow-y-scroll">
+      <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 overflow-y-scroll">
         <div className="flex w-full justify-between items-center">
           {!isEditing ? (
             <SubHeading color="primary" smallerOnMobile>
               Create a Structure in{' '}
-              <span
-                className={
-                  theme === 'light' ? 'text-main-dark' : 'text-main-light'
-                }
-              >
-                {collectionName}
-              </span>
+              <span className="text-base-content">{collectionName}</span>
             </SubHeading>
           ) : (
             <SubHeading color="primary" smallerOnMobile>
-              Edit{' '}
-              <span
-                className={
-                  theme === 'light' ? 'text-main-dark' : 'text-main-light'
-                }
-              >
-                {name}
-              </span>{' '}
-              Structure in{' '}
-              <span
-                className={
-                  theme === 'light' ? 'text-main-dark' : 'text-main-light'
-                }
-              >
-                {collectionName}
-              </span>
+              Edit <span className="text-base-content">{name}</span> Structure
+              in <span className="text-base-content">{collectionName}</span>
             </SubHeading>
           )}
 
-          <IconButton
-            click={() => setIsCreating(false)}
-            condition
-            icon="close"
-            noFill
-            className="ml-3 px-2 rounded-lg bg-transparent"
-          />
+          <button
+            className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+            onClick={() => setIsCreating(false)}
+          >
+            <i className={`ri-close-line`} />
+          </button>
         </div>
 
         <Input
@@ -128,7 +98,6 @@ export default function StructurePicker({
             setName(e.target.value);
             setStructureID(e.target.value.trim().toLowerCase());
           }}
-          theme={theme}
           className="mt-2"
         />
 
@@ -137,7 +106,6 @@ export default function StructurePicker({
           placeholder="Enter Description... (optional)"
           value={description}
           change={(e) => setDescription(e.target.value)}
-          theme={theme}
           className="my-2"
         />
 
@@ -146,12 +114,11 @@ export default function StructurePicker({
           placeholder="Enter ID... (e.g username)"
           value={structureID}
           change={(e) => setStructureID(e.target.value.trim().toLowerCase())}
-          theme={theme}
           className="mt-2"
         />
 
         <div className="w-full mt-1">
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
         </div>
 
         <BigText color="primary" className="mb-2 uppercase text-left w-full">
@@ -179,7 +146,6 @@ export default function StructurePicker({
                   setMin(e.target.value);
                 }
               }}
-              theme={theme}
             />
           </div>
 
@@ -201,13 +167,12 @@ export default function StructurePicker({
                   setMax(e.target.value);
                 }
               }}
-              theme={theme}
             />
           </div>
         </div>
 
         <div className="w-full mt-1">
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
         </div>
 
         {types.find((t) => t.name === type).type !== 'hidden' && (
@@ -230,7 +195,6 @@ export default function StructurePicker({
                 change={(e) => {
                   setDefaultVal(e.target.value);
                 }}
-                theme={theme}
                 className="mt-2 mb-2"
                 min={min}
                 max={max}
@@ -249,7 +213,7 @@ export default function StructurePicker({
                   change={setDefaultVal}
                 />
 
-                <Text color={theme === 'light' ? 'dark' : 'light'} mono>
+                <Text color="text-base-content" mono>
                   {defaultVal === true || defaultVal === 'true'
                     ? 'true'
                     : 'false'}
@@ -257,12 +221,10 @@ export default function StructurePicker({
               </div>
             ) : types.find((t) => t.name === type).type === 'custom-media' ? (
               <div className="w-full flex justify-start mb-2">
-                <Button
-                  color="dark"
-                  bgcolor="primary"
-                  theme={theme}
-                  className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-                  click={() =>
+                <button
+                  className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+                  title="Upload"
+                  onClick={() =>
                     handleImage(
                       alert,
                       API_URL,
@@ -279,7 +241,7 @@ export default function StructurePicker({
                   }
                 >
                   Upload
-                </Button>
+                </button>
               </div>
             ) : (
               <div></div>
@@ -303,15 +265,11 @@ export default function StructurePicker({
               Format:
             </Text>
 
-            <Text
-              color={theme === 'light' ? 'dark' : 'light'}
-              mono
-              smallerOnMobile
-            >
+            <Text mono smallerOnMobile>
               {types.find((t) => t.name === type).format}
             </Text>
           </div>
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
         </div>
 
         <BigText color="primary" className="mt-2 uppercase text-left w-full">
@@ -323,7 +281,6 @@ export default function StructurePicker({
           placeholder="Enter Regex Pattern..."
           value={regex}
           change={(e) => setRegex(e.target.value)}
-          theme={theme}
           className="mt-2"
           min={min}
           max={max}
@@ -336,9 +293,7 @@ export default function StructurePicker({
 
           <Checkbox value={required} color="primary" change={setRequired} />
 
-          <Text color={theme === 'light' ? 'dark' : 'light'} mono>
-            {required === true ? 'true' : 'false'}
-          </Text>
+          <Text mono>{required === true ? 'true' : 'false'}</Text>
         </div>
 
         <div className="w-full flex justify-start mt-1">
@@ -348,9 +303,7 @@ export default function StructurePicker({
 
           <Checkbox value={encrypted} color="primary" change={setEncrypted} />
 
-          <Text color={theme === 'light' ? 'dark' : 'light'} mono>
-            {encrypted === true ? 'true' : 'false'}
-          </Text>
+          <Text mono>{encrypted === true ? 'true' : 'false'}</Text>
         </div>
 
         <div className="w-full flex justify-start mt-1">
@@ -360,9 +313,7 @@ export default function StructurePicker({
 
           <Checkbox value={unique} color="primary" change={setUnique} />
 
-          <Text color={theme === 'light' ? 'dark' : 'light'} mono>
-            {unique === true ? 'true' : 'false'}
-          </Text>
+          <Text mono>{unique === true ? 'true' : 'false'}</Text>
         </div>
 
         <div className="w-full flex justify-start mt-1">
@@ -372,23 +323,21 @@ export default function StructurePicker({
 
           <Checkbox value={array} color="primary" change={setArray} />
 
-          <Text color={theme === 'light' ? 'dark' : 'light'} mono>
-            {array === true ? 'true' : 'false'}
-          </Text>
+          <Text mono>{array === true ? 'true' : 'false'}</Text>
         </div>
 
         <div className="w-full flex justify-start">
-          <LinkerButton
+          <button
             title="Submit"
-            condition={
+            className={`btn w-full lg:w-1/3 gap-2 ${
               name &&
               name.trim().length > 0 &&
               structureID &&
               structureID.trim().length > 0
-                ? true
-                : false
-            }
-            click={() =>
+                ? 'no-animation btn-primary btn-outline'
+                : 'btn-ghost btn-disabled'
+            }`}
+            onClick={() =>
               name &&
               name.trim().length > 0 &&
               structureID &&
@@ -396,9 +345,9 @@ export default function StructurePicker({
                 ? submitStructure()
                 : null
             }
-            className="uppercase p-2 rounded-lg w-full"
-            theme={theme}
-          />
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

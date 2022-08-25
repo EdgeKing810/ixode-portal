@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProfileStore } from '../stores/useProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
@@ -20,7 +19,6 @@ import DataViewProjectIncludes from '../components/data/DataViewProjectIncludes'
 import DataViewProjectBulk from '../components/data/DataViewProjectBulk';
 
 export default function ViewDataProject() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { profiles } = useProfileStore((state) => state);
   const { projects } = useProjectStore((state) => state);
@@ -111,9 +109,7 @@ export default function ViewDataProject() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="data" />
       <div
@@ -121,7 +117,7 @@ export default function ViewDataProject() {
       >
         <Sidebar currentPage="data" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!currentProject || !currentProject.id ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -139,7 +135,6 @@ export default function ViewDataProject() {
                 setMembers={setMembers}
                 setName={setName}
                 setMemberCurrentPage={setMemberCurrentPage}
-                theme={theme}
               />
             )}
 
@@ -150,7 +145,6 @@ export default function ViewDataProject() {
               setFilter={setFilter}
               setCurrentPage={setCurrentPage}
               limit={limit}
-              theme={theme}
             />
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
@@ -173,7 +167,6 @@ export default function ViewDataProject() {
                       key={`cl-${c.id}`}
                       collection={c}
                       project_id={project_id}
-                      theme={theme}
                     />
                   ))}
             </div>
@@ -190,7 +183,6 @@ export default function ViewDataProject() {
         memberLimit={memberLimit}
         memberCurrentPage={memberCurrentPage}
         setMemberCurrentPage={setMemberCurrentPage}
-        theme={theme}
       />
     </div>
   );

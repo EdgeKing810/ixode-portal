@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { LinkerButton } from '../Components';
-
 export default function MiscBulk({
   setTestingMongoConnection,
   setTestingSmtp,
   isLoading,
-  theme,
 }) {
   if (isLoading) {
     return <div></div>;
@@ -14,25 +11,23 @@ export default function MiscBulk({
 
   return (
     <div className="w-full lg:w-1/2">
-      <LinkerButton
-        theme={theme}
-        color={theme}
-        className="p-3 w-full justify-center uppercase rounded-lg"
-        click={() => setTestingMongoConnection(true)}
+      <button
+        className="btn btn-primary btn-outline gap-2 mt-2 w-full"
         title="Test Mongo Connection"
-        icon="database-2"
-        condition
-      />
+        onClick={() => setTestingMongoConnection(true)}
+      >
+        Test Mongo Connection
+        <i className="ri-database-2-line" />
+      </button>
 
-      <LinkerButton
-        theme={theme}
-        color={theme}
-        className="p-3 w-full justify-center uppercase rounded-lg"
-        click={() => setTestingSmtp(true)}
+      <button
+        className="btn btn-primary btn-outline gap-2 mt-2 w-full"
         title="Test SMTP Credentials"
-        icon="mail-send"
-        condition
-      />
+        onClick={() => setTestingSmtp(true)}
+      >
+        Test SMTP Credentials
+        <i className="ri-mail-send-line" />
+      </button>
     </div>
   );
 }

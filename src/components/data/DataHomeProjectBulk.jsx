@@ -9,32 +9,14 @@ export default function DataHomeProjectBulk({
   setFilter,
   setCurrentPage,
   limit,
-  theme,
 }) {
   return (
     <div className="w-full">
-      {/* {profile &&
-        ['ROOT', 'ADMIN'].includes(profile.role) &&
-        ((projects && projects.length > 0) || !isLoading) && (
-          <Button
-            color="dark"
-            bgcolor="primary"
-            theme={theme}
-            className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-            click={() => navigate('/projects')}
-          >
-            Create a new Project
-          </Button>
-        )}
-
-      <Separator /> */}
-
       {projects && projects.length > 0 && (
         <Input
           title="Filter Projects"
           placeholder="Filter Projects..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -45,7 +27,6 @@ export default function DataHomeProjectBulk({
 
       {projects && projects.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             projects

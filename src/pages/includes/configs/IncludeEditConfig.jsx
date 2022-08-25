@@ -2,9 +2,7 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
-  LinkerButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -14,7 +12,6 @@ export default function IncludeEditConfig({
   value,
   setValue,
   submitValue,
-  theme,
   keyname,
 }) {
   return (
@@ -24,25 +21,18 @@ export default function IncludeEditConfig({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsEditing(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
-          Enter a value for{' '}
-          <span
-            className={theme === 'light' ? 'text-main-dark' : 'text-main-light'}
-          >
-            {keyname}
-          </span>
+          Enter a value for <span className="text-base-content">{keyname}</span>
         </SubHeading>
 
-        <IconButton
-          click={() => setIsEditing(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsEditing(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <Input
@@ -50,20 +40,23 @@ export default function IncludeEditConfig({
         placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}
-        theme={theme}
-        className="mt-2 lg:my-2 lg:w-1/2"
+        className="my-2 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={value && value.trim().length > 0 ? true : false}
-          click={() =>
+          className={`btn w-full lg:w-1/2 gap-2 ${
+            value && value.trim().length > 0
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             value && value.trim().length > 0 ? submitValue() : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

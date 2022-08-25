@@ -1,7 +1,7 @@
 import React from 'react';
 import PaginationList from '../../wrappers/PaginationList';
 
-import { Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function DataViewProjectBulk({
   collections,
@@ -10,17 +10,14 @@ export default function DataViewProjectBulk({
   setFilter,
   setCurrentPage,
   limit,
-  theme,
 }) {
   return (
     <div className="w-full">
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       <div className="flex lg:flex-row flex-col">
         {((collections && collections.length > 0) || !isLoading) && (
           <SubHeading
-            color={theme === 'light' ? 'dark' : 'light'}
-            theme={theme}
             nobreak
             className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
             smallerOnMobile
@@ -30,14 +27,13 @@ export default function DataViewProjectBulk({
         )}
       </div>
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {collections && collections.length > 0 && (
         <Input
           title="Filter Collections"
           placeholder="Filter Collections..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -48,7 +44,6 @@ export default function DataViewProjectBulk({
 
       {collections && collections.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             collections

@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useThemeStore } from '../../stores/useThemeStore';
 import { useUserProfileStore } from '../../stores/useUserProfileStore';
 
 import { fetchData } from '../../utils/data';
 import { logout } from '../../utils/fetcher';
 
-import { Image, Linker, LinkerButton, Separator } from '../Components';
-
 import banner from '../../assets/images/banner_purple.png';
 
 export default function Sidebar({ currentPage }) {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const [pages] = useState(fetchData().navigation);
 
@@ -20,54 +16,48 @@ export default function Sidebar({ currentPage }) {
 
   return (
     <div
-      className={`w-0 lg:w-1/5 invisible lg:visible ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } h-full bg-opacity-50 lg:border-r-4 lg:border-main-primary`}
+      className={`w-0 lg:w-1/5 invisible lg:visible bg-base-200 h-full lg:border-r-4 lg:border-primary`}
     >
-      <Image src={banner} alt="banner" className={`w-full p-2`} noRounded />
+      <img
+        src={banner}
+        alt="banner"
+        className={`w-full p-2 mt-1 object-fill flex justify-center items-center`}
+      />
 
-      <div className="w-full flex flex-col p-1 lg:p-2">
+      <ul className="menu p-4 text-base-content">
         {pages
           .filter((p) => p.visibility.split(',').includes(profile.role))
           .map((p) => (
-            <Linker
-              key={`nav-${p.name}`}
-              theme={theme}
-              className={`py-2 rounded-lg w-full flex justify-center uppercase`}
-              color={theme}
-              textColor={
-                currentPage === p.name.toLowerCase() ? 'primary' : 'secondary'
-              }
-              transparent
-              to={`/${p.name.toLowerCase()}`}
-              condition={currentPage !== p.name.toLowerCase()}
-              title={p.name}
-              icon={p.icon}
-              noFill
-              reverseIcon
-              customInner={`w-full flex justify-left overflow-hidden rounded-lg pl-6 py-2`}
-            />
+            <li key={`nav-${p.name}`} className="mt-2" title={p.name}>
+              <button
+                onClick={() => navigate(`/${p.name.toLowerCase()}`)}
+                className={`btn flex justify-start gap-2 ${
+                  currentPage === p.name.toLowerCase()
+                    ? 'no-animation btn-secondary btn-outline'
+                    : 'btn-ghost'
+                }`}
+              >
+                <span className={`ri-${p.icon}-line`} />
+                {p.name}
+              </button>
+            </li>
           ))}
 
-        <Separator />
+        <div
+          className={`pt-1 w-full bg-base-content my-4 rounded-lg opacity-25`}
+        />
 
-        <LinkerButton
-          theme={theme}
-          className="py-3 rounded-lg w-full justify-start uppercase -mt-1"
-          click={() => {
+        <button
+          onClick={() => {
             logout();
             navigate('/');
           }}
-          color={theme}
-          transparent
-          condition
-          title="Log Out"
-          icon="logout-box"
-          textColor="error"
-          noFill
-          reverseIcon
-        />
-      </div>
+          className={`btn flex justify-center gap-2 btn-error btn-outline`}
+        >
+          <span className={`ri-logout-box-line`} />
+          Log Out
+        </button>
+      </ul>
     </div>
   );
 }

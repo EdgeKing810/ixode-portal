@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import axios from 'axios';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useProfileStore } from '../stores/useProfileStore';
 import { useProjectStore } from '../stores/useProjectStore';
@@ -20,7 +19,6 @@ import ViewProjectIncludes from '../components/viewProject/ViewProjectIncludes';
 import ViewProjectBulk from '../components/viewProject/ViewProjectBulk';
 
 export default function ViewProject() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { profiles } = useProfileStore((state) => state);
   const {
@@ -149,9 +147,7 @@ export default function ViewProject() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="projects" />
       <div
@@ -159,7 +155,7 @@ export default function ViewProject() {
       >
         <Sidebar currentPage="projects" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!currentProject || !currentProject.id ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -183,7 +179,6 @@ export default function ViewProject() {
                 setAddMember={setAddMember}
                 setRemoveMember={setRemoveMember}
                 setDeletingProject={setDeletingProject}
-                theme={theme}
               />
             )}
 
@@ -199,7 +194,6 @@ export default function ViewProject() {
               setFilter={setFilter}
               setCurrentPage={setCurrentPage}
               limit={limit}
-              theme={theme}
             />
 
             <div className="w-full lg:grid lg:grid-cols-3 lg:gap-4 flex flex-col">
@@ -233,7 +227,6 @@ export default function ViewProject() {
                         setEditingCollectionDescription
                       }
                       setDeletingCollection={setDeletingCollection}
-                      theme={theme}
                     />
                   ))}
             </div>
@@ -294,7 +287,6 @@ export default function ViewProject() {
         deletingCollection={deletingCollection}
         setDeletingCollection={setDeletingCollection}
         navigate={navigate}
-        theme={theme}
         alert={alert}
       />
     </div>

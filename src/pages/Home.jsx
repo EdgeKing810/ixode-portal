@@ -8,20 +8,16 @@ import { fetchData } from '../utils/data';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
 import {
-  ALink,
-  ALinker,
   BigText,
   Heading,
-  Linker,
-  Separator,
   SmallText,
   Text,
   Title,
 } from '../components/Components';
 
 export default function Home() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
+  const { theme } = useThemeStore((state) => state);
 
   const [data] = useState(fetchData().home);
 
@@ -39,9 +35,7 @@ export default function Home() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="home" />
       <div
@@ -49,90 +43,88 @@ export default function Home() {
       >
         <Sidebar currentPage="home" />
         <div className="w-full lg:p-8 flex flex-col lg:flex-row">
-          <div className="lg:w-2/3 h-auto w-full border-2 border-main-primary p-4 rounded border-opacity-25">
+          <div className="lg:w-2/3 h-auto w-full border-2 border-primary p-4 rounded border-opacity-25">
             <Heading className="mt-2">
-              Hi <u className="text-main-secondary">{profile.first_name}</u> 👋!
+              Hi <u className="text-secondary">{profile.first_name}</u> 👋!
             </Heading>
 
-            <Text theme={theme} nobreak>
+            <Text nobreak>
               We hope you're making progress on your project... Feel free to
               read the latest news about{' '}
-              <ALink newtab href="https://blog.konnect.dev">
+              <a
+                className="hover:underline focus:underline font-noto outline-none text-secondary"
+                target="_blank"
+                rel="noopenner noreferrer"
+                href="https://blog.konnect.dev"
+              >
                 Kinesis API
-              </ALink>
+              </a>
               .<br /> We are giving our best to improve the product based on
               your feedback.
             </Text>
 
-            <Separator />
+            <ul
+              className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`}
+            />
 
             {data.blogPosts.map((d) => (
               <div className="mb-2 lg:mb-3" key={d.id}>
-                <BigText theme={theme}>
-                  <ALink
-                    color={theme === 'light' ? 'darkbg' : 'lightbg'}
+                <BigText>
+                  <a
+                    className="hover:underline focus:underline font-noto outline-none"
+                    target="_blank"
+                    rel="noopenner noreferrer"
                     href={d.href}
-                    newtab
-                    noopacity
                   >
                     {d.title}
-                  </ALink>
+                  </a>
                 </BigText>
-                <SmallText theme={theme} className="mt-1">
-                  {d.description}
-                </SmallText>
+                <SmallText className="mt-1">{d.description}</SmallText>
               </div>
             ))}
 
-            <Linker
-              theme={theme}
-              className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/3"
-              color={theme === 'light' ? 'light' : 'dark'}
-              smaller
-              transparent
-              to="/blog"
-              condition
+            <button
+              onClick={() => {
+                navigate('/blog');
+              }}
+              className={`btn flex justify-center gap-2 btn-secondary btn-outline mt-4 w-full lg:w-1/2`}
               title="Read More on the Blog"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
+            >
+              <span className={`ri-arrow-right-s-line`} />
+              Read More on the Blog
+            </button>
+
+            <div
+              className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`}
             />
 
-            <Separator />
-
-            <div className="w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-2">
+            <ul className="w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-2 menu">
               {data.bottomNav.map((d) => (
-                <ALinker
-                  key={d.id}
-                  theme={theme}
-                  className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme}
-                  transparent
-                  href={d.link}
-                  condition
-                  icon={d.icon}
-                  noFill
-                  reverseIcon
-                  iconClass={`text-2xl mr-4 text-main-${d.color}`}
-                >
-                  <div className="w-full">
-                    <BigText
-                      theme={theme}
-                      color={theme === 'light' ? 'darkbg' : 'lightbg'}
-                      className="justify-start flex w-full"
-                    >
-                      {d.title}
-                    </BigText>
-                    <SmallText theme={theme} className="mt-1 text-left" nobreak>
-                      {d.description}
-                    </SmallText>
-                  </div>
-                </ALinker>
+                <li key={d.id}>
+                  <a
+                    href={d.link}
+                    className={`btn btn-accent btn-outline h-20 lg:h-20 rounded-lg lg:mt-4 w-full mb-2`}
+                  >
+                    <div className="w-full flex gap-4 items-center normal-case">
+                      <span
+                        className={`text-2xl text-${d.color} ri-${d.icon}-line`}
+                      />
+                      <span className="w-full">
+                        <BigText className="justify-start flex w-full">
+                          {d.title}
+                        </BigText>
+                        <SmallText className="mt-1 text-left" nobreak>
+                          {d.description}
+                        </SmallText>
+                      </span>
+                    </div>
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          <div className="lg:w-1/3 h-auto w-full border-2 border-main-primary p-4 rounded lg:ml-4 border-opacity-25 mt-2 lg:mt-0">
+          <div className="lg:w-1/3 h-auto w-full border-2 border-primary p-4 rounded lg:ml-4 border-opacity-25 mt-2 lg:mt-0">
             <Title
               className="mt-2"
               color={theme === 'light' ? 'darkbg' : 'lightbg'}
@@ -145,48 +137,46 @@ export default function Home() {
               different channels.
             </SmallText>
 
-            <Linker
-              theme={theme}
-              className="p-2 rounded-lg justify-start uppercase w-full mt-4 lg:w-1/2"
-              color={theme}
-              smaller
-              transparent
-              to="/roadmap"
-              condition
+            <button
+              onClick={() => {
+                navigate('/roadmap');
+              }}
+              className={`btn flex justify-center gap-2 btn-secondary btn-outline mt-4 w-full`}
               title="See our Roadmap"
-              icon="arrow-right-s"
-              noFill
-              reverseIcon
-              textColor="info"
+            >
+              <span className={`ri-arrow-right-s-line`} />
+              See our Roadmap
+            </button>
+
+            <div
+              className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`}
             />
 
-            <Separator />
-
-            <div className="w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-2">
+            <ul className="w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-2">
               {data.sideNav.map((d) => (
-                <ALinker
-                  key={d.id}
-                  theme={theme}
-                  className="p-2 rounded-lg justify-start w-full mb-2 lg:mt-0"
-                  color={theme === 'light' ? 'light' : 'dark'}
-                  transparent
-                  href={d.link}
-                  condition
-                  noFill={!d.fill}
-                  icon={d.icon}
-                  reverseIcon
-                  iconClass={`text-2xl mr-4 ${theme === 'light' ? 'text-main-dark' : 'text-main-light'}`}
-                >
-                  <BigText
-                    theme={theme}
-                    color={theme === 'light' ? 'dark' : 'light'}
-                    className="justify-start flex w-full"
+                <li key={d.id}>
+                  <a
+                    href={d.link}
+                    className={`btn btn-accent btn-outline rounded-lg w-full mb-2`}
+                    target="_blank"
+                    rel="noopenner noreferrer"
                   >
-                    {d.name}
-                  </BigText>
-                </ALinker>
+                    <div className="w-full flex gap-4 items-center normal-case">
+                      <span
+                        className={`text-2xl font-normal text-base-content ri-${
+                          d.icon
+                        }-${d.fill ? 'fill' : 'line'}`}
+                      />
+                      <span className="w-full">
+                        <BigText className="justify-start flex w-full">
+                          {d.name}
+                        </BigText>
+                      </span>
+                    </div>
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>

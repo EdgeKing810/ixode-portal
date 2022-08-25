@@ -17,11 +17,8 @@ const components = (children) => ({
 
     return !inline && match ? (
       <div
-        className={`${
-          theme === 'dark'
-            ? 'bg-main-dark text-main-dark'
-            : 'text-main-light bg-main-light'
-        }`}
+        className={`
+            bg-base-200 text-base-200`}
       >
         <SyntaxHighlighter
           style={theme === 'dark' ? dark : light}
@@ -33,9 +30,7 @@ const components = (children) => ({
       </div>
     ) : (
       <code
-        className={`text-main-dark ${className} text-main-dark rounded-lg ${
-          theme === 'dark' ? 'bg-main-dark' : 'bg-main-light'
-        }`}
+        className={`text-main-dark ${className} text-main-dark rounded-lg`}
         {...props}
       >
         {children}
@@ -57,17 +52,11 @@ const components = (children) => ({
 });
 
 export default function Parser({ smaller, children }) {
-  const { theme } = useThemeStore((state) => state);
-
   return (
     <ReactMarkdown
       remarkPlugins={[gfm]}
       components={components}
-      className={`w-full markdown-body ${
-        theme === 'light'
-          ? 'text-main-dark bg-main-lightbg'
-          : 'text-main-light bg-main-darkbg'
-      } list-disc ${
+      className={`w-full markdown-body text-base-content bg-base-300 list-disc ${
         smaller ? 'text-xs' : 'text-sm'
       } lg:text-base p-2 lg:p-4 rounded-lg`}
     >

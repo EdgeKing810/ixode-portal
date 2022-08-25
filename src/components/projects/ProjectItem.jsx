@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-  ALinkTo,
-  BigText,
-  IconButton,
-  Separator,
-  SmallText,
-  Text,
-} from '../Components';
+import { ALinkTo, BigText, SmallText, Text } from '../Components';
 
 export default function ProjectItem({
   project,
@@ -20,18 +13,14 @@ export default function ProjectItem({
   setAddMember,
   setRemoveMember,
   setDeletingProject,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2`}
       key={project.id}
     >
       <BigText
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -41,8 +30,6 @@ export default function ProjectItem({
       </BigText>
 
       <Text
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
       >
@@ -50,98 +37,80 @@ export default function ProjectItem({
       </Text>
 
       <Text
-        color="secondary"
-        theme={theme}
         nobreak
-        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } p-1 rounded-lg`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center bg-base-300 p-1 rounded-lg`}
       >
         {project.api_path}
       </Text>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {project.members.length} members
       </SmallText>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
-      <div className="w-full flex">
-        <IconButton
+      <div className="w-full flex lg:mt-2">
+        <button
+          className="btn btn-info btn-outline btn-sm btn-circle mr-2"
           title="View Members"
-          condition
-          noFill
-          theme={theme}
-          icon="user"
-          className="p-2 rounded-full w-10 h-10 mr-2"
-          color="primary"
-          click={() => {
+          onClick={() => {
             setShowMembers(true);
             setMembers(project.members);
             setProjectID(project.id);
             setName(project.name);
             setMemberCurrentPage(0);
           }}
-        />
+        >
+          <i className={`ri-user-line`} />
+        </button>
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-success btn-outline btn-sm btn-circle mr-2"
             title="Add Member"
-            condition
-            noFill
-            theme={theme}
-            icon="user-add"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setAddMember(true);
               setMembers(project.members);
               setProjectID(project.id);
               setName(project.name);
               setMemberCurrentPage(0);
             }}
-          />
+          >
+            <i className={`ri-user-add-line`} />
+          </button>
         )}
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle mr-2"
             title="Remove Member"
-            condition
-            noFill
-            theme={theme}
-            icon="user-unfollow"
-            className="p-2 rounded-full w-10 h-10 mr-2"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setRemoveMember(true);
               setMembers(project.members);
               setProjectID(project.id);
               setName(project.name);
               setMemberCurrentPage(0);
             }}
-          />
+          >
+            <i className={`ri-user-unfollow-line`} />
+          </button>
         )}
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
-          <IconButton
+          <button
+            className="btn btn-error btn-outline btn-sm btn-circle"
             title="Delete Project"
-            condition
-            noFill
-            theme={theme}
-            icon="delete-bin-2"
-            className="p-2 rounded-full w-10 h-10"
-            color="primary"
-            click={() => {
+            onClick={() => {
               setDeletingProject(true);
               setProjectID(project.id);
               setName(project.name);
             }}
-          />
+          >
+            <i className={`ri-delete-bin-2-line`} />
+          </button>
         )}
       </div>
     </div>

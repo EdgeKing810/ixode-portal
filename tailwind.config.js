@@ -1089,5 +1089,43 @@ module.exports = {
     'active',
     'disabled',
   ],
-  plugins: [],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  daisyui: {
+    styled: true,
+    themes: ["light", "dark", "emerald", "night", {
+      moonlight: {
+        "primary": "#9582F2",
+        "secondary": "#0E8EEA",
+        "accent": "#d1d5db",
+        "neutral": "#2F2B3B",
+        "base-100": "#ECEAF5",
+        "base-200": "#D7DFE8",
+        "base-300": "#EDF2F7",
+        "info": "#60A5FA",
+        "success": "#48BB78",
+        "warning": "#FB923C",
+        "error": "#E86B6B",
+      }
+    }, {
+      shadow: {
+        "primary": "#9582F2",
+        "secondary": "#06D5B3",
+        "accent": "#4b5563",
+        "neutral": "#302A37",
+        "base-100": "#2D3748",
+        "base-200": "#1F2937",
+        "base-300": "#111827",
+        "info": "#60A5FA",
+        "success": "#48BB78",
+        "warning": "#FB923C",
+        "error": "#E86B6B",
+      }
+    }],
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+    darkTheme: "dark",
+  },
 };

@@ -13,7 +13,6 @@ export default function DataViewCollectionIncludes({
   setDataID,
   deletingData,
   setDeletingData,
-  theme,
   alert,
 }) {
   return (
@@ -35,7 +34,6 @@ export default function DataViewCollectionIncludes({
           )
         }
         name={dataID}
-        theme={theme}
       />
     </div>
   );

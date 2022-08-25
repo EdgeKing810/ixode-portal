@@ -1,7 +1,7 @@
 import React from 'react';
 import PaginationList from '../../wrappers/PaginationList';
 
-import { Button, Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function ViewProjectBulk({
   collections,
@@ -15,17 +15,14 @@ export default function ViewProjectBulk({
   setFilter,
   setCurrentPage,
   limit,
-  theme,
 }) {
   return (
     <div className="w-full">
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       <div className="flex lg:flex-row flex-col">
         {((collections && collections.length > 0) || !isLoading) && (
           <SubHeading
-            color={theme === 'light' ? 'dark' : 'light'}
-            theme={theme}
             nobreak
             className={`overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
             smallerOnMobile
@@ -37,12 +34,10 @@ export default function ViewProjectBulk({
         {profile &&
           ['ROOT', 'ADMIN'].includes(profile.role) &&
           ((collections && collections.length > 0) || !isLoading) && (
-            <Button
-              color="dark"
-              bgcolor="primary"
-              theme={theme}
-              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-              click={() => {
+            <button
+              className="btn btn-primary btn-outline gap-2 w-full lg:w-1/3 mt-2 lg:mt-0 "
+              title="Create a new Collection"
+              onClick={() => {
                 setCreatingCollection(true);
                 setCollectionID('');
                 setCollectionName('');
@@ -50,18 +45,17 @@ export default function ViewProjectBulk({
               }}
             >
               Create a new Collection
-            </Button>
+            </button>
           )}
       </div>
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {collections && collections.length > 0 && (
         <Input
           title="Filter Collections"
           placeholder="Filter Collections..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -72,7 +66,6 @@ export default function ViewProjectBulk({
 
       {collections && collections.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             collections

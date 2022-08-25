@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ALinkTo, BigText, IconButton, Separator, Text } from '../Components';
+import { ALinkTo, BigText, Text } from '../Components';
 
 export default function DataHomeProjectItem({
   project,
@@ -8,18 +8,14 @@ export default function DataHomeProjectItem({
   setMembers,
   setName,
   setMemberCurrentPage,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-2 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent hover:border-main-primary bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2`}
       key={project.id}
     >
       <BigText
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -29,8 +25,6 @@ export default function DataHomeProjectItem({
       </BigText>
 
       <Text
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
       >
@@ -39,33 +33,27 @@ export default function DataHomeProjectItem({
 
       <Text
         color="secondary"
-        theme={theme}
         nobreak
-        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } p-1 rounded-lg`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center bg-base-300 p-1 rounded-lg`}
       >
         {project.api_path}
       </Text>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
-      <div className="w-full flex">
-        <IconButton
+      <div className="w-full flex lg:mt-2">
+        <button
+          className="btn btn-info btn-outline btn-sm btn-circle mr-2"
           title="View Members"
-          condition
-          noFill
-          theme={theme}
-          icon="user"
-          className="p-2 rounded-full w-10 h-10 mr-2"
-          color="primary"
-          click={() => {
+          onClick={() => {
             setShowMembers(true);
             setMembers(project.members);
             setName(project.name);
             setMemberCurrentPage(0);
           }}
-        />
+        >
+          <i className={`ri-user-line`} />
+        </button>
       </div>
     </div>
   );

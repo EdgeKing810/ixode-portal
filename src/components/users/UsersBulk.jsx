@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PaginationList from '../../wrappers/PaginationList';
-import { Button, Input, Separator, SubHeading } from '../Components';
+import { Input, SubHeading } from '../Components';
 
 export default function UsersBulk({
   allProfiles,
@@ -13,34 +13,30 @@ export default function UsersBulk({
   setCurrentPage,
   limit,
   isLoading,
-  theme,
 }) {
   return (
     <div className="w-full">
       {((allProfiles && allProfiles.length > 0) || !isLoading) && (
-        <Button
-          color="dark"
-          bgcolor="primary"
-          theme={theme}
-          className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-          click={() => {
+        <button
+          className="btn btn-primary btn-outline gap-2 w-full lg:w-1/3"
+          title="Add a new User"
+          onClick={() => {
             setCreatingUser(true);
             setUsername('');
             setRole('VIEWER');
           }}
         >
           Add a new User
-        </Button>
+        </button>
       )}
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       {allProfiles && allProfiles.length > 0 && (
         <Input
           title="Filter Users"
           placeholder="Filter Users..."
           value={filter}
-          theme={theme}
           change={(e) => {
             setFilter(e.target.value);
             setCurrentPage(0);
@@ -51,7 +47,6 @@ export default function UsersBulk({
 
       {allProfiles && allProfiles.length > 0 && (
         <PaginationList
-          theme={theme}
           limit={limit}
           amount={
             allProfiles

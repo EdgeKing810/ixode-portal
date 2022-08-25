@@ -2,12 +2,10 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
-import { Button, Separator } from '../components/Components';
 
 import { LocalContext } from '../wrappers/LocalContext';
 
@@ -17,7 +15,6 @@ import ProfileField from '../components/profile/ProfileField';
 import ProfileIncludes from '../components/profile/ProfileIncludes';
 
 export default function Profile() {
-  const { theme } = useThemeStore((state) => state);
   const {
     profile,
     setProfileFirstName,
@@ -180,9 +177,7 @@ export default function Profile() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="profile" />
       <div
@@ -190,7 +185,7 @@ export default function Profile() {
       >
         <Sidebar currentPage="profile" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25">
             {mapData.map((d) => (
               <ProfileField
                 key={`pl-${d.id}`}
@@ -199,24 +194,23 @@ export default function Profile() {
                 setEditString={setEditString}
                 setData={setData}
                 setNextCallback={setNextCallback}
-                theme={theme}
               />
             ))}
 
-            <Separator />
+            <div
+              className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`}
+            />
 
-            <Button
-              color="dark"
-              bgcolor="primary"
-              theme={theme}
-              className="p-3 w-full lg:w-1/3 justify-center uppercase font-bold"
-              click={() => {
+            <button
+              className="btn btn-primary btn-outline gap-2 w-full lg:w-1/3"
+              title="Change Password"
+              onClick={() => {
                 setEditingPassword(true);
                 setNextCallback(() => submitPassword);
               }}
             >
               Change Password
-            </Button>
+            </button>
           </div>
         </div>
       </div>
@@ -238,7 +232,6 @@ export default function Profile() {
         setShowPassword={setShowPassword}
         showPasswordCheck={showPasswordCheck}
         setShowPasswordCheck={setShowPasswordCheck}
-        theme={theme}
       />
     </div>
   );

@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-  BigText,
-  Heading,
-  IconButton,
-  Separator,
-  SmallText,
-  Text,
-} from '../Components';
+import { BigText, Heading, SmallText, Text } from '../Components';
 
 export default function DataProjectDisplay({
   currentProject,
@@ -15,17 +8,13 @@ export default function DataProjectDisplay({
   setMembers,
   setName,
   setMemberCurrentPage,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
     >
       <Heading
         color="primary"
-        theme={theme}
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
       >
@@ -33,8 +22,6 @@ export default function DataProjectDisplay({
       </Heading>
 
       <BigText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full -mt-2 mb-2 overflow-hidden lg:flex lg:flex-col lg:justify-center`}
         smallerOnMobile
@@ -44,42 +31,34 @@ export default function DataProjectDisplay({
 
       <Text
         color="secondary"
-        theme={theme}
         nobreak
-        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center ${
-          theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-        } p-1 rounded-lg`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center bg-base-300 p-1 rounded-lg`}
       >
         {currentProject.api_path}
       </Text>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {currentProject.members.length} members
       </SmallText>
 
-      <Separator />
+      <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
       <div className="w-full flex">
-        <IconButton
+        <button
+          className="btn btn-info btn-outline btn-sm btn-circle mr-2"
           title="View Members"
-          condition
-          noFill
-          theme={theme}
-          icon="user"
-          className="p-2 rounded-full w-10 h-10 mr-2"
-          color="primary"
-          click={() => {
+          onClick={() => {
             setShowMembers(true);
             setMembers(currentProject.members);
             setName(currentProject.name);
             setMemberCurrentPage(0);
           }}
-        />
+        >
+          <i className={`ri-user-line`} />
+        </button>
       </div>
     </div>
   );

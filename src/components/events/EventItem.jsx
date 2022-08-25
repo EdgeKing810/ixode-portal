@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { fetchData } from '../../utils/data';
-import { BigText, LinkerChildren, Text } from '../Components';
+import { BigText, Text } from '../Components';
 
 import { useProfileStore } from '../../stores/useProfileStore';
 import { useProjectStore } from '../../stores/useProjectStore';
 
-export default function EventItem({ event, theme }) {
+export default function EventItem({ event }) {
   const eventData = fetchData().events;
 
   const { profiles } = useProfileStore((state) => state);
@@ -151,20 +151,16 @@ export default function EventItem({ event, theme }) {
   const currentEvent = processEvent(event);
 
   return (
-    <LinkerChildren
+    <Link
       key={`evl-${event.id}`}
-      theme={theme}
-      className="p-3 rounded-lg w-full flex-col"
-      color={theme}
+      className="text-center p-3 rounded-lg w-full flex-col mt-2 text-lg border-2 flex border-transparent hover:opacity-65 focus:opacity-65 text-base-content bg-base-200 font-noto ease-in-out duration-300"
       to={event.redirect}
-      condition={true}
       title={event.type}
     >
       <BigText
         color="primary"
-        theme={theme}
         nobreak
-        className="w-full text-left uppercase flex items-center font-semibold"
+        className="w-full text-left uppercase flex items-center font-semibold mb-2"
       >
         <span className={`ri-${currentEvent.icons[0]}-line mr-2`} />{' '}
         {currentEvent.event_type}{' '}
@@ -172,22 +168,15 @@ export default function EventItem({ event, theme }) {
       </BigText>
 
       <Text
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
-        className={`w-full p-1 ${
-          theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-        } overflow-hidden text-left`}
+        className={`w-full p-2 bg-base-300 rounded-lg overflow-hidden text-left`}
       >
         {currentEvent.description.map((d) => {
           if (d.kind === 'normal') {
             return <span key={`evl-${event.id}-${d.data}`}>{d.data}</span>;
           } else {
             return (
-              <span
-                key={`evl-${event.id}-${d.data}`}
-                className="text-main-primary"
-              >
+              <span key={`evl-${event.id}-${d.data}`} className="text-primary">
                 {d.kind === 'redirect' ? (
                   <Link className="hover:underline" to={d.redirect}>
                     {d.data}
@@ -202,15 +191,11 @@ export default function EventItem({ event, theme }) {
       </Text>
 
       <Text
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
-        className={`w-full p-1 ${
-          theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-        } overflow-hidden text-left`}
+        className={`w-full p-1 mt-1 rounded-lg bg-base-300 overflow-hidden text-left`}
       >
         {currentEvent.timestamp}
       </Text>
-    </LinkerChildren>
+    </Link>
   );
 }

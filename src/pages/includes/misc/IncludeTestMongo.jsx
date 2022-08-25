@@ -2,10 +2,7 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
-  LinkerButton,
-  Separator,
   SubHeading,
   Text,
 } from '../../../components/Components';
@@ -19,7 +16,6 @@ export default function IncludeTestMongo({
   name,
   setName,
   submitTest,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -28,25 +24,23 @@ export default function IncludeTestMongo({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsTesting(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Test MongoDB Connection
         </SubHeading>
 
-        <IconButton
-          click={() => setIsTesting(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsTesting(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       {!isProcessing && (
         <div className="w-full lg:w-1/2">
-          <Separator smaller />
+          <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
           <Text color="primary" mono>
             <span className="text-main-secondary">mongodb://</span>
@@ -66,7 +60,6 @@ export default function IncludeTestMongo({
             placeholder="Enter uri..."
             value={uri}
             change={(e) => setUri(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
@@ -75,26 +68,25 @@ export default function IncludeTestMongo({
             placeholder="Enter DB Name... e.g kinesis_db"
             value={name}
             change={(e) => setName(e.target.value)}
-            theme={theme}
             className="my-2"
           />
 
           <div className="w-full lg:w-1/2 flex justify-start">
-            <LinkerButton
+            <button
               title="Test"
-              condition={
+              className={`btn w-full gap-2 ${
                 uri && uri.trim().length > 0 && name && name.length > 0
-                  ? true
-                  : false
-              }
-              click={() =>
+                  ? 'no-animation btn-primary btn-outline'
+                  : 'btn-ghost btn-disabled'
+              }`}
+              onClick={() =>
                 uri && uri.trim().length > 0 && name && name.length > 0
                   ? submitTest()
                   : null
               }
-              className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-              theme={theme}
-            />
+            >
+              Test
+            </button>
           </div>
         </div>
       )}

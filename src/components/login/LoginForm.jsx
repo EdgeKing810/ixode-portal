@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Input, PasswordInput } from '../Components';
+import { Input, PasswordInput } from '../Components';
 import { submitLogin } from './login.utils';
 
 export default function LoginForm({
@@ -48,7 +48,6 @@ export default function LoginForm({
         noBorder
         noPadding
         type="text"
-        theme={theme}
         className="my-2"
       />
 
@@ -63,24 +62,19 @@ export default function LoginForm({
         setShowPassword={setShowLoginPassword}
         noBorder
         noPadding
-        theme={theme}
         className="mb-2"
       />
 
-      <Button
+      <button
         type="submit"
-        theme={theme}
-        notHover={!loginInputs.every((v) => v.length > 0)}
-        color={theme === 'light' ? 'dark' : 'primary'}
-        bgcolor={theme}
-        className={`w-full lg:w-auto sm:px-8 py-3 bg-opacity-50 uppercase ${
+        className={`btn w-full lg:w-1/3 gap-2 ${
           loginInputs.every((v) => v.length > 0)
-            ? 'hover:bg-opacity-90 focus:bg-opacity-90'
-            : 'opacity-50'
+            ? 'no-animation btn-primary btn-outline'
+            : 'btn-ghost btn-disabled'
         }`}
       >
         Let's Go!
-      </Button>
+      </button>
     </form>
   );
 }

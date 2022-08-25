@@ -43,7 +43,6 @@ export default function ViewCustomStructureIncludes({
   deletingCustomStructure,
   setDeletingCustomStructure,
   navigate,
-  theme,
   alert,
 }) {
   return (
@@ -79,7 +78,6 @@ export default function ViewCustomStructureIncludes({
             navigate
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCustomStructure
@@ -113,7 +111,6 @@ export default function ViewCustomStructureIncludes({
             navigate
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCustomStructure
@@ -147,7 +144,6 @@ export default function ViewCustomStructureIncludes({
             navigate
           )
         }
-        theme={theme}
         textarea
       />
 
@@ -172,7 +168,6 @@ export default function ViewCustomStructureIncludes({
           )
         }
         name={structureName}
-        theme={theme}
       />
 
       <IncludeDeleteCustomStructure
@@ -197,7 +192,6 @@ export default function ViewCustomStructureIncludes({
           )
         }
         name={customStructureName}
-        theme={theme}
       />
     </div>
   );

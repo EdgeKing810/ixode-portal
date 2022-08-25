@@ -2,9 +2,7 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
-  LinkerButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -16,7 +14,6 @@ export default function IncludeCreateConfig({
   value,
   setValue,
   submitValue,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -25,20 +22,18 @@ export default function IncludeCreateConfig({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsCreating(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Create a Config
         </SubHeading>
 
-        <IconButton
-          click={() => setIsCreating(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsCreating(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <Input
@@ -46,7 +41,6 @@ export default function IncludeCreateConfig({
         placeholder="Enter key..."
         value={keyname}
         change={(e) => setKey(e.target.value.trim().split(' ').join('_'))}
-        theme={theme}
         className="mt-2 lg:my-2 lg:w-1/2"
       />
 
@@ -55,22 +49,21 @@ export default function IncludeCreateConfig({
         placeholder="Enter value..."
         value={value}
         change={(e) => setValue(e.target.value)}
-        theme={theme}
-        className="my-2 lg:w-1/2"
+        className="my-2 lg:mb-2 lg:mt-0 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={
+          className={`btn w-full lg:w-1/2 gap-2 ${
             keyname &&
             keyname.trim().length > 0 &&
             value &&
             value.trim().length > 0
-              ? true
-              : false
-          }
-          click={() =>
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             keyname &&
             keyname.trim().length > 0 &&
             value &&
@@ -78,9 +71,9 @@ export default function IncludeCreateConfig({
               ? submitValue()
               : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

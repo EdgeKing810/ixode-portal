@@ -1,46 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const SuperHeading = ({ title, children, className }) => (
+const GenericHeading = ({ title, color, children, nobreak, className }) => (
   <div
-    className={`text-main-primary w-full text-3xl sm:text-6xl font-bold font-spartan break-all mb-2 ${className}`}
-    title={title}
-  >
-    {children}
-  </div>
-);
-
-export const Heading = ({
-  title,
-  children,
-  color,
-  className,
-  smallerOnMobile,
-}) => (
-  <div
-    className={`${color ? `text-main-${color}` : 'text-main-primary'} w-full ${
-      smallerOnMobile ? 'text-base' : 'text-2xl'
-    } sm:text-4xl font-bold font-spartan break-all mb-2 ${className}`}
-    title={title}
-  >
-    {children}
-  </div>
-);
-
-export const SubHeading = ({
-  title,
-  children,
-  color,
-  className,
-  smallerOnMobile,
-  nobreak,
-}) => (
-  <div
-    className={`${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } w-full ${
-      smallerOnMobile ? 'text-base' : 'text-xl'
-    } sm:text-2xl font-semibold font-spartan ${
+    className={`text-${color} w-full font-spartan ${
       !nobreak && 'break-all'
     } ${className}`}
     title={title}
@@ -49,170 +12,133 @@ export const SubHeading = ({
   </div>
 );
 
-export const Title = ({ title, color, children, className, smallerMobile }) => (
-  <div
-    className={`${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } w-full ${
-      smallerMobile ? 'text-base' : 'text-lg'
-    } sm:text-xl font-spartan break-all mb-2 ${className}`}
+export const SuperHeading = ({ title, children, className }) => (
+  <GenericHeading
     title={title}
+    color="primary"
+    nobreak={false}
+    className={`text-3xl sm:text-6xl font-bold mb-2 ${className}`}
+  >
+    {children}
+  </GenericHeading>
+);
+
+export const Heading = ({
+  title,
+  children,
+  className,
+  color,
+  smallerOnMobile,
+}) => (
+  <GenericHeading
+    title={title}
+    color={color ? color : 'primary'}
+    nobreak={false}
+    className={`${
+      smallerOnMobile ? 'text-base' : 'text-2xl'
+    } sm:text-4xl font-bold mb-2 ${className}`}
+  >
+    {children}
+  </GenericHeading>
+);
+
+export const SubHeading = ({
+  title,
+  children,
+  className,
+  color,
+  nobreak,
+  smallerOnMobile,
+}) => (
+  <GenericHeading
+    title={title}
+    color={color ? color : 'secondary'}
+    nobreak={nobreak}
+    className={`${
+      smallerOnMobile ? 'text-base' : 'text-xl'
+    } sm:text-2xl font-semibold ${className}`}
+  >
+    {children}
+  </GenericHeading>
+);
+
+export const Title = ({
+  title,
+  children,
+  className,
+  color,
+  smallerOnMobile,
+}) => (
+  <GenericHeading
+    title={title}
+    color={color ? color : 'secondary'}
+    nobreak={false}
+    className={`${
+      smallerOnMobile ? 'text-base' : 'text-lg'
+    } sm:text-xl ${className}`}
+  >
+    {children}
+  </GenericHeading>
+);
+
+const GenericText = ({ color, children, nobreak, mono, className }) => (
+  <div
+    className={`text-${color} w-full font-spartan ${
+      mono ? 'font-robomono' : 'font-noto'
+    } ${!nobreak && 'break-all'} ${className}`}
   >
     {children}
   </div>
-);
-
-export const Separator = ({ smaller, color, opaque }) => (
-  <div
-    className={`pt-1 w-full ${color ? `bg-main-${color}` : 'bg-main-dark'} ${
-      smaller ? 'my-2' : 'my-4'
-    } rounded-lg ${opaque ? 'opacity-100' : 'opacity-25'}`}
-  />
 );
 
 export const BigText = ({
   children,
   color,
   className,
-  theme,
   mono,
   smallerOnMobile,
 }) => (
-  <div
+  <GenericText
+    color={color ? color : 'base-content'}
     className={`${
-      color
-        ? `text-main-${color}`
-        : theme === 'light'
-        ? 'text-main-dark'
-        : 'text-main-light'
-    } ${className} ${
       smallerOnMobile ? 'text-sm' : 'text-base'
-    } sm:text-lg font-normal ${mono ? 'font-robomono' : 'font-noto'} break-all`}
+    } sm:text-lg ${className} font-normal`}
+    mono={mono}
+    nobreak={false}
   >
     {children}
-  </div>
+  </GenericText>
 );
 
 export const Text = ({
   children,
   color,
   className,
-  theme,
   mono,
   nobreak,
   smallerOnMobile,
 }) => (
-  <div
+  <GenericText
+    color={color ? color : 'base-content'}
     className={`${
-      color
-        ? `text-main-${color}`
-        : theme === 'light'
-        ? 'text-main-dark'
-        : 'text-main-light'
-    } ${className} ${
-      smallerOnMobile ? 'text-xs' : 'text-sm'
-    } sm:text-base font-normal font-noto ${
-      mono ? 'font-robomono' : 'font-noto'
-    } ${!nobreak && 'break-all'}`}
+      smallerOnMobile ? 'text-xs' : 'text-smZ'
+    } sm:text-base ${className} font-normal`}
+    mono={mono}
+    nobreak={nobreak}
   >
     {children}
-  </div>
+  </GenericText>
 );
 
-export const SmallText = ({
-  children,
-  color,
-  className,
-  theme,
-  mono,
-  nobreak,
-}) => (
-  <div
-    className={`${
-      color
-        ? `text-main-${color}`
-        : theme === 'light'
-        ? 'text-main-dark'
-        : 'text-main-light'
-    } ${className} text-xs sm:text-sm font-extralight font-noto ${
-      mono ? 'font-robomono' : 'font-noto'
-    } mb-1 ${!nobreak && 'break-all'}`}
+export const SmallText = ({ children, color, className, mono, nobreak }) => (
+  <GenericText
+    color={color ? color : 'base-content'}
+    className={`text-xs sm:text-sm ${className} font-extralight mb-1`}
+    mono={mono}
+    nobreak={nobreak}
   >
     {children}
-  </div>
-);
-
-export const ExtraSmallText = ({ children, color, className, theme, mono }) => (
-  <div
-    className={`${
-      color
-        ? `text-main-${color}`
-        : theme === 'light'
-        ? 'text-main-dark'
-        : 'text-main-light'
-    } ${className} text-xxs sm:text-xs font-extralight font-noto ${
-      mono ? 'font-robomono' : 'font-noto'
-    } mb-1 break-all`}
-  >
-    {children}
-  </div>
-);
-
-export const SolidContainer = ({
-  children,
-  color,
-  className,
-  theme,
-  width,
-  height,
-  noTransition,
-}) => (
-  <div
-    className={`${
-      color
-        ? `bg-main-${color}`
-        : theme === 'light'
-        ? 'bg-main-dark'
-        : 'bg-main-light'
-    } ${className} ${width ? `w-${width}` : 'w-8'} ${
-      height ? `h-${height}` : 'h-8'
-    } ${!noTransition && 'ease-in-out duration-400'}`}
-  >
-    {children}
-  </div>
-);
-
-export const Image = ({ src, alt, className, noRounded, noFill }) => (
-  <img
-    src={src}
-    alt={alt}
-    className={`${!noFill && 'object-fill'} flex justify-center ${
-      !noRounded && 'rounded-full'
-    } items-center ${className}`}
-  />
-);
-
-export const ALink = ({
-  href,
-  children,
-  color,
-  className,
-  noopacity,
-  newtab,
-}) => (
-  <a
-    href={href}
-    className={`${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none w-full font-noto ${className} 
-    ${
-      !noopacity && 'opacity-65'
-    } hover:underline focus:underline hover:opacity-100 focus:opacity-100`}
-    target={newtab ? '_blank' : '_self'}
-    rel="noopenner noreferrer"
-  >
-    {children}
-  </a>
+  </GenericText>
 );
 
 export const ALinkTo = ({
@@ -227,11 +153,9 @@ export const ALinkTo = ({
 }) => (
   <Link
     to={to}
-    className={`${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none ${!notfull && 'w-full'} ${
-      !notnoto && 'font-noto'
-    } ${className} 
+    className={`${color ? `text-${color}` : 'text-secondary'} outline-none ${
+      !notfull && 'w-full'
+    } ${!notnoto && 'font-noto'} ${className} 
     ${
       !noopacity && 'opacity-65'
     } hover:underline focus:underline hover:opacity-100 focus:opacity-100`}
@@ -250,7 +174,6 @@ export const Input = ({
   noBorder,
   noPadding,
   borderColor,
-  theme,
   className,
   type,
   noTransition,
@@ -260,26 +183,18 @@ export const Input = ({
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'lg:p-2 p-1'} ${
       !noBorder &&
-      `${
-        borderColor ? `border-main-${borderColor}` : 'border-main-primary'
-      } border-2`
-    } hover:opacity-95 focus:opacity-95 ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } font-noto flex justify-start items-center bg-opacity-50 ${className} ${
-      !noTransition && 'ease-in-out duration-400'
+      `${borderColor ? `border-${borderColor}` : 'border-primary'} border-2`
+    } hover:opacity-95 focus:opacity-95 font-noto flex justify-start items-center bg-opacity-50 ${className} ${
+      !noTransition && 'ease-in-out duration-300'
     } text-sm lg:text-base`}
   >
     <input
       type={type ? type : 'text'}
       title={title}
       name={title}
-      className={`w-full outline-none rounded-lg p-2 ${
-        theme === 'light' ? 'text-main-darkbg' : 'text-main-lightbg'
-      } text-xs sm:text-base ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } font-noto ${!noTransition && 'ease-in-out duration-400'} ${
-        theme === 'light' ? 'placeholder-main-dark' : 'placeholder-main-light'
-      } opacity-85 text-sm lg:text-base`}
+      className={`w-full outline-none rounded-lg p-2 text-base-content text-xs sm:text-base bg-base-200 font-noto ${
+        !noTransition && 'ease-in-out duration-300'
+      } placeholder-base-content opacity-85 text-sm lg:text-base`}
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
@@ -297,36 +212,22 @@ export const InputTextArea = ({
   noBorder,
   noPadding,
   borderColor,
-  theme,
   className,
   type,
-  noTransition,
   min,
   max,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
       !noBorder &&
-      `${
-        borderColor ? `border-main-${borderColor}` : 'border-main-primary'
-      } border-2`
-    } hover:opacity-95 focus:opacity-95 ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } font-noto flex justify-start items-center bg-opacity-50 ${className} ${
-      !noTransition && 'ease-in-out duration-400'
-    }`}
+      `${borderColor ? `border-${borderColor}` : 'border-primary'} border-2`
+    } hover:opacity-95 focus:opacity-95 bg-base-200 font-noto flex justify-start items-center bg-opacity-50 ${className}`}
   >
     <textarea
       title={title}
       type={type ? type : 'text'}
       name={title}
-      className={`w-full outline-none rounded-lg p-2 ${
-        theme === 'light' ? 'text-main-darkbg' : 'text-main-lightbg'
-      } text-xs sm:text-base ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } font-noto ${!noTransition && 'ease-in-out duration-400'} ${
-        theme === 'light' ? 'placeholder-main-dark' : 'placeholder-main-light'
-      } opacity-85`}
+      className={`w-full outline-none rounded-lg p-2 bg-base-200 text-xs sm:text-base text-base-content font-noto placeholder-base-content opacity-85`}
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
@@ -344,7 +245,6 @@ export const PasswordInput = ({
   noBorder,
   noPadding,
   borderColor,
-  theme,
   className,
   showPassword,
   setShowPassword,
@@ -355,31 +255,21 @@ export const PasswordInput = ({
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
       !noBorder &&
-      `${
-        borderColor ? `border-main-${borderColor}` : 'border-main-primary'
-      } border-2`
-    } hover:opacity-95 focus:opacity-95 ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } font-noto flex justify-start items-center bg-opacity-50 ${className} ${
-      !noTransition && 'ease-in-out duration-400'
+      `${borderColor ? `border-${borderColor}` : 'border-primary'} border-2`
+    } hover:opacity-95 focus:opacity-95 bg-base-200 font-noto flex justify-start items-center bg-opacity-50 ${className} ${
+      !noTransition && 'ease-in-out duration-300'
     }`}
   >
     <div
-      className={`w-full ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } opacity-85 flex outline-none rounded-lg p-2`}
+      className={`w-full bg-base-200 opacity-85 flex outline-none rounded-lg p-2`}
     >
       <input
         type={showPassword ? 'text' : 'password'}
         title={title}
         name={title}
-        className={`w-full outline-none rounded-lg ${
-          theme === 'light' ? 'text-main-darkbg' : 'text-main-lightbg'
-        } text-xs sm:text-base font-noto ${
-          !noTransition && 'ease-in-out duration-400'
-        } ${
-          theme === 'light' ? 'placeholder-main-dark' : 'placeholder-main-light'
-        } bg-opacity-0 ${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'}`}
+        className={`w-full outline-none rounded-lg text-base-content text-xs sm:text-base font-noto ${
+          !noTransition && 'ease-in-out duration-300'
+        } placeholder-base-content bg-opacity-0 bg-base-200`}
         placeholder={placeholder}
         value={value}
         onChange={(e) => change(e)}
@@ -388,9 +278,7 @@ export const PasswordInput = ({
       />
 
       <button
-        className={`outline-none w-8 sm:w-10 rounded-lg flex justify-center items-center ${
-          theme === 'light' ? 'text-main-darkbg' : 'text-main-lightbg'
-        } opacity-85`}
+        className={`outline-none w-8 sm:w-10 rounded-lg flex justify-center items-center text-base-content opacity-85`}
         onClick={(e) => {
           e.preventDefault();
           setShowPassword((prev) => !prev);
@@ -416,7 +304,7 @@ export const Checkbox = ({
 }) => (
   <div
     className={`my-2 font-noto ${
-      color ? `text-main-${color}` : 'text-main-primary'
+      color ? `text-${color}` : 'text-primary'
     } flex items-center ${className}`}
   >
     <input
@@ -431,362 +319,21 @@ export const Checkbox = ({
   </div>
 );
 
-export const ImportantButton = ({
-  title,
-  className,
-  color,
-  theme,
-  hoverCondition,
-  noTransition,
-}) => (
-  <button
-    className={`font-noto tracking-wide ${
-      color ? `text-main-${color}` : 'text-main-primary'
-    } justify-center w-full lg:w-auto text-opacity-75 uppercase font-bold flex items-center sm:px-8 py-3 ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } rounded-lg bg-opacity-75 ${
-      hoverCondition ? 'hover:bg-opacity-90 focus:bg-opacity-90' : 'opacity-50'
-    } outline-none ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-    type="submit"
-  >
-    {title}
-  </button>
-);
-
-export const GenericButton = ({
-  click,
-  children,
-  color,
-  className,
-  noTransition,
-}) => (
-  <button
-    onClick={(e) => click(e)}
-    className={`mt-2 ${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none text-xs sm:text-base font-semibold font-noto opacity-35 hover:opacity-65 focus:opacity-65 ${className} ${
-      !noTransition && 'ease-in-out duration-400'
-    }`}
-  >
-    {children}
-  </button>
-);
-
-export const GenericIconButton = ({
-  click,
-  children,
-  color,
-  className,
-  icon,
-  extraSmall,
-  noTransition,
-}) => (
-  <button
-    type="button"
-    onClick={(e) => click(e)}
-    className={`${
-      color ? `text-main-${color}` : 'text-main-secondary'
-    } outline-none ${
-      extraSmall ? 'text-xxs' : 'text-xs'
-    } sm:text-sm font-noto opacity-65 hover:opacity-100 focus:opacity-100 flex ${className} ${
-      !noTransition && 'ease-in-out duration-400'
-    }`}
-  >
-    <>
-      {children}
-      {icon && (
-        <span className={`ri-${icon}-line ml-2 flex items-center`}></span>
-      )}
-    </>
-  </button>
-);
-
-export const Button = ({
-  click,
-  color,
-  bgcolor,
-  children,
-  className,
-  theme,
-  transparent,
-  notHover,
-  noBorder,
-  title,
-  noTransition,
-  noMargin,
-  type,
-}) => (
-  <button
-    title={title ? title : ''}
-    type={type ? type : ''}
-    className={`font-noto tracking-wide ${
-      color ? `text-main-${color}` : 'text-main-primary'
-    } text-opacity-75 ${!noMargin && 'my-2'} flex justify-center items-center ${
-      transparent
-        ? 'bg-transparent'
-        : bgcolor
-        ? `bg-main-${bgcolor}`
-        : `${theme === 'light' ? 'bg-main-light' : 'bg-main-dark'}`
-    } ${!noBorder && 'border-2 border-transparent rounded-lg'} outline-none ${
-      !notHover
-        ? color
-          ? `hover:border-main-${color} focus:border-main-${color}`
-          : 'hover:border-main-primary focus:border-main-primary'
-        : ''
-    } ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-    onClick={() => (click ? click() : null)}
-  >
-    {children}
-  </button>
-);
-
-export const IconButton = ({
-  click,
-  title,
-  icon,
-  color,
-  borderColor,
-  theme,
-  condition,
-  className,
-  smaller,
-  noFill,
-  noTransition,
-}) => (
-  <button
-    title={title}
-    onClick={() => (click ? click() : null)}
-    className={`text-center ${
-      smaller ? 'text-sm lg:text-lg' : 'text-lg'
-    } border-2 border-transparent flex justify-center items-center ${
-      theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-    } ${
-      condition
-        ? color
-          ? borderColor
-            ? `hover:border-main-${borderColor} focus:border-main-${borderColor} hover:opacity-65 focus:opacity-65 text-main-${color}`
-            : `hover:border-main-${color} focus:border-main-${color} hover:opacity-65 focus:opacity-65 text-main-${color}`
-          : 'hover:border-main-primary focus:border-main-primary hover:opacity-65 focus:opacity-65 text-main-primary'
-        : 'opacity-50 text-main-primary'
-    } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-  >
-    {icon && (
-      <div
-        className={`h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
-  </button>
-);
-
-export const LinkerChildren = ({
-  children,
-  to,
-  title,
-  theme,
-  condition,
-  className,
-  smaller,
-  noTransition,
-  color,
-  borderColor,
-  textColor
-}) => (
-  <Link
-    to={to}
-    title={title}
-    className={`${
-      (!className || !className.includes('mt')) && 'mt-2'
-    } text-center ${
-      smaller ? 'text-sm lg:text-lg' : 'text-lg'
-    } border-2 border-transparent flex ${
-      (!className || !className.includes('justify')) && 'justify-center'
-    } items-center ${
-      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
-    } ${
-      condition
-        ? color
-          ? borderColor
-            ? `bg-main-${borderColor} hover:opacity-65 focus:opacity-65`
-            : `bg-main-${color} hover:opacity-65 focus:opacity-65`
-          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
-        : `bg-main-${theme} ${textColor ? '' :theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
-    } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-  >
-    {children}
-  </Link>
-);
-
-export const Linker = ({
-  to,
-  title,
-  icon,
-  theme,
-  condition,
-  className,
-  smaller,
-  noFill,
-  noTransition,
-  color,
-  borderColor,
-  reverseIcon,
-  customInner,
-  textColor
-}) => (
-  <LinkerChildren
-    to={to}
-    title={title}
-    theme={theme}
-    condition={condition}
-    className={className}
-    smaller={smaller}
-    noTransition={noTransition}
-    color={color}
-    borderColor={borderColor}
-    textColor={textColor}
-  >
-    <div
-      className={customInner ? `${customInner}` : 'w-full flex justify-center'}
-    >
-      {icon && reverseIcon && (
-        <div
-          className={`mr-2 h-full flex items-center ri-${icon}-${
-            condition && !noFill ? 'fill' : 'line'
-          }`}
-        ></div>
-      )}
-      {title && <div className={`h-full flex items-center`}>{title}</div>}
-      {icon && !reverseIcon && (
-        <div
-          className={`ml-2 h-full flex items-center ri-${icon}-${
-            condition && !noFill ? 'fill' : 'line'
-          }`}
-        ></div>
-      )}
-    </div>
-  </LinkerChildren>
-);
-
-export const ALinker = ({
-  href,
-  title,
-  icon,
-  theme,
-  condition,
-  className,
-  smaller,
-  noFill,
-  noTransition,
-  color,
-  borderColor,
-  reverseIcon,
-  iconClass,
-  children,
-  textColor
-}) => (
-  <a
-    href={href}
-    title={title}
-    className={`${
-      (!className || !className.includes('mt')) && 'mt-2'
-    } text-center ${
-      smaller ? 'text-sm lg:text-lg' : 'text-lg'
-    } border-2 border-transparent flex ${
-      (!className || !className.includes('justify')) && 'justify-center'
-    } items-center ${
-      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
-    } ${
-      condition
-        ? color
-          ? borderColor
-            ? `bg-main-${borderColor} hover:opacity-65 focus:opacity-65`
-            : `bg-main-${color} hover:opacity-65 focus:opacity-65`
-          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
-        : `bg-main-${theme} ${textColor ? '' : theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
-    } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-  >
-    {icon && reverseIcon && (
-      <div
-        className={`${
-          (!iconClass || !iconClass.includes('mr')) && 'mr-2'
-        } ${iconClass} h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
-    {children && <div className={`h-full flex items-center`}>{children}</div>}
-    {icon && !reverseIcon && (
-      <div
-        className={`${
-          (!iconClass || !iconClass.includes('ml')) && 'ml-2'
-        } ${iconClass} h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
-  </a>
-);
-
-export const LinkerButton = ({
-  click,
-  title,
-  icon,
-  theme,
-  condition,
-  className,
-  smaller,
-  noFill,
-  noTransition,
-  color,
-  textColor
-}) => (
-  <button
-    onClick={(e) => click(e)}
-    title={title}
-    className={`mt-2 text-center ${
-      smaller ? 'text-sm lg:text-lg' : 'text-lg'
-    } border-2 border-transparent flex justify-center items-center ${
-      textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
-    } ${
-      condition
-        ? `bg-main-${theme} hover:opacity-65 focus:opacity-65`
-        : `bg-main-${theme} ${textColor ? '' : theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
-    } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
-  >
-    {title && (
-      <div className={`h-full flex items-center ${icon && 'mr-2'}`}>
-        {title}
-      </div>
-    )}
-    {icon && (
-      <div
-        className={`h-full flex items-center ri-${icon}-${
-          condition && !noFill ? 'fill' : 'line'
-        }`}
-      ></div>
-    )}
-  </button>
-);
-
 export const FullAbsoluteContainer = ({
   additional,
   additionalIn,
   children,
-  theme,
   outFunction,
   moreAdditional,
 }) => (
   <div
     className={`w-screen fullabs ${additional} lg:h-full h-screen top-0 left-0 ${
       !additional.includes('z-') && 'z-20'
-    } fixed transform ease-in-out duration-400`}
+    } fixed transform ease-in-out duration-300`}
     onKeyPress={(e) => e.key === 'Escape' && outFunction()}
   >
     <div
-      className={`${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } opacity-95 w-full h-full px-2 lg:px-0 ${additionalIn}`}
+      className={`bg-base-300 opacity-80 w-full h-full px-2 lg:px-0 ${additionalIn}`}
     >
       <div
         className={`${
@@ -798,3 +345,5 @@ export const FullAbsoluteContainer = ({
     </div>
   </div>
 );
+
+// Non-generated styles: text-error

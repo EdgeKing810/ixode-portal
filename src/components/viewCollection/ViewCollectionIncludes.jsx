@@ -67,7 +67,6 @@ export default function ViewCollectionIncludes({
   deletingCustomStructure,
   setDeletingCustomStructure,
   navigate,
-  theme,
   alert,
 }) {
   return (
@@ -94,7 +93,6 @@ export default function ViewCollectionIncludes({
             navigate
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCollection
@@ -119,7 +117,6 @@ export default function ViewCollectionIncludes({
             navigate
           )
         }
-        theme={theme}
       />
 
       <IncludeEditCollection
@@ -144,7 +141,6 @@ export default function ViewCollectionIncludes({
             navigate
           )
         }
-        theme={theme}
         textarea
       />
 
@@ -165,7 +161,6 @@ export default function ViewCollectionIncludes({
           )
         }
         name={collectionName}
-        theme={theme}
       />
 
       <IncludeDeleteStructure
@@ -189,7 +184,6 @@ export default function ViewCollectionIncludes({
           )
         }
         name={structureName}
-        theme={theme}
       />
 
       <IncludeCreateCustomStructure
@@ -220,7 +214,6 @@ export default function ViewCollectionIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeCreateCustomStructure
@@ -255,7 +248,6 @@ export default function ViewCollectionIncludes({
             alert
           )
         }
-        theme={theme}
         isEditing
       />
 
@@ -279,7 +271,6 @@ export default function ViewCollectionIncludes({
           )
         }
         name={customStructureName}
-        theme={theme}
       />
     </div>
   );

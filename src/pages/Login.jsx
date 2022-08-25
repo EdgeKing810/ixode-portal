@@ -9,7 +9,7 @@ import { LocalContext } from '../wrappers/LocalContext';
 import logo from '../assets/images/banner_purple.png';
 import background from '../assets/images/background.jpg';
 
-import { Heading, Image } from '../components/Components';
+import { Heading } from '../components/Components';
 import LoginForm from '../components/login/LoginForm';
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
     <div className="w-5/6 lg:w-full my-2 flex justify-center items-center">
       <div
         className={`${
-          submitError ? 'text-main-error' : 'text-main-success'
+          submitError ? 'text-error' : 'text-success'
         } text-2xl lg:text-3xl font-semibold text-center w-full font-noto`}
       >
         {submitMessage}
@@ -50,7 +50,7 @@ export default function Login() {
 
   return (
     <div
-      className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-400 overflow-none`}
+      className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-300 overflow-none`}
       style={{
         backgroundImage: `url(${background})`,
         backgroundAttachment: 'fixed',
@@ -62,17 +62,12 @@ export default function Login() {
         className={`w-full p-1 lg:p-0 h-full lg:h-full flex flex-col items-center justify-center`}
       >
         <div
-          className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center ${
-            theme === 'light'
-              ? 'bg-gray-200 bg-opacity-25'
-              : 'bg-gray-800 bg-opacity-50'
-          } p-4 lg:p-16`}
+          className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center bg-base-200 bg-opacity-25 p-4 lg:p-16`}
         >
-          <Image
+          <img
             src={logo}
             alt="logo"
-            noRounded
-            className="w-2/3 lg:w-5/6 mb-4"
+            className={`object-fill flex justify-center items-center w-2/3 lg:w-5/6 mb-4`}
           />
 
           {!submit && (

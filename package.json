@@ -4,11 +4,13 @@
   "private": false,
   "dependencies": {
     "@snowpack/app-scripts-react": "^2.0.1",
+    "@tailwindcss/typography": "^0.5.4",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@uiw/react-md-editor": "^3.9.4",
     "axios": "^0.25.0",
+    "daisyui": "^2.24.0",
     "particles-bg": "^2.5.5",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",

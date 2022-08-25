@@ -2,10 +2,8 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
   InputTextArea,
-  LinkerButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -18,7 +16,6 @@ export default function IncludeEditProject({
   submitUpdate,
   textarea,
   format,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -27,20 +24,18 @@ export default function IncludeEditProject({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsEditing('')}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Update {title}
         </SubHeading>
 
-        <IconButton
-          click={() => setIsEditing('')}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsEditing('')}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       {textarea ? (
@@ -53,7 +48,6 @@ export default function IncludeEditProject({
               !format ? e.target.value : e.target.value.trim().toLowerCase()
             )
           }
-          theme={theme}
           className="my-2 lg:w-1/2"
         />
       ) : (
@@ -66,21 +60,24 @@ export default function IncludeEditProject({
               !format ? e.target.value : e.target.value.trim().toLowerCase()
             )
           }
-          theme={theme}
           className="my-2 lg:w-1/2"
         />
       )}
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={data && data.trim().length > 0 ? true : false}
-          click={() =>
+          className={`btn w-full lg:w-1/2 gap-2 ${
+            data && data.trim().length > 0
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             data && data.trim().length > 0 ? submitUpdate(data) : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

@@ -2,10 +2,8 @@ import React from 'react';
 
 import {
   FullAbsoluteContainer,
-  IconButton,
   Input,
   InputTextArea,
-  LinkerButton,
   SubHeading,
 } from '../../../components/Components';
 
@@ -19,7 +17,6 @@ export default function IncludeCreateCollection({
   description,
   setDescription,
   submitCreateCollection,
-  theme,
 }) {
   return (
     <FullAbsoluteContainer
@@ -28,20 +25,18 @@ export default function IncludeCreateCollection({
       }`}
       additionalIn="flex flex-col items-center justify-center"
       outFunction={() => setIsCreating(false)}
-      theme={theme}
     >
       <div className="flex w-full lg:w-1/2 justify-between items-center">
         <SubHeading color="primary" smallerOnMobile>
           Create a Collection
         </SubHeading>
 
-        <IconButton
-          click={() => setIsCreating(false)}
-          condition
-          icon="close"
-          noFill
-          className="ml-3 px-2 rounded-lg bg-transparent"
-        />
+        <button
+          className="btn ml-3 btn-primary btn-outline btn-sm btn-square"
+          onClick={() => setIsCreating(false)}
+        >
+          <i className={`ri-close-line`} />
+        </button>
       </div>
 
       <Input
@@ -52,7 +47,6 @@ export default function IncludeCreateCollection({
           setName(e.target.value);
           setCollectionID(e.target.value.trim().toLowerCase());
         }}
-        theme={theme}
         className="mt-2 lg:w-1/2"
       />
 
@@ -61,7 +55,6 @@ export default function IncludeCreateCollection({
         placeholder="Enter ID... (e.g users)"
         value={collectionID}
         change={(e) => setCollectionID(e.target.value.trim().toLowerCase())}
-        theme={theme}
         className="mt-2 lg:w-1/2"
       />
 
@@ -70,22 +63,21 @@ export default function IncludeCreateCollection({
         placeholder="Enter Description... (e.g To store users created on the platform)"
         value={description}
         change={(e) => setDescription(e.target.value)}
-        theme={theme}
         className="my-2 lg:w-1/2"
       />
 
       <div className="w-full lg:w-1/2 flex justify-start">
-        <LinkerButton
+        <button
           title="Submit"
-          condition={
+          className={`btn w-full lg:w-1/2 gap-2 ${
             name &&
             name.trim().length > 0 &&
             description &&
             description.trim().length > 0
-              ? true
-              : false
-          }
-          click={() =>
+              ? 'no-animation btn-primary btn-outline'
+              : 'btn-ghost btn-disabled'
+          }`}
+          onClick={() =>
             name &&
             name.trim().length > 0 &&
             description &&
@@ -93,9 +85,9 @@ export default function IncludeCreateCollection({
               ? submitCreateCollection()
               : null
           }
-          className="uppercase p-2 rounded-lg lg:w-1/2 w-full"
-          theme={theme}
-        />
+        >
+          Submit
+        </button>
       </div>
     </FullAbsoluteContainer>
   );

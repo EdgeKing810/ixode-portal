@@ -17,7 +17,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
   const navigate = useNavigate();
 
   const { profile, setUserProfile } = useUserProfileStore((state) => state);
-  const { theme, setTheme } = useThemeStore((state) => state);
+  const { setTheme } = useThemeStore((state) => state);
   const { API_URL } = useContext(LocalContext);
 
   useEffect(() => {
@@ -32,6 +32,12 @@ export default function LoginWrapper({ children, onlyLoad }) {
           localStorage.getItem('_userData')
         );
         setTheme(theme ? theme : 'dark');
+        document
+          .getElementById('root')
+          .setAttribute(
+            'data-theme',
+            theme ? (theme === 'light' ? 'moonlight' : 'shadow') : 'shadow'
+          );
 
         const data = await fetchCurrentProfile(API_URL, uid, jwt);
 
@@ -67,11 +73,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
   }, []);
 
   const temporaryContainer = (
-    <div
-      className={`h-screen w-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } overflow-hidden`}
-    >
+    <div className={`h-screen w-screen bg-base-300 overflow-hidden`}>
       <div className="overflow-hidden w-full h-full rounded-lg opacity-95 flex flex-col items-center justify-center">
         <div className="w-full flex justify-center items-center lg:w-1/5 mb-8 lg:mb-20">
           <img
@@ -81,7 +83,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
           />
         </div>
 
-        <div className="text-main-primary w-full text-xl lg:text-2xl font-semibold font-gilroy opacity-80 text-center px-4 blink">
+        <div className="text-primary w-full text-xl lg:text-2xl font-semibold font-gilroy opacity-80 text-center px-4 blink">
           Trying to automatically log you in...
         </div>
       </div>
@@ -91,12 +93,6 @@ export default function LoginWrapper({ children, onlyLoad }) {
   return (!loggedIn || onlyLoad) && !didOnce ? (
     temporaryContainer
   ) : (
-    <div
-      className={`${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } duration-400 ease-in-out`}
-    >
-      {children}
-    </div>
+    <div className={`bg-base-300 duration-300 ease-in-out`}>{children}</div>
   );
 }

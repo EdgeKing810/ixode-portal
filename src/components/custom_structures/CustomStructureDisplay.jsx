@@ -1,13 +1,6 @@
 import React from 'react';
 
-import {
-  ALinkTo,
-  BigText,
-  Heading,
-  LinkerButton,
-  Separator,
-  SmallText,
-} from '../Components';
+import { ALinkTo, BigText, Heading, SmallText } from '../Components';
 
 export default function CustomStructureDisplay({
   project_id,
@@ -20,17 +13,13 @@ export default function CustomStructureDisplay({
   setEditingCustomStructureName,
   setEditingCustomStructureDescription,
   setDeletingCustomStructure,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
     >
       <Heading
         color="primary"
-        theme={theme}
         nobreak
         className="w-full flex lg:flex-row flex-col uppercase"
         smallerOnMobile
@@ -56,7 +45,7 @@ export default function CustomStructureDisplay({
         </ALinkTo>
         <span
           className={`
-          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} lg:ml-2
+          text-base-content lg:ml-2
         `}
         >
           {currentCustomStructure.name}
@@ -64,8 +53,6 @@ export default function CustomStructureDisplay({
       </Heading>
 
       <BigText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center`}
         smallerOnMobile
@@ -73,77 +60,51 @@ export default function CustomStructureDisplay({
         {currentCustomStructure.description}
       </BigText>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
         {currentCustomStructure.structures.length} structures
       </SmallText>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
       {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
         <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full"
-            smaller
-            transparent
-            condition
+          <button
+            className="btn btn-warning btn-outline gap-2"
             title="Edit Custom Structure ID"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingCustomStructureID(true);
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full"
-            smaller
-            transparent
-            condition
+            onClick={() => setEditingCustomStructureID(true)}
+          >
+            Edit Custom Structure ID
+            <i className={`ri-arrow-right-s-line`} />
+          </button>
+          <button
+            className="btn btn-warning btn-outline gap-2 mt-2 lg:mt-0"
             title="Edit Custom Structure Name"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingCustomStructureName(true);
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full lg:mt-0"
-            smaller
-            transparent
-            condition
+            onClick={() => setEditingCustomStructureName(true)}
+          >
+            Edit Custom Structure Name
+            <i className={`ri-arrow-right-s-line`} />
+          </button>
+          <button
+            className="btn btn-warning btn-outline gap-2 mt-2 lg:mt-0"
             title="Edit Custom Structure Description"
-            icon="arrow-right-s"
-            noFill
-            reverseIcon
-            click={() => {
-              setEditingCustomStructureDescription(true);
-            }}
-          />
-          <LinkerButton
-            theme={theme}
-            className="p-2 rounded-lg uppercase w-full lg:mt-0"
-            smaller
-            transparent
-            condition
+            onClick={() => setEditingCustomStructureDescription(true)}
+          >
+            Edit Custom Structure Description
+            <i className={`ri-arrow-right-s-line`} />
+          </button>
+          <button
+            className="btn btn-error btn-outline gap-2 mt-2 lg:mt-0"
             title="Delete Custom Structure"
-            icon="delete-bin-2"
-            noFill
-            reverseIcon
-            click={() => {
-              setDeletingCustomStructure(true);
-            }}
-          />
+            onClick={() => setDeletingCustomStructure(true)}
+          >
+            Delete Custom Structure
+            <i className={`ri-delete-bin-2-line`} />
+          </button>
         </div>
       )}
     </div>

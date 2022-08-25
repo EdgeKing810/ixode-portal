@@ -27,7 +27,6 @@ export default function ConfigsIncludes({
   testingSmtp,
   setTestingSmtp,
   updateConfig,
-  theme,
   alert,
 }) {
   return (
@@ -53,7 +52,6 @@ export default function ConfigsIncludes({
             alert
           )
         }
-        theme={theme}
       />
 
       <IncludeTestSMTP
@@ -83,7 +81,6 @@ export default function ConfigsIncludes({
             alert
           )
         }
-        theme={theme}
       />
     </div>
   );

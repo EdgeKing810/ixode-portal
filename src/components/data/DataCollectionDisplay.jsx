@@ -1,22 +1,18 @@
 import React from 'react';
 
-import { ALinkTo, BigText, Heading, Separator, SmallText } from '../Components';
+import { ALinkTo, BigText, Heading, SmallText } from '../Components';
 
 export default function DataCollectionDisplay({
   project_id,
   currentProject,
   currentCollection,
-  theme,
 }) {
   return (
     <div
-      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col ${
-        theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
-      } duration-400 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
+      className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-2 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
     >
       <Heading
         color="primary"
-        theme={theme}
         nobreak
         className="w-full flex lg:flex-row flex-col uppercase"
         smallerOnMobile
@@ -31,8 +27,7 @@ export default function DataCollectionDisplay({
           {currentProject.name} {'>'}
         </ALinkTo>
         <span
-          className={`
-          ${theme === 'light' ? 'text-main-dark' : 'text-main-light'} lg:ml-2
+          className={`text-base-content lg:ml-2
         `}
         >
           {currentCollection.name}
@@ -40,8 +35,6 @@ export default function DataCollectionDisplay({
       </Heading>
 
       <BigText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center`}
         smallerOnMobile
@@ -49,11 +42,9 @@ export default function DataCollectionDisplay({
         {currentCollection.description}
       </BigText>
 
-      <Separator smaller />
+      <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
@@ -61,8 +52,6 @@ export default function DataCollectionDisplay({
       </SmallText>
 
       <SmallText
-        color={theme === 'light' ? 'dark' : 'light'}
-        theme={theme}
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >

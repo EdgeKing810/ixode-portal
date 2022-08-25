@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 
-import { useThemeStore } from '../stores/useThemeStore';
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useConfigStore } from '../stores/useConfigStore';
 
@@ -17,7 +16,6 @@ import ConfigsBulk from '../components/configs/ConfigsBulk';
 import ConfigsIncludes from '../components/configs/ConfigsIncludes';
 
 export default function Configs() {
-  const { theme } = useThemeStore((state) => state);
   const { profile } = useUserProfileStore((state) => state);
   const { configs, addConfig, updateConfig, removeConfig } = useConfigStore(
     (state) => state
@@ -73,9 +71,7 @@ export default function Configs() {
 
   return (
     <div
-      className={`w-full lg:h-screen ${
-        theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } ease-in-out duration-400 lg:pb-0 pb-20`}
+      className={`w-full lg:h-screen bg-base-300 ease-in-out duration-300 lg:pb-0 pb-20`}
     >
       <Navbar currentPage="configs" />
       <div
@@ -83,7 +79,7 @@ export default function Configs() {
       >
         <Sidebar currentPage="configs" />
         <div className="w-full lg:p-8 flex flex-col h-full">
-          <div className="w-full h-full lg:border-2 lg:border-main-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
+          <div className="w-full h-full lg:border-2 lg:border-primary lg:p-8 rounded lg:border-opacity-25 lg:overflow-y-scroll">
             {!configs || configs.length <= 0 ? (
               isLoading ? (
                 <Heading className="blink">Loading...</Heading>
@@ -104,7 +100,6 @@ export default function Configs() {
               setCurrentPage={setCurrentPage}
               limit={limit}
               isLoading={isLoading}
-              theme={theme}
             />
 
             {configs
@@ -118,7 +113,6 @@ export default function Configs() {
                 <ConfigItem
                   key={`cl-${c.name}`}
                   config={c}
-                  theme={theme}
                   visibility={visibility}
                   setVisibility={setVisibility}
                   keyname={key}
@@ -149,7 +143,6 @@ export default function Configs() {
         deletingConfig={deletingConfig}
         setDeletingConfig={setDeletingConfig}
         removeConfig={removeConfig}
-        theme={theme}
         alert={alert}
       />
     </div>

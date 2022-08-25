@@ -20,7 +20,6 @@ export default function ProfileIncludes({
   setShowPassword,
   showPasswordCheck,
   setShowPasswordCheck,
-  theme,
 }) {
   return (
     <div className="w-full">
@@ -31,7 +30,6 @@ export default function ProfileIncludes({
         data={data}
         setData={setData}
         submitUpdate={(d) => nextCallback(d)}
-        theme={theme}
       />
 
       <IncludeChangePassword
@@ -46,7 +44,6 @@ export default function ProfileIncludes({
         showPasswordCheck={showPasswordCheck}
         setShowPasswordCheck={setShowPasswordCheck}
         submitUpdate={(d) => nextCallback(d)}
-        theme={theme}
       />
     </div>
   );
