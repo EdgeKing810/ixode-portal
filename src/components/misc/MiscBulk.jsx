@@ -16,6 +16,7 @@ export default function MiscBulk({
     <div className="w-full lg:w-1/2">
       <LinkerButton
         theme={theme}
+        color={theme}
         className="p-3 w-full justify-center uppercase rounded-lg"
         click={() => setTestingMongoConnection(true)}
         title="Test Mongo Connection"
@@ -25,6 +26,7 @@ export default function MiscBulk({
 
       <LinkerButton
         theme={theme}
+        color={theme}
         className="p-3 w-full justify-center uppercase rounded-lg"
         click={() => setTestingSmtp(true)}
         title="Test SMTP Credentials"

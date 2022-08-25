@@ -750,9 +750,7 @@ export const LinkerButton = ({
       textColor ? `text-main-${textColor}` : color ? color === 'dark' ? 'text-main-light' : `text-main-dark` : 'text-main-primary'
     } ${
       condition
-        ? color
-          ? `bg-main-${color} hover:opacity-65 focus:opacity-65`
-          : 'bg-main-primary hover:opacity-65 focus:opacity-65'
+        ? `bg-main-${theme} hover:opacity-65 focus:opacity-65`
         : `bg-main-${theme} ${textColor ? '' : theme === 'light' ? 'text-main-dark' : 'text-main-light'} opacity-50`
     } font-noto ${className} ${!noTransition && 'ease-in-out duration-400'}`}
   >
@@ -788,7 +786,7 @@ export const FullAbsoluteContainer = ({
     <div
       className={`${
         theme === 'light' ? 'bg-main-lightbg' : 'bg-main-darkbg'
-      } opacity-85 w-full h-full px-2 lg:px-0 ${additionalIn}`}
+      } opacity-95 w-full h-full px-2 lg:px-0 ${additionalIn}`}
     >
       <div
         className={`${

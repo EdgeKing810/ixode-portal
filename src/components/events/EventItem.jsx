@@ -155,7 +155,7 @@ export default function EventItem({ event, theme }) {
       key={`evl-${event.id}`}
       theme={theme}
       className="p-3 rounded-lg w-full flex-col"
-      color="primary"
+      color={theme}
       to={event.redirect}
       condition={true}
       title={event.type}
@@ -175,7 +175,7 @@ export default function EventItem({ event, theme }) {
         color={theme === 'light' ? 'dark' : 'light'}
         theme={theme}
         nobreak
-        className={`w-full p-1 rounded-lg ${
+        className={`w-full p-1 ${
           theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
         } overflow-hidden text-left`}
       >
@@ -205,7 +205,7 @@ export default function EventItem({ event, theme }) {
         color={theme === 'light' ? 'dark' : 'light'}
         theme={theme}
         nobreak
-        className={`w-full p-1 rounded-lg ${
+        className={`w-full p-1 ${
           theme === 'light' ? 'bg-main-light' : 'bg-main-dark'
         } overflow-hidden text-left`}
       >
