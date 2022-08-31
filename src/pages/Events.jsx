@@ -4,6 +4,8 @@ import { useAlert } from 'react-alert';
 
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useEventStore } from '../stores/useEventStore';
+import { useProfileStore } from '../stores/useProfileStore';
+import { useProjectStore } from '../stores/useProjectStore';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/includes/Sidebar';
@@ -12,9 +14,13 @@ import { Heading } from '../components/Components';
 import EventItem from '../components/events/EventItem';
 import EventsBulk from '../components/events/EventsBulk';
 
+import { processEvent } from '../utils/processEvent';
+
 export default function Events() {
   const { profile } = useUserProfileStore((state) => state);
   const { events } = useEventStore((state) => state);
+  const { profiles } = useProfileStore((state) => state);
+  const { projects } = useProjectStore((state) => state);
 
   const limit = 15;
   const [currentPage, setCurrentPage] = useState(0);
@@ -89,7 +95,7 @@ export default function Events() {
               .reverse()
               .slice(currentPage * limit, limit + currentPage * limit)
               .map((e) => (
-                <EventItem key={`el-${e.id}`} event={e} />
+                <EventItem key={`el-${e.id}`} event={processEvent(e, profiles, projects)} />
               ))}
           </div>
         </div>

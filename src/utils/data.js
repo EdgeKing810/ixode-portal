@@ -180,6 +180,7 @@ export const fetchData = () => ({
     { type: 'config_update', logo: 'tools;settings-2' },
     { type: 'config_delete', logo: 'tools;delete-bin-2' },
     { type: 'user_create', logo: 'user-3;add' },
+    { type: 'user_register', logo: 'user-3;add' },
     { type: 'user_role_update', logo: 'user-3;star' },
     { type: 'user_delete', logo: 'user-3;delete-bin-2' },
     { type: 'project_create', logo: 'folder-3;add' },
