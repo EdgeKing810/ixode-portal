@@ -480,7 +480,7 @@ export default function DataStructureDisplay({
             <button
               className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
               title="Submit"
-              onClick={() => () =>
+              onClick={() =>
                 !isCreating
                   ? submitUpdateData(
                       API_URL,

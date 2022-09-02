@@ -15,6 +15,7 @@ import { handleImage } from '../../utils/handleImage';
 export default function StructurePicker({
   API_URL,
   PUBLIC_URL,
+  customStructureName,
   setIsCreating,
   collectionName,
   name,
@@ -73,7 +74,7 @@ export default function StructurePicker({
           {!isEditing ? (
             <SubHeading color="primary" smallerOnMobile>
               Create a Structure in{' '}
-              <span className="text-base-content">{collectionName}</span>
+              <span className="text-base-content">{collectionName}</span>{customStructureName && <span>{' > '}<span className="text-secondary">{customStructureName}</span></span>}
             </SubHeading>
           ) : (
             <SubHeading color="primary" smallerOnMobile>

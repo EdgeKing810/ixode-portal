@@ -330,6 +330,7 @@ export default function ViewCustomStructure() {
           <StructurePicker
             API_URL={API_URL}
             PUBLIC_URL={PUBLIC_URL}
+            customStructureName={customStructureName}
             addMedia={addMedia}
             isCreating={
               creatingStructure ? creatingStructure : editingStructure
