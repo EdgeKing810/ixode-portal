@@ -12,7 +12,11 @@ import Profile from './pages/Profile.jsx';
 import Media from './pages/Media.jsx';
 import Misc from './pages/Misc.jsx';
 import DataHome from './pages/DataHome.jsx';
+import RoutesHome from './pages/RoutesHome.jsx';
 import Events from './pages/Events.jsx';
+
+import Data from './pages/Data.jsx';
+// import Route from './pages/Route.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
@@ -21,8 +25,9 @@ import ViewCustomStructure from './pages/ViewCustomStructure.jsx';
 import ViewDataProject from './pages/ViewDataProject.jsx';
 import ViewDataCollection from './pages/ViewDataCollection.jsx';
 
+import ViewRoutesProject from './pages/ViewRoutesProject.jsx';
+
 import './assets/css/blinker.css';
-import Data from './pages/Data.jsx';
 
 function App() {
   return (
@@ -39,6 +44,8 @@ function App() {
           <Route exact path="/media" element={<Media />} />
           <Route exact path="/misc" element={<Misc />} />
           <Route exact path="/data" element={<DataHome />} />
+          <Route exact path="/routes" element={<RoutesHome />} />
+          <Route exact path="/events" element={<Events />} />
 
           <Route exact path="/project/:project_id" element={<ViewProject />} />
           <Route exact path="/p/:project_id" element={<ViewProject />} />
@@ -103,7 +110,37 @@ function App() {
             path="/data/p/:project_id/c/:collection_id/d/:mode/:data_id"
             element={<Data />}
           />
-          <Route exact path="/events" element={<Events />} />
+
+          <Route
+            exact
+            path="/routes/project/:project_id"
+            element={<ViewRoutesProject />}
+          />
+          <Route
+            exact
+            path="/routes/p/:project_id"
+            element={<ViewRoutesProject />}
+          />
+          {/* <Route
+            exact
+            path="/routes/project/:project_id/route/:mode"
+            element={<Route />}
+          />
+          <Route
+            exact
+            path="/routes/p/:project_id/r/:mode"
+            element={<Route />}
+          />
+          <Route
+            exact
+            path="/routes/project/:project_id/route/:mode/:route_id"
+            element={<Route />}
+          />
+          <Route
+            exact
+            path="/routes/p/:project_id/r/:mode/:route_id"
+            element={<Route />}
+          /> */}
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>

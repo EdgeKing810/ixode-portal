@@ -24,7 +24,7 @@ export default function Sidebar({ currentPage }) {
         className={`w-full p-2 mt-1 object-fill flex justify-center items-center`}
       />
 
-      <ul className="menu p-4 text-base-content">
+      <ul className="menu w-full p-4 text-base-content">
         {pages
           .filter((p) => p.visibility.split(',').includes(profile.role))
           .map((p) => (

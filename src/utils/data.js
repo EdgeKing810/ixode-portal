@@ -6,13 +6,18 @@ export const fetchData = () => ({
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     {
+      name: 'Projects',
+      icon: 'folder-3',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
+    {
       name: 'Data',
       icon: 'database-2',
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     {
-      name: 'Projects',
-      icon: 'folder-3',
+      name: 'Routes',
+      icon: 'route',
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     { name: 'Configs', icon: 'tools', visibility: 'ROOT' },
@@ -209,5 +214,8 @@ export const fetchData = () => ({
     { type: 'data_update', logo: 'database-2;settings-2' },
     { type: 'data_delete', logo: 'database-2;delete-bin-2' },
     { type: 'data_publish', logo: 'database-2;star' },
+    { type: 'route_create', logo: 'route;add' },
+    { type: 'route_update', logo: 'route;settings-2' },
+    { type: 'route_delete', logo: 'route;delete-bin-2' },
   ],
 });
