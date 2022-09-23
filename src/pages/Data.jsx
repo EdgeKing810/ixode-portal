@@ -36,7 +36,6 @@ export default function Data() {
   const [currentData, setCurrentData] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [dataID, setDataID] = useState('');
   const [deletingData, setDeletingData] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -258,8 +257,8 @@ export default function Data() {
         currentProject={currentProject}
         setCurrentData={setCurrentData}
         collectionID={collection_id}
-        dataID={dataID}
-        setDataID={setDataID}
+        dataID={data_id}
+        setDataID={() => null}
         deletingData={deletingData}
         setDeletingData={setDeletingData}
         alert={alert}

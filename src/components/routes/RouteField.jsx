@@ -1,6 +1,7 @@
 import React from 'react';
+import { getLengthRouteBlocks } from '../../utils/routeProcessor';
 
-import { ALinkTo, SmallText } from '../Components';
+import { ALinkTo, BigText, SmallText } from '../Components';
 
 export default function RouteField({
   route,
@@ -15,7 +16,7 @@ export default function RouteField({
       className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2 lg:mb-0`}
       key={route.route_id}
     >
-      <SmallText
+      <BigText
         color="primary"
         nobreak
         className="w-full lg:flex lg:flex-col lg:justify-center uppercase"
@@ -27,7 +28,7 @@ export default function RouteField({
         >
           {route.route_id}
         </ALinkTo>
-      </SmallText>
+      </BigText>
 
       <SmallText
         nobreak
@@ -41,10 +42,10 @@ export default function RouteField({
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
-        {route.fetch_blocks.length} blocks
+        {getLengthRouteBlocks(route)} blocks
       </SmallText>
 
-      <div className={`pt-1 w-full bg-accent`} />
+      <div className={`pt-1 my-2 w-full bg-accent`} />
 
       {profile && !['VIEWER', 'AUTHOR'].includes(profile.role) && (
         <div className="w-full flex lg:mt-2">

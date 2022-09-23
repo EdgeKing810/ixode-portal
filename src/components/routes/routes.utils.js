@@ -29,7 +29,7 @@ export const submitCreateRoute = (
       if (res.data.status === 200) {
         alert.success('Route Created!');
 
-        navigate(`/route/p/${projectID}/r/${res.data.route_id}`);
+        navigate(`/route/p/${projectID}/r/v/${res.data.route_id}`);
       } else {
         console.log(res.data);
         alert.error(res.data.message);
@@ -66,7 +66,7 @@ export const submitUpdateRoute = (
       if (res.data.status === 200) {
         alert.success('Route Updated!');
 
-        navigate(`/route/p/${projectID}`);
+        navigate(`/route/p/${projectID}/r/v/${res.data.route_id}`);
       } else {
         console.log(res.data);
         alert.error(res.data.message);

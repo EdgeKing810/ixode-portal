@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const GenericHeading = ({ title, color, children, nobreak, className }) => (
+const GenericHeading = ({
+  title,
+  color,
+  children,
+  nobreak,
+  className,
+  notFull,
+}) => (
   <div
-    className={`text-${color} w-full font-spartan ${
+    className={`text-${color} ${!notFull && 'w-full'} font-spartan ${
       !nobreak && 'break-all'
     } ${className}`}
     title={title}
@@ -81,9 +88,16 @@ export const Title = ({
   </GenericHeading>
 );
 
-const GenericText = ({ color, children, nobreak, mono, className }) => (
+const GenericText = ({
+  color,
+  children,
+  nobreak,
+  mono,
+  className,
+  notFull,
+}) => (
   <div
-    className={`text-${color} w-full font-spartan ${
+    className={`text-${color} ${!notFull && 'w-full'} font-spartan ${
       mono ? 'font-robomono' : 'font-noto'
     } ${!nobreak && 'break-all'} ${className}`}
   >
@@ -97,6 +111,7 @@ export const BigText = ({
   className,
   mono,
   smallerOnMobile,
+  notFull,
 }) => (
   <GenericText
     color={color ? color : 'base-content'}
@@ -105,6 +120,7 @@ export const BigText = ({
     } sm:text-lg ${className} font-normal`}
     mono={mono}
     nobreak={false}
+    notFull={notFull}
   >
     {children}
   </GenericText>
@@ -204,6 +220,43 @@ export const Input = ({
   </div>
 );
 
+export const InputSelect = ({
+  noBorder,
+  noPadding,
+  borderColor,
+  className,
+  noTransition,
+  children,
+  value,
+  change,
+}) => (
+  <select
+    className={`w-full rounded-lg opacity-75 ${!noPadding && 'lg:p-4 p-2'} ${
+      !noBorder &&
+      `${borderColor ? `border-${borderColor}` : 'border-primary'} border-2`
+    } hover:opacity-95 focus:opacity-95 font-noto bg-opacity-50 ${className} ${
+      !noTransition && 'ease-in-out duration-300'
+    } text-sm lg:text-base bg-base-200`}
+    value={value}
+    onChange={(e) => change(e)}
+  >
+    {children}
+  </select>
+);
+
+export const InputOption = ({ title, value, noTransition }) => (
+  <option
+    title={title}
+    name={title}
+    className={`w-full outline-none rounded-lg p-2 text-base-content text-xs sm:text-base bg-base-200 font-noto ${
+      !noTransition && 'ease-in-out duration-300'
+    } placeholder-base-content opacity-85 text-sm lg:text-base`}
+    value={value}
+  >
+    {title}
+  </option>
+);
+
 export const InputTextArea = ({
   title,
   value,
@@ -296,6 +349,7 @@ export const PasswordInput = ({
 
 export const Checkbox = ({
   value,
+  noMargin,
   color,
   title,
   change,
@@ -303,7 +357,7 @@ export const Checkbox = ({
   children,
 }) => (
   <div
-    className={`my-2 font-noto ${
+    className={`${!noMargin && 'my-2'} font-noto ${
       color ? `text-${color}` : 'text-primary'
     } flex items-center ${className}`}
   >

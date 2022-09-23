@@ -16,7 +16,7 @@ import RoutesHome from './pages/RoutesHome.jsx';
 import Events from './pages/Events.jsx';
 
 import Data from './pages/Data.jsx';
-// import Route from './pages/Route.jsx';
+import RoutePage from './pages/Route.jsx';
 
 import ViewProject from './pages/ViewProject.jsx';
 import ViewCollection from './pages/ViewCollection.jsx';
@@ -121,26 +121,26 @@ function App() {
             path="/routes/p/:project_id"
             element={<ViewRoutesProject />}
           />
-          {/* <Route
+          <Route
             exact
             path="/routes/project/:project_id/route/:mode"
-            element={<Route />}
+            element={<RoutePage />}
           />
           <Route
             exact
             path="/routes/p/:project_id/r/:mode"
-            element={<Route />}
+            element={<RoutePage />}
           />
           <Route
             exact
             path="/routes/project/:project_id/route/:mode/:route_id"
-            element={<Route />}
+            element={<RoutePage />}
           />
           <Route
             exact
             path="/routes/p/:project_id/r/:mode/:route_id"
-            element={<Route />}
-          /> */}
+            element={<RoutePage />}
+          />
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
