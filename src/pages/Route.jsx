@@ -14,6 +14,8 @@ import { LocalContext } from '../wrappers/LocalContext';
 
 import RouteBlockDisplay from '../components/routes/RouteBlockDisplay';
 import RoutesViewProjectIncludes from '../components/routes/RoutesViewProjectIncludes';
+import { getRouteBlocks } from '../utils/routeProcessor';
+import { fetchData } from '../utils/data';
 
 export default function Route() {
   const { profile } = useUserProfileStore((state) => state);
@@ -24,8 +26,12 @@ export default function Route() {
   const alert = useAlert();
   const navigate = useNavigate();
 
+  const targets = fetchData().route.flow.targets;
+
   const [currentProject, setCurrentProject] = useState(null);
   const [currentRoute, setCurrentRoute] = useState(null);
+  const [currentBlocks, setCurrentBlocks] = useState([]);
+  const [targetBlock, setTargetBlock] = useState(targets[0].name);
 
   const [isLoading, setIsLoading] = useState(true);
   const [deletingRoute, setDeletingRoute] = useState(false);
@@ -101,6 +107,8 @@ export default function Route() {
             returns: [],
           },
         });
+
+        setCurrentBlocks([]);
       } else {
         axios
           .post(
@@ -117,6 +125,7 @@ export default function Route() {
           .then(async (res) => {
             if (res.data.status === 200) {
               setCurrentRoute(res.data.route);
+              setCurrentBlocks(getRouteBlocks(res.data.route));
             } else {
               console.log(res.data);
               alert.error(res.data.message);
@@ -163,6 +172,10 @@ export default function Route() {
                 profile={profile}
                 currentRoute={currentRoute}
                 setCurrentRoute={setCurrentRoute}
+                currentBlocks={currentBlocks}
+                setCurrentBlocks={setCurrentBlocks}
+                targetBlock={targetBlock}
+                setTargetBlock={setTargetBlock}
                 project_id={project_id}
                 route_id={route_id}
                 currentProject={currentProject}

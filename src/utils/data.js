@@ -218,4 +218,23 @@ export const fetchData = () => ({
     { type: 'route_update', logo: 'route;settings-2' },
     { type: 'route_delete', logo: 'route;delete-bin-2' },
   ],
+
+  route: {
+    flow: {
+      targets: [
+        { name: 'FETCH', id: 'fetchers' },
+        { name: 'ASSIGN', id: 'assignments' },
+        { name: 'TEMPLATE', id: 'templates' },
+        { name: 'CONDITION', id: 'conditions' },
+        { name: 'LOOP', id: 'loops' },
+        { name: 'FILTER', id: 'filters' },
+        { name: 'PROPERTIES', id: 'properties' },
+        { name: 'FUNCTION', id: 'functions' },
+        { name: 'OBJECT', id: 'objects' },
+        { name: 'UPDATE', id: 'updates' },
+        { name: 'CREATE', id: 'creates' },
+        { name: 'RETURN', id: 'returns' },
+      ],
+    },
+  },
 });

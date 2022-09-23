@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertRouteBlocks } from '../../utils/routeProcessor';
 
 export const submitCreateRoute = (
   API_URL,
@@ -6,15 +7,19 @@ export const submitCreateRoute = (
   projectID,
   routeObject,
   alert,
-  navigate
+  navigate,
+  currentBlocks
 ) => {
   alert.info('Submitting...');
+
+  let updatedRoute = { ...routeObject };
+  updatedRoute.flow = convertRouteBlocks(currentBlocks);
 
   const data = {
     uid: profile.uid,
     project_id: projectID,
     update: false,
-    route: routeObject,
+    route: updatedRoute,
   };
 
   axios
@@ -43,15 +48,19 @@ export const submitUpdateRoute = (
   projectID,
   routeObject,
   alert,
-  navigate
+  navigate,
+  currentBlocks
 ) => {
   alert.info('Submitting...');
+
+  let updatedRoute = { ...routeObject };
+  updatedRoute.flow = convertRouteBlocks(currentBlocks);
 
   const data = {
     uid: profile.uid,
     project_id: projectID,
     update: true,
-    route: routeObject,
+    route: updatedRoute,
   };
 
   axios

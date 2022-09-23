@@ -13,9 +13,12 @@ import {
 
 import {
   addRouteBodyData,
-  getBlocks,
-  getRouteBlocks,
+  addRouteFlowBlock,
+  addRouteFlowBlockInbuilt,
+  moveRouteFlowBlockInbuilt,
   removeRouteBody,
+  removeRouteFlowBlock,
+  removeRouteFlowBlockInbuilt,
   setAuthJWTProperty,
   setParamsProperty,
   setRouteBodyProperty,
@@ -25,6 +28,7 @@ import {
   validateRouteProperty,
 } from '../../utils/routeProcessor';
 import { submitCreateRoute, submitUpdateRoute } from './routes.utils';
+import { fetchData } from '../../utils/data';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -38,7 +42,13 @@ export default function RouteBlockDisplay({
   navigate,
   isEditing,
   isCreating,
+  currentBlocks,
+  setCurrentBlocks,
+  targetBlock,
+  setTargetBlock,
 }) {
+  const targets = fetchData().route.flow.targets;
+
   const makePreBlocks = () => {
     return (
       <div className="w-full">
@@ -688,46 +698,164 @@ export default function RouteBlockDisplay({
     );
   };
 
-  const makeBlock = (block) => {
-    // let v = validateData(dataObject, PUBLIC_URL);
-
+  const makeBlocks = () => {
     return (
-      <div className="w-full" key={`blo-${block.global_index}`}>
-        {/* <BigText color="primary" className="mt-2 uppercase text-left w-full">
-          {dataObject.custom_structure_name && (
-            <span className="text-secondary">
-              {dataObject.custom_structure_name} {'>'}{' '}
-            </span>
-          )}{' '}
-          {dataObject.structure_name}
-        </BigText> */}
+      <div className="w-full">
+        <BigText
+          color="primary"
+          smallerOnMobile
+          notFull
+          className="mt-4 w-full uppercase text-left"
+        >
+          Flow ({currentBlocks.reduce((acc, b) => acc + b.blocks.length, 0)})
+        </BigText>
 
-        <div></div>
+        <div className="w-full rounded-lg my-2">
+          <button
+            className="btn btn-secondary btn-outline gap-2 mb-2 w-full lg:w-1/3"
+            title="Add Block"
+            onClick={() => addRouteFlowBlock(setCurrentBlocks)}
+          >
+            Add Flow Block
+          </button>
 
-        {/* {!v.valid && <SmallText color="error">* {v.message}</SmallText>} */}
+          {currentBlocks.map((b, i) => (
+            <div className="w-full lg:w-1/2" key={`flow-block-${i}`}>
+              <div className="w-full bg-base-300 p-4 my-2 rounded-lg">
+                <BigText
+                  color="secondary"
+                  smallerOnMobile
+                  notFull
+                  className="w-full uppercase text-left"
+                >
+                  Block Index: {b.block_index}
+                </BigText>
+
+                <div className="w-full flex my-2">
+                  <InputSelect
+                    value={targetBlock}
+                    change={(e) => {
+                      setTargetBlock(e.target.value);
+                    }}
+                    noPadding
+                  >
+                    {targets.map((t) => (
+                      <InputOption
+                        title={t.name}
+                        value={t.name}
+                        key={`flow-block-${i}-t-${t.name}`}
+                      >
+                        {t.name}
+                      </InputOption>
+                    ))}
+                  </InputSelect>
+
+                  <button
+                    className="btn btn-secondary btn-outline ml-2 w-1/2 lg:w-1/3"
+                    title="Add"
+                    onClick={() =>
+                      addRouteFlowBlockInbuilt(setCurrentBlocks, i, targetBlock)
+                    }
+                  >
+                    Add
+                  </button>
+                </div>
+
+                {b.blocks.map((block, j) => (
+                  <div
+                    className="w-full my-2 p-2 lg:p-2 bg-base-200 rounded-lg"
+                    key={`flow-block-${i}-${j}`}
+                  >
+                    <div className="w-full flex items-center">
+                      <BigText
+                        color="primary"
+                        smallerOnMobile
+                        notFull
+                        className="w-full uppercase text-left"
+                      >
+                        {block.name} {block.rand}
+                      </BigText>
+
+                      <button
+                        className="btn btn-sm btn-info btn-outline btn-circle"
+                        title="Move Up"
+                        onClick={() => {
+                          moveRouteFlowBlockInbuilt(
+                            setCurrentBlocks,
+                            i,
+                            j,
+                            'up'
+                          );
+                        }}
+                      >
+                        <i className={`ri-arrow-up-line`} />
+                      </button>
+
+                      <button
+                        className="btn btn-sm btn-info btn-outline btn-circle ml-2"
+                        title="Move Down"
+                        onClick={() => {
+                          moveRouteFlowBlockInbuilt(
+                            setCurrentBlocks,
+                            i,
+                            j,
+                            'down'
+                          );
+                        }}
+                      >
+                        <i className={`ri-arrow-down-line`} />
+                      </button>
+
+                      <button
+                        className="btn btn-sm btn-error btn-outline btn-circle ml-2"
+                        title="Remove"
+                        onClick={() => {
+                          removeRouteFlowBlockInbuilt(setCurrentBlocks, i, j);
+                        }}
+                      >
+                        <i className={`ri-delete-bin-2-line`} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                {/* {!validateDefaultRouteProperty(b.id, 'ID').valid && (
+                  <SmallText color="error">
+                    * {validateDefaultRouteProperty(b.id, 'ID').message}
+                  </SmallText>
+                )} */}
+              </div>
+
+              <div className="w-full flex justify-center">
+                <button
+                  className="btn btn-md btn-success btn-outline btn-circle"
+                  title="Add new Flow Block"
+                  onClick={() => {
+                    addRouteFlowBlock(setCurrentBlocks, i);
+                  }}
+                >
+                  <i className={`ri-add-line`} />
+                </button>
+
+                <button
+                  className="btn btn-md btn-error btn-outline btn-circle ml-2"
+                  title="Remove Flow Block"
+                  onClick={() => {
+                    removeRouteFlowBlock(setCurrentBlocks, i);
+                  }}
+                >
+                  <i className={`ri-delete-bin-2-line`} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   };
 
-  const makeReadOnlyBlock = (block) => {
-    // let v = validateData(dataObject, PUBLIC_URL);
-
-    return (
-      <div className="w-full" key={`blo-${block.global_index}`}>
-        {/* <BigText color="primary" className="mt-2 uppercase text-left w-full">
-            {dataObject.custom_structure_name && (
-              <span className="text-secondary">
-                {dataObject.custom_structure_name} {'>'}{' '}
-              </span>
-            )}{' '}
-            {dataObject.structure_name}
-          </BigText> */}
-
-        <div></div>
-
-        {/* {!v.valid && <SmallText color="error">* {v.message}</SmallText>} */}
-      </div>
-    );
+  const makeReadOnlyBlocks = () => {
+    return <div></div>;
   };
 
   return (
@@ -798,13 +926,7 @@ export default function RouteBlockDisplay({
       )}
 
       <div className="w-full">
-        {getRouteBlocks(currentRoute).map((block) => (
-          <div key={`bl-${block.global_index}`}>
-            {isEditing || isCreating
-              ? makeBlock(block)
-              : makeReadOnlyBlock(block)}
-          </div>
-        ))}
+        {isEditing || isCreating ? makeBlocks() : makeReadOnlyBlocks()}
 
         <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
@@ -829,7 +951,8 @@ export default function RouteBlockDisplay({
                         project_id,
                         currentRoute,
                         alert,
-                        navigate
+                        navigate,
+                        currentBlocks
                       )
                     : submitCreateRoute(
                         API_URL,
@@ -837,7 +960,8 @@ export default function RouteBlockDisplay({
                         project_id,
                         currentRoute,
                         alert,
-                        navigate
+                        navigate,
+                        currentBlocks
                       )
                   : null
               }

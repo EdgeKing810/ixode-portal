@@ -1,17 +1,6 @@
-const blockTypes = [
-  'fetchers',
-  'assignments',
-  'templates',
-  'conditions',
-  'loops',
-  'filters',
-  'properties',
-  'functions',
-  'objects',
-  'updates',
-  'creates',
-  'returns',
-];
+import { fetchData } from './data';
+
+const targets = fetchData().route.flow.targets;
 
 export const getRouteBlocks = (route) => {
   let allBlocks = [];
@@ -20,10 +9,14 @@ export const getRouteBlocks = (route) => {
     return allBlocks;
   }
 
-  for (let i = 0; i < blockTypes.length; i++) {
-    let currentType = blockTypes[i];
+  for (let i = 0; i < targets.length; i++) {
+    let currentType = targets[i].id;
     for (let j = 0; j < route.flow[currentType].length; j++) {
-      allBlocks.push(route.flow[currentType][j]);
+      allBlocks.push({
+        id: currentType,
+        name: targets[i].name,
+        ...route.flow[currentType][j],
+      });
     }
   }
 
@@ -54,11 +47,429 @@ export const getRouteBlocks = (route) => {
   return complexBlocks;
 };
 
+export const convertRouteBlocks = (blocks) => {
+  let globalIndex = 0;
+
+  let fetchers = [];
+  let assignments = [];
+  let templates = [];
+  let conditions = [];
+  let loops = [];
+  let filters = [];
+  let properties = [];
+  let functions = [];
+  let objects = [];
+  let updates = [];
+  let creates = [];
+  let returns = [];
+
+  for (let i = 0; i < blocks.length; i++) {
+    let blockIndex = blocks[i].block_index;
+
+    for (let j = 0; j < blocks[i].blocks.length; j++) {
+      let block = blocks[i].blocks[j];
+
+      if (block.id === 'fetchers') {
+        fetchers = [
+          ...fetchers,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            ref_col: block.ref_col,
+          },
+        ];
+      } else if (block.id === 'assignments') {
+        assignments = [
+          ...assignments,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            conditions: [...block.conditions],
+            operations: [...block.operations],
+          },
+        ];
+      } else if (block.id === 'templates') {
+        templates = [
+          ...templates,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            template: block.template,
+            data: [...block.data],
+            conditions: [...block.conditions],
+          },
+        ];
+      } else if (block.id === 'conditions') {
+        conditions = [
+          ...conditions,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            conditions: [...block.conditions],
+            action: block.action,
+            fail: block.fail,
+          },
+        ];
+      } else if (block.id === 'loops') {
+        loops = [
+          ...loops,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            min: block.min,
+            max: block.max,
+          },
+        ];
+      } else if (block.id === 'filters') {
+        filters = [
+          ...filters,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            ref_var: block.ref_var,
+            ref_property: block.ref_property,
+            filters: [...block.filters],
+          },
+        ];
+      } else if (block.id === 'properties') {
+        properties = [
+          ...properties,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            property: block.property,
+          },
+        ];
+      } else if (block.id === 'functions') {
+        functions = [
+          ...functions,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            func: block.func,
+          },
+        ];
+      } else if (block.id === 'objects') {
+        objects = [
+          ...objects,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            local_name: block.local_name,
+            pairs: [...block.pairs],
+          },
+        ];
+      } else if (block.id === 'updates') {
+        updates = [
+          ...updates,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            ref_col: block.ref_col,
+            ref_property: block.ref_property,
+            save: block.save,
+            targets: [...block.targets],
+            add: block.add,
+            set: block.set,
+            filter: block.filter,
+            conditions: [...block.conditions],
+          },
+        ];
+      } else if (block.id === 'creates') {
+        creates = [
+          ...creates,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            ref_col: block.ref_col,
+            ref_object: block.ref_object,
+            save: block.save,
+            conditions: [...block.conditions],
+          },
+        ];
+      } else if (block.id === 'returns') {
+        returns = [
+          ...returns,
+          {
+            global_index: globalIndex,
+            block_index: blockIndex,
+            pairs: [...block.pairs],
+            conditions: [...block.conditions],
+          },
+        ];
+      }
+    }
+  }
+
+  return {
+    fetchers,
+    assignments,
+    templates,
+    conditions,
+    loops,
+    filters,
+    properties,
+    functions,
+    objects,
+    updates,
+    creates,
+    returns,
+  };
+};
+
+export const addRouteFlowBlock = (setCurrentBlocks, index) => {
+  setCurrentBlocks((prev) => {
+    let update = [...prev];
+
+    if (!index) {
+      update = [...update, { block_index: update.length, blocks: [] }];
+    } else {
+      update = [];
+      for (let i = 0; i < prev.length; i++) {
+        if (i <= index) {
+          update = [...update, { block_index: i, blocks: prev[i].blocks }];
+        } else if (i > index) {
+          update = [...update, { block_index: i + 1, blocks: prev[i].blocks }];
+        }
+
+        if (i === index) {
+          update = [...update, { block_index: i + 1, blocks: [] }];
+        }
+      }
+    }
+
+    return update;
+  });
+};
+
+export const removeRouteFlowBlock = (setCurrentBlocks, index) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+    for (let i = 0; i < prev.length; i++) {
+      if (i < index) {
+        update = [...update, prev[i]];
+      } else if (i > index) {
+        update = [...update, { block_index: i - 1, blocks: prev[i].blocks }];
+      }
+    }
+
+    return update;
+  });
+};
+
+const getDefaultBlockProperties = (target) => {
+  let id = targets.find((t) => t.name === target).id;
+  let name = target;
+
+  if (target === 'FETCH') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      ref_col: '',
+    };
+  } else if (target === 'ASSIGN') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      conditions: [],
+      operations: [],
+    };
+  } else if (target === 'TEMPLATE') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      template: '',
+      data: [],
+      conditions: [],
+    };
+  } else if (target === 'CONDITION') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      conditions: [],
+      action: 'FAIL',
+      fail: null,
+    };
+  } else if (target === 'LOOP') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      min: 0,
+      max: 10,
+    };
+  } else if (target === 'FILTER') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      ref_var: '',
+      ref_property: '',
+      filters: [],
+    };
+  } else if (target === 'PROPERTY') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      property: {
+        data: { ref_var: false, rtype: 'STRING', data: '' },
+        apply: 'LENGTH',
+      },
+    };
+  } else if (target === 'FUNCTION') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      func: { id: 'V4', params: [] },
+    };
+  } else if (target === 'OBJECT') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      local_name: '',
+      pairs: [],
+    };
+  } else if (target === 'UPDATE') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ref_col: '',
+      ref_property: '',
+      save: false,
+      targets: [],
+      add: null,
+      set: null,
+      filter: null,
+      conditions: [],
+    };
+  } else if (target === 'CREATE') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ref_col: '',
+      ref_object: '',
+      save: false,
+      conditions: [],
+    };
+  } else if (target === 'RETURN') {
+    return {
+      id,
+      name,
+      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      pairs: [],
+      conditions: [],
+    };
+  }
+};
+
+export const addRouteFlowBlockInbuilt = (setCurrentBlocks, index, target) => {
+  setCurrentBlocks((prev) => {
+    let update = [...prev];
+
+    update = update.map((u, i) => {
+      let blocks = [...u.blocks];
+      if (i === index) {
+        blocks = [...blocks, getDefaultBlockProperties(target)];
+      }
+      return {
+        block_index: u.block_index,
+        blocks: [...blocks],
+      };
+    });
+
+    return update;
+  });
+};
+
+export const removeRouteFlowBlockInbuilt = (
+  setCurrentBlocks,
+  index,
+  blockIndex
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [...prev];
+
+    update = update.map((u, i) => {
+      let blocks = [...u.blocks];
+      if (i === index) {
+        blocks = blocks.filter((b, j) => j !== blockIndex);
+      }
+      return {
+        block_index: u.block_index,
+        blocks: [...blocks],
+      };
+    });
+
+    return update;
+  });
+};
+
+export const moveRouteFlowBlockInbuilt = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  direction
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [...prev];
+
+    update = update.map((u, i) => {
+      let blocks = [...u.blocks];
+
+      if (i === index) {
+        let finalPosition =
+          direction === 'up' ? blockIndex - 1 : blockIndex + 1;
+
+        if (finalPosition < 0) {
+          finalPosition = blocks.length - 1;
+        } else if (finalPosition > blocks.length - 1) {
+          finalPosition = 0;
+        }
+
+        let block = blocks[blockIndex];
+
+        blocks.splice(blockIndex, 1);
+        blocks.splice(finalPosition, 0, block);
+      }
+
+      return {
+        block_index: u.block_index,
+        blocks: [...blocks],
+      };
+    });
+
+    return update;
+  });
+};
+
 export const getLengthRouteBlocks = (route) => {
   let length = 0;
 
-  for (let i = 0; i < blockTypes.length; i++) {
-    let currentType = blockTypes[i];
+  for (let i = 0; i < targets.length; i++) {
+    let currentType = targets[i].id;
     length += route.flow[currentType].length;
   }
 
