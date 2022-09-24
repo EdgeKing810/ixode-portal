@@ -29,6 +29,8 @@ import {
 } from '../../utils/routeProcessor';
 import { submitCreateRoute, submitUpdateRoute } from './routes.utils';
 import { fetchData } from '../../utils/data';
+import FetchBlock from './blocks/FetchBlock';
+import AssignmentBlock from './blocks/AssignmentBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -72,7 +74,7 @@ export default function RouteBlockDisplay({
               e.target.value.trim()
             );
           }}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
         {!validateRouteProperty(currentRoute, 'route_id').valid && (
           <SmallText color="error">
@@ -100,7 +102,7 @@ export default function RouteBlockDisplay({
               e.target.value.trim()
             );
           }}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
 
         {!validateRouteProperty(currentRoute, 'route_path').valid && (
@@ -121,7 +123,7 @@ export default function RouteBlockDisplay({
           placeholder=""
           value={currentRoute.project_id}
           change={() => null}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
 
         <div className="w-full flex items-center mt-4">
@@ -145,7 +147,7 @@ export default function RouteBlockDisplay({
         </div>
 
         {currentRoute.auth_jwt !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-1/2">
+          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
             <BigText
               color="primary"
               smallerOnMobile
@@ -229,7 +231,7 @@ export default function RouteBlockDisplay({
           Body ({currentRoute.body.length})
         </BigText>
 
-        <div className="lg:w-1/2 w-full bg-base-300 rounded-lg p-4 my-2">
+        <div className="lg:w-2/3 w-full bg-base-300 rounded-lg p-4 my-2">
           <button
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Body Data"
@@ -325,7 +327,7 @@ export default function RouteBlockDisplay({
         </div>
 
         {currentRoute.params !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-1/2">
+          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
             <BigText
               color="primary"
               smallerOnMobile
@@ -487,7 +489,7 @@ export default function RouteBlockDisplay({
           placeholder=""
           value={currentRoute.route_id}
           change={() => null}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
 
         <BigText
@@ -502,7 +504,7 @@ export default function RouteBlockDisplay({
           placeholder=""
           value={currentRoute.route_path}
           change={() => null}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
 
         <BigText
@@ -517,7 +519,7 @@ export default function RouteBlockDisplay({
           placeholder=""
           value={currentRoute.project_id}
           change={() => null}
-          className="mt-2 mb-2 lg:w-1/2"
+          className="mt-2 mb-2 lg:w-2/3"
         />
 
         <div className="w-full flex items-center mt-4">
@@ -539,7 +541,7 @@ export default function RouteBlockDisplay({
         </div>
 
         {currentRoute.auth_jwt !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-1/2">
+          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
             <BigText
               color="primary"
               smallerOnMobile
@@ -581,7 +583,7 @@ export default function RouteBlockDisplay({
           Body ({currentRoute.body.length})
         </BigText>
 
-        <div className="lg:w-1/2 w-full bg-base-300 rounded-lg p-4 my-2">
+        <div className="lg:w-2/3 w-full bg-base-300 rounded-lg p-4 my-2">
           {currentRoute.body.map((b, i) => (
             <div className="w-full" key={`body-${i}`}>
               <div className="w-full flex items-center mt-4 mb-2">
@@ -634,7 +636,7 @@ export default function RouteBlockDisplay({
         </div>
 
         {currentRoute.params !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-1/2">
+          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
             <BigText
               color="primary"
               smallerOnMobile
@@ -699,6 +701,8 @@ export default function RouteBlockDisplay({
   };
 
   const makeBlocks = () => {
+    const viewOnly = false;
+
     return (
       <div className="w-full">
         <BigText
@@ -720,7 +724,7 @@ export default function RouteBlockDisplay({
           </button>
 
           {currentBlocks.map((b, i) => (
-            <div className="w-full lg:w-1/2" key={`flow-block-${i}`}>
+            <div className="w-full lg:w-2/3" key={`flow-block-${i}`}>
               <div className="w-full bg-base-300 p-4 my-2 rounded-lg">
                 <BigText
                   color="secondary"
@@ -763,7 +767,7 @@ export default function RouteBlockDisplay({
 
                 {b.blocks.map((block, j) => (
                   <div
-                    className="w-full my-2 p-2 lg:p-2 bg-base-200 rounded-lg"
+                    className="w-full my-2 p-2 lg:p-2 bg-base-200 rounded-lg lg:border-4 border-2 border-primary border-opacity-50"
                     key={`flow-block-${i}-${j}`}
                   >
                     <div className="w-full flex items-center">
@@ -816,14 +820,28 @@ export default function RouteBlockDisplay({
                         <i className={`ri-delete-bin-2-line`} />
                       </button>
                     </div>
+
+                    {block.name === 'FETCH' ? (
+                      <FetchBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'ASSIGN' ? (
+                      <AssignmentBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : (
+                      <div></div>
+                    )}
                   </div>
                 ))}
-
-                {/* {!validateDefaultRouteProperty(b.id, 'ID').valid && (
-                  <SmallText color="error">
-                    * {validateDefaultRouteProperty(b.id, 'ID').message}
-                  </SmallText>
-                )} */}
               </div>
 
               <div className="w-full flex justify-center">
@@ -889,7 +907,7 @@ export default function RouteBlockDisplay({
         <div className="w-full flex my-2">
           {!isEditing && !isCreating && (
             <button
-              className="btn btn-info w-full lg:w-1/2 btn-outline gap-2"
+              className="btn btn-info w-full lg:w-2/3 btn-outline gap-2"
               title="Edit"
               onClick={() =>
                 navigate(`/routes/p/${project_id}/r/e/${route_id}`)
@@ -902,7 +920,7 @@ export default function RouteBlockDisplay({
 
           {isEditing && !isCreating && (
             <button
-              className="btn btn-info w-full lg:w-1/2 btn-outline gap-2"
+              className="btn btn-info w-full lg:w-2/3 btn-outline gap-2"
               title="View"
               onClick={() =>
                 navigate(`/routes/p/${project_id}/r/v/${route_id}`)
@@ -939,7 +957,7 @@ export default function RouteBlockDisplay({
                 currentRoute.route_path.length > 0
                   ? 'btn-primary'
                   : 'btn-disabled'
-              } btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/2`}
+              } btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-2/3`}
               title="Submit"
               onClick={() =>
                 currentRoute.route_id.length > 0 &&

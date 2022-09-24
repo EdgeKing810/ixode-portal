@@ -627,3 +627,185 @@ export const validateRouteProperty = (route, property) => {
 
   return { valid: true, message: '' };
 };
+
+export const setFlowBlockProperty = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  property,
+  value
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+
+    for (let i = 0; i < prev.length; i++) {
+      if (i === index) {
+        let updatedBlocks = [];
+
+        for (let j = 0; j < prev[i].blocks.length; j++) {
+          let updatedBlock = { ...prev[i].blocks[j] };
+          if (j === blockIndex) {
+            updatedBlock[property] = value;
+          }
+          updatedBlocks = [...updatedBlocks, updatedBlock];
+        }
+
+        update = [
+          ...update,
+          { block_index: prev[i].block_index, blocks: [...updatedBlocks] },
+        ];
+      } else {
+        update = [...update, prev[i]];
+      }
+    }
+
+    return update;
+  });
+};
+
+export const setFlowBlockPropertySpecial = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  currentIndex,
+  property,
+  target,
+  value
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+
+    for (let i = 0; i < prev.length; i++) {
+      if (i === index) {
+        let updatedBlocks = [];
+
+        for (let j = 0; j < prev[i].blocks.length; j++) {
+          let updatedBlock = { ...prev[i].blocks[j] };
+          if (j === blockIndex) {
+            updatedBlock[property] = updatedBlock[property].map((upb, k) => {
+              let update = { ...upb };
+              let targetProperties = target.split('.');
+
+              if (k === currentIndex) {
+                if (targetProperties.length > 1) {
+                  update[targetProperties[0]][targetProperties[1]] = value;
+                } else {
+                  update[targetProperties[0]] = value;
+                }
+              }
+
+              return update;
+            });
+          }
+          updatedBlocks = [...updatedBlocks, updatedBlock];
+        }
+
+        update = [
+          ...update,
+          { block_index: prev[i].block_index, blocks: [...updatedBlocks] },
+        ];
+      } else {
+        update = [...update, prev[i]];
+      }
+    }
+
+    return update;
+  });
+};
+
+export const removeFlowBlockPropertySpecial = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  currentIndex,
+  property
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+
+    for (let i = 0; i < prev.length; i++) {
+      if (i === index) {
+        let updatedBlocks = [];
+
+        for (let j = 0; j < prev[i].blocks.length; j++) {
+          let updatedBlock = { ...prev[i].blocks[j] };
+          if (j === blockIndex) {
+            updatedBlock[property] = updatedBlock[property].filter(
+              (upb, k) => k !== currentIndex
+            );
+          }
+          updatedBlocks = [...updatedBlocks, updatedBlock];
+        }
+
+        update = [
+          ...update,
+          { block_index: prev[i].block_index, blocks: [...updatedBlocks] },
+        ];
+      } else {
+        update = [...update, prev[i]];
+      }
+    }
+
+    return update;
+  });
+};
+
+const obtainNewObject = (type) => {
+  if (type === 'CONDITION') {
+    return {
+      left: { ref_var: false, rtype: 'STRING', data: '' },
+      right: { ref_var: false, rtype: 'STRING', data: '' },
+      condition_type: 'EQUAL_TO',
+      not: false,
+      next: 'NONE',
+    };
+  } else if (type === 'OPERATION') {
+    return {
+      left: { ref_var: false, rtype: 'STRING', data: '' },
+      right: { ref_var: false, rtype: 'STRING', data: '' },
+      operation_type: 'NONE',
+      not: false,
+      next: 'NONE',
+    };
+  }
+
+  return {};
+};
+
+export const addFlowBlockProperty = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  property,
+  type
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+
+    for (let i = 0; i < prev.length; i++) {
+      if (i === index) {
+        let updatedBlocks = [];
+
+        for (let j = 0; j < prev[i].blocks.length; j++) {
+          let updatedBlock = { ...prev[i].blocks[j] };
+          if (j === blockIndex) {
+            updatedBlock[property] = [
+              ...updatedBlock[property],
+              obtainNewObject(type),
+            ];
+          }
+          updatedBlocks = [...updatedBlocks, updatedBlock];
+        }
+
+        update = [
+          ...update,
+          { block_index: prev[i].block_index, blocks: [...updatedBlocks] },
+        ];
+      } else {
+        update = [...update, prev[i]];
+      }
+    }
+
+    return update;
+  });
+};
