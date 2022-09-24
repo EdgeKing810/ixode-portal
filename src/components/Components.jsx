@@ -133,6 +133,7 @@ export const Text = ({
   mono,
   nobreak,
   smallerOnMobile,
+  notFull,
 }) => (
   <GenericText
     color={color ? color : 'base-content'}
@@ -141,6 +142,7 @@ export const Text = ({
     } sm:text-base ${className} font-normal`}
     mono={mono}
     nobreak={nobreak}
+    notFull={notFull}
   >
     {children}
   </GenericText>

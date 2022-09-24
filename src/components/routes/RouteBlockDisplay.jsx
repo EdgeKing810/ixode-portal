@@ -32,6 +32,7 @@ import { fetchData } from '../../utils/data';
 import FetchBlock from './blocks/FetchBlock';
 import AssignmentBlock from './blocks/AssignmentBlock';
 import TemplateBlock from './blocks/TemplateBlock';
+import ConditionBlock from './blocks/ConditionBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -841,6 +842,14 @@ export default function RouteBlockDisplay({
                       />
                     ) : block.name === 'TEMPLATE' ? (
                       <TemplateBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'CONDITION' ? (
+                      <ConditionBlock
                         block={block}
                         index={i}
                         blockIndex={j}

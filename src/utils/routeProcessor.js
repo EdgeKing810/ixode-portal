@@ -663,6 +663,50 @@ export const setFlowBlockProperty = (
   });
 };
 
+export const toggleFlowBlockProperty = (
+  setCurrentBlocks,
+  index,
+  blockIndex,
+  property,
+  toggle
+) => {
+  setCurrentBlocks((prev) => {
+    let update = [];
+
+    for (let i = 0; i < prev.length; i++) {
+      if (i === index) {
+        let updatedBlocks = [];
+
+        for (let j = 0; j < prev[i].blocks.length; j++) {
+          let updatedBlock = { ...prev[i].blocks[j] };
+          if (j === blockIndex) {
+            if (!toggle) {
+              updatedBlock[property] = null;
+            } else {
+              if (property === 'fail') {
+                updatedBlock[property] = {
+                  status: 500,
+                  message: 'Internal Server Error',
+                };
+              }
+            }
+          }
+          updatedBlocks = [...updatedBlocks, updatedBlock];
+        }
+
+        update = [
+          ...update,
+          { block_index: prev[i].block_index, blocks: [...updatedBlocks] },
+        ];
+      } else {
+        update = [...update, prev[i]];
+      }
+    }
+
+    return update;
+  });
+};
+
 export const setFlowBlockPropertySpecial = (
   setCurrentBlocks,
   index,
