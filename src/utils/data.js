@@ -228,7 +228,7 @@ export const fetchData = () => ({
         { name: 'CONDITION', id: 'conditions' },
         { name: 'LOOP', id: 'loops' },
         { name: 'FILTER', id: 'filters' },
-        { name: 'PROPERTIES', id: 'properties' },
+        { name: 'PROPERTY', id: 'properties' },
         { name: 'FUNCTION', id: 'functions' },
         { name: 'OBJECT', id: 'objects' },
         { name: 'UPDATE', id: 'updates' },

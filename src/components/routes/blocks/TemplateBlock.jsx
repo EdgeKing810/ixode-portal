@@ -8,7 +8,7 @@ import {
 } from '../../../utils/routeProcessor';
 
 import Condition from './Condition';
-import Data from './Data';
+import RefData from './RefData';
 
 export default function TemplateBlock({
   viewOnly,
@@ -111,7 +111,7 @@ export default function TemplateBlock({
 
         {block.data.map((data, i) => (
           <div className="w-full" key={`${blockIndex}-${index}-data-${i}`}>
-            <Data
+            <RefData
               index={index}
               blockIndex={blockIndex}
               currentIndex={i}

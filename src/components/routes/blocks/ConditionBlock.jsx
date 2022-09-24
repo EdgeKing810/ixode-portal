@@ -29,7 +29,7 @@ export default function ConditionBlock({
         color="secondary"
         smallerOnMobile
         notFull
-        className="mt-4 w-full uppercase text-left"
+        className="w-full uppercase text-left"
       >
         Conditions ({block.conditions.length})
       </Text>

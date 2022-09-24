@@ -35,6 +35,8 @@ import TemplateBlock from './blocks/TemplateBlock';
 import ConditionBlock from './blocks/ConditionBlock';
 import LoopBlock from './blocks/LoopBlock';
 import FilterBlock from './blocks/FilterBlock';
+import PropertyBlock from './blocks/PropertyBlock';
+import FunctionBlock from './blocks/FunctionBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -868,6 +870,22 @@ export default function RouteBlockDisplay({
                       />
                     ) : block.name === 'FILTER' ? (
                       <FilterBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'PROPERTY' ? (
+                      <PropertyBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'FUNCTION' ? (
+                      <FunctionBlock
                         block={block}
                         index={i}
                         blockIndex={j}

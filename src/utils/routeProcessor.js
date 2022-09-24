@@ -205,6 +205,8 @@ export const convertRouteBlocks = (blocks) => {
           },
         ];
       }
+
+      globalIndex++;
     }
   }
 
@@ -332,6 +334,7 @@ const getDefaultBlockProperties = (target) => {
       property: {
         data: { ref_var: false, rtype: 'STRING', data: '' },
         apply: 'LENGTH',
+        additional: '',
       },
     };
   } else if (target === 'FUNCTION') {
@@ -599,8 +602,14 @@ export const toggleRouteProperty = (setRoute, property, active) => {
 };
 
 export const validateDefaultRouteProperty = (data, prop) => {
+  if (data === undefined) {
+    return { valid: false, message: '' };
+  }
+
+  let stringified = data.toString();
+
   let regex = '^[0-9a-zA-Z_-]+$';
-  if (data.trim().length > 0 && !data.match(regex)) {
+  if (stringified.trim().length > 0 && !stringified.match(regex)) {
     return { valid: false, message: `${prop} contains invalid characters` };
   }
 
@@ -647,7 +656,11 @@ export const setFlowBlockProperty = (
           if (j === blockIndex) {
             let targetProperties = property.split('.');
 
-            if (targetProperties.length > 1) {
+            if (targetProperties.length > 2) {
+              updatedBlock[targetProperties[0]][targetProperties[1]][
+                targetProperties[2]
+              ] = value;
+            } else if (targetProperties.length > 1) {
               updatedBlock[targetProperties[0]][targetProperties[1]] = value;
             } else {
               updatedBlock[targetProperties[0]] = value;
@@ -732,20 +745,43 @@ export const setFlowBlockPropertySpecial = (
         for (let j = 0; j < prev[i].blocks.length; j++) {
           let updatedBlock = { ...prev[i].blocks[j] };
           if (j === blockIndex) {
-            updatedBlock[property] = updatedBlock[property].map((upb, k) => {
-              let update = { ...upb };
-              let targetProperties = target.split('.');
+            let targets = property.split('.');
 
-              if (k === currentIndex) {
-                if (targetProperties.length > 1) {
-                  update[targetProperties[0]][targetProperties[1]] = value;
-                } else {
-                  update[targetProperties[0]] = value;
+            if (targets.length > 1) {
+              let updateTop = [...updatedBlock[targets[0]][targets[1]]];
+
+              updateTop = updateTop.map((upb, k) => {
+                let update = { ...upb };
+                let targetProperties = target.split('.');
+
+                if (k === currentIndex) {
+                  if (targetProperties.length > 1) {
+                    update[targetProperties[0]][targetProperties[1]] = value;
+                  } else {
+                    update[targetProperties[0]] = value;
+                  }
                 }
-              }
 
-              return update;
-            });
+                return update;
+              });
+
+              updatedBlock[targets[0]][targets[1]] = updateTop;
+            } else {
+              updatedBlock[property] = updatedBlock[property].map((upb, k) => {
+                let update = { ...upb };
+                let targetProperties = target.split('.');
+
+                if (k === currentIndex) {
+                  if (targetProperties.length > 1) {
+                    update[targetProperties[0]][targetProperties[1]] = value;
+                  } else {
+                    update[targetProperties[0]] = value;
+                  }
+                }
+
+                return update;
+              });
+            }
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
@@ -780,9 +816,21 @@ export const removeFlowBlockPropertySpecial = (
         for (let j = 0; j < prev[i].blocks.length; j++) {
           let updatedBlock = { ...prev[i].blocks[j] };
           if (j === blockIndex) {
-            updatedBlock[property] = updatedBlock[property].filter(
-              (upb, k) => k !== currentIndex
-            );
+            let targetProperties = property.split('.');
+
+            if (targetProperties.length > 1) {
+              let update = [
+                ...updatedBlock[targetProperties[0]][targetProperties[1]],
+              ];
+
+              update = update.filter((upb, k) => k !== currentIndex);
+
+              updatedBlock[targetProperties[0]][targetProperties[1]] = update;
+            } else {
+              updatedBlock[property] = updatedBlock[property].filter(
+                (upb, k) => k !== currentIndex
+              );
+            }
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
@@ -848,10 +896,21 @@ export const addFlowBlockProperty = (
         for (let j = 0; j < prev[i].blocks.length; j++) {
           let updatedBlock = { ...prev[i].blocks[j] };
           if (j === blockIndex) {
-            updatedBlock[property] = [
-              ...updatedBlock[property],
-              obtainNewObject(type),
-            ];
+            let targetProperties = property.split('.');
+
+            if (targetProperties.length > 1) {
+              updatedBlock[targetProperties[0]][targetProperties[1]] = [
+                ...updatedBlock[targetProperties[0]][targetProperties[1]],
+                {
+                  ...obtainNewObject(type),
+                },
+              ];
+            } else {
+              updatedBlock[property] = [
+                ...updatedBlock[property],
+                obtainNewObject(type),
+              ];
+            }
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }

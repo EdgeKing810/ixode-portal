@@ -14,7 +14,7 @@ import {
   SmallText,
 } from '../../Components';
 
-export default function Data({
+export default function RefData({
   index,
   blockIndex,
   currentIndex,
