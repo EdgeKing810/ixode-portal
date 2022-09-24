@@ -310,8 +310,8 @@ const getDefaultBlockProperties = (target) => {
       name,
       rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
       local_name: '',
-      min: 0,
-      max: 10,
+      min: { ref_var: false, rtype: 'INTEGER', data: '0' },
+      max: { ref_var: false, rtype: 'INTEGER', data: '10' },
     };
   } else if (target === 'FILTER') {
     return {
@@ -645,7 +645,13 @@ export const setFlowBlockProperty = (
         for (let j = 0; j < prev[i].blocks.length; j++) {
           let updatedBlock = { ...prev[i].blocks[j] };
           if (j === blockIndex) {
-            updatedBlock[property] = value;
+            let targetProperties = property.split('.');
+
+            if (targetProperties.length > 1) {
+              updatedBlock[targetProperties[0]][targetProperties[1]] = value;
+            } else {
+              updatedBlock[targetProperties[0]] = value;
+            }
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
@@ -813,6 +819,13 @@ const obtainNewObject = (type) => {
     };
   } else if (type === 'DATA') {
     return { ref_var: false, rtype: 'STRING', data: '' };
+  } else if (type === 'FILTER') {
+    return {
+      right: { ref_var: false, rtype: 'STRING', data: '' },
+      operation_type: 'NONE',
+      not: false,
+      next: 'NONE',
+    };
   }
 
   return {};
