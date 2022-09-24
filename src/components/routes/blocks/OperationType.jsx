@@ -11,6 +11,7 @@ export default function OperationType({
   blockIndex,
   currentIndex,
   property,
+  currentIndex2,
 }) {
   return (
     <div className="flex flex-col items-center col-span-2">
@@ -30,7 +31,8 @@ export default function OperationType({
                 currentIndex,
                 property,
                 'operation_type',
-                e.target.value.trim()
+                e.target.value.trim(),
+                currentIndex2
               )
             : null
         }
@@ -58,9 +60,6 @@ export default function OperationType({
           value="LESS_THAN_OR_EQUAL_TO"
         >
           LESS_THAN_OR_EQUAL_TO
-        </InputOption>
-        <InputOption title="INCLUDES" value="INCLUDES">
-          INCLUDES
         </InputOption>
         <InputOption title="ADDITION" value="ADDITION">
           ADDITION

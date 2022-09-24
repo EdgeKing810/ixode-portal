@@ -38,6 +38,7 @@ import FilterBlock from './blocks/FilterBlock';
 import PropertyBlock from './blocks/PropertyBlock';
 import FunctionBlock from './blocks/FunctionBlock';
 import ObjectBlock from './blocks/ObjectBlock';
+import UpdateBlock from './blocks/UpdateBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -895,6 +896,14 @@ export default function RouteBlockDisplay({
                       />
                     ) : block.name === 'OBJECT' ? (
                       <ObjectBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'UPDATE' ? (
+                      <UpdateBlock
                         block={block}
                         index={i}
                         blockIndex={j}

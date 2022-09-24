@@ -21,6 +21,7 @@ export default function Filter({
   index,
   blockIndex,
   currentIndex,
+  currentIndex2,
   property,
   viewOnly,
   filter,
@@ -52,7 +53,8 @@ export default function Filter({
                   currentIndex,
                   property,
                   'right.ref_var',
-                  checked
+                  checked,
+                  currentIndex2
                 )
               : null
           }
@@ -71,7 +73,8 @@ export default function Filter({
                   currentIndex,
                   property,
                   'right.rtype',
-                  e.target.value.trim()
+                  e.target.value.trim(),
+                  currentIndex2
                 )
               : null
           }
@@ -104,7 +107,8 @@ export default function Filter({
                   currentIndex,
                   property,
                   'right.data',
-                  e.target.value.trim()
+                  e.target.value.trim(),
+                  currentIndex2
                 )
               : null
           }
@@ -125,6 +129,7 @@ export default function Filter({
           index={index}
           blockIndex={blockIndex}
           currentIndex={currentIndex}
+          currentIndex2={currentIndex2}
           property={property}
         />
 
@@ -145,7 +150,8 @@ export default function Filter({
                     currentIndex,
                     property,
                     'not',
-                    e.target.value.trim() === 'TRUE'
+                    e.target.value.trim() === 'TRUE',
+                    currentIndex2
                   )
                 : null
             }
@@ -176,7 +182,8 @@ export default function Filter({
                     currentIndex,
                     property,
                     'next',
-                    e.target.value.trim()
+                    e.target.value.trim(),
+                    currentIndex2
                   )
                 : null
             }
@@ -205,7 +212,8 @@ export default function Filter({
                 index,
                 blockIndex,
                 currentIndex,
-                property
+                property,
+                currentIndex2
               )
             }
           >
