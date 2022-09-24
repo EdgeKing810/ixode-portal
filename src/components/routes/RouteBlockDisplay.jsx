@@ -31,6 +31,7 @@ import { submitCreateRoute, submitUpdateRoute } from './routes.utils';
 import { fetchData } from '../../utils/data';
 import FetchBlock from './blocks/FetchBlock';
 import AssignmentBlock from './blocks/AssignmentBlock';
+import TemplateBlock from './blocks/TemplateBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -777,7 +778,8 @@ export default function RouteBlockDisplay({
                         notFull
                         className="w-full uppercase text-left"
                       >
-                        {block.name} {block.rand}
+                        {block.name} Block{' '}
+                        {block.rand ? `(unsaved [${block.rand}])` : ''}
                       </BigText>
 
                       <button
@@ -831,6 +833,14 @@ export default function RouteBlockDisplay({
                       />
                     ) : block.name === 'ASSIGN' ? (
                       <AssignmentBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'TEMPLATE' ? (
+                      <TemplateBlock
                         block={block}
                         index={i}
                         blockIndex={j}

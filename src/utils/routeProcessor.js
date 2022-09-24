@@ -767,6 +767,8 @@ const obtainNewObject = (type) => {
       not: false,
       next: 'NONE',
     };
+  } else if (type === 'DATA') {
+    return { ref_var: false, rtype: 'STRING', data: '' };
   }
 
   return {};
