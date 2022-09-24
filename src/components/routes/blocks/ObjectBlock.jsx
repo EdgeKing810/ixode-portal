@@ -56,7 +56,7 @@ export default function ObjectBlock({
         color="secondary"
         smallerOnMobile
         notFull
-        className="w-full uppercase text-left"
+        className="w-full mt-4 uppercase text-left"
       >
         Object Pairs ({block.pairs.length})
       </Text>

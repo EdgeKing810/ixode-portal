@@ -39,6 +39,8 @@ import PropertyBlock from './blocks/PropertyBlock';
 import FunctionBlock from './blocks/FunctionBlock';
 import ObjectBlock from './blocks/ObjectBlock';
 import UpdateBlock from './blocks/UpdateBlock';
+import CreateBlock from './blocks/CreateBlock';
+import ReturnBlock from './blocks/ReturnBlock';
 
 export default function RouteBlockDisplay({
   API_URL,
@@ -59,7 +61,7 @@ export default function RouteBlockDisplay({
 }) {
   const targets = fetchData().route.flow.targets;
 
-  const makePreBlocks = () => {
+  const makePreBlocks = (viewOnly) => {
     return (
       <div className="w-full">
         <BigText
@@ -71,24 +73,27 @@ export default function RouteBlockDisplay({
         </BigText>
         <Input
           title="Route ID"
-          placeholder="e.g fetch_users"
+          placeholder={viewOnly ? '' : 'e.g fetch_users'}
           value={currentRoute.route_id}
           min={1}
           max={100}
-          change={(e) => {
-            setRouteProperty(
-              setCurrentRoute,
-              'route_id',
-              e.target.value.trim()
-            );
-          }}
+          change={(e) =>
+            !viewOnly
+              ? setRouteProperty(
+                  setCurrentRoute,
+                  'route_id',
+                  e.target.value.trim()
+                )
+              : null
+          }
           className="mt-2 mb-2 lg:w-2/3"
         />
-        {!validateRouteProperty(currentRoute, 'route_id').valid && (
-          <SmallText color="error">
-            * {validateRouteProperty(currentRoute, 'route_id').message}
-          </SmallText>
-        )}
+        {!viewOnly &&
+          !validateRouteProperty(currentRoute, 'route_id').valid && (
+            <SmallText color="error">
+              * {validateRouteProperty(currentRoute, 'route_id').message}
+            </SmallText>
+          )}
 
         <BigText
           color="primary"
@@ -99,25 +104,28 @@ export default function RouteBlockDisplay({
         </BigText>
         <Input
           title="Route Path"
-          placeholder="e.g /users/fetch/all"
+          placeholder={viewOnly ? '' : 'e.g /users/fetch/all'}
           value={currentRoute.route_path}
           min={1}
           max={200}
-          change={(e) => {
-            setRouteProperty(
-              setCurrentRoute,
-              'route_path',
-              e.target.value.trim()
-            );
-          }}
+          change={(e) =>
+            !viewOnly
+              ? setRouteProperty(
+                  setCurrentRoute,
+                  'route_path',
+                  e.target.value.trim()
+                )
+              : null
+          }
           className="mt-2 mb-2 lg:w-2/3"
         />
 
-        {!validateRouteProperty(currentRoute, 'route_path').valid && (
-          <SmallText color="error">
-            * {validateRouteProperty(currentRoute, 'route_path').message}
-          </SmallText>
-        )}
+        {!viewOnly &&
+          !validateRouteProperty(currentRoute, 'route_path').valid && (
+            <SmallText color="error">
+              * {validateRouteProperty(currentRoute, 'route_path').message}
+            </SmallText>
+          )}
 
         <BigText
           color="primary"
@@ -147,9 +155,11 @@ export default function RouteBlockDisplay({
             noMargin
             value={currentRoute.auth_jwt !== null}
             color="primary"
-            change={(checked) => {
-              toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked);
-            }}
+            change={(checked) =>
+              !viewOnly
+                ? toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked)
+                : null
+            }
             className="ml-2 mt-1"
           />
         </div>
@@ -165,31 +175,36 @@ export default function RouteBlockDisplay({
             </BigText>
             <Input
               title="Field"
-              placeholder="e.g uid"
+              placeholder={viewOnly ? '' : 'e.g uid'}
               value={currentRoute.auth_jwt.field}
               max={100}
-              change={(e) => {
-                setAuthJWTProperty(
-                  setCurrentRoute,
-                  'field',
-                  e.target.value.trim()
-                );
-              }}
+              change={(e) =>
+                !viewOnly
+                  ? setAuthJWTProperty(
+                      setCurrentRoute,
+                      'field',
+                      e.target.value.trim()
+                    )
+                  : null
+              }
               className="mt-2 mb-2"
             />
 
-            {!validateDefaultRouteProperty(currentRoute.auth_jwt.field, 'Field')
-              .valid && (
-              <SmallText color="error">
-                *{' '}
-                {
-                  validateDefaultRouteProperty(
-                    currentRoute.auth_jwt.field,
-                    'Field'
-                  ).message
-                }
-              </SmallText>
-            )}
+            {!viewOnly &&
+              !validateDefaultRouteProperty(
+                currentRoute.auth_jwt.field,
+                'Field'
+              ).valid && (
+                <SmallText color="error">
+                  *{' '}
+                  {
+                    validateDefaultRouteProperty(
+                      currentRoute.auth_jwt.field,
+                      'Field'
+                    ).message
+                  }
+                </SmallText>
+              )}
 
             <BigText
               color="primary"
@@ -200,33 +215,36 @@ export default function RouteBlockDisplay({
             </BigText>
             <Input
               title="Field"
-              placeholder="e.g users"
+              placeholder={viewOnly ? '' : 'e.g users'}
               value={currentRoute.auth_jwt.ref_col}
               max={100}
-              change={(e) => {
-                setAuthJWTProperty(
-                  setCurrentRoute,
-                  'ref_col',
-                  e.target.value.trim()
-                );
-              }}
+              change={(e) =>
+                !viewOnly
+                  ? setAuthJWTProperty(
+                      setCurrentRoute,
+                      'ref_col',
+                      e.target.value.trim()
+                    )
+                  : null
+              }
               className="mt-2 mb-2"
             />
 
-            {!validateDefaultRouteProperty(
-              currentRoute.auth_jwt.ref_col,
-              'Ref Col'
-            ).valid && (
-              <SmallText color="error">
-                *{' '}
-                {
-                  validateDefaultRouteProperty(
-                    currentRoute.auth_jwt.ref_col,
-                    'Ref Col'
-                  ).message
-                }
-              </SmallText>
-            )}
+            {!viewOnly &&
+              !validateDefaultRouteProperty(
+                currentRoute.auth_jwt.ref_col,
+                'Ref Col'
+              ).valid && (
+                <SmallText color="error">
+                  *{' '}
+                  {
+                    validateDefaultRouteProperty(
+                      currentRoute.auth_jwt.ref_col,
+                      'Ref Col'
+                    ).message
+                  }
+                </SmallText>
+              )}
           </div>
         )}
 
@@ -240,45 +258,51 @@ export default function RouteBlockDisplay({
         </BigText>
 
         <div className="lg:w-2/3 w-full bg-base-300 rounded-lg p-4 my-2">
-          <button
-            className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
-            title="Add Body Data"
-            onClick={() => addRouteBodyData(setCurrentRoute, false)}
-          >
-            Add Body Data
-          </button>
+          {!viewOnly && (
+            <button
+              className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
+              title="Add Body Data"
+              onClick={() => addRouteBodyData(setCurrentRoute, false)}
+            >
+              Add Body Data
+            </button>
+          )}
 
           {currentRoute.body.map((b, i) => (
             <div className="w-full" key={`body-${i}`}>
               <div className="w-full flex items-center mt-4 mb-2">
                 <Input
                   title="ID"
-                  placeholder="e.g profileID"
+                  placeholder={viewOnly ? '' : 'e.g profileID'}
                   value={b.id}
                   max={100}
-                  change={(e) => {
-                    setRouteBodyProperty(
-                      setCurrentRoute,
-                      'id',
-                      e.target.value.trim(),
-                      i,
-                      false
-                    );
-                  }}
+                  change={(e) =>
+                    !viewOnly
+                      ? setRouteBodyProperty(
+                          setCurrentRoute,
+                          'id',
+                          e.target.value.trim(),
+                          i,
+                          false
+                        )
+                      : null
+                  }
                 />
 
                 <InputSelect
                   className="ml-2"
                   value={b.bdtype}
-                  change={(e) => {
-                    setRouteBodyProperty(
-                      setCurrentRoute,
-                      'bdtype',
-                      e.target.value.trim(),
-                      i,
-                      false
-                    );
-                  }}
+                  change={(e) =>
+                    !viewOnly
+                      ? setRouteBodyProperty(
+                          setCurrentRoute,
+                          'bdtype',
+                          e.target.value.trim(),
+                          i,
+                          false
+                        )
+                      : null
+                  }
                 >
                   <InputOption title="INTEGER" value="INTEGER">
                     INTEGER
@@ -294,18 +318,20 @@ export default function RouteBlockDisplay({
                   </InputOption>
                 </InputSelect>
 
-                <button
-                  className="btn btn-md btn-error btn-outline btn-circle ml-2"
-                  title="Remove Body Data"
-                  onClick={() => {
-                    removeRouteBody(setCurrentRoute, i, false);
-                  }}
-                >
-                  <i className={`ri-delete-bin-2-line`} />
-                </button>
+                {!viewOnly && (
+                  <button
+                    className="btn btn-md btn-error btn-outline btn-circle ml-2"
+                    title="Remove Body Data"
+                    onClick={() => {
+                      removeRouteBody(setCurrentRoute, i, false);
+                    }}
+                  >
+                    <i className={`ri-delete-bin-2-line`} />
+                  </button>
+                )}
               </div>
 
-              {!validateDefaultRouteProperty(b.id, 'ID').valid && (
+              {!viewOnly && !validateDefaultRouteProperty(b.id, 'ID').valid && (
                 <SmallText color="error">
                   * {validateDefaultRouteProperty(b.id, 'ID').message}
                 </SmallText>
@@ -327,9 +353,11 @@ export default function RouteBlockDisplay({
             noMargin
             value={currentRoute.params !== null}
             color="primary"
-            change={(checked) => {
-              toggleRouteProperty(setCurrentRoute, 'params', checked);
-            }}
+            change={(checked) =>
+              !viewOnly
+                ? toggleRouteProperty(setCurrentRoute, 'params', checked)
+                : null
+            }
             className="ml-2 mt-1"
           />
         </div>
@@ -345,53 +373,56 @@ export default function RouteBlockDisplay({
             </BigText>
             <Input
               title="Delimiter"
-              placeholder="e.g &"
+              placeholder={viewOnly ? '' : 'e.g &'}
               value={currentRoute.params.delimiter}
               max={5}
-              change={(e) => {
-                setParamsProperty(
-                  setCurrentRoute,
-                  'delimiter',
-                  e.target.value.trim()
-                );
-              }}
+              change={(e) =>
+                !viewOnly
+                  ? setParamsProperty(
+                      setCurrentRoute,
+                      'delimiter',
+                      e.target.value.trim()
+                    )
+                  : null
+              }
               className="mt-2 mb-2"
             />
 
-            {!validateDefaultRouteProperty(
-              currentRoute.params.delimiter
-                .split('&')
-                .join('')
-                .split('!')
-                .join('')
-                .split('#')
-                .join('')
-                .split('-')
-                .join('')
-                .split('_')
-                .join(''),
-              'Delimiter'
-            ).valid && (
-              <SmallText color="error">
-                *{' '}
-                {
-                  validateDefaultRouteProperty(
-                    currentRoute.params.delimiter
-                      .split('&')
-                      .join('')
-                      .split('!')
-                      .join('')
-                      .split('#')
-                      .join('')
-                      .split('-')
-                      .join('')
-                      .split('_')
-                      .join(''),
-                    'Delimiter'
-                  ).message
-                }
-              </SmallText>
-            )}
+            {!viewOnly &&
+              !validateDefaultRouteProperty(
+                currentRoute.params.delimiter
+                  .split('&')
+                  .join('')
+                  .split('!')
+                  .join('')
+                  .split('#')
+                  .join('')
+                  .split('-')
+                  .join('')
+                  .split('_')
+                  .join(''),
+                'Delimiter'
+              ).valid && (
+                <SmallText color="error">
+                  *{' '}
+                  {
+                    validateDefaultRouteProperty(
+                      currentRoute.params.delimiter
+                        .split('&')
+                        .join('')
+                        .split('!')
+                        .join('')
+                        .split('#')
+                        .join('')
+                        .split('-')
+                        .join('')
+                        .split('_')
+                        .join(''),
+                      'Delimiter'
+                    ).message
+                  }
+                </SmallText>
+              )}
 
             <BigText
               color="primary"
@@ -403,45 +434,51 @@ export default function RouteBlockDisplay({
             </BigText>
 
             <div className="w-full my-2">
-              <button
-                className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
-                title="Add Pair"
-                onClick={() => addRouteBodyData(setCurrentRoute, true)}
-              >
-                Add Pair
-              </button>
+              {!viewOnly && (
+                <button
+                  className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
+                  title="Add Pair"
+                  onClick={() => addRouteBodyData(setCurrentRoute, true)}
+                >
+                  Add Pair
+                </button>
+              )}
 
               {currentRoute.params.pairs.map((p, i) => (
                 <div className="w-full" key={`pair-${i}`}>
                   <div className="w-full flex items-center mt-4 mb-2">
                     <Input
                       title="ID"
-                      placeholder="e.g limit"
+                      placeholder={viewOnly ? '' : 'e.g limit'}
                       value={p.id}
                       max={100}
-                      change={(e) => {
-                        setRouteBodyProperty(
-                          setCurrentRoute,
-                          'id',
-                          e.target.value.trim(),
-                          i,
-                          true
-                        );
-                      }}
+                      change={(e) =>
+                        !viewOnly
+                          ? setRouteBodyProperty(
+                              setCurrentRoute,
+                              'id',
+                              e.target.value.trim(),
+                              i,
+                              true
+                            )
+                          : null
+                      }
                     />
 
                     <InputSelect
                       className="ml-2"
                       value={p.bdtype}
-                      change={(e) => {
-                        setRouteBodyProperty(
-                          setCurrentRoute,
-                          'bdtype',
-                          e.target.value.trim(),
-                          i,
-                          true
-                        );
-                      }}
+                      change={(e) =>
+                        !viewOnly
+                          ? setRouteBodyProperty(
+                              setCurrentRoute,
+                              'bdtype',
+                              e.target.value.trim(),
+                              i,
+                              true
+                            )
+                          : null
+                      }
                     >
                       <InputOption title="INTEGER" value="INTEGER">
                         INTEGER
@@ -457,22 +494,25 @@ export default function RouteBlockDisplay({
                       </InputOption>
                     </InputSelect>
 
-                    <button
-                      className="btn btn-md btn-error btn-outline btn-circle ml-2"
-                      title="Remove Pair"
-                      onClick={() => {
-                        removeRouteBody(setCurrentRoute, i, true);
-                      }}
-                    >
-                      <i className={`ri-delete-bin-2-line`} />
-                    </button>
+                    {!viewOnly && (
+                      <button
+                        className="btn btn-md btn-error btn-outline btn-circle ml-2"
+                        title="Remove Pair"
+                        onClick={() => {
+                          removeRouteBody(setCurrentRoute, i, true);
+                        }}
+                      >
+                        <i className={`ri-delete-bin-2-line`} />
+                      </button>
+                    )}
                   </div>
 
-                  {!validateDefaultRouteProperty(p.id, 'ID').valid && (
-                    <SmallText color="error">
-                      * {validateDefaultRouteProperty(p.id, 'ID').message}
-                    </SmallText>
-                  )}
+                  {!viewOnly &&
+                    !validateDefaultRouteProperty(p.id, 'ID').valid && (
+                      <SmallText color="error">
+                        * {validateDefaultRouteProperty(p.id, 'ID').message}
+                      </SmallText>
+                    )}
                 </div>
               ))}
             </div>
@@ -482,235 +522,7 @@ export default function RouteBlockDisplay({
     );
   };
 
-  const makeReadOnlyPreBlocks = () => {
-    return (
-      <div className="w-full">
-        <BigText
-          color="primary"
-          smallerOnMobile
-          className="uppercase text-left w-full"
-        >
-          Route ID
-        </BigText>
-        <Input
-          title="Route ID"
-          placeholder=""
-          value={currentRoute.route_id}
-          change={() => null}
-          className="mt-2 mb-2 lg:w-2/3"
-        />
-
-        <BigText
-          color="primary"
-          smallerOnMobile
-          className="mt-4 uppercase text-left w-full"
-        >
-          Route Path
-        </BigText>
-        <Input
-          title="Route Path"
-          placeholder=""
-          value={currentRoute.route_path}
-          change={() => null}
-          className="mt-2 mb-2 lg:w-2/3"
-        />
-
-        <BigText
-          color="primary"
-          smallerOnMobile
-          className="mt-4 uppercase text-left w-full"
-        >
-          Project ID
-        </BigText>
-        <Input
-          title="Project ID"
-          placeholder=""
-          value={currentRoute.project_id}
-          change={() => null}
-          className="mt-2 mb-2 lg:w-2/3"
-        />
-
-        <div className="w-full flex items-center mt-4">
-          <BigText
-            color="primary"
-            smallerOnMobile
-            notFull
-            className="uppercase text-left"
-          >
-            Auth JWT
-          </BigText>
-          <Checkbox
-            noMargin
-            value={currentRoute.auth_jwt !== null}
-            color="primary"
-            change={() => null}
-            className="ml-2 mt-1"
-          />
-        </div>
-
-        {currentRoute.auth_jwt !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
-            <BigText
-              color="primary"
-              smallerOnMobile
-              className="uppercase text-left w-full"
-            >
-              Field
-            </BigText>
-            <Input
-              title="Field"
-              placeholder=""
-              value={currentRoute.auth_jwt.field}
-              change={() => null}
-              className="mt-2 mb-2"
-            />
-
-            <BigText
-              color="primary"
-              smallerOnMobile
-              className="mt-4 uppercase text-left w-full"
-            >
-              Ref Col
-            </BigText>
-            <Input
-              title="Field"
-              placeholder=""
-              value={currentRoute.auth_jwt.ref_col}
-              change={() => null}
-              className="mt-2 mb-2"
-            />
-          </div>
-        )}
-
-        <BigText
-          color="primary"
-          smallerOnMobile
-          notFull
-          className="mt-4 w-full uppercase text-left"
-        >
-          Body ({currentRoute.body.length})
-        </BigText>
-
-        <div className="lg:w-2/3 w-full bg-base-300 rounded-lg p-4 my-2">
-          {currentRoute.body.map((b, i) => (
-            <div className="w-full" key={`body-${i}`}>
-              <div className="w-full flex items-center mt-4 mb-2">
-                <Input
-                  title="ID"
-                  placeholder=""
-                  value={b.id}
-                  change={() => null}
-                />
-
-                <InputSelect
-                  className="ml-2"
-                  value={b.bdtype}
-                  change={() => null}
-                >
-                  <InputOption title="INTEGER" value="INTEGER">
-                    INTEGER
-                  </InputOption>
-                  <InputOption title="STRING" value="STRING">
-                    STRING
-                  </InputOption>
-                  <InputOption title="BOOLEAN" value="BOOLEAN">
-                    BOOLEAN
-                  </InputOption>
-                  <InputOption title="OTHER" value="OTHER">
-                    OTHER
-                  </InputOption>
-                </InputSelect>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="w-full flex items-center mt-4">
-          <BigText
-            color="primary"
-            smallerOnMobile
-            notFull
-            className="uppercase text-left"
-          >
-            Params
-          </BigText>
-          <Checkbox
-            noMargin
-            value={currentRoute.params !== null}
-            color="primary"
-            change={() => null}
-            className="ml-2 mt-1"
-          />
-        </div>
-
-        {currentRoute.params !== null && (
-          <div className="w-full bg-base-300 rounded-lg p-4 my-2 lg:w-2/3">
-            <BigText
-              color="primary"
-              smallerOnMobile
-              className="uppercase text-left w-full"
-            >
-              Delimiter
-            </BigText>
-            <Input
-              title="Delimiter"
-              placeholder=""
-              value={currentRoute.params.delimiter}
-              change={() => null}
-              className="mt-2 mb-2"
-            />
-
-            <BigText
-              color="primary"
-              smallerOnMobile
-              notFull
-              className="mt-4 w-full uppercase text-left"
-            >
-              Pairs ({currentRoute.params.pairs.length})
-            </BigText>
-
-            <div className="w-full my-2">
-              {currentRoute.params.pairs.map((p, i) => (
-                <div className="w-full" key={`pair-${i}`}>
-                  <div className="w-full flex items-center mt-4 mb-2">
-                    <Input
-                      title="ID"
-                      placeholder=""
-                      value={p.id}
-                      change={() => null}
-                    />
-
-                    <InputSelect
-                      className="ml-2"
-                      value={p.bdtype}
-                      change={() => null}
-                    >
-                      <InputOption title="INTEGER" value="INTEGER">
-                        INTEGER
-                      </InputOption>
-                      <InputOption title="STRING" value="STRING">
-                        STRING
-                      </InputOption>
-                      <InputOption title="BOOLEAN" value="BOOLEAN">
-                        BOOLEAN
-                      </InputOption>
-                      <InputOption title="OTHER" value="OTHER">
-                        OTHER
-                      </InputOption>
-                    </InputSelect>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const makeBlocks = () => {
-    const viewOnly = false;
-
+  const makeBlocks = (viewOnly) => {
     return (
       <div className="w-full">
         <BigText
@@ -723,13 +535,15 @@ export default function RouteBlockDisplay({
         </BigText>
 
         <div className="w-full rounded-lg my-2">
-          <button
-            className="btn btn-secondary btn-outline gap-2 mb-2 w-full lg:w-1/3"
-            title="Add Block"
-            onClick={() => addRouteFlowBlock(setCurrentBlocks)}
-          >
-            Add Flow Block
-          </button>
+          {!viewOnly && (
+            <button
+              className="btn btn-secondary btn-outline gap-2 mb-2 w-full lg:w-1/3"
+              title="Add Block"
+              onClick={() => addRouteFlowBlock(setCurrentBlocks)}
+            >
+              Add Flow Block
+            </button>
+          )}
 
           {currentBlocks.map((b, i) => (
             <div className="w-full lg:w-2/3" key={`flow-block-${i}`}>
@@ -743,35 +557,41 @@ export default function RouteBlockDisplay({
                   Block Index: {b.block_index}
                 </BigText>
 
-                <div className="w-full flex my-2">
-                  <InputSelect
-                    value={targetBlock}
-                    change={(e) => {
-                      setTargetBlock(e.target.value);
-                    }}
-                    noPadding
-                  >
-                    {targets.map((t) => (
-                      <InputOption
-                        title={t.name}
-                        value={t.name}
-                        key={`flow-block-${i}-t-${t.name}`}
-                      >
-                        {t.name}
-                      </InputOption>
-                    ))}
-                  </InputSelect>
+                {!viewOnly && (
+                  <div className="w-full flex my-2">
+                    <InputSelect
+                      value={targetBlock}
+                      change={(e) => {
+                        setTargetBlock(e.target.value);
+                      }}
+                      noPadding
+                    >
+                      {targets.map((t) => (
+                        <InputOption
+                          title={t.name}
+                          value={t.name}
+                          key={`flow-block-${i}-t-${t.name}`}
+                        >
+                          {t.name}
+                        </InputOption>
+                      ))}
+                    </InputSelect>
 
-                  <button
-                    className="btn btn-secondary btn-outline ml-2 w-1/2 lg:w-1/3"
-                    title="Add"
-                    onClick={() =>
-                      addRouteFlowBlockInbuilt(setCurrentBlocks, i, targetBlock)
-                    }
-                  >
-                    Add
-                  </button>
-                </div>
+                    <button
+                      className="btn btn-secondary btn-outline ml-2 w-1/2 lg:w-1/3"
+                      title="Add"
+                      onClick={() =>
+                        addRouteFlowBlockInbuilt(
+                          setCurrentBlocks,
+                          i,
+                          targetBlock
+                        )
+                      }
+                    >
+                      Add
+                    </button>
+                  </div>
+                )}
 
                 {b.blocks.map((block, j) => (
                   <div
@@ -789,45 +609,51 @@ export default function RouteBlockDisplay({
                         {block.rand ? `(unsaved [${block.rand}])` : ''}
                       </BigText>
 
-                      <button
-                        className="btn btn-sm btn-info btn-outline btn-circle"
-                        title="Move Up"
-                        onClick={() => {
-                          moveRouteFlowBlockInbuilt(
-                            setCurrentBlocks,
-                            i,
-                            j,
-                            'up'
-                          );
-                        }}
-                      >
-                        <i className={`ri-arrow-up-line`} />
-                      </button>
+                      {!viewOnly && (
+                        <button
+                          className="btn btn-sm btn-info btn-outline btn-circle"
+                          title="Move Up"
+                          onClick={() => {
+                            moveRouteFlowBlockInbuilt(
+                              setCurrentBlocks,
+                              i,
+                              j,
+                              'up'
+                            );
+                          }}
+                        >
+                          <i className={`ri-arrow-up-line`} />
+                        </button>
+                      )}
 
-                      <button
-                        className="btn btn-sm btn-info btn-outline btn-circle ml-2"
-                        title="Move Down"
-                        onClick={() => {
-                          moveRouteFlowBlockInbuilt(
-                            setCurrentBlocks,
-                            i,
-                            j,
-                            'down'
-                          );
-                        }}
-                      >
-                        <i className={`ri-arrow-down-line`} />
-                      </button>
+                      {!viewOnly && (
+                        <button
+                          className="btn btn-sm btn-info btn-outline btn-circle ml-2"
+                          title="Move Down"
+                          onClick={() => {
+                            moveRouteFlowBlockInbuilt(
+                              setCurrentBlocks,
+                              i,
+                              j,
+                              'down'
+                            );
+                          }}
+                        >
+                          <i className={`ri-arrow-down-line`} />
+                        </button>
+                      )}
 
-                      <button
-                        className="btn btn-sm btn-error btn-outline btn-circle ml-2"
-                        title="Remove"
-                        onClick={() => {
-                          removeRouteFlowBlockInbuilt(setCurrentBlocks, i, j);
-                        }}
-                      >
-                        <i className={`ri-delete-bin-2-line`} />
-                      </button>
+                      {!viewOnly && (
+                        <button
+                          className="btn btn-sm btn-error btn-outline btn-circle ml-2"
+                          title="Remove"
+                          onClick={() => {
+                            removeRouteFlowBlockInbuilt(setCurrentBlocks, i, j);
+                          }}
+                        >
+                          <i className={`ri-delete-bin-2-line`} />
+                        </button>
+                      )}
                     </div>
 
                     {block.name === 'FETCH' ? (
@@ -910,6 +736,22 @@ export default function RouteBlockDisplay({
                         setCurrentBlocks={setCurrentBlocks}
                         viewOnly={viewOnly}
                       />
+                    ) : block.name === 'CREATE' ? (
+                      <CreateBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
+                    ) : block.name === 'RETURN' ? (
+                      <ReturnBlock
+                        block={block}
+                        index={i}
+                        blockIndex={j}
+                        setCurrentBlocks={setCurrentBlocks}
+                        viewOnly={viewOnly}
+                      />
                     ) : (
                       <div></div>
                     )}
@@ -943,10 +785,6 @@ export default function RouteBlockDisplay({
         </div>
       </div>
     );
-  };
-
-  const makeReadOnlyBlocks = () => {
-    return <div></div>;
   };
 
   return (
@@ -1007,17 +845,13 @@ export default function RouteBlockDisplay({
       )}
 
       {currentRoute && currentRoute.route_id !== undefined ? (
-        isEditing || isCreating ? (
-          makePreBlocks()
-        ) : (
-          makeReadOnlyPreBlocks()
-        )
+        makePreBlocks(!(isEditing || isCreating))
       ) : (
         <div></div>
       )}
 
       <div className="w-full">
-        {isEditing || isCreating ? makeBlocks() : makeReadOnlyBlocks()}
+        {makeBlocks(!(isEditing || isCreating))}
 
         <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
