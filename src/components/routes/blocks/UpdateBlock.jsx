@@ -50,9 +50,10 @@ export default function UpdateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_col, 'Ref Col').valid && (
+      {!validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(block.ref_col, 'Ref Col').message}
+          *{' '}
+          {validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).message}
         </SmallText>
       )}
 
@@ -83,13 +84,16 @@ export default function UpdateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property')
+      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.ref_property, 'Ref Property')
-              .message
+            validateDefaultRouteProperty(
+              block.ref_property,
+              'Ref Property',
+              true
+            ).message
           }
         </SmallText>
       )}

@@ -25,8 +25,8 @@ import {
   setRouteProperty,
   toggleRouteProperty,
   validateDefaultRouteProperty,
-  validateRouteProperty,
 } from '../../utils/routeProcessor';
+
 import { submitCreateRoute, submitUpdateRoute } from './routes.utils';
 import { fetchData } from '../../utils/data';
 import FetchBlock from './blocks/FetchBlock';
@@ -89,9 +89,17 @@ export default function RouteBlockDisplay({
           className="mt-2 mb-2 lg:w-2/3"
         />
         {!viewOnly &&
-          !validateRouteProperty(currentRoute, 'route_id').valid && (
+          !validateDefaultRouteProperty(currentRoute.route_id, 'Route ID', true)
+            .valid && (
             <SmallText color="error">
-              * {validateRouteProperty(currentRoute, 'route_id').message}
+              *{' '}
+              {
+                validateDefaultRouteProperty(
+                  currentRoute.route_id,
+                  'Route ID',
+                  true
+                ).message
+              }
             </SmallText>
           )}
 
@@ -121,9 +129,20 @@ export default function RouteBlockDisplay({
         />
 
         {!viewOnly &&
-          !validateRouteProperty(currentRoute, 'route_path').valid && (
+          !validateDefaultRouteProperty(
+            currentRoute.route_path.split('/').join(''),
+            'Route Path',
+            true
+          ).valid && (
             <SmallText color="error">
-              * {validateRouteProperty(currentRoute, 'route_path').message}
+              *{' '}
+              {
+                validateDefaultRouteProperty(
+                  currentRoute.route_path.split('/').join(''),
+                  'Route Path',
+                  true
+                ).message
+              }
             </SmallText>
           )}
 
@@ -134,6 +153,7 @@ export default function RouteBlockDisplay({
         >
           Project ID
         </BigText>
+
         <Input
           title="Project ID"
           placeholder=""
@@ -151,6 +171,7 @@ export default function RouteBlockDisplay({
           >
             Auth JWT
           </BigText>
+
           <Checkbox
             noMargin
             value={currentRoute.auth_jwt !== null}
@@ -173,6 +194,7 @@ export default function RouteBlockDisplay({
             >
               Field
             </BigText>
+
             <Input
               title="Field"
               placeholder={viewOnly ? '' : 'e.g uid'}
@@ -595,7 +617,7 @@ export default function RouteBlockDisplay({
 
                 {b.blocks.map((block, j) => (
                   <div
-                    className="w-full my-2 p-2 lg:p-2 bg-base-200 rounded-lg lg:border-4 border-2 border-primary border-opacity-50"
+                    className="w-full my-4 p-2 lg:p-2 bg-base-200 rounded-lg lg:border-4 border-2 border-primary border-opacity-50"
                     key={`flow-block-${i}-${j}`}
                   >
                     <div className="w-full flex items-center">
@@ -656,105 +678,7 @@ export default function RouteBlockDisplay({
                       )}
                     </div>
 
-                    {block.name === 'FETCH' ? (
-                      <FetchBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'ASSIGN' ? (
-                      <AssignmentBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'TEMPLATE' ? (
-                      <TemplateBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'CONDITION' ? (
-                      <ConditionBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'LOOP' ? (
-                      <LoopBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'FILTER' ? (
-                      <FilterBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'PROPERTY' ? (
-                      <PropertyBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'FUNCTION' ? (
-                      <FunctionBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'OBJECT' ? (
-                      <ObjectBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'UPDATE' ? (
-                      <UpdateBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'CREATE' ? (
-                      <CreateBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : block.name === 'RETURN' ? (
-                      <ReturnBlock
-                        block={block}
-                        index={i}
-                        blockIndex={j}
-                        setCurrentBlocks={setCurrentBlocks}
-                        viewOnly={viewOnly}
-                      />
-                    ) : (
-                      <div></div>
-                    )}
+                    {makeMainBlock(block, i, j, viewOnly)}
                   </div>
                 ))}
               </div>
@@ -785,6 +709,45 @@ export default function RouteBlockDisplay({
         </div>
       </div>
     );
+  };
+
+  const makeMainBlock = (b, i, j, v) => {
+    const props = {
+      block: b,
+      index: i,
+      blockIndex: j,
+      setCurrentBlocks: setCurrentBlocks,
+      viewOnly: v,
+    };
+
+    switch (b.name) {
+      case 'FETCH':
+        return <FetchBlock {...props} />;
+      case 'ASSIGN':
+        return <AssignmentBlock {...props} />;
+      case 'TEMPLATE':
+        return <TemplateBlock {...props} />;
+      case 'CONDITION':
+        return <ConditionBlock {...props} />;
+      case 'LOOP':
+        return <LoopBlock {...props} />;
+      case 'FILTER':
+        return <FilterBlock {...props} />;
+      case 'PROPERTY':
+        return <PropertyBlock {...props} />;
+      case 'FUNCTION':
+        return <FunctionBlock {...props} />;
+      case 'OBJECT':
+        return <ObjectBlock {...props} />;
+      case 'UPDATE':
+        return <UpdateBlock {...props} />;
+      case 'CREATE':
+        return <CreateBlock {...props} />;
+      case 'RETURN':
+        return <ReturnBlock {...props} />;
+      default:
+        return <div></div>;
+    }
   };
 
   return (

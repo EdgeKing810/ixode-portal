@@ -3,19 +3,12 @@ import React from 'react';
 import {
   removeFlowBlockPropertySpecial,
   setFlowBlockPropertySpecial,
-  validateDefaultRouteProperty,
 } from '../../../utils/routeProcessor';
 
-import {
-  Checkbox,
-  Input,
-  InputOption,
-  InputSelect,
-  SmallText,
-  Text,
-} from '../../Components';
+import { InputOption, InputSelect, Text } from '../../Components';
 
 import OperationType from './OperationType';
+import RefData from './RefData';
 
 export default function Filter({
   index,
@@ -38,88 +31,18 @@ export default function Filter({
         Right
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Ref Var"
-          value={filter.right.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.ref_var',
-                  checked,
-                  currentIndex2
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={filter.right.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.rtype',
-                  e.target.value.trim(),
-                  currentIndex2
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-          <InputOption title="STRING" value="STRING">
-            STRING
-          </InputOption>
-          <InputOption title="BOOLEAN" value="BOOLEAN">
-            BOOLEAN
-          </InputOption>
-          <InputOption title="OTHER" value="OTHER">
-            OTHER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={filter.right.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.data',
-                  e.target.value.trim(),
-                  currentIndex2
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(filter.right.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(filter.right.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        currentIndex={currentIndex}
+        currentIndex2={currentIndex2}
+        property={property}
+        viewOnly={viewOnly}
+        data={filter.right}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="right."
+        noRemove
+      />
 
       <div className="my-2 gap-2 grid grid-cols-5">
         <OperationType

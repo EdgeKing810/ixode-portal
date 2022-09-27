@@ -44,10 +44,14 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name').valid && (
+      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+        .valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.local_name, 'Local Name').message}
+          {
+            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+              .message
+          }
         </SmallText>
       )}
 
@@ -78,9 +82,10 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_var, 'Ref Var').valid && (
+      {!validateDefaultRouteProperty(block.ref_var, 'Ref Var', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(block.ref_var, 'Ref Var').message}
+          *{' '}
+          {validateDefaultRouteProperty(block.ref_var, 'Ref Var', true).message}
         </SmallText>
       )}
 
@@ -111,13 +116,16 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property')
+      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.ref_property, 'Ref Property')
-              .message
+            validateDefaultRouteProperty(
+              block.ref_property,
+              'Ref Property',
+              true
+            ).message
           }
         </SmallText>
       )}

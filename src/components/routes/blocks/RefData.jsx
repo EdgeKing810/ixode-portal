@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   removeFlowBlockPropertySpecial,
+  setFlowBlockProperty,
   setFlowBlockPropertySpecial,
   validateDefaultRouteProperty,
 } from '../../../utils/routeProcessor';
@@ -18,13 +19,18 @@ export default function RefData({
   index,
   blockIndex,
   currentIndex,
+  currentIndex2,
   property,
   viewOnly,
   data,
   setCurrentBlocks,
+  prep,
+  noRemove,
+  normalSet,
+  onlyInt,
 }) {
   return (
-    <div className="w-full mt-4 mb-2 bg-base-200 lg:p-2 p-1 rounded-lg">
+    <div className="w-full bg-base-200 lg:p-2 p-1 rounded-lg">
       <div className="w-full flex items-center">
         <Checkbox
           noMargin
@@ -33,15 +39,24 @@ export default function RefData({
           color="secondary"
           change={(checked) =>
             !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'ref_var',
-                  checked
-                )
+              ? normalSet
+                ? setFlowBlockProperty(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    `${prep ? prep : ''}ref_var`,
+                    checked
+                  )
+                : setFlowBlockPropertySpecial(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    currentIndex,
+                    property,
+                    `${prep ? prep : ''}ref_var`,
+                    checked,
+                    currentIndex2
+                  )
               : null
           }
           className=""
@@ -52,30 +67,45 @@ export default function RefData({
           value={data.rtype}
           change={(e) =>
             !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'rtype',
-                  e.target.value.trim()
-                )
+              ? normalSet
+                ? setFlowBlockProperty(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    `${prep ? prep : ''}rtype`,
+                    e.target.value.trim()
+                  )
+                : setFlowBlockPropertySpecial(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    currentIndex,
+                    property,
+                    `${prep ? prep : ''}rtype`,
+                    e.target.value.trim(),
+                    currentIndex2
+                  )
               : null
           }
         >
           <InputOption title="INTEGER" value="INTEGER">
             INTEGER
           </InputOption>
-          <InputOption title="STRING" value="STRING">
-            STRING
-          </InputOption>
-          <InputOption title="BOOLEAN" value="BOOLEAN">
-            BOOLEAN
-          </InputOption>
-          <InputOption title="OTHER" value="OTHER">
-            OTHER
-          </InputOption>
+          {!onlyInt && (
+            <InputOption title="STRING" value="STRING">
+              STRING
+            </InputOption>
+          )}
+          {!onlyInt && (
+            <InputOption title="BOOLEAN" value="BOOLEAN">
+              BOOLEAN
+            </InputOption>
+          )}
+          {!onlyInt && (
+            <InputOption title="OTHER" value="OTHER">
+              OTHER
+            </InputOption>
+          )}
         </InputSelect>
 
         <Input
@@ -85,20 +115,29 @@ export default function RefData({
           max={100}
           change={(e) =>
             !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'data',
-                  e.target.value.trim()
-                )
+              ? normalSet
+                ? setFlowBlockProperty(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    `${prep ? prep : ''}data`,
+                    e.target.value.trim()
+                  )
+                : setFlowBlockPropertySpecial(
+                    setCurrentBlocks,
+                    index,
+                    blockIndex,
+                    currentIndex,
+                    property,
+                    `${prep ? prep : ''}data`,
+                    e.target.value.trim(),
+                    currentIndex2
+                  )
               : null
           }
         />
 
-        {!viewOnly && (
+        {!viewOnly && !noRemove && (
           <button
             className="btn btn-sm btn-error btn-outline btn-circle ml-2"
             title="Remove"
@@ -108,7 +147,8 @@ export default function RefData({
                 index,
                 blockIndex,
                 currentIndex,
-                property
+                property,
+                currentIndex2
               )
             }
           >

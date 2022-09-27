@@ -32,7 +32,7 @@ export default function RouteField({
 
       <SmallText
         nobreak
-        className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
+        className={`w-full overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
         color="secondary"
       >
         {route.route_path}

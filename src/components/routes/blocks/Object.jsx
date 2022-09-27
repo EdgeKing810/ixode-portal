@@ -5,14 +5,8 @@ import {
   validateDefaultRouteProperty,
 } from '../../../utils/routeProcessor';
 
-import {
-  Checkbox,
-  Input,
-  InputOption,
-  InputSelect,
-  SmallText,
-  Text,
-} from '../../Components';
+import { Input, SmallText, Text } from '../../Components';
+import RefData from './RefData';
 
 export default function Object({
   index,
@@ -56,9 +50,9 @@ export default function Object({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(pair.id, 'ID').valid && (
+      {!validateDefaultRouteProperty(pair.id, 'ID', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(pair.id, 'ID').message}
+          * {validateDefaultRouteProperty(pair.id, 'ID', true).message}
         </SmallText>
       )}
 
@@ -71,85 +65,17 @@ export default function Object({
         Data
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Ref Var"
-          value={pair.data.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'data.ref_var',
-                  checked
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={pair.data.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'data.rtype',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-          <InputOption title="STRING" value="STRING">
-            STRING
-          </InputOption>
-          <InputOption title="BOOLEAN" value="BOOLEAN">
-            BOOLEAN
-          </InputOption>
-          <InputOption title="OTHER" value="OTHER">
-            OTHER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={pair.data.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'data.data',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(pair.data.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(pair.data.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        currentIndex={currentIndex}
+        property={property}
+        viewOnly={viewOnly}
+        data={pair.data}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="data."
+        noRemove
+      />
     </div>
   );
 }

@@ -3,20 +3,13 @@ import React from 'react';
 import {
   removeFlowBlockPropertySpecial,
   setFlowBlockPropertySpecial,
-  validateDefaultRouteProperty,
 } from '../../../utils/routeProcessor';
 
-import {
-  Checkbox,
-  Input,
-  InputOption,
-  InputSelect,
-  SmallText,
-  Text,
-} from '../../Components';
+import { InputOption, InputSelect, Text } from '../../Components';
 
 import ConditionType from './ConditionType';
 import OperationType from './OperationType';
+import RefData from './RefData';
 
 export default function Condition({
   index,
@@ -39,85 +32,17 @@ export default function Condition({
         Left
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Ref Var"
-          value={condition.left.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'left.ref_var',
-                  checked
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={condition.left.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'left.rtype',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-          <InputOption title="STRING" value="STRING">
-            STRING
-          </InputOption>
-          <InputOption title="BOOLEAN" value="BOOLEAN">
-            BOOLEAN
-          </InputOption>
-          <InputOption title="OTHER" value="OTHER">
-            OTHER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={condition.left.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'left.data',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(condition.left.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(condition.left.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        currentIndex={currentIndex}
+        property={property}
+        viewOnly={viewOnly}
+        data={condition.left}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="left."
+        noRemove
+      />
 
       <Text
         color="secondary"
@@ -128,85 +53,17 @@ export default function Condition({
         Right
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Ref Var"
-          value={condition.right.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.ref_var',
-                  checked
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={condition.right.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.rtype',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-          <InputOption title="STRING" value="STRING">
-            STRING
-          </InputOption>
-          <InputOption title="BOOLEAN" value="BOOLEAN">
-            BOOLEAN
-          </InputOption>
-          <InputOption title="OTHER" value="OTHER">
-            OTHER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={condition.right.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockPropertySpecial(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  currentIndex,
-                  property,
-                  'right.data',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(condition.right.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(condition.right.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        currentIndex={currentIndex}
+        property={property}
+        viewOnly={viewOnly}
+        data={condition.right}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="right."
+        noRemove
+      />
 
       <div className="my-2 gap-2 grid grid-cols-5">
         {!isOperation ? (

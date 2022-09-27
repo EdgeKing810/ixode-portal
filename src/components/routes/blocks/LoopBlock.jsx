@@ -1,18 +1,12 @@
 import React from 'react';
 
-import {
-  Checkbox,
-  Input,
-  InputOption,
-  InputSelect,
-  SmallText,
-  Text,
-} from '../../Components';
+import { Input, SmallText, Text } from '../../Components';
 
 import {
   setFlowBlockProperty,
   validateDefaultRouteProperty,
 } from '../../../utils/routeProcessor';
+import RefData from './RefData';
 
 export default function LoopBlock({
   viewOnly,
@@ -66,70 +60,17 @@ export default function LoopBlock({
         Min
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Min"
-          value={block.min.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'min.ref_var',
-                  checked
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={block.min.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'min.rtype',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={block.min.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'min.data',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(block.min.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(block.min.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        viewOnly={viewOnly}
+        data={block.min}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="min."
+        noRemove
+        normalSet
+        onlyInt
+      />
 
       <Text
         color="secondary"
@@ -140,70 +81,17 @@ export default function LoopBlock({
         Max
       </Text>
 
-      <div className="w-full mt-2 flex">
-        <Checkbox
-          noMargin
-          title="Max"
-          value={block.max.ref_var}
-          color="secondary"
-          change={(checked) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'max.ref_var',
-                  checked
-                )
-              : null
-          }
-          className=""
-        />
-
-        <InputSelect
-          className="mx-2"
-          value={block.max.rtype}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'max.rtype',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        >
-          <InputOption title="INTEGER" value="INTEGER">
-            INTEGER
-          </InputOption>
-        </InputSelect>
-
-        <Input
-          title="Data"
-          placeholder={viewOnly ? '' : 'Enter Data'}
-          value={block.max.data}
-          max={100}
-          change={(e) =>
-            !viewOnly
-              ? setFlowBlockProperty(
-                  setCurrentBlocks,
-                  index,
-                  blockIndex,
-                  'max.data',
-                  e.target.value.trim()
-                )
-              : null
-          }
-        />
-      </div>
-
-      {!validateDefaultRouteProperty(block.min.data, 'Data').valid && (
-        <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(block.min.data, 'Data').message}
-        </SmallText>
-      )}
+      <RefData
+        index={index}
+        blockIndex={blockIndex}
+        viewOnly={viewOnly}
+        data={block.max}
+        setCurrentBlocks={setCurrentBlocks}
+        prep="max."
+        noRemove
+        normalSet
+        onlyInt
+      />
     </div>
   );
 }

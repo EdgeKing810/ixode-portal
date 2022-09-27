@@ -46,10 +46,14 @@ export default function TemplateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name').valid && (
+      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+        .valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.local_name, 'Local Name').message}
+          {
+            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+              .message
+          }
         </SmallText>
       )}
 

@@ -601,37 +601,20 @@ export const toggleRouteProperty = (setRoute, property, active) => {
   });
 };
 
-export const validateDefaultRouteProperty = (data, prop) => {
+export const validateDefaultRouteProperty = (data, prop, valMin) => {
   if (data === undefined) {
     return { valid: false, message: '' };
   }
 
   let stringified = data.toString();
 
+  if (valMin && stringified.trim().length < 1) {
+    return { valid: false, message: `${prop} is required` };
+  }
+
   let regex = '^[0-9a-zA-Z_-]+$';
   if (stringified.trim().length > 0 && !stringified.match(regex)) {
     return { valid: false, message: `${prop} contains invalid characters` };
-  }
-
-  return { valid: true, message: '' };
-};
-
-export const validateRouteProperty = (route, property) => {
-  if (property === 'route_id') {
-    if (route.route_id.length < 1) {
-      return { valid: false, message: 'Route ID is required' };
-    }
-
-    return validateDefaultRouteProperty(route.route_id, 'Route ID');
-  } else if (property === 'route_path') {
-    if (route.route_path.length < 1) {
-      return { valid: false, message: 'Route Path is required' };
-    }
-
-    return validateDefaultRouteProperty(
-      route.route_path.split('/').join(''),
-      'Route Path'
-    );
   }
 
   return { valid: true, message: '' };

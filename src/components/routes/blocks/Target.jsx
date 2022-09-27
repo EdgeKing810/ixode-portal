@@ -73,9 +73,9 @@ export default function Target({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(target.field, 'Field').valid && (
+      {!validateDefaultRouteProperty(target.field, 'Field', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(target.field, 'Field').message}
+          * {validateDefaultRouteProperty(target.field, 'Field', true).message}
         </SmallText>
       )}
 
