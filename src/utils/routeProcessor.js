@@ -2,7 +2,7 @@ import { fetchData } from './data';
 
 const targets = fetchData().route.flow.targets;
 
-export const getRouteBlocks = (route) => {
+export const processRouteBlocks = (route) => {
   let allBlocks = [];
 
   if (!route) {
@@ -65,6 +65,10 @@ export const convertRouteBlocks = (blocks) => {
 
   for (let i = 0; i < blocks.length; i++) {
     let blockIndex = blocks[i].block_index;
+    let sharedMeta = {
+      global_index: globalIndex,
+      block_index: blockIndex,
+    };
 
     for (let j = 0; j < blocks[i].blocks.length; j++) {
       let block = blocks[i].blocks[j];
@@ -73,8 +77,7 @@ export const convertRouteBlocks = (blocks) => {
         fetchers = [
           ...fetchers,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             ref_col: block.ref_col,
           },
@@ -83,8 +86,7 @@ export const convertRouteBlocks = (blocks) => {
         assignments = [
           ...assignments,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             conditions: [...block.conditions],
             operations: [...block.operations],
@@ -94,8 +96,7 @@ export const convertRouteBlocks = (blocks) => {
         templates = [
           ...templates,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             template: block.template,
             data: [...block.data],
@@ -106,8 +107,7 @@ export const convertRouteBlocks = (blocks) => {
         conditions = [
           ...conditions,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             conditions: [...block.conditions],
             action: block.action,
             fail: block.fail,
@@ -117,8 +117,7 @@ export const convertRouteBlocks = (blocks) => {
         loops = [
           ...loops,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             min: block.min,
             max: block.max,
@@ -128,8 +127,7 @@ export const convertRouteBlocks = (blocks) => {
         filters = [
           ...filters,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             ref_var: block.ref_var,
             ref_property: block.ref_property,
@@ -140,8 +138,7 @@ export const convertRouteBlocks = (blocks) => {
         properties = [
           ...properties,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             property: block.property,
           },
@@ -150,8 +147,7 @@ export const convertRouteBlocks = (blocks) => {
         functions = [
           ...functions,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             func: block.func,
           },
@@ -160,8 +156,7 @@ export const convertRouteBlocks = (blocks) => {
         objects = [
           ...objects,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             local_name: block.local_name,
             pairs: [...block.pairs],
           },
@@ -170,8 +165,7 @@ export const convertRouteBlocks = (blocks) => {
         updates = [
           ...updates,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             ref_col: block.ref_col,
             ref_property: block.ref_property,
             save: block.save,
@@ -186,8 +180,7 @@ export const convertRouteBlocks = (blocks) => {
         creates = [
           ...creates,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             ref_col: block.ref_col,
             ref_object: block.ref_object,
             save: block.save,
@@ -198,8 +191,7 @@ export const convertRouteBlocks = (blocks) => {
         returns = [
           ...returns,
           {
-            global_index: globalIndex,
-            block_index: blockIndex,
+            ...sharedMeta,
             pairs: [...block.pairs],
             conditions: [...block.conditions],
           },
@@ -226,7 +218,18 @@ export const convertRouteBlocks = (blocks) => {
   };
 };
 
-export const addRouteFlowBlock = (setCurrentBlocks, index) => {
+export const getRouteBlocksLength = (route) => {
+  let length = 0;
+
+  for (let i = 0; i < targets.length; i++) {
+    let currentType = targets[i].id;
+    length += route.flow[currentType].length;
+  }
+
+  return length;
+};
+
+export const addRouteBlock = (setCurrentBlocks, index) => {
   setCurrentBlocks((prev) => {
     let update = [...prev];
 
@@ -251,7 +254,7 @@ export const addRouteFlowBlock = (setCurrentBlocks, index) => {
   });
 };
 
-export const removeRouteFlowBlock = (setCurrentBlocks, index) => {
+export const removeRouteBlock = (setCurrentBlocks, index) => {
   setCurrentBlocks((prev) => {
     let update = [];
     for (let i = 0; i < prev.length; i++) {
@@ -270,28 +273,28 @@ const getDefaultBlockProperties = (target) => {
   let id = targets.find((t) => t.name === target).id;
   let name = target;
 
+  let sharedMeta = {
+    id,
+    name,
+    rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+  };
+
   if (target === 'FETCH') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       ref_col: '',
     };
   } else if (target === 'ASSIGN') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       conditions: [],
       operations: [],
     };
   } else if (target === 'TEMPLATE') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       template: '',
       data: [],
@@ -299,27 +302,21 @@ const getDefaultBlockProperties = (target) => {
     };
   } else if (target === 'CONDITION') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       conditions: [],
       action: 'FAIL',
       fail: null,
     };
   } else if (target === 'LOOP') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       min: { ref_var: false, rtype: 'INTEGER', data: '0' },
       max: { ref_var: false, rtype: 'INTEGER', data: '10' },
     };
   } else if (target === 'FILTER') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       ref_var: '',
       ref_property: '',
@@ -327,9 +324,7 @@ const getDefaultBlockProperties = (target) => {
     };
   } else if (target === 'PROPERTY') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       property: {
         data: { ref_var: false, rtype: 'STRING', data: '' },
@@ -339,25 +334,19 @@ const getDefaultBlockProperties = (target) => {
     };
   } else if (target === 'FUNCTION') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       func: { id: 'V4', params: [] },
     };
   } else if (target === 'OBJECT') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       local_name: '',
       pairs: [],
     };
   } else if (target === 'UPDATE') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       ref_col: '',
       ref_property: '',
       save: false,
@@ -369,9 +358,7 @@ const getDefaultBlockProperties = (target) => {
     };
   } else if (target === 'CREATE') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       ref_col: '',
       ref_object: '',
       save: false,
@@ -379,24 +366,24 @@ const getDefaultBlockProperties = (target) => {
     };
   } else if (target === 'RETURN') {
     return {
-      id,
-      name,
-      rand: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
+      ...sharedMeta,
       pairs: [],
       conditions: [],
     };
   }
 };
 
-export const addRouteFlowBlockInbuilt = (setCurrentBlocks, index, target) => {
+export const addInbuiltBlock = (setCurrentBlocks, index, target) => {
   setCurrentBlocks((prev) => {
     let update = [...prev];
 
     update = update.map((u, i) => {
       let blocks = [...u.blocks];
+
       if (i === index) {
         blocks = [...blocks, getDefaultBlockProperties(target)];
       }
+
       return {
         block_index: u.block_index,
         blocks: [...blocks],
@@ -407,19 +394,17 @@ export const addRouteFlowBlockInbuilt = (setCurrentBlocks, index, target) => {
   });
 };
 
-export const removeRouteFlowBlockInbuilt = (
-  setCurrentBlocks,
-  index,
-  blockIndex
-) => {
+export const removeInbuiltBlock = (setCurrentBlocks, index, blockIndex) => {
   setCurrentBlocks((prev) => {
     let update = [...prev];
 
     update = update.map((u, i) => {
       let blocks = [...u.blocks];
+
       if (i === index) {
         blocks = blocks.filter((b, j) => j !== blockIndex);
       }
+
       return {
         block_index: u.block_index,
         blocks: [...blocks],
@@ -430,7 +415,7 @@ export const removeRouteFlowBlockInbuilt = (
   });
 };
 
-export const moveRouteFlowBlockInbuilt = (
+export const moveInbuiltBlock = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -468,17 +453,6 @@ export const moveRouteFlowBlockInbuilt = (
   });
 };
 
-export const getLengthRouteBlocks = (route) => {
-  let length = 0;
-
-  for (let i = 0; i < targets.length; i++) {
-    let currentType = targets[i].id;
-    length += route.flow[currentType].length;
-  }
-
-  return length;
-};
-
 export const setRouteProperty = (setRoute, property, value) => {
   setRoute((prev) => {
     let update = { ...prev };
@@ -487,7 +461,7 @@ export const setRouteProperty = (setRoute, property, value) => {
   });
 };
 
-export const setAuthJWTProperty = (setRoute, property, value) => {
+export const setBlockAuthJWTProperty = (setRoute, property, value) => {
   setRoute((prev) => {
     let update = { ...prev };
     update.auth_jwt[property] = value;
@@ -495,7 +469,7 @@ export const setAuthJWTProperty = (setRoute, property, value) => {
   });
 };
 
-export const setParamsProperty = (setRoute, property, value) => {
+export const setBlockParamsProperty = (setRoute, property, value) => {
   setRoute((prev) => {
     let update = { ...prev };
     update.params[property] = value;
@@ -503,9 +477,10 @@ export const setParamsProperty = (setRoute, property, value) => {
   });
 };
 
-export const addRouteBodyData = (setRoute, param) => {
+export const addBlockBodyData = (setRoute, param) => {
   setRoute((prev) => {
     let update = { ...prev };
+
     if (!param) {
       update.body = [
         ...update.body,
@@ -531,7 +506,7 @@ export const addRouteBodyData = (setRoute, param) => {
   });
 };
 
-export const setRouteBodyProperty = (
+export const setBlockBodyDataProperty = (
   setRoute,
   property,
   value,
@@ -559,7 +534,7 @@ export const setRouteBodyProperty = (
   });
 };
 
-export const removeRouteBody = (setRoute, index, param) => {
+export const removeBlockBodyData = (setRoute, index, param) => {
   setRoute((prev) => {
     let update = { ...prev };
     if (!param) {
@@ -580,47 +555,119 @@ export const toggleRouteProperty = (setRoute, property, active) => {
   setRoute((prev) => {
     let update = { ...prev };
 
+    if (!active) {
+      update[property] = null;
+      return update;
+    }
+
     if (property === 'auth_jwt') {
-      update[property] = active
-        ? {
-            active: true,
-            field: '',
-            ref_col: '',
-          }
-        : null;
+      update[property] = {
+        active: true,
+        field: '',
+        ref_col: '',
+      };
     } else if (property === 'params') {
-      update[property] = active
-        ? {
-            delimiter: '&',
-            pairs: [],
-          }
-        : null;
+      update[property] = {
+        delimiter: '&',
+        pairs: [],
+      };
     }
 
     return update;
   });
 };
 
-export const validateDefaultRouteProperty = (data, prop, valMin) => {
+export const validateProperty = (data, name, minCheck) => {
   if (data === undefined) {
     return { valid: false, message: '' };
   }
 
   let stringified = data.toString();
 
-  if (valMin && stringified.trim().length < 1) {
-    return { valid: false, message: `${prop} is required` };
+  if (minCheck && stringified.trim().length < 1) {
+    return { valid: false, message: `${name} is required` };
   }
 
   let regex = '^[0-9a-zA-Z_-]+$';
   if (stringified.trim().length > 0 && !stringified.match(regex)) {
-    return { valid: false, message: `${prop} contains invalid characters` };
+    return { valid: false, message: `${name} contains invalid characters` };
   }
 
   return { valid: true, message: '' };
 };
 
-export const setFlowBlockProperty = (
+const obtainNewInbuiltBlockObject = (type) => {
+  let refData = { ref_var: false, rtype: 'STRING', data: '' };
+
+  if (type === 'CONDITION') {
+    return {
+      left: { ...refData },
+      right: { ...refData },
+      condition_type: 'EQUAL_TO',
+      not: false,
+      next: 'NONE',
+    };
+  } else if (type === 'OPERATION') {
+    return {
+      left: { ...refData },
+      right: { ...refData },
+      operation_type: 'NONE',
+      not: false,
+      next: 'NONE',
+    };
+  } else if (type === 'DATA') {
+    return { ...refData };
+  } else if (type === 'FILTER') {
+    return {
+      right: { ...refData },
+      operation_type: 'NONE',
+      not: false,
+      next: 'NONE',
+    };
+  } else if (type === 'OBJECT') {
+    return {
+      id: '',
+      data: { ...refData },
+    };
+  } else if (type === 'TARGET') {
+    return {
+      field: '',
+      conditions: [],
+    };
+  }
+
+  return {};
+};
+
+const updateBlockProperty = (block, properties, index, value) => {
+  let newBlock = { ...block };
+  if (newBlock[0]) {
+    newBlock = newBlock[0];
+  }
+
+  if (index >= properties.length - 1) {
+    newBlock[properties[index]] = value;
+  } else {
+    newBlock[properties[index]] = updateBlockProperty(
+      newBlock[properties[index]],
+      properties,
+      index + 1,
+      value
+    );
+  }
+
+  return newBlock;
+};
+
+const fetchBlockProperty = (block, properties, index) => {
+  if (index >= properties.length) {
+    return block;
+  } else {
+    return fetchBlockProperty(block[properties[index]], properties, index + 1);
+  }
+};
+
+export const setBlockProperty = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -639,15 +686,12 @@ export const setFlowBlockProperty = (
           if (j === blockIndex) {
             let targetProperties = property.split('.');
 
-            if (targetProperties.length > 2) {
-              updatedBlock[targetProperties[0]][targetProperties[1]][
-                targetProperties[2]
-              ] = value;
-            } else if (targetProperties.length > 1) {
-              updatedBlock[targetProperties[0]][targetProperties[1]] = value;
-            } else {
-              updatedBlock[targetProperties[0]] = value;
-            }
+            updatedBlock = updateBlockProperty(
+              updatedBlock,
+              targetProperties,
+              0,
+              value
+            );
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
@@ -665,7 +709,7 @@ export const setFlowBlockProperty = (
   });
 };
 
-export const toggleFlowBlockProperty = (
+export const toggleBlockProperty = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -674,6 +718,11 @@ export const toggleFlowBlockProperty = (
 ) => {
   setCurrentBlocks((prev) => {
     let update = [];
+    let refData = {
+      ref_var: false,
+      rtype: 'STRING',
+      data: '',
+    };
 
     for (let i = 0; i < prev.length; i++) {
       if (i === index) {
@@ -692,22 +741,16 @@ export const toggleFlowBlockProperty = (
                 };
               } else if (property === 'add') {
                 updatedBlock[property] = {
-                  ref_var: false,
-                  rtype: 'STRING',
-                  data: '',
+                  ...refData,
                 };
               } else if (property === 'set') {
                 updatedBlock[property] = {
-                  ref_var: false,
-                  rtype: 'STRING',
-                  data: '',
+                  ...refData,
                 };
               } else if (property === 'filter') {
                 updatedBlock[property] = {
                   right: {
-                    ref_var: false,
-                    rtype: 'STRING',
-                    data: '',
+                    ...refData,
                   },
                   operation_type: 'NONE',
                   not: false,
@@ -732,7 +775,7 @@ export const toggleFlowBlockProperty = (
   });
 };
 
-export const setFlowBlockPropertySpecial = (
+export const setInbuiltBlockProperty = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -753,90 +796,61 @@ export const setFlowBlockPropertySpecial = (
           let updatedBlock = { ...prev[i].blocks[j] };
           if (j === blockIndex) {
             let targets = property.split('.');
+            let targetProperties = target.split('.');
 
-            if (![null, undefined].includes(currentIndex2)) {
-              let targetProperties = target.split('.');
-
-              if (targetProperties.length > 1) {
-                updatedBlock[targets[0]] = updatedBlock[targets[0]].map(
-                  (t, k) => {
-                    let update = { ...t };
-                    if (k === currentIndex2) {
-                      update[targets[1]] = update[targets[1]].map((u, l) => {
-                        let update2 = { ...u };
-                        if (l === currentIndex) {
-                          update2[targetProperties[0]][targetProperties[1]] =
-                            value;
-                        }
-                        return update2;
-                      });
+            if (currentIndex2 !== undefined) {
+              for (let k = 0; k < updatedBlock[targets[0]].length; k++) {
+                if (k === currentIndex2) {
+                  for (
+                    let l = 0;
+                    l < updatedBlock[targets[0]][k][targets[1]].length;
+                    l++
+                  ) {
+                    if (l === currentIndex) {
+                      updatedBlock[targets[0]][k][targets[1]][l] =
+                        updateBlockProperty(
+                          updatedBlock[targets[0]][k][targets[1]][l],
+                          targetProperties,
+                          0,
+                          value
+                        );
                     }
-                    return update;
-                  }
-                );
-              } else {
-                updatedBlock[targets[0]] = updatedBlock[targets[0]].map(
-                  (t, k) => {
-                    let update = { ...t };
-                    if (k === currentIndex2) {
-                      update[targets[1]] = update[targets[1]].map((u, l) => {
-                        let update2 = { ...u };
-                        if (l === currentIndex) {
-                          update2[targetProperties[0]] = value;
-                        }
-                        return update2;
-                      });
-                    }
-                    return update;
-                  }
-                );
-              }
-            } else if (currentIndex === null || currentIndex === undefined) {
-              let targetProperties = target.split('.');
-
-              if (targetProperties.length > 1) {
-                updatedBlock[property][targetProperties[0]][
-                  targetProperties[1]
-                ] = value;
-              } else {
-                updatedBlock[property][targetProperties[0]] = value;
-              }
-            } else if (targets.length > 1) {
-              let updateTop = [...updatedBlock[targets[0]][targets[1]]];
-
-              updateTop = updateTop.map((upb, k) => {
-                let update = { ...upb };
-                let targetProperties = target.split('.');
-
-                if (k === currentIndex) {
-                  if (targetProperties.length > 1) {
-                    update[targetProperties[0]][targetProperties[1]] = value;
-                  } else {
-                    update[targetProperties[0]] = value;
                   }
                 }
-
-                return update;
-              });
-
-              updatedBlock[targets[0]][targets[1]] = updateTop;
+              }
             } else {
-              updatedBlock[property] = updatedBlock[property].map((upb, k) => {
-                let update = { ...upb };
-                let targetProperties = target.split('.');
+              if (currentIndex !== undefined) {
+                let updateTop = fetchBlockProperty(updatedBlock, targets, 0);
 
-                if (k === currentIndex) {
-                  if (targetProperties.length > 1) {
-                    update[targetProperties[0]][targetProperties[1]] = value;
-                  } else {
-                    update[targetProperties[0]] = value;
+                for (let k = 0; k < updateTop.length; k++) {
+                  if (k === currentIndex) {
+                    let clonedUpdate = { ...updateTop[k] };
+                    updateTop[k] = updateBlockProperty(
+                      clonedUpdate,
+                      targetProperties,
+                      0,
+                      value
+                    );
                   }
                 }
 
-                return update;
-              });
+                updatedBlock = updateBlockProperty(
+                  updatedBlock,
+                  targets,
+                  0,
+                  updateTop
+                );
+              } else {
+                updatedBlock[property] = updateBlockProperty(
+                  updatedBlock[property],
+                  targetProperties,
+                  0,
+                  value
+                );
+              }
             }
           }
+
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
 
@@ -853,7 +867,7 @@ export const setFlowBlockPropertySpecial = (
   });
 };
 
-export const removeFlowBlockPropertySpecial = (
+export const removeInbuiltBlockProperty = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -873,20 +887,20 @@ export const removeFlowBlockPropertySpecial = (
           if (j === blockIndex) {
             let targetProperties = property.split('.');
 
-            if (targetProperties.length > 1) {
-              if (![null, undefined].includes(currentIndex2)) {
-                updatedBlock[targetProperties[0]] = updatedBlock[
-                  targetProperties[0]
-                ].map((p, k) => {
-                  let update = { ...p };
-                  if (k === currentIndex2) {
-                    update[targetProperties[1]] = update[
-                      targetProperties[1]
-                    ].filter((u, l) => l !== currentIndex);
-                  }
-                  return update;
-                });
-              } else {
+            if (currentIndex2 !== undefined) {
+              updatedBlock[targetProperties[0]] = updatedBlock[
+                targetProperties[0]
+              ].map((p, k) => {
+                let update = { ...p };
+                if (k === currentIndex2) {
+                  update[targetProperties[1]] = update[
+                    targetProperties[1]
+                  ].filter((u, l) => l !== currentIndex);
+                }
+                return update;
+              });
+            } else {
+              if (targetProperties.length > 1) {
                 let update = [
                   ...updatedBlock[targetProperties[0]][targetProperties[1]],
                 ];
@@ -894,11 +908,11 @@ export const removeFlowBlockPropertySpecial = (
                 update = update.filter((upb, k) => k !== currentIndex);
 
                 updatedBlock[targetProperties[0]][targetProperties[1]] = update;
+              } else {
+                updatedBlock[property] = updatedBlock[property].filter(
+                  (upb, k) => k !== currentIndex
+                );
               }
-            } else {
-              updatedBlock[property] = updatedBlock[property].filter(
-                (upb, k) => k !== currentIndex
-              );
             }
           }
           updatedBlocks = [...updatedBlocks, updatedBlock];
@@ -917,48 +931,7 @@ export const removeFlowBlockPropertySpecial = (
   });
 };
 
-const obtainNewObject = (type) => {
-  if (type === 'CONDITION') {
-    return {
-      left: { ref_var: false, rtype: 'STRING', data: '' },
-      right: { ref_var: false, rtype: 'STRING', data: '' },
-      condition_type: 'EQUAL_TO',
-      not: false,
-      next: 'NONE',
-    };
-  } else if (type === 'OPERATION') {
-    return {
-      left: { ref_var: false, rtype: 'STRING', data: '' },
-      right: { ref_var: false, rtype: 'STRING', data: '' },
-      operation_type: 'NONE',
-      not: false,
-      next: 'NONE',
-    };
-  } else if (type === 'DATA') {
-    return { ref_var: false, rtype: 'STRING', data: '' };
-  } else if (type === 'FILTER') {
-    return {
-      right: { ref_var: false, rtype: 'STRING', data: '' },
-      operation_type: 'NONE',
-      not: false,
-      next: 'NONE',
-    };
-  } else if (type === 'OBJECT') {
-    return {
-      id: '',
-      data: { ref_var: false, rtype: 'STRING', data: '' },
-    };
-  } else if (type === 'TARGET') {
-    return {
-      field: '',
-      conditions: [],
-    };
-  }
-
-  return {};
-};
-
-export const addFlowBlockProperty = (
+export const addInbuiltBlockProperty = (
   setCurrentBlocks,
   index,
   blockIndex,
@@ -975,39 +948,42 @@ export const addFlowBlockProperty = (
 
         for (let j = 0; j < prev[i].blocks.length; j++) {
           let updatedBlock = { ...prev[i].blocks[j] };
-          if (j === blockIndex) {
-            let targetProperties = property.split('.');
+          let targetProperties = property.split('.');
 
+          if (j === blockIndex) {
             if (currentIndex !== undefined) {
-              let targets = property.split('.');
-              if (targets.length > 1) {
-                updatedBlock[targets[0]] = updatedBlock[targets[0]].map(
-                  (t, k) => {
-                    let update = { ...t };
-                    if (k === currentIndex) {
-                      update[targets[1]] = [
-                        ...update[targets[1]],
-                        obtainNewObject(type),
-                      ];
-                    }
-                    return update;
+              if (targetProperties.length > 1) {
+                updatedBlock[targetProperties[0]] = updatedBlock[
+                  targetProperties[0]
+                ].map((t, k) => {
+                  let update = { ...t };
+                  if (k === currentIndex) {
+                    const sliced = targetProperties.slice(
+                      1,
+                      targetProperties.length
+                    );
+
+                    update = updateBlockProperty(update, sliced, 0, [
+                      ...fetchBlockProperty(update, sliced, 0),
+                      obtainNewInbuiltBlockObject(type),
+                    ]);
                   }
-                );
+                  return update;
+                });
               }
-            } else if (targetProperties.length > 1) {
-              updatedBlock[targetProperties[0]][targetProperties[1]] = [
-                ...updatedBlock[targetProperties[0]][targetProperties[1]],
-                {
-                  ...obtainNewObject(type),
-                },
-              ];
             } else {
-              updatedBlock[property] = [
-                ...updatedBlock[property],
-                obtainNewObject(type),
-              ];
+              updatedBlock = updateBlockProperty(
+                updatedBlock,
+                targetProperties,
+                0,
+                [
+                  ...fetchBlockProperty(updatedBlock, targetProperties, 0),
+                  obtainNewInbuiltBlockObject(type),
+                ]
+              );
             }
           }
+
           updatedBlocks = [...updatedBlocks, updatedBlock];
         }
 

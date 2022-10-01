@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { InputOption, InputSelect, Text } from '../../Components';
-import { setFlowBlockPropertySpecial } from '../../../utils/routeProcessor';
+import { setInbuiltBlockProperty } from '../../../utils/routeProcessor';
 
 export default function ConditionType({
   condition,
@@ -23,7 +23,7 @@ export default function ConditionType({
         value={condition.condition_type}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockPropertySpecial(
+            ? setInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

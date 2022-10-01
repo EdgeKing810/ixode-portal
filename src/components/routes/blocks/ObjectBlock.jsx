@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Input, SmallText, Text } from '../../Components';
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import Object from './Object';
@@ -34,7 +34,7 @@ export default function ObjectBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -45,12 +45,12 @@ export default function ObjectBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+      {!validateProperty(block.local_name, 'Local Name', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+            validateProperty(block.local_name, 'Local Name', true)
               .message
           }
         </SmallText>
@@ -71,7 +71,7 @@ export default function ObjectBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Pair"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

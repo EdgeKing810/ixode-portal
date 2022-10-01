@@ -12,19 +12,19 @@ import {
 } from '../Components';
 
 import {
-  addRouteBodyData,
-  addRouteFlowBlock,
-  addRouteFlowBlockInbuilt,
-  moveRouteFlowBlockInbuilt,
-  removeRouteBody,
-  removeRouteFlowBlock,
-  removeRouteFlowBlockInbuilt,
-  setAuthJWTProperty,
-  setParamsProperty,
-  setRouteBodyProperty,
+  addBlockBodyData,
+  addRouteBlock,
+  addInbuiltBlock,
+  moveInbuiltBlock,
+  removeBlockBodyData,
+  removeRouteBlock,
+  removeInbuiltBlock,
+  setBlockAuthJWTProperty,
+  setBlockParamsProperty,
+  setBlockBodyDataProperty,
   setRouteProperty,
   toggleRouteProperty,
-  validateDefaultRouteProperty,
+  validateProperty,
 } from '../../utils/routeProcessor';
 
 import { submitCreateRoute, submitUpdateRoute } from './routes.utils';
@@ -89,12 +89,12 @@ export default function RouteBlockDisplay({
           className="mt-2 mb-2 lg:w-2/3"
         />
         {!viewOnly &&
-          !validateDefaultRouteProperty(currentRoute.route_id, 'Route ID', true)
+          !validateProperty(currentRoute.route_id, 'Route ID', true)
             .valid && (
             <SmallText color="error">
               *{' '}
               {
-                validateDefaultRouteProperty(
+                validateProperty(
                   currentRoute.route_id,
                   'Route ID',
                   true
@@ -129,7 +129,7 @@ export default function RouteBlockDisplay({
         />
 
         {!viewOnly &&
-          !validateDefaultRouteProperty(
+          !validateProperty(
             currentRoute.route_path.split('/').join(''),
             'Route Path',
             true
@@ -137,7 +137,7 @@ export default function RouteBlockDisplay({
             <SmallText color="error">
               *{' '}
               {
-                validateDefaultRouteProperty(
+                validateProperty(
                   currentRoute.route_path.split('/').join(''),
                   'Route Path',
                   true
@@ -202,7 +202,7 @@ export default function RouteBlockDisplay({
               max={100}
               change={(e) =>
                 !viewOnly
-                  ? setAuthJWTProperty(
+                  ? setBlockAuthJWTProperty(
                       setCurrentRoute,
                       'field',
                       e.target.value.trim()
@@ -213,14 +213,14 @@ export default function RouteBlockDisplay({
             />
 
             {!viewOnly &&
-              !validateDefaultRouteProperty(
+              !validateProperty(
                 currentRoute.auth_jwt.field,
                 'Field'
               ).valid && (
                 <SmallText color="error">
                   *{' '}
                   {
-                    validateDefaultRouteProperty(
+                    validateProperty(
                       currentRoute.auth_jwt.field,
                       'Field'
                     ).message
@@ -242,7 +242,7 @@ export default function RouteBlockDisplay({
               max={100}
               change={(e) =>
                 !viewOnly
-                  ? setAuthJWTProperty(
+                  ? setBlockAuthJWTProperty(
                       setCurrentRoute,
                       'ref_col',
                       e.target.value.trim()
@@ -253,14 +253,14 @@ export default function RouteBlockDisplay({
             />
 
             {!viewOnly &&
-              !validateDefaultRouteProperty(
+              !validateProperty(
                 currentRoute.auth_jwt.ref_col,
                 'Ref Col'
               ).valid && (
                 <SmallText color="error">
                   *{' '}
                   {
-                    validateDefaultRouteProperty(
+                    validateProperty(
                       currentRoute.auth_jwt.ref_col,
                       'Ref Col'
                     ).message
@@ -284,7 +284,7 @@ export default function RouteBlockDisplay({
             <button
               className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
               title="Add Body Data"
-              onClick={() => addRouteBodyData(setCurrentRoute, false)}
+              onClick={() => addBlockBodyData(setCurrentRoute, false)}
             >
               Add Body Data
             </button>
@@ -300,7 +300,7 @@ export default function RouteBlockDisplay({
                   max={100}
                   change={(e) =>
                     !viewOnly
-                      ? setRouteBodyProperty(
+                      ? setBlockBodyDataProperty(
                           setCurrentRoute,
                           'id',
                           e.target.value.trim(),
@@ -316,7 +316,7 @@ export default function RouteBlockDisplay({
                   value={b.bdtype}
                   change={(e) =>
                     !viewOnly
-                      ? setRouteBodyProperty(
+                      ? setBlockBodyDataProperty(
                           setCurrentRoute,
                           'bdtype',
                           e.target.value.trim(),
@@ -345,7 +345,7 @@ export default function RouteBlockDisplay({
                     className="btn btn-md btn-error btn-outline btn-circle ml-2"
                     title="Remove Body Data"
                     onClick={() => {
-                      removeRouteBody(setCurrentRoute, i, false);
+                      removeBlockBodyData(setCurrentRoute, i, false);
                     }}
                   >
                     <i className={`ri-delete-bin-2-line`} />
@@ -353,9 +353,9 @@ export default function RouteBlockDisplay({
                 )}
               </div>
 
-              {!viewOnly && !validateDefaultRouteProperty(b.id, 'ID').valid && (
+              {!viewOnly && !validateProperty(b.id, 'ID').valid && (
                 <SmallText color="error">
-                  * {validateDefaultRouteProperty(b.id, 'ID').message}
+                  * {validateProperty(b.id, 'ID').message}
                 </SmallText>
               )}
             </div>
@@ -400,7 +400,7 @@ export default function RouteBlockDisplay({
               max={5}
               change={(e) =>
                 !viewOnly
-                  ? setParamsProperty(
+                  ? setBlockParamsProperty(
                       setCurrentRoute,
                       'delimiter',
                       e.target.value.trim()
@@ -411,7 +411,7 @@ export default function RouteBlockDisplay({
             />
 
             {!viewOnly &&
-              !validateDefaultRouteProperty(
+              !validateProperty(
                 currentRoute.params.delimiter
                   .split('&')
                   .join('')
@@ -428,7 +428,7 @@ export default function RouteBlockDisplay({
                 <SmallText color="error">
                   *{' '}
                   {
-                    validateDefaultRouteProperty(
+                    validateProperty(
                       currentRoute.params.delimiter
                         .split('&')
                         .join('')
@@ -460,7 +460,7 @@ export default function RouteBlockDisplay({
                 <button
                   className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
                   title="Add Pair"
-                  onClick={() => addRouteBodyData(setCurrentRoute, true)}
+                  onClick={() => addBlockBodyData(setCurrentRoute, true)}
                 >
                   Add Pair
                 </button>
@@ -476,7 +476,7 @@ export default function RouteBlockDisplay({
                       max={100}
                       change={(e) =>
                         !viewOnly
-                          ? setRouteBodyProperty(
+                          ? setBlockBodyDataProperty(
                               setCurrentRoute,
                               'id',
                               e.target.value.trim(),
@@ -492,7 +492,7 @@ export default function RouteBlockDisplay({
                       value={p.bdtype}
                       change={(e) =>
                         !viewOnly
-                          ? setRouteBodyProperty(
+                          ? setBlockBodyDataProperty(
                               setCurrentRoute,
                               'bdtype',
                               e.target.value.trim(),
@@ -521,7 +521,7 @@ export default function RouteBlockDisplay({
                         className="btn btn-md btn-error btn-outline btn-circle ml-2"
                         title="Remove Pair"
                         onClick={() => {
-                          removeRouteBody(setCurrentRoute, i, true);
+                          removeBlockBodyData(setCurrentRoute, i, true);
                         }}
                       >
                         <i className={`ri-delete-bin-2-line`} />
@@ -530,9 +530,9 @@ export default function RouteBlockDisplay({
                   </div>
 
                   {!viewOnly &&
-                    !validateDefaultRouteProperty(p.id, 'ID').valid && (
+                    !validateProperty(p.id, 'ID').valid && (
                       <SmallText color="error">
-                        * {validateDefaultRouteProperty(p.id, 'ID').message}
+                        * {validateProperty(p.id, 'ID').message}
                       </SmallText>
                     )}
                 </div>
@@ -561,7 +561,7 @@ export default function RouteBlockDisplay({
             <button
               className="btn btn-secondary btn-outline gap-2 mb-2 w-full lg:w-1/3"
               title="Add Block"
-              onClick={() => addRouteFlowBlock(setCurrentBlocks)}
+              onClick={() => addRouteBlock(setCurrentBlocks)}
             >
               Add Flow Block
             </button>
@@ -603,11 +603,7 @@ export default function RouteBlockDisplay({
                       className="btn btn-secondary btn-outline ml-2 w-1/2 lg:w-1/3"
                       title="Add"
                       onClick={() =>
-                        addRouteFlowBlockInbuilt(
-                          setCurrentBlocks,
-                          i,
-                          targetBlock
-                        )
+                        addInbuiltBlock(setCurrentBlocks, i, targetBlock)
                       }
                     >
                       Add
@@ -636,7 +632,7 @@ export default function RouteBlockDisplay({
                           className="btn btn-sm btn-info btn-outline btn-circle"
                           title="Move Up"
                           onClick={() => {
-                            moveRouteFlowBlockInbuilt(
+                            moveInbuiltBlock(
                               setCurrentBlocks,
                               i,
                               j,
@@ -653,7 +649,7 @@ export default function RouteBlockDisplay({
                           className="btn btn-sm btn-info btn-outline btn-circle ml-2"
                           title="Move Down"
                           onClick={() => {
-                            moveRouteFlowBlockInbuilt(
+                            moveInbuiltBlock(
                               setCurrentBlocks,
                               i,
                               j,
@@ -670,7 +666,7 @@ export default function RouteBlockDisplay({
                           className="btn btn-sm btn-error btn-outline btn-circle ml-2"
                           title="Remove"
                           onClick={() => {
-                            removeRouteFlowBlockInbuilt(setCurrentBlocks, i, j);
+                            removeInbuiltBlock(setCurrentBlocks, i, j);
                           }}
                         >
                           <i className={`ri-delete-bin-2-line`} />
@@ -683,27 +679,29 @@ export default function RouteBlockDisplay({
                 ))}
               </div>
 
-              <div className="w-full flex justify-center">
-                <button
-                  className="btn btn-md btn-success btn-outline btn-circle"
-                  title="Add new Flow Block"
-                  onClick={() => {
-                    addRouteFlowBlock(setCurrentBlocks, i);
-                  }}
-                >
-                  <i className={`ri-add-line`} />
-                </button>
+              {!viewOnly && (
+                <div className="w-full flex justify-center">
+                  <button
+                    className="btn btn-md btn-success btn-outline btn-circle"
+                    title="Add new Flow Block"
+                    onClick={() => {
+                      addRouteBlock(setCurrentBlocks, i);
+                    }}
+                  >
+                    <i className={`ri-add-line`} />
+                  </button>
 
-                <button
-                  className="btn btn-md btn-error btn-outline btn-circle ml-2"
-                  title="Remove Flow Block"
-                  onClick={() => {
-                    removeRouteFlowBlock(setCurrentBlocks, i);
-                  }}
-                >
-                  <i className={`ri-delete-bin-2-line`} />
-                </button>
-              </div>
+                  <button
+                    className="btn btn-md btn-error btn-outline btn-circle ml-2"
+                    title="Remove Flow Block"
+                    onClick={() => {
+                      removeRouteBlock(setCurrentBlocks, i);
+                    }}
+                  >
+                    <i className={`ri-delete-bin-2-line`} />
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

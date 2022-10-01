@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  setFlowBlockPropertySpecial,
-  validateDefaultRouteProperty,
+  setInbuiltBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import { Input, SmallText, Text } from '../../Components';
@@ -37,7 +37,7 @@ export default function Object({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockPropertySpecial(
+            ? setInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -50,9 +50,9 @@ export default function Object({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(pair.id, 'ID', true).valid && (
+      {!validateProperty(pair.id, 'ID', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(pair.id, 'ID', true).message}
+          * {validateProperty(pair.id, 'ID', true).message}
         </SmallText>
       )}
 

@@ -9,10 +9,10 @@ import {
   Text,
 } from '../../Components';
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  toggleFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  toggleBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 import Condition from './Condition';
 
@@ -40,7 +40,7 @@ export default function ConditionBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -81,7 +81,7 @@ export default function ConditionBlock({
         value={block.action}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -119,7 +119,7 @@ export default function ConditionBlock({
             color="primary"
             change={(checked) =>
               !viewOnly
-                ? toggleFlowBlockProperty(
+                ? toggleBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -152,7 +152,7 @@ export default function ConditionBlock({
             max={1000}
             change={(e) =>
               !viewOnly
-                ? setFlowBlockProperty(
+                ? setBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -180,7 +180,7 @@ export default function ConditionBlock({
             max={200}
             change={(e) =>
               !viewOnly
-                ? setFlowBlockProperty(
+                ? setBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -191,7 +191,7 @@ export default function ConditionBlock({
             }
             className="mt-2 mb-2"
           />
-          {!validateDefaultRouteProperty(
+          {!validateProperty(
             block.fail.message
               .split(':')
               .join('')
@@ -208,7 +208,7 @@ export default function ConditionBlock({
             <SmallText color="error">
               *{' '}
               {
-                validateDefaultRouteProperty(
+                validateProperty(
                   block.fail.message
                     .split(':')
                     .join('')

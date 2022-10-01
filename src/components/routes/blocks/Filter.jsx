@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  removeFlowBlockPropertySpecial,
-  setFlowBlockPropertySpecial,
+  removeInbuiltBlockProperty,
+  setInbuiltBlockProperty,
 } from '../../../utils/routeProcessor';
 
 import { InputOption, InputSelect, Text } from '../../Components';
@@ -66,7 +66,7 @@ export default function Filter({
             value={filter.not ? 'TRUE' : 'FALSE'}
             change={(e) =>
               !viewOnly
-                ? setFlowBlockPropertySpecial(
+                ? setInbuiltBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -98,7 +98,7 @@ export default function Filter({
             value={filter.next}
             change={(e) =>
               !viewOnly
-                ? setFlowBlockPropertySpecial(
+                ? setInbuiltBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -130,7 +130,7 @@ export default function Filter({
             className="btn btn-error btn-outline gap-2 mt-2 w-full lg:w-1/3"
             title="Remove"
             onClick={() =>
-              removeFlowBlockPropertySpecial(
+              removeInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

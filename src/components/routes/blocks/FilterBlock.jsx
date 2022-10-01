@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Input, SmallText, Text } from '../../Components';
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 import Filter from './Filter';
 
@@ -33,7 +33,7 @@ export default function FilterBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -44,12 +44,12 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+      {!validateProperty(block.local_name, 'Local Name', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+            validateProperty(block.local_name, 'Local Name', true)
               .message
           }
         </SmallText>
@@ -71,7 +71,7 @@ export default function FilterBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -82,10 +82,10 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_var, 'Ref Var', true).valid && (
+      {!validateProperty(block.ref_var, 'Ref Var', true).valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.ref_var, 'Ref Var', true).message}
+          {validateProperty(block.ref_var, 'Ref Var', true).message}
         </SmallText>
       )}
 
@@ -105,7 +105,7 @@ export default function FilterBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -116,12 +116,12 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property', true)
+      {!validateProperty(block.ref_property, 'Ref Property', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(
+            validateProperty(
               block.ref_property,
               'Ref Property',
               true
@@ -145,7 +145,7 @@ export default function FilterBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Filter"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

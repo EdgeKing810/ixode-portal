@@ -1,5 +1,5 @@
 import React from 'react';
-import { getLengthRouteBlocks } from '../../utils/routeProcessor';
+import { getRouteBlocksLength } from '../../utils/routeProcessor';
 
 import { ALinkTo, BigText, SmallText } from '../Components';
 
@@ -42,7 +42,7 @@ export default function RouteField({
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
-        {getLengthRouteBlocks(route)} blocks
+        {getRouteBlocksLength(route)} blocks
       </SmallText>
 
       <div className={`pt-1 my-2 w-full bg-accent`} />

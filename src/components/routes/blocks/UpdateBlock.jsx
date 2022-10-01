@@ -3,10 +3,10 @@ import React from 'react';
 import { Checkbox, Input, SmallText, Text } from '../../Components';
 
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  toggleFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  toggleBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import RefData from './RefData';
@@ -39,7 +39,7 @@ export default function UpdateBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -50,10 +50,10 @@ export default function UpdateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).valid && (
+      {!validateProperty(block.ref_col, 'Ref Col', true).valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).message}
+          {validateProperty(block.ref_col, 'Ref Col', true).message}
         </SmallText>
       )}
 
@@ -73,7 +73,7 @@ export default function UpdateBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -84,12 +84,12 @@ export default function UpdateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_property, 'Ref Property', true)
+      {!validateProperty(block.ref_property, 'Ref Property', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(
+            validateProperty(
               block.ref_property,
               'Ref Property',
               true
@@ -113,7 +113,7 @@ export default function UpdateBlock({
           color="primary"
           change={(checked) =>
             !viewOnly
-              ? setFlowBlockProperty(
+              ? setBlockProperty(
                   setCurrentBlocks,
                   index,
                   blockIndex,
@@ -141,7 +141,7 @@ export default function UpdateBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Target"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -186,7 +186,7 @@ export default function UpdateBlock({
             color="primary"
             change={(checked) =>
               !viewOnly
-                ? toggleFlowBlockProperty(
+                ? toggleBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -231,7 +231,7 @@ export default function UpdateBlock({
             color="primary"
             change={(checked) =>
               !viewOnly
-                ? toggleFlowBlockProperty(
+                ? toggleBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -276,7 +276,7 @@ export default function UpdateBlock({
             color="primary"
             change={(checked) =>
               !viewOnly
-                ? toggleFlowBlockProperty(
+                ? toggleBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -319,7 +319,7 @@ export default function UpdateBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

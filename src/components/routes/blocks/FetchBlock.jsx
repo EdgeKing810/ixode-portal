@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Input, SmallText, Text } from '../../Components';
 import {
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 export default function FetchBlock({
@@ -31,7 +31,7 @@ export default function FetchBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -42,12 +42,12 @@ export default function FetchBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+      {!validateProperty(block.local_name, 'Local Name', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+            validateProperty(block.local_name, 'Local Name', true)
               .message
           }
         </SmallText>
@@ -69,7 +69,7 @@ export default function FetchBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -81,10 +81,10 @@ export default function FetchBlock({
         className="mt-2 mb-2"
       />
 
-      {!validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).valid && (
+      {!validateProperty(block.ref_col, 'Ref Col', true).valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.ref_col, 'Ref Col', true).message}
+          {validateProperty(block.ref_col, 'Ref Col', true).message}
         </SmallText>
       )}
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text } from '../../Components';
-import { addFlowBlockProperty } from '../../../utils/routeProcessor';
+import { addInbuiltBlockProperty } from '../../../utils/routeProcessor';
 
 import Object from './Object';
 import Condition from './Condition';
@@ -30,7 +30,7 @@ export default function ReturnBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Pair"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -76,7 +76,7 @@ export default function ReturnBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

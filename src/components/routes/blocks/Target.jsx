@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {
-  addFlowBlockProperty,
-  removeFlowBlockPropertySpecial,
-  setFlowBlockPropertySpecial,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  removeInbuiltBlockProperty,
+  setInbuiltBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import { Input, SmallText, Text } from '../../Components';
@@ -37,7 +37,7 @@ export default function Target({
             className="btn btn-sm btn-error btn-outline btn-circle ml-2"
             title="Remove Target"
             onClick={() => {
-              removeFlowBlockPropertySpecial(
+              removeInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -60,7 +60,7 @@ export default function Target({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockPropertySpecial(
+            ? setInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -73,9 +73,9 @@ export default function Target({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(target.field, 'Field', true).valid && (
+      {!validateProperty(target.field, 'Field', true).valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(target.field, 'Field', true).message}
+          * {validateProperty(target.field, 'Field', true).message}
         </SmallText>
       )}
 
@@ -94,7 +94,7 @@ export default function Target({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

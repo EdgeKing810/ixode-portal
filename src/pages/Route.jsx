@@ -14,7 +14,7 @@ import { LocalContext } from '../wrappers/LocalContext';
 
 import RouteBlockDisplay from '../components/routes/RouteBlockDisplay';
 import RoutesViewProjectIncludes from '../components/routes/RoutesViewProjectIncludes';
-import { getRouteBlocks } from '../utils/routeProcessor';
+import { processRouteBlocks } from '../utils/routeProcessor';
 import { fetchData } from '../utils/data';
 
 export default function Route() {
@@ -125,7 +125,7 @@ export default function Route() {
           .then(async (res) => {
             if (res.data.status === 200) {
               setCurrentRoute(res.data.route);
-              setCurrentBlocks(getRouteBlocks(res.data.route));
+              setCurrentBlocks(processRouteBlocks(res.data.route));
             } else {
               console.log(res.data);
               alert.error(res.data.message);

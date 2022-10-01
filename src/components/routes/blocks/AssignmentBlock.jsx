@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Input, SmallText, Text } from '../../Components';
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 import Condition from './Condition';
 
@@ -33,7 +33,7 @@ export default function AssignmentBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -44,12 +44,12 @@ export default function AssignmentBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+      {!validateProperty(block.local_name, 'Local Name', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+            validateProperty(block.local_name, 'Local Name', true)
               .message
           }
         </SmallText>
@@ -70,7 +70,7 @@ export default function AssignmentBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -113,7 +113,7 @@ export default function AssignmentBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Operation"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

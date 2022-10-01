@@ -3,9 +3,9 @@ import React from 'react';
 import { Checkbox, Input, SmallText, Text } from '../../Components';
 
 import {
-  addFlowBlockProperty,
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  addInbuiltBlockProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import Condition from './Condition';
@@ -35,7 +35,7 @@ export default function CreateBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -46,9 +46,9 @@ export default function CreateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_col, 'Ref Col').valid && (
+      {!validateProperty(block.ref_col, 'Ref Col').valid && (
         <SmallText color="error">
-          * {validateDefaultRouteProperty(block.ref_col, 'Ref Col').message}
+          * {validateProperty(block.ref_col, 'Ref Col').message}
         </SmallText>
       )}
 
@@ -68,7 +68,7 @@ export default function CreateBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -79,10 +79,10 @@ export default function CreateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.ref_object, 'Ref Object').valid && (
+      {!validateProperty(block.ref_object, 'Ref Object').valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.ref_object, 'Ref Object').message}
+          {validateProperty(block.ref_object, 'Ref Object').message}
         </SmallText>
       )}
 
@@ -101,7 +101,7 @@ export default function CreateBlock({
           color="primary"
           change={(checked) =>
             !viewOnly
-              ? setFlowBlockProperty(
+              ? setBlockProperty(
                   setCurrentBlocks,
                   index,
                   blockIndex,
@@ -129,7 +129,7 @@ export default function CreateBlock({
             className="btn btn-secondary btn-outline gap-2 w-full lg:w-1/3"
             title="Add Condition"
             onClick={() =>
-              addFlowBlockProperty(
+              addInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,

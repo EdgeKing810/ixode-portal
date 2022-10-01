@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {
-  removeFlowBlockPropertySpecial,
-  setFlowBlockProperty,
-  setFlowBlockPropertySpecial,
-  validateDefaultRouteProperty,
+  removeInbuiltBlockProperty,
+  setBlockProperty,
+  setInbuiltBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 
 import {
@@ -30,7 +30,7 @@ export default function RefData({
   onlyInt,
 }) {
   return (
-    <div className="w-full bg-base-200 lg:p-2 p-1 rounded-lg">
+    <div className="w-full bg-base-200 my-2 lg:p-2 p-1 rounded-lg">
       <div className="w-full flex items-center">
         <Checkbox
           noMargin
@@ -40,14 +40,14 @@ export default function RefData({
           change={(checked) =>
             !viewOnly
               ? normalSet
-                ? setFlowBlockProperty(
+                ? setBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
                     `${prep ? prep : ''}ref_var`,
                     checked
                   )
-                : setFlowBlockPropertySpecial(
+                : setInbuiltBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -68,14 +68,14 @@ export default function RefData({
           change={(e) =>
             !viewOnly
               ? normalSet
-                ? setFlowBlockProperty(
+                ? setBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
                     `${prep ? prep : ''}rtype`,
                     e.target.value.trim()
                   )
-                : setFlowBlockPropertySpecial(
+                : setInbuiltBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -116,14 +116,14 @@ export default function RefData({
           change={(e) =>
             !viewOnly
               ? normalSet
-                ? setFlowBlockProperty(
+                ? setBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
                     `${prep ? prep : ''}data`,
                     e.target.value.trim()
                   )
-                : setFlowBlockPropertySpecial(
+                : setInbuiltBlockProperty(
                     setCurrentBlocks,
                     index,
                     blockIndex,
@@ -142,7 +142,7 @@ export default function RefData({
             className="btn btn-sm btn-error btn-outline btn-circle ml-2"
             title="Remove"
             onClick={() =>
-              removeFlowBlockPropertySpecial(
+              removeInbuiltBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -157,9 +157,9 @@ export default function RefData({
         )}
       </div>
 
-      {!validateDefaultRouteProperty(data.data, 'Data').valid && (
+      {!validateProperty(data.data, 'Data').valid && (
         <SmallText color="error" className="text-right my-1">
-          * {validateDefaultRouteProperty(data.data, 'Data').message}
+          * {validateProperty(data.data, 'Data').message}
         </SmallText>
       )}
     </div>

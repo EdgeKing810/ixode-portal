@@ -3,8 +3,8 @@ import React from 'react';
 import { Input, SmallText, Text } from '../../Components';
 
 import {
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 import RefData from './RefData';
 
@@ -33,7 +33,7 @@ export default function LoopBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -44,10 +44,10 @@ export default function LoopBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name').valid && (
+      {!validateProperty(block.local_name, 'Local Name').valid && (
         <SmallText color="error">
           *{' '}
-          {validateDefaultRouteProperty(block.local_name, 'Local Name').message}
+          {validateProperty(block.local_name, 'Local Name').message}
         </SmallText>
       )}
 

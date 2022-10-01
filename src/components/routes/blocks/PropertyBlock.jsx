@@ -8,8 +8,8 @@ import {
   Text,
 } from '../../Components';
 import {
-  setFlowBlockProperty,
-  validateDefaultRouteProperty,
+  setBlockProperty,
+  validateProperty,
 } from '../../../utils/routeProcessor';
 import RefData from './RefData';
 
@@ -38,7 +38,7 @@ export default function PropertyBlock({
         max={100}
         change={(e) =>
           !viewOnly
-            ? setFlowBlockProperty(
+            ? setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -49,12 +49,12 @@ export default function PropertyBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+      {!validateProperty(block.local_name, 'Local Name', true)
         .valid && (
         <SmallText color="error">
           *{' '}
           {
-            validateDefaultRouteProperty(block.local_name, 'Local Name', true)
+            validateProperty(block.local_name, 'Local Name', true)
               .message
           }
         </SmallText>
@@ -104,14 +104,14 @@ export default function PropertyBlock({
           value={block.property.apply}
           change={(e) => {
             if (!viewOnly) {
-              setFlowBlockProperty(
+              setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
                 'property.apply',
                 e.target.value.trim()
               );
-              setFlowBlockProperty(
+              setBlockProperty(
                 setCurrentBlocks,
                 index,
                 blockIndex,
@@ -158,7 +158,7 @@ export default function PropertyBlock({
               max={100}
               change={(e) =>
                 !viewOnly
-                  ? setFlowBlockProperty(
+                  ? setBlockProperty(
                       setCurrentBlocks,
                       index,
                       blockIndex,
@@ -170,14 +170,14 @@ export default function PropertyBlock({
               className="mt-2 mb-2"
             />
 
-            {!validateDefaultRouteProperty(
+            {!validateProperty(
               block.property.additional,
               'Argument'
             ).valid && (
               <SmallText color="error">
                 *{' '}
                 {
-                  validateDefaultRouteProperty(
+                  validateProperty(
                     block.property.additional,
                     'Argument'
                   ).message
