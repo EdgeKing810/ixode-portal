@@ -6,7 +6,7 @@ module.exports = {
     src: '/_dist_',
   },
 
-  plugins: ['snowpack-plugin-svgr', '@snowpack/plugin-babel'],
+  plugins: ['@snowpack/plugin-babel'],
 
   routes: [
     {

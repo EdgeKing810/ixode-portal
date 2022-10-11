@@ -7,8 +7,6 @@ import { useThemeStore } from '../stores/useThemeStore';
 import { automaticLogin, fetchCurrentProfile } from '../utils/fetcher';
 import { LocalContext } from './LocalContext';
 
-import logo from '../assets/images/banner_purple.png';
-
 export default function LoginWrapper({ children, onlyLoad }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [didOnce, setDidOnce] = useState(false);
@@ -18,7 +16,7 @@ export default function LoginWrapper({ children, onlyLoad }) {
 
   const { profile, setUserProfile } = useUserProfileStore((state) => state);
   const { setTheme } = useThemeStore((state) => state);
-  const { API_URL } = useContext(LocalContext);
+  const { API_URL, PUBLIC_URL } = useContext(LocalContext);
 
   useEffect(() => {
     async function fetchLocal() {
@@ -77,13 +75,13 @@ export default function LoginWrapper({ children, onlyLoad }) {
       <div className="overflow-hidden w-full h-full rounded-lg opacity-95 flex flex-col items-center justify-center">
         <div className="w-full flex justify-center items-center lg:w-1/5 mb-8 lg:mb-20">
           <img
-            src={logo}
+            src={`${PUBLIC_URL}/public/banner_purple.png`}
             alt="main-logo"
             className="object-fill flex items-center justify-center w-2/3 lg:w-11/12 opacity-90"
           />
         </div>
 
-        <div className="text-primary w-full text-xl lg:text-2xl font-semibold font-gilroy opacity-80 text-center px-4 blink">
+        <div className="text-primary w-full text-xl lg:text-2xl font-semibold font-spartan opacity-80 text-center px-4 blink">
           Trying to automatically log you in...
         </div>
       </div>

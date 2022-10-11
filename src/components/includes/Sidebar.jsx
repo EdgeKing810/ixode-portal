@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useUserProfileStore } from '../../stores/useUserProfileStore';
@@ -6,11 +6,13 @@ import { useUserProfileStore } from '../../stores/useUserProfileStore';
 import { fetchData } from '../../utils/data';
 import { logout } from '../../utils/fetcher';
 
-import banner from '../../assets/images/banner_purple.png';
+import { LocalContext } from '../../wrappers/LocalContext';
 
 export default function Sidebar({ currentPage }) {
   const { profile } = useUserProfileStore((state) => state);
   const [pages] = useState(fetchData().navigation);
+
+  const { PUBLIC_URL } = useContext(LocalContext);
 
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ export default function Sidebar({ currentPage }) {
       className={`w-0 lg:w-1/5 invisible lg:visible bg-base-200 h-full lg:border-r-4 lg:border-primary`}
     >
       <img
-        src={banner}
+        src={`${PUBLIC_URL}/public/banner_purple.png`}
         alt="banner"
         className={`w-full p-2 mt-1 object-fill flex justify-center items-center`}
       />

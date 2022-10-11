@@ -270,6 +270,7 @@ export const removeRouteBlock = (setCurrentBlocks, index) => {
 };
 
 const getDefaultBlockProperties = (target) => {
+  // @ts-ignore
   let id = targets.find((t) => t.name === target).id;
   let name = target;
 

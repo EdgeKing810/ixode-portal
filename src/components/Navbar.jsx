@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-import banner from '../assets/images/logo_purple.png';
 
 import { useUserProfileStore } from '../stores/useUserProfileStore';
 import { useThemeStore } from '../stores/useThemeStore';
+
+import { LocalContext } from '../wrappers/LocalContext';
 
 import { fetchData } from '../utils/data';
 import { logout } from '../utils/fetcher';
@@ -16,6 +16,7 @@ export default function Navbar({ width, currentPage }) {
 
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+  const { PUBLIC_URL } = useContext(LocalContext);
 
   const changeTheme = () => {
     let newTheme = theme === 'light' ? 'dark' : 'light';
@@ -47,8 +48,8 @@ export default function Navbar({ width, currentPage }) {
           <div className="w-2/5 sm:w-1/5 h-full flex justify-start items-center">
             <Link className="h-full flex justify-start items-center" to="/home">
               <img
-                src={banner}
-                alt="banner"
+                src={`${PUBLIC_URL}/public/logo_purple.png`}
+                alt="logo"
                 className="h-4/5 sm:h-3/5 lg:h-full object-scale-down lg:py-2"
               />
             </Link>
