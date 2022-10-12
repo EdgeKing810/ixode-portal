@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { InputOption, InputSelect, Text } from '../../Components';
-import { setInbuiltBlockProperty } from '../../../utils/routeProcessor';
+import {
+  setBlockProperty,
+  setInbuiltBlockProperty,
+} from '../../../utils/routeProcessor';
 
 export default function OperationType({
   condition,
@@ -12,6 +15,8 @@ export default function OperationType({
   currentIndex,
   property,
   currentIndex2,
+  normalSet,
+  prep,
 }) {
   return (
     <div className="flex flex-col items-center col-span-2">
@@ -24,16 +29,24 @@ export default function OperationType({
         value={condition.operation_type}
         change={(e) =>
           !viewOnly
-            ? setInbuiltBlockProperty(
-                setCurrentBlocks,
-                index,
-                blockIndex,
-                currentIndex,
-                property,
-                'operation_type',
-                e.target.value.trim(),
-                currentIndex2
-              )
+            ? normalSet
+              ? setBlockProperty(
+                  setCurrentBlocks,
+                  index,
+                  blockIndex,
+                  `${prep ? prep : ''}operation_type`,
+                  e.target.value.trim()
+                )
+              : setInbuiltBlockProperty(
+                  setCurrentBlocks,
+                  index,
+                  blockIndex,
+                  currentIndex,
+                  property,
+                  'operation_type',
+                  e.target.value.trim(),
+                  currentIndex2
+                )
             : null
         }
       >

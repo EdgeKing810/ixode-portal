@@ -52,8 +52,7 @@ export default function UpdateBlock({
       />
       {!validateProperty(block.ref_col, 'Ref Col', true).valid && (
         <SmallText color="error">
-          *{' '}
-          {validateProperty(block.ref_col, 'Ref Col', true).message}
+          * {validateProperty(block.ref_col, 'Ref Col', true).message}
         </SmallText>
       )}
 
@@ -84,17 +83,9 @@ export default function UpdateBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateProperty(block.ref_property, 'Ref Property', true)
-        .valid && (
+      {!validateProperty(block.ref_property, 'Ref Property', true).valid && (
         <SmallText color="error">
-          *{' '}
-          {
-            validateProperty(
-              block.ref_property,
-              'Ref Property',
-              true
-            ).message
-          }
+          * {validateProperty(block.ref_property, 'Ref Property', true).message}
         </SmallText>
       )}
 
@@ -205,11 +196,12 @@ export default function UpdateBlock({
           <RefData
             index={index}
             blockIndex={blockIndex}
-            currentIndex={null}
-            property="add"
             viewOnly={viewOnly}
             data={block.add}
             setCurrentBlocks={setCurrentBlocks}
+            prep="add."
+            noRemove
+            normalSet
           />
         </div>
       )}
@@ -250,11 +242,12 @@ export default function UpdateBlock({
           <RefData
             index={index}
             blockIndex={blockIndex}
-            currentIndex={null}
-            property="set"
             viewOnly={viewOnly}
             data={block.set}
             setCurrentBlocks={setCurrentBlocks}
+            prep="set."
+            noRemove
+            normalSet
           />
         </div>
       )}
@@ -295,11 +288,12 @@ export default function UpdateBlock({
           <Filter
             index={index}
             blockIndex={blockIndex}
-            currentIndex={null}
-            property="filter"
             viewOnly={viewOnly}
             filter={block.filter}
             setCurrentBlocks={setCurrentBlocks}
+            property="filter"
+            prep="filter."
+            normalSet
           />
         </div>
       )}

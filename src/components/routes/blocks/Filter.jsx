@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   removeInbuiltBlockProperty,
+  setBlockProperty,
   setInbuiltBlockProperty,
 } from '../../../utils/routeProcessor';
 
@@ -19,6 +20,8 @@ export default function Filter({
   viewOnly,
   filter,
   setCurrentBlocks,
+  normalSet,
+  prep,
 }) {
   return (
     <div className="w-full mt-4 mb-2 bg-base-200 lg:p-2 p-1 rounded-lg">
@@ -40,8 +43,9 @@ export default function Filter({
         viewOnly={viewOnly}
         data={filter.right}
         setCurrentBlocks={setCurrentBlocks}
-        prep="right."
         noRemove
+        normalSet={normalSet}
+        prep={`${prep ? prep : ''}right.`}
       />
 
       <div className="my-2 gap-2 grid grid-cols-5">
@@ -54,6 +58,8 @@ export default function Filter({
           currentIndex={currentIndex}
           currentIndex2={currentIndex2}
           property={property}
+          normalSet={normalSet}
+          prep={prep}
         />
 
         <div className="flex flex-col items-center col-span-1">
@@ -66,16 +72,24 @@ export default function Filter({
             value={filter.not ? 'TRUE' : 'FALSE'}
             change={(e) =>
               !viewOnly
-                ? setInbuiltBlockProperty(
-                    setCurrentBlocks,
-                    index,
-                    blockIndex,
-                    currentIndex,
-                    property,
-                    'not',
-                    e.target.value.trim() === 'TRUE',
-                    currentIndex2
-                  )
+                ? normalSet
+                  ? setBlockProperty(
+                      setCurrentBlocks,
+                      index,
+                      blockIndex,
+                      `${prep ? prep : ''}not`,
+                      e.target.value.trim() === 'TRUE'
+                    )
+                  : setInbuiltBlockProperty(
+                      setCurrentBlocks,
+                      index,
+                      blockIndex,
+                      currentIndex,
+                      property,
+                      'not',
+                      e.target.value.trim() === 'TRUE',
+                      currentIndex2
+                    )
                 : null
             }
           >
@@ -98,16 +112,24 @@ export default function Filter({
             value={filter.next}
             change={(e) =>
               !viewOnly
-                ? setInbuiltBlockProperty(
-                    setCurrentBlocks,
-                    index,
-                    blockIndex,
-                    currentIndex,
-                    property,
-                    'next',
-                    e.target.value.trim(),
-                    currentIndex2
-                  )
+                ? normalSet
+                  ? setBlockProperty(
+                      setCurrentBlocks,
+                      index,
+                      blockIndex,
+                      `${prep ? prep : ''}next`,
+                      e.target.value.trim()
+                    )
+                  : setInbuiltBlockProperty(
+                      setCurrentBlocks,
+                      index,
+                      blockIndex,
+                      currentIndex,
+                      property,
+                      'next',
+                      e.target.value.trim(),
+                      currentIndex2
+                    )
                 : null
             }
           >
