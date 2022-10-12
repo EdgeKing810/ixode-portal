@@ -20,7 +20,10 @@ import {
 import { handleImage } from '../../utils/handleImage';
 import { submitCreateData, submitUpdateData } from './data.utils';
 
-import MarkdownEngine from '../../processors/MarkdownEngine';
+import loadable from '@loadable/component';
+const MarkdownEngine = loadable(() =>
+  import('../../processors/MarkdownEngine')
+);
 
 export default function DataStructureDisplay({
   API_URL,
@@ -398,7 +401,7 @@ export default function DataStructureDisplay({
                 navigate(
                   `/data/p/${project_id}/c/${collection_id}/d/e/${data_id}`
                 );
-                window.location.reload();
+                // window.location.reload();
               }}
             >
               Edit
@@ -414,7 +417,7 @@ export default function DataStructureDisplay({
                 navigate(
                   `/data/p/${project_id}/c/${collection_id}/d/v/${data_id}`
                 );
-                window.location.reload();
+                // window.location.reload();
               }}
             >
               View

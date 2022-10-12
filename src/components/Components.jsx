@@ -197,6 +197,7 @@ export const Input = ({
   noTransition,
   min,
   max,
+  bigger,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'lg:p-2 p-1'} ${
@@ -210,7 +211,9 @@ export const Input = ({
       type={type ? type : 'text'}
       title={title}
       name={title}
-      className={`w-full outline-none rounded-lg p-2 text-base-content text-xs sm:text-base bg-base-200 font-noto ${
+      className={`w-full outline-none rounded-lg p-2 text-base-content ${
+        bigger ? 'text-sm sm:text-lg' : 'text-xs sm:text-base'
+      } bg-base-200 font-noto ${
         !noTransition && 'ease-in-out duration-300'
       } placeholder-base-content opacity-85 text-sm lg:text-base`}
       placeholder={placeholder}
@@ -271,6 +274,7 @@ export const InputTextArea = ({
   type,
   min,
   max,
+  bigger,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
@@ -282,7 +286,9 @@ export const InputTextArea = ({
       title={title}
       type={type ? type : 'text'}
       name={title}
-      className={`w-full outline-none rounded-lg p-2 bg-base-200 text-xs sm:text-base text-base-content font-noto placeholder-base-content opacity-85`}
+      className={`w-full outline-none rounded-lg p-2 bg-base-200 ${
+        bigger ? 'text-sm sm:text-lg' : 'text-xs sm:text-base'
+      } text-base-content font-noto placeholder-base-content opacity-85`}
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
@@ -306,6 +312,7 @@ export const PasswordInput = ({
   noTransition,
   min,
   max,
+  bigger,
 }) => (
   <div
     className={`w-full rounded-lg opacity-75 ${!noPadding && 'p-2'} ${
@@ -316,13 +323,15 @@ export const PasswordInput = ({
     }`}
   >
     <div
-      className={`w-full bg-base-200 opacity-85 flex outline-none rounded-lg p-2`}
+      className={`w-full bg-base-200 opacity-85 flex outline-none rounded-lg p-1`}
     >
       <input
         type={showPassword ? 'text' : 'password'}
         title={title}
         name={title}
-        className={`w-full outline-none rounded-lg text-base-content text-xs sm:text-base font-noto ${
+        className={`w-full outline-none rounded-lg text-base-content ${
+          bigger ? 'text-sm sm:text-lg' : 'text-xs sm:text-base'
+        } font-noto ${
           !noTransition && 'ease-in-out duration-300'
         } placeholder-base-content bg-opacity-0 bg-base-200`}
         placeholder={placeholder}
@@ -333,7 +342,11 @@ export const PasswordInput = ({
       />
 
       <button
-        className={`outline-none w-8 sm:w-10 rounded-lg flex justify-center items-center text-base-content opacity-85`}
+        name={`${showPassword ? 'Hide' : 'Show'} Password`}
+        title={`${showPassword ? 'Hide' : 'Show'} Password`}
+        className={`outline-none ml-2 ${
+          bigger ? 'w-10 sm:w-12' : 'w-8 sm:w-10'
+        } rounded-lg flex justify-center items-center text-base-content opacity-85`}
         onClick={(e) => {
           e.preventDefault();
           setShowPassword((prev) => !prev);

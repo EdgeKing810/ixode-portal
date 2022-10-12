@@ -45,10 +45,9 @@ export default function LoginForm({
           e.persist();
           setLoginInputs((prev) => [e.target.value, prev[1]]);
         }}
-        noBorder
-        noPadding
         type="text"
         className="my-2"
+        bigger
       />
 
       <PasswordInput
@@ -60,12 +59,12 @@ export default function LoginForm({
         }}
         showPassword={showLoginPassword}
         setShowPassword={setShowLoginPassword}
-        noBorder
-        noPadding
         className="mb-2"
+        bigger
       />
 
       <button
+        name="submit"
         type="submit"
         className={`btn w-full lg:w-1/3 gap-2 ${
           loginInputs.every((v) => v.length > 0)

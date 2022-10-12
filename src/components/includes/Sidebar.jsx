@@ -21,7 +21,7 @@ export default function Sidebar({ currentPage }) {
       className={`w-0 lg:w-1/5 invisible lg:visible bg-base-200 h-full lg:border-r-4 lg:border-primary`}
     >
       <img
-        src={`${PUBLIC_URL}/public/banner_purple.png`}
+        src={`${PUBLIC_URL}/public/banner_purple.webp`}
         alt="banner"
         className={`w-full p-2 mt-1 object-fill flex justify-center items-center`}
       />

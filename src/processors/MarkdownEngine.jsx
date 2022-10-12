@@ -4,7 +4,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import 'prismjs/themes/prism.css';
 
-import { Editor } from '@toast-ui/react-editor';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 
 import { handleImage } from '../utils/handleImage';
@@ -86,21 +86,34 @@ export default function MarkdownEngine({
 
   return (
     <div className="bg-white p-2 rounded-lg my-2">
-      <Editor
-        title={title}
-        initialValue={data}
-        previewStyle="tab"
-        initialEditType="markdown"
-        useCommandShortcut={true}
-        hideModeSwitch={true}
-        toolbarItems={getToolbarItems()}
-        ref={editorRef}
-        placeholder={placeholder}
-        min={min}
-        max={max}
-        plugins={[codeSyntaxHighlight]}
-        height={viewOnly ? '800px' : '400px'}
-      />
+      {!viewOnly ? (
+        <Editor
+          title={title}
+          initialValue={data}
+          previewStyle="tab"
+          initialEditType="markdown"
+          useCommandShortcut={true}
+          hideModeSwitch={true}
+          toolbarItems={getToolbarItems()}
+          ref={editorRef}
+          placeholder={placeholder}
+          min={min}
+          max={max}
+          plugins={[codeSyntaxHighlight]}
+          height={viewOnly ? '800px' : '400px'}
+        />
+      ) : (
+        <Viewer
+          title={title}
+          initialValue={data}
+          initialEditType="markdown"
+          useCommandShortcut={false}
+          hideModeSwitch={true}
+          toolbarItems={[]}
+          plugins={[codeSyntaxHighlight]}
+          height="800px"
+        />
+      )}
     </div>
   );
 }

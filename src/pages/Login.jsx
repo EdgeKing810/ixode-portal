@@ -49,7 +49,7 @@ export default function Login() {
     <div
       className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-300 overflow-none`}
       style={{
-        backgroundImage: `url(${PUBLIC_URL}/public/background.jpg)`,
+        backgroundImage: `url(${PUBLIC_URL}/public/background.webp)`,
         backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
@@ -62,7 +62,7 @@ export default function Login() {
           className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center bg-base-200 bg-opacity-25 p-4 lg:p-16`}
         >
           <img
-            src={`${PUBLIC_URL}/public/banner_purple.png`}
+            src={`${PUBLIC_URL}/public/banner_purple.webp`}
             alt="logo"
             className={`object-fill flex justify-center items-center w-2/3 lg:w-5/6 mb-4`}
           />

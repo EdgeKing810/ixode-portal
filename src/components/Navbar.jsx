@@ -48,7 +48,7 @@ export default function Navbar({ width, currentPage }) {
           <div className="w-2/5 sm:w-1/5 h-full flex justify-start items-center">
             <Link className="h-full flex justify-start items-center" to="/home">
               <img
-                src={`${PUBLIC_URL}/public/logo_purple.png`}
+                src={`${PUBLIC_URL}/public/logo_purple.webp`}
                 alt="logo"
                 className="h-4/5 sm:h-3/5 lg:h-full object-scale-down lg:py-2"
               />
