@@ -7,7 +7,7 @@ import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 import { LocalContextProvider } from './wrappers/LocalContext';
-import App from './App';
+import App from './App.jsx';
 
 const options = {
   position: positions.BOTTOM_CENTER,

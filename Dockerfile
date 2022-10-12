@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app/
 
 RUN npm install
-RUN npm run build
+RUN npm run vite:build
 
 RUN npm i -g serve
 
