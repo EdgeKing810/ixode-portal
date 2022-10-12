@@ -41,7 +41,7 @@ export default function MediaItem({
             alert.info('Link Copied');
           }}
         >
-          <i className={`ri-link -line`} />
+          <i className={`ri-link`} />
         </button>
 
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
