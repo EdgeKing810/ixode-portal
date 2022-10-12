@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import { HashRouter as Router } from 'react-router-dom';
@@ -7,7 +7,8 @@ import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 import { LocalContextProvider } from './wrappers/LocalContext';
-import App from './App.jsx';
+
+const App = React.lazy(() => import('./App.jsx'));
 
 const options = {
   position: positions.BOTTOM_CENTER,
@@ -21,7 +22,9 @@ ReactDOM.render(
     <LocalContextProvider>
       <Router>
         <React.StrictMode>
-          <App />
+          <Suspense fallback={<div></div>}>
+            <App />
+          </Suspense>
         </React.StrictMode>
       </Router>
     </LocalContextProvider>

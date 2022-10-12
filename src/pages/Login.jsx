@@ -47,13 +47,13 @@ export default function Login() {
 
   return (
     <div
-      className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-300 overflow-none`}
-      style={{
-        backgroundImage: `url(${PUBLIC_URL}/public/background.webp)`,
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
+      className={`w-full h-screenm lg:h-screen p-2 lg:px-56 lg:py-4 ease-in-out duration-300 overflow-none bg-gradient-to-r from-slate-700 to-slate-900`}
+      // style={{
+      //   backgroundImage: `url(${PUBLIC_URL}/public/background.webp)`,
+      //   backgroundAttachment: 'fixed',
+      //   backgroundRepeat: 'no-repeat',
+      //   backgroundSize: 'cover',
+      // }}
     >
       <div
         className={`w-full p-1 lg:p-0 h-full lg:h-full flex flex-col items-center justify-center`}
