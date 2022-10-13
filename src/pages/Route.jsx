@@ -32,6 +32,9 @@ export default function Route() {
   const [currentRoute, setCurrentRoute] = useState(null);
   const [currentBlocks, setCurrentBlocks] = useState([]);
   const [targetBlock, setTargetBlock] = useState(targets[0].name);
+  const [currentKdl, setCurrentKdl] = useState(null);
+  const [kdlError, setKdlError] = useState('');
+  const [kdl, setKdl] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [deletingRoute, setDeletingRoute] = useState(false);
@@ -126,6 +129,27 @@ export default function Route() {
             if (res.data.status === 200) {
               setCurrentRoute(res.data.route);
               setCurrentBlocks(processRouteBlocks(res.data.route));
+
+              axios
+                .post(
+                  `${API_URL}/routing/convert/blocks`,
+                  {
+                    uid: profile.uid,
+                    project_id: project_id,
+                    route: res.data.route,
+                  },
+                  {
+                    headers: { Authorization: `Bearer ${profile.jwt}` },
+                  }
+                )
+                .then(async (res) => {
+                  if (res.data.status === 200) {
+                    setCurrentKdl(res.data.route);
+                  } else {
+                    console.log(res.data);
+                    alert.error(res.data.message);
+                  }
+                });
             } else {
               console.log(res.data);
               alert.error(res.data.message);
@@ -138,6 +162,72 @@ export default function Route() {
 
     // eslint-disable-next-line
   }, [project_id, projects]);
+
+  const toggleKdl = (toggle) => {
+    if (kdl) {
+      if (!toggle) {
+        alert.info('Validating...');
+      }
+
+      axios
+        .post(
+          `${API_URL}/routing/convert/kdl`,
+          {
+            uid: profile.uid,
+            project_id: project_id,
+            route: currentKdl,
+          },
+          {
+            headers: { Authorization: `Bearer ${profile.jwt}` },
+          }
+        )
+        .then(async (res) => {
+          if (res.data) {
+            setKdlError(res.data.success ? '' : res.data.message);
+          }
+
+          if (res.data.status === 200) {
+            setCurrentRoute(res.data.route);
+            setCurrentBlocks(processRouteBlocks(res.data.route));
+
+            alert.success(
+              toggle ? 'Validation OK' : 'KDL Conversion successful'
+            );
+          } else {
+            console.log(res.data);
+            alert.error(res.data.message);
+            alert.error(toggle ? 'Validation FAIL' : 'KDL Conversion failed');
+          }
+        });
+    } else {
+      axios
+        .post(
+          `${API_URL}/routing/convert/blocks`,
+          {
+            uid: profile.uid,
+            project_id: project_id,
+            route: currentRoute,
+          },
+          {
+            headers: { Authorization: `Bearer ${profile.jwt}` },
+          }
+        )
+        .then(async (res) => {
+          if (res.data.status === 200) {
+            setCurrentKdl(res.data.route);
+            alert.success('BLocks Conversion successful');
+          } else {
+            console.log(res.data);
+            alert.error(res.data.message);
+            alert.error('Blocks Conversion failed');
+          }
+        });
+    }
+
+    if (toggle) {
+      setKdl((prev) => !prev);
+    }
+  };
 
   return (
     <div
@@ -183,6 +273,11 @@ export default function Route() {
                 navigate={navigate}
                 isEditing={isEditing}
                 isCreating={isCreating}
+                kdl={kdl}
+                kdlError={kdlError}
+                currentKdl={currentKdl}
+                setCurrentKdl={setCurrentKdl}
+                toggleKdl={toggleKdl}
               />
             )}
           </div>

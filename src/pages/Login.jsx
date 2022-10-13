@@ -57,14 +57,14 @@ export default function Login() {
       // }}
     >
       <div className="fixed w-screen h-screen top-0 left-0 z-0">
-        <ParticlesBg type="cobweb" color="#9582F2" />
+        <ParticlesBg type="cobweb" color="#9582F2" bg={false} />
       </div>
 
       <div
-        className={`w-full p-1 lg:p-0 h-full lg:h-full flex flex-col items-center justify-center z-10`}
+        className={`w-full p-1 lg:p-0 h-full lg:h-full flex flex-col items-center justify-center`}
       >
         <div
-          className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center bg-base-200 bg-opacity-95 p-4 lg:p-16`}
+          className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center bg-base-200 bg-opacity-95 p-4 lg:p-16 z-10 left-0 top-0`}
         >
           <img
             src={`${PUBLIC_URL}/public/banner_purple.webp`}

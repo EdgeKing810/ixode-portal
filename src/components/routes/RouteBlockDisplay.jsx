@@ -8,6 +8,7 @@ import {
   Input,
   InputOption,
   InputSelect,
+  InputTextArea,
   SmallText,
 } from '../Components';
 
@@ -58,6 +59,11 @@ export default function RouteBlockDisplay({
   setCurrentBlocks,
   targetBlock,
   setTargetBlock,
+  kdl,
+  kdlError,
+  currentKdl,
+  setCurrentKdl,
+  toggleKdl,
 }) {
   const targets = fetchData().route.flow.targets;
 
@@ -89,16 +95,12 @@ export default function RouteBlockDisplay({
           className="mt-2 mb-2 lg:w-2/3"
         />
         {!viewOnly &&
-          !validateProperty(currentRoute.route_id, 'Route ID', true)
-            .valid && (
+          !validateProperty(currentRoute.route_id, 'Route ID', true).valid && (
             <SmallText color="error">
               *{' '}
               {
-                validateProperty(
-                  currentRoute.route_id,
-                  'Route ID',
-                  true
-                ).message
+                validateProperty(currentRoute.route_id, 'Route ID', true)
+                  .message
               }
             </SmallText>
           )}
@@ -213,17 +215,12 @@ export default function RouteBlockDisplay({
             />
 
             {!viewOnly &&
-              !validateProperty(
-                currentRoute.auth_jwt.field,
-                'Field'
-              ).valid && (
+              !validateProperty(currentRoute.auth_jwt.field, 'Field').valid && (
                 <SmallText color="error">
                   *{' '}
                   {
-                    validateProperty(
-                      currentRoute.auth_jwt.field,
-                      'Field'
-                    ).message
+                    validateProperty(currentRoute.auth_jwt.field, 'Field')
+                      .message
                   }
                 </SmallText>
               )}
@@ -253,17 +250,13 @@ export default function RouteBlockDisplay({
             />
 
             {!viewOnly &&
-              !validateProperty(
-                currentRoute.auth_jwt.ref_col,
-                'Ref Col'
-              ).valid && (
+              !validateProperty(currentRoute.auth_jwt.ref_col, 'Ref Col')
+                .valid && (
                 <SmallText color="error">
                   *{' '}
                   {
-                    validateProperty(
-                      currentRoute.auth_jwt.ref_col,
-                      'Ref Col'
-                    ).message
+                    validateProperty(currentRoute.auth_jwt.ref_col, 'Ref Col')
+                      .message
                   }
                 </SmallText>
               )}
@@ -529,12 +522,11 @@ export default function RouteBlockDisplay({
                     )}
                   </div>
 
-                  {!viewOnly &&
-                    !validateProperty(p.id, 'ID').valid && (
-                      <SmallText color="error">
-                        * {validateProperty(p.id, 'ID').message}
-                      </SmallText>
-                    )}
+                  {!viewOnly && !validateProperty(p.id, 'ID').valid && (
+                    <SmallText color="error">
+                      * {validateProperty(p.id, 'ID').message}
+                    </SmallText>
+                  )}
                 </div>
               ))}
             </div>
@@ -632,12 +624,7 @@ export default function RouteBlockDisplay({
                           className="btn btn-sm btn-info btn-outline btn-circle"
                           title="Move Up"
                           onClick={() => {
-                            moveInbuiltBlock(
-                              setCurrentBlocks,
-                              i,
-                              j,
-                              'up'
-                            );
+                            moveInbuiltBlock(setCurrentBlocks, i, j, 'up');
                           }}
                         >
                           <i className={`ri-arrow-up-line`} />
@@ -649,12 +636,7 @@ export default function RouteBlockDisplay({
                           className="btn btn-sm btn-info btn-outline btn-circle ml-2"
                           title="Move Down"
                           onClick={() => {
-                            moveInbuiltBlock(
-                              setCurrentBlocks,
-                              i,
-                              j,
-                              'down'
-                            );
+                            moveInbuiltBlock(setCurrentBlocks, i, j, 'down');
                           }}
                         >
                           <i className={`ri-arrow-down-line`} />
@@ -705,6 +687,36 @@ export default function RouteBlockDisplay({
             </div>
           ))}
         </div>
+      </div>
+    );
+  };
+
+  const makeKdlInput = (viewOnly) => {
+    return (
+      <div className="w-full">
+        {kdlError && (
+          <div className="w-full text-error p-2 bg-base-300 rounded-lg mb-2">
+            Error: {kdlError}
+          </div>
+        )}
+
+        <InputTextArea
+          placeholder={viewOnly ? '' : 'Enter KDL...'}
+          title="KDL"
+          type="text"
+          value={currentKdl}
+          change={(e) => (!viewOnly ? setCurrentKdl(e.target.value) : null)}
+        />
+
+        {!viewOnly && (
+          <button
+            className={`btn btn-primary btn-outline gap-2 w-full mt-2 lg:w-1/3`}
+            title="Validate KDL"
+            onClick={() => toggleKdl(false)}
+          >
+            Validate
+          </button>
+        )}
       </div>
     );
   };
@@ -776,10 +788,10 @@ export default function RouteBlockDisplay({
       </Heading>
 
       {profile && profile.role !== 'VIEWER' && (
-        <div className="w-full flex my-2">
+        <div className="w-full flex lg:flex-row flex-col my-2">
           {!isEditing && !isCreating && (
             <button
-              className="btn btn-info w-full lg:w-2/3 btn-outline gap-2"
+              className="btn btn-info w-full lg:w-1/3 btn-outline gap-2"
               title="Edit"
               onClick={() =>
                 navigate(`/routes/p/${project_id}/r/e/${route_id}`)
@@ -792,7 +804,7 @@ export default function RouteBlockDisplay({
 
           {isEditing && !isCreating && (
             <button
-              className="btn btn-info w-full lg:w-2/3 btn-outline gap-2"
+              className="btn btn-info w-full lg:w-1/3 btn-outline gap-2"
               title="View"
               onClick={() =>
                 navigate(`/routes/p/${project_id}/r/v/${route_id}`)
@@ -802,17 +814,28 @@ export default function RouteBlockDisplay({
               <i className={`ri-eye-line`} />
             </button>
           )}
+
+          <button
+            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 lg:ml-2 mt-2 lg:mt-0"
+            title="Toggle KDL View"
+            onClick={() => toggleKdl(true)}
+          >
+            Toggle KDL
+            <i className={`ri-booklet-line`} />
+          </button>
         </div>
       )}
 
-      {currentRoute && currentRoute.route_id !== undefined ? (
+      {currentRoute && currentRoute.route_id !== undefined && !kdl ? (
         makePreBlocks(!(isEditing || isCreating))
       ) : (
         <div></div>
       )}
 
       <div className="w-full">
-        {makeBlocks(!(isEditing || isCreating))}
+        {kdl
+          ? makeKdlInput(!(isEditing || isCreating))
+          : makeBlocks(!(isEditing || isCreating))}
 
         <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
