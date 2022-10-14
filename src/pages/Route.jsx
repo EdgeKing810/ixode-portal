@@ -14,7 +14,7 @@ import { LocalContext } from '../wrappers/LocalContext';
 
 import RouteBlockDisplay from '../components/routes/RouteBlockDisplay';
 import RoutesViewProjectIncludes from '../components/routes/RoutesViewProjectIncludes';
-import { processRouteBlocks } from '../utils/routeProcessor';
+import { convertRouteBlocks, processRouteBlocks } from '../utils/routeProcessor';
 import { fetchData } from '../utils/data';
 
 export default function Route() {
@@ -200,13 +200,16 @@ export default function Route() {
           }
         });
     } else {
+      let updatedRoute = { ...currentRoute };
+      updatedRoute.flow = convertRouteBlocks(currentBlocks);
+
       axios
         .post(
           `${API_URL}/routing/convert/blocks`,
           {
             uid: profile.uid,
             project_id: project_id,
-            route: currentRoute,
+            route: updatedRoute,
           },
           {
             headers: { Authorization: `Bearer ${profile.jwt}` },

@@ -14,6 +14,7 @@ export const submitCreateRoute = (
 
   let updatedRoute = { ...routeObject };
   updatedRoute.flow = convertRouteBlocks(currentBlocks);
+  console.log(updatedRoute)
 
   const data = {
     uid: profile.uid,
@@ -55,6 +56,7 @@ export const submitUpdateRoute = (
 
   let updatedRoute = { ...routeObject };
   updatedRoute.flow = convertRouteBlocks(currentBlocks);
+  console.log(updatedRoute)
 
   const data = {
     uid: profile.uid,

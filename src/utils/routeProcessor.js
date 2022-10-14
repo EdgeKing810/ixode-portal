@@ -72,6 +72,7 @@ export const convertRouteBlocks = (blocks) => {
 
     for (let j = 0; j < blocks[i].blocks.length; j++) {
       let block = blocks[i].blocks[j];
+      sharedMeta.global_index = globalIndex;
 
       if (block.id === 'fetchers') {
         fetchers = [
