@@ -14,7 +14,10 @@ import { LocalContext } from '../wrappers/LocalContext';
 
 import RouteBlockDisplay from '../components/routes/RouteBlockDisplay';
 import RoutesViewProjectIncludes from '../components/routes/RoutesViewProjectIncludes';
-import { convertRouteBlocks, processRouteBlocks } from '../utils/routeProcessor';
+import {
+  convertRouteBlocks,
+  processRouteBlocks,
+} from '../utils/routeProcessor';
 import { fetchData } from '../utils/data';
 
 export default function Route() {
@@ -191,17 +194,18 @@ export default function Route() {
             setCurrentBlocks(processRouteBlocks(res.data.route));
 
             alert.success(
-              toggle ? 'Validation OK' : 'KDL Conversion successful'
+              !toggle ? 'Validation OK' : 'KDL Conversion successful'
             );
           } else {
             console.log(res.data);
             alert.error(res.data.message);
-            alert.error(toggle ? 'Validation FAIL' : 'KDL Conversion failed');
+            alert.error(!toggle ? 'Validation FAIL' : 'KDL Conversion failed');
           }
         });
     } else {
       let updatedRoute = { ...currentRoute };
       updatedRoute.flow = convertRouteBlocks(currentBlocks);
+      setKdlError('');
 
       axios
         .post(
