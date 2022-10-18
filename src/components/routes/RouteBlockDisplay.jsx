@@ -174,17 +174,19 @@ export default function RouteBlockDisplay({
             Auth JWT
           </BigText>
 
-          <Checkbox
-            noMargin
-            value={currentRoute.auth_jwt !== null}
-            color="primary"
-            change={(checked) =>
-              !viewOnly
-                ? toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked)
-                : null
-            }
-            className="ml-2 mt-1"
-          />
+          {!viewOnly && (
+            <Checkbox
+              noMargin
+              value={currentRoute.auth_jwt !== null}
+              color="primary"
+              change={(checked) =>
+                !viewOnly
+                  ? toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked)
+                  : null
+              }
+              className="ml-2 mt-1"
+            />
+          )}
         </div>
 
         {currentRoute.auth_jwt !== null && (

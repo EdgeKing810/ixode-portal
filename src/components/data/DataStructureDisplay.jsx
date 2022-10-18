@@ -439,7 +439,7 @@ export default function DataStructureDisplay({
 
           <div className={`pt-1 w-full bg-accent my-4 rounded-lg opacity-25`} />
 
-          {isEditing && (
+          {(isEditing || isCreating) && (
             <button
               className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
               title="Submit"
