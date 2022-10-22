@@ -698,7 +698,7 @@ export default function RouteBlockDisplay({
       <div className="w-full">
         {kdlError && (
           <div className="w-full text-error p-2 bg-base-300 rounded-lg mb-2">
-            Error: {kdlError}
+            {kdlError}
           </div>
         )}
 
@@ -708,6 +708,7 @@ export default function RouteBlockDisplay({
           type="text"
           value={currentKdl}
           change={(e) => (!viewOnly ? setCurrentKdl(e.target.value) : null)}
+          inbuiltClassName="lg:min-h-120"
         />
 
         {!viewOnly && (

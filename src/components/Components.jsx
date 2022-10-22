@@ -271,6 +271,7 @@ export const InputTextArea = ({
   noPadding,
   borderColor,
   className,
+  inbuiltClassName,
   type,
   min,
   max,
@@ -288,7 +289,7 @@ export const InputTextArea = ({
       name={title}
       className={`w-full outline-none rounded-lg p-2 bg-base-200 ${
         bigger ? 'text-sm sm:text-lg' : 'text-xs sm:text-base'
-      } text-base-content font-noto placeholder-base-content opacity-85`}
+      } text-base-content font-noto placeholder-base-content opacity-85 ${inbuiltClassName}`}
       placeholder={placeholder}
       value={value}
       onChange={(e) => change(e)}
