@@ -44,14 +44,9 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateProperty(block.local_name, 'Local Name', true)
-        .valid && (
+      {!validateProperty(block.local_name, 'Local Name', true).valid && (
         <SmallText color="error">
-          *{' '}
-          {
-            validateProperty(block.local_name, 'Local Name', true)
-              .message
-          }
+          * {validateProperty(block.local_name, 'Local Name', true).message}
         </SmallText>
       )}
 
@@ -84,8 +79,7 @@ export default function FilterBlock({
       />
       {!validateProperty(block.ref_var, 'Ref Var', true).valid && (
         <SmallText color="error">
-          *{' '}
-          {validateProperty(block.ref_var, 'Ref Var', true).message}
+          * {validateProperty(block.ref_var, 'Ref Var', true).message}
         </SmallText>
       )}
 
@@ -116,13 +110,16 @@ export default function FilterBlock({
         }
         className="mt-2 mb-2"
       />
-      {!validateProperty(block.ref_property, 'Ref Property', true)
-        .valid && (
+      {!validateProperty(
+        block.ref_property.split('.').join(''),
+        'Ref Property',
+        true
+      ).valid && (
         <SmallText color="error">
           *{' '}
           {
             validateProperty(
-              block.ref_property,
+              block.ref_property.split('.').join(''),
               'Ref Property',
               true
             ).message

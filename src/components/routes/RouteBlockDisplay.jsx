@@ -324,6 +324,9 @@ export default function RouteBlockDisplay({
                   <InputOption title="INTEGER" value="INTEGER">
                     INTEGER
                   </InputOption>
+                  <InputOption title="FLOAT" value="FLOAT">
+                    FLOAT
+                  </InputOption>
                   <InputOption title="STRING" value="STRING">
                     STRING
                   </InputOption>
@@ -499,6 +502,9 @@ export default function RouteBlockDisplay({
                     >
                       <InputOption title="INTEGER" value="INTEGER">
                         INTEGER
+                      </InputOption>
+                      <InputOption title="FLOAT" value="FLOAT">
+                        FLOAT
                       </InputOption>
                       <InputOption title="STRING" value="STRING">
                         STRING
@@ -819,7 +825,7 @@ export default function RouteBlockDisplay({
           )}
 
           <button
-            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 lg:ml-2 mt-2 lg:mt-0"
+            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 mt-2 lg:mt-0"
             title="Toggle KDL View"
             onClick={() => toggleKdl(true)}
           >

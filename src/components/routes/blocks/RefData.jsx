@@ -92,6 +92,11 @@ export default function RefData({
             INTEGER
           </InputOption>
           {!onlyInt && (
+            <InputOption title="FLOAT" value="FLOAT">
+              FLOAT
+            </InputOption>
+          )}
+          {!onlyInt && (
             <InputOption title="STRING" value="STRING">
               STRING
             </InputOption>
@@ -157,9 +162,20 @@ export default function RefData({
         )}
       </div>
 
-      {!validateProperty(data.data, 'Data').valid && (
+      {!validateProperty(
+        data.rtype === 'FLOAT' ? data.data.split('.').join('') : data.data,
+        'Data'
+      ).valid && (
         <SmallText color="error" className="text-right my-1">
-          * {validateProperty(data.data, 'Data').message}
+          *{' '}
+          {
+            validateProperty(
+              data.rtype === 'FLOAT'
+                ? data.data.split('.').join('')
+                : data.data,
+              'Data'
+            ).valid.message
+          }
         </SmallText>
       )}
     </div>

@@ -172,36 +172,40 @@ export default function Route() {
         alert.info('Validating...');
       }
 
-      axios
-        .post(
-          `${API_URL}/routing/convert/kdl`,
-          {
-            uid: profile.uid,
-            project_id: project_id,
-            route: currentKdl,
-          },
-          {
-            headers: { Authorization: `Bearer ${profile.jwt}` },
-          }
-        )
-        .then(async (res) => {
-          if (res.data) {
-            setKdlError(res.data.success ? '' : res.data.message);
-          }
+      if (currentKdl && currentKdl.trim().length > 0) {
+        axios
+          .post(
+            `${API_URL}/routing/convert/kdl`,
+            {
+              uid: profile.uid,
+              project_id: project_id,
+              route: currentKdl,
+            },
+            {
+              headers: { Authorization: `Bearer ${profile.jwt}` },
+            }
+          )
+          .then(async (res) => {
+            if (res.data) {
+              setKdlError(res.data.success ? '' : res.data.message);
+            }
 
-          if (res.data.status === 200) {
-            setCurrentRoute(res.data.route);
-            setCurrentBlocks(processRouteBlocks(res.data.route));
+            if (res.data.status === 200) {
+              setCurrentRoute(res.data.route);
+              setCurrentBlocks(processRouteBlocks(res.data.route));
 
-            alert.success(
-              !toggle ? 'Validation OK' : 'KDL Conversion successful'
-            );
-          } else {
-            console.log(res.data);
-            alert.error(res.data.message);
-            alert.error(!toggle ? 'Validation FAIL' : 'KDL Conversion failed');
-          }
-        });
+              alert.success(
+                !toggle ? 'Validation OK' : 'KDL Conversion successful'
+              );
+            } else {
+              console.log(res.data);
+              alert.error(res.data.message);
+              alert.error(
+                !toggle ? 'Validation FAIL' : 'KDL Conversion failed'
+              );
+            }
+          });
+      }
     } else {
       let updatedRoute = { ...currentRoute };
       updatedRoute.flow = convertRouteBlocks(currentBlocks);
@@ -224,9 +228,13 @@ export default function Route() {
             setCurrentKdl(res.data.route);
             alert.success('BLocks Conversion successful');
           } else {
-            console.log(res.data);
-            alert.error(res.data.message);
-            alert.error('Blocks Conversion failed');
+            if (
+              updatedRoute.route_id.trim().length > 1 &&
+              updatedRoute.route_path.trim().length > 1
+            ) {
+              alert.error(res.data.message);
+              alert.error('Blocks Conversion failed');
+            }
           }
         });
     }

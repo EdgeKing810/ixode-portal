@@ -86,8 +86,8 @@ export default function OperationType({
         <InputOption title="DIVISION" value="DIVISION">
           DIVISION
         </InputOption>
-        <InputOption title="MODULAR" value="MODULAR">
-          MODULAR
+        <InputOption title="MODULO" value="MODULO">
+          MODULO
         </InputOption>
 
         <InputOption title="INCLUDES" value="INCLUDES">

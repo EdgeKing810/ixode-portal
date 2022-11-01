@@ -73,7 +73,7 @@ export default function TemplateBlock({
                 index,
                 blockIndex,
                 'template',
-                e.target.value.trim()
+                e.target.value
               )
             : null
         }
