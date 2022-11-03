@@ -107,6 +107,11 @@ export default function RefData({
             </InputOption>
           )}
           {!onlyInt && (
+            <InputOption title="ARRAY" value="ARRAY">
+              ARRAY
+            </InputOption>
+          )}
+          {!onlyInt && (
             <InputOption title="OTHER" value="OTHER">
               OTHER
             </InputOption>
@@ -163,7 +168,11 @@ export default function RefData({
       </div>
 
       {!validateProperty(
-        data.rtype === 'FLOAT' ? data.data.split('.').join('') : data.data,
+        data.rtype === 'FLOAT'
+          ? data.data.split('.').join('')
+          : data.rtype === 'ARRAY'
+          ? data.data.split(',').join('')
+          : data.data,
         'Data'
       ).valid && (
         <SmallText color="error" className="text-right my-1">
@@ -172,6 +181,8 @@ export default function RefData({
             validateProperty(
               data.rtype === 'FLOAT'
                 ? data.data.split('.').join('')
+                : data.rtype === 'ARRAY'
+                ? data.data.split(',').join('')
                 : data.data,
               'Data'
             ).valid.message

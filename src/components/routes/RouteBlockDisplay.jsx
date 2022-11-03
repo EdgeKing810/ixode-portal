@@ -174,19 +174,17 @@ export default function RouteBlockDisplay({
             Auth JWT
           </BigText>
 
-          {!viewOnly && (
-            <Checkbox
-              noMargin
-              value={currentRoute.auth_jwt !== null}
-              color="primary"
-              change={(checked) =>
-                !viewOnly
-                  ? toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked)
-                  : null
-              }
-              className="ml-2 mt-1"
-            />
-          )}
+          <Checkbox
+            noMargin
+            value={currentRoute.auth_jwt !== null}
+            color="primary"
+            change={(checked) =>
+              !viewOnly
+                ? toggleRouteProperty(setCurrentRoute, 'auth_jwt', checked)
+                : null
+            }
+            className="ml-2 mt-1"
+          />
         </div>
 
         {currentRoute.auth_jwt !== null && (
@@ -332,6 +330,9 @@ export default function RouteBlockDisplay({
                   </InputOption>
                   <InputOption title="BOOLEAN" value="BOOLEAN">
                     BOOLEAN
+                  </InputOption>
+                  <InputOption title="ARRAY" value="ARRAY">
+                    ARRAY
                   </InputOption>
                   <InputOption title="OTHER" value="OTHER">
                     OTHER
@@ -511,6 +512,9 @@ export default function RouteBlockDisplay({
                       </InputOption>
                       <InputOption title="BOOLEAN" value="BOOLEAN">
                         BOOLEAN
+                      </InputOption>
+                      <InputOption title="ARRAY" value="ARRAY">
+                        ARRAY
                       </InputOption>
                       <InputOption title="OTHER" value="OTHER">
                         OTHER
@@ -825,7 +829,7 @@ export default function RouteBlockDisplay({
           )}
 
           <button
-            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 mt-2 lg:mt-0"
+            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 mt-2 lg:mt-0 lg:ml-2"
             title="Toggle KDL View"
             onClick={() => toggleKdl(true)}
           >

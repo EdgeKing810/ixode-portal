@@ -139,7 +139,8 @@ export const fetchData = () => ({
         format:
           '# Hello World <br/> [Link to the docs](https://docs.kinesis.world)',
       },
-      { id: 'number', name: 'NUMBER', type: 'number', format: '69' },
+      { id: 'integer', name: 'INTEGER', type: 'integer', format: '69' },
+      { id: 'float', name: 'FLOAT', type: 'float', format: '3.142' },
       {
         id: 'enum',
         name: 'ENUM',

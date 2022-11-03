@@ -74,7 +74,13 @@ export default function StructurePicker({
           {!isEditing ? (
             <SubHeading color="primary" smallerOnMobile>
               Create a Structure in{' '}
-              <span className="text-base-content">{collectionName}</span>{customStructureName && <span>{' > '}<span className="text-secondary">{customStructureName}</span></span>}
+              <span className="text-base-content">{collectionName}</span>
+              {customStructureName && (
+                <span>
+                  {' > '}
+                  <span className="text-secondary">{customStructureName}</span>
+                </span>
+              )}
             </SubHeading>
           ) : (
             <SubHeading color="primary" smallerOnMobile>
@@ -259,9 +265,10 @@ export default function StructurePicker({
           >
             <Text
               color="primary"
-              className="uppercase text-left pr-1 lg:mb-0 mb-1"
+              className="uppercase text-left pr-1 lg:mb-0 mb-1 lg:w-20"
               mono
               smallerOnMobile
+              notFull
             >
               Format:
             </Text>
