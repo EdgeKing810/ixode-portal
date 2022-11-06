@@ -9,6 +9,7 @@ import {
 import { InputOption, InputSelect, Text } from '../../Components';
 
 import OperationType from './OperationType';
+import ConditionType from './ConditionType';
 import RefData from './RefData';
 
 export default function Filter({
@@ -22,6 +23,7 @@ export default function Filter({
   setCurrentBlocks,
   normalSet,
   prep,
+  useConditionType,
 }) {
   return (
     <div className="w-full mt-4 mb-2 bg-base-200 lg:p-2 p-1 rounded-lg">
@@ -49,18 +51,33 @@ export default function Filter({
       />
 
       <div className="my-2 gap-2 grid grid-cols-5">
-        <OperationType
-          condition={filter}
-          viewOnly={viewOnly}
-          setCurrentBlocks={setCurrentBlocks}
-          index={index}
-          blockIndex={blockIndex}
-          currentIndex={currentIndex}
-          currentIndex2={currentIndex2}
-          property={property}
-          normalSet={normalSet}
-          prep={prep}
-        />
+        {useConditionType ? (
+          <ConditionType
+            condition={filter}
+            viewOnly={viewOnly}
+            setCurrentBlocks={setCurrentBlocks}
+            index={index}
+            blockIndex={blockIndex}
+            currentIndex={currentIndex}
+            currentIndex2={currentIndex2}
+            property={property}
+            normalSet={normalSet}
+            prep={prep}
+          />
+        ) : (
+          <OperationType
+            condition={filter}
+            viewOnly={viewOnly}
+            setCurrentBlocks={setCurrentBlocks}
+            index={index}
+            blockIndex={blockIndex}
+            currentIndex={currentIndex}
+            currentIndex2={currentIndex2}
+            property={property}
+            normalSet={normalSet}
+            prep={prep}
+          />
+        )}
 
         <div className="flex flex-col items-center col-span-1">
           <Text color="secondary" smallerOnMobile className="text-center">

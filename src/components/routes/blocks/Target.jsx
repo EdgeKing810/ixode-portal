@@ -122,6 +122,7 @@ export default function Target({
               viewOnly={viewOnly}
               filter={filter}
               setCurrentBlocks={setCurrentBlocks}
+              useConditionType
             />
           </div>
         ))}

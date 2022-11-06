@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { InputOption, InputSelect, Text } from '../../Components';
-import { setInbuiltBlockProperty } from '../../../utils/routeProcessor';
+import {
+  setBlockProperty,
+  setInbuiltBlockProperty,
+} from '../../../utils/routeProcessor';
 
 export default function ConditionType({
   condition,
@@ -11,6 +14,9 @@ export default function ConditionType({
   blockIndex,
   currentIndex,
   property,
+  currentIndex2,
+  normalSet,
+  prep,
 }) {
   return (
     <div className="flex flex-col items-center col-span-2">
@@ -23,15 +29,24 @@ export default function ConditionType({
         value={condition.condition_type}
         change={(e) =>
           !viewOnly
-            ? setInbuiltBlockProperty(
-                setCurrentBlocks,
-                index,
-                blockIndex,
-                currentIndex,
-                property,
-                'condition_type',
-                e.target.value.trim()
-              )
+            ? normalSet
+              ? setBlockProperty(
+                  setCurrentBlocks,
+                  index,
+                  blockIndex,
+                  `${prep ? prep : ''}condition_type`,
+                  e.target.value.trim()
+                )
+              : setInbuiltBlockProperty(
+                  setCurrentBlocks,
+                  index,
+                  blockIndex,
+                  currentIndex,
+                  property,
+                  'condition_type',
+                  e.target.value.trim(),
+                  currentIndex2
+                )
             : null
         }
       >

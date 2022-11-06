@@ -1,48 +1,8 @@
-// FRONTEND:
-
 import {
   convertDateTimeToBackendFormat,
   convertDateToBackendFormat,
   converToLocalDateTime,
 } from './timestamp';
-
-// {
-//     data_id: String,
-//     project_id: String,
-//     collection_id: String,
-//     pair_id: String,
-//     structure_id: String,
-//     structure_name: String,
-//     custom_structure_id: String,
-//     custom_structure_name: String,
-//     default_val: String,
-//     value: String,
-//     dtype: String,
-//     min: Number,
-//     max: Number,
-//     unique: Boolean,
-//     required: Boolean,
-//     regex_pattern: String,
-//     array: Boolean,
-//     dummy_bool: Boolean,
-// }
-
-// BACKEND:
-
-// RawPair {
-//     structures: {
-//         id: String,
-//         value: String,
-//     }[],
-//     custom_structures: {
-//         id: String,
-//         structures: {
-//             id: String,
-//             value: String,
-//         }[],
-//     }[],
-//     published: Boolean,
-// }
 
 const uid = () => {
   let gen = Date.now().toString(36) + Math.random().toString(36);
@@ -348,6 +308,7 @@ export const convertDataToRaw = (allData) => {
       structures.push({
         id: data.structure_id,
         value: finalValue,
+        rtype: 'STRING',
       });
     } else {
       if (tmpCustomStructureStore[data.custom_structure_id] === undefined) {
@@ -359,6 +320,7 @@ export const convertDataToRaw = (allData) => {
         {
           id: data.structure_id,
           value: finalValue,
+          rtype: 'STRING',
         },
       ];
     }
@@ -373,6 +335,7 @@ export const convertDataToRaw = (allData) => {
   }
 
   return {
+    data_id: '',
     structures,
     custom_structures,
     published: allData[0].published,
