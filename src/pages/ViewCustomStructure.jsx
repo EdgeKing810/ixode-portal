@@ -124,9 +124,8 @@ export default function ViewCustomStructure() {
       setCurrentProject(foundProject);
 
       axios
-        .post(
-          `${API_URL}/collection/fetch`,
-          { uid: profile.uid, project_id: project_id },
+        .get(
+          `${API_URL}/collection/fetch?uid=${profile.uid}&project_id=${project_id}`,
           {
             headers: { Authorization: `Bearer ${profile.jwt}` },
           }

@@ -95,16 +95,9 @@ export const submitDeleteRoute = (
   setCurrentRoute,
   alert
 ) => {
-  const data = {
-    uid: profile.uid,
-    route_id: routeID,
-    project_id: currentProject.id,
-  };
-
   axios
-    .post(
-      `${API_URL}/routing/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/routing/delete?uid=${profile.uid}&route_id=${routeID}&project_id=${currentProject.id}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }

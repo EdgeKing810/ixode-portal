@@ -117,13 +117,8 @@ export default function Route() {
         setCurrentBlocks([]);
       } else {
         axios
-          .post(
-            `${API_URL}/routing/fetch/one`,
-            {
-              uid: profile.uid,
-              project_id: project_id,
-              route_id: route_id,
-            },
+          .get(
+            `${API_URL}/routing/fetch/one?uid=${profile.uid}&project_id=${project_id}&route_id=${route_id}`,
             {
               headers: { Authorization: `Bearer ${profile.jwt}` },
             }

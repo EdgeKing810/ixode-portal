@@ -12,13 +12,9 @@ import { useThemeStore } from '../stores/useThemeStore';
 
 export const fetchCurrentProfile = async (API_URL, uid, jwt) => {
   return axios
-    .post(
-      `${API_URL}/user/fetch/one`,
-      { uid, target_uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt ? jwt : ''}` },
-      }
-    )
+    .get(`${API_URL}/user/fetch/one?uid=${uid}&target_uid=${uid}`, {
+      headers: { Authorization: `Bearer ${jwt ? jwt : ''}` },
+    })
     .then((res) => res.data);
 };
 
@@ -61,13 +57,9 @@ const fetchProfiles = async (API_URL, uid, jwt, offset, currentProfiles) => {
   const { setProfiles } = useProfileStore.getState();
 
   axios
-    .post(
-      `${API_URL}/user/fetch?offset=${offset}&limit=20`,
-      { uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/user/fetch?uid=${uid}&offset=${offset}&limit=20`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then(async (response) => {
       if (response.data.status === 200) {
         setProfiles([...currentProfiles]);
@@ -87,13 +79,9 @@ export const fetchOneProfile = async (API_URL, uid, profileID, jwt) => {
   const { updateProfile, removeProfile } = useProfileStore.getState();
 
   axios
-    .post(
-      `${API_URL}/user/fetch/one`,
-      { uid: uid, target_uid: profileID },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/user/fetch/one?uid=${uid}&target_uid=${profileID}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then((response) => {
       if (response.data.status === 200) {
         updateProfile(profileID, response.data.user);
@@ -111,13 +99,9 @@ const fetchConfigs = async (API_URL, uid, jwt, offset, currentConfigs) => {
   const { setConfigs } = useConfigStore.getState();
 
   axios
-    .post(
-      `${API_URL}/config/fetch?offset=${offset}&limit=20`,
-      { uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/config/fetch?uid=${uid}&offset=${offset}&limit=20`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then(async (response) => {
       if (response.data.status === 200) {
         setConfigs([...currentConfigs]);
@@ -137,13 +121,9 @@ export const fetchOneConfig = async (API_URL, uid, name, jwt) => {
   const { updateConfig, removeConfig } = useConfigStore.getState();
 
   axios
-    .post(
-      `${API_URL}/config/fetch/one`,
-      { uid: uid, key: name },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/config/fetch/one?uid=${uid}&key=${name}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then((response) => {
       if (response.data.status === 200) {
         updateConfig(name, response.data.value);
@@ -161,13 +141,9 @@ const fetchMedia = async (API_URL, uid, jwt, offset, currentMedia) => {
   const { setMedia } = useMediaStore.getState();
 
   axios
-    .post(
-      `${API_URL}/media/fetch?offset=${offset}&limit=20`,
-      { uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/media/fetch?uid=${uid}&offset=${offset}&limit=20`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then(async (response) => {
       if (response.data.status === 200) {
         setMedia([...currentMedia]);
@@ -187,13 +163,9 @@ export const fetchOneMedia = async (API_URL, uid, id, jwt) => {
   const { updateMedia, removeMedia } = useMediaStore.getState();
 
   axios
-    .post(
-      `${API_URL}/media/fetch/one`,
-      { uid: uid, media_id: id },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/media/fetch/one?uid=${uid}&media_id=${id}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then((response) => {
       if (response.data.status === 200) {
         updateMedia(id, response.data.media.name);
@@ -211,13 +183,9 @@ const fetchProjects = async (API_URL, uid, jwt, offset, currentProjects) => {
   const { setProjects } = useProjectStore.getState();
 
   axios
-    .post(
-      `${API_URL}/project/fetch?offset=${offset}&limit=10`,
-      { uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/project/fetch?uid=${uid}&offset=${offset}&limit=10`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then(async (response) => {
       if (response.data.status === 200) {
         setProjects([...currentProjects]);
@@ -237,13 +205,9 @@ export const fetchOneProject = async (API_URL, uid, id, jwt) => {
   const { updateProject, removeProject } = useProjectStore.getState();
 
   axios
-    .post(
-      `${API_URL}/project/fetch/one`,
-      { uid: uid, project_id: id },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/project/fetch/one?uid=${uid}&project_id=${id}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then((response) => {
       if (response.data.status === 200) {
         updateProject(
@@ -274,9 +238,8 @@ export const fetchCollections = async (
   const { setCollections } = useCollectionStore.getState();
 
   axios
-    .post(
-      `${API_URL}/collection/fetch?offset=${offset}&limit=5`,
-      { uid: uid, project_id },
+    .get(
+      `${API_URL}/collection/fetch?uid=${uid}&project_id=${project_id}&offset=${offset}&limit=5`,
       {
         headers: { Authorization: `Bearer ${jwt}` },
       }
@@ -306,9 +269,8 @@ export const fetchOneCollection = async (
   const { updateCollection, removeCollection } = useCollectionStore.getState();
 
   axios
-    .post(
-      `${API_URL}/collection/fetch/one`,
-      { uid: uid, proejct_id: project_id, collection_id: collection_id },
+    .get(
+      `${API_URL}/collection/fetch/one?uid=${uid}&project_id=${project_id}&collection_id=${collection_id}`,
       {
         headers: { Authorization: `Bearer ${jwt}` },
       }
@@ -337,13 +299,9 @@ const fetchEvents = async (API_URL, uid, jwt, offset, currentEvents) => {
   const { setEvents } = useEventStore.getState();
 
   axios
-    .post(
-      `${API_URL}/event/fetch?offset=${offset}&limit=20`,
-      { uid: uid },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/event/fetch?uid=${uid}&offset=${offset}&limit=20`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then(async (response) => {
       if (response.data.status === 200) {
         setEvents([...currentEvents]);
@@ -363,13 +321,9 @@ export const fetchOneEvent = async (API_URL, uid, id, jwt) => {
   const { updateEvent, removeEvent } = useEventStore.getState();
 
   axios
-    .post(
-      `${API_URL}/event/fetch/one`,
-      { uid: uid, event_id: id },
-      {
-        headers: { Authorization: `Bearer ${jwt}` },
-      }
-    )
+    .get(`${API_URL}/event/fetch/one?uid=${uid}&event_id=${id}`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
     .then((response) => {
       if (response.data.status === 200) {
         updateEvent(

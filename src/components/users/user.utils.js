@@ -137,7 +137,7 @@ export const submitUpdateRole = (
   setEditingUser(false);
 
   axios
-    .post(
+    .patch(
       `${API_URL}/user/update/role`,
       { ...data },
       {
@@ -183,9 +183,8 @@ export const submitDeleteUser = (
   setDeletingUser(false);
 
   axios
-    .post(
-      `${API_URL}/user/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/user/delete?uid=${data.uid}&target_uid=${data.target_uid}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }

@@ -96,7 +96,7 @@ export const submitUpdateCustomStructure = (
   };
 
   axios
-    .post(
+    .patch(
       `${API_URL}/custom_structure/update`,
       { ...data },
       {
@@ -162,9 +162,8 @@ export const submitDeleteCustomStructure = (
   };
 
   axios
-    .post(
-      `${API_URL}/custom_structure/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/custom_structure/delete?uid=${data.uid}&project_id=${data.project_id}&collection_id=${data.collection_id}&custom_structure_id=${data.custom_structure_id}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }

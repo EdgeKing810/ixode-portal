@@ -79,9 +79,8 @@ export default function ViewDataCollection() {
       setCurrentProject(foundProject);
 
       axios
-        .post(
-          `${API_URL}/collection/fetch`,
-          { uid: profile.uid, project_id: project_id },
+        .get(
+          `${API_URL}/collection/fetch?uid=${profile.uid}&project_id=${project_id}`,
           {
             headers: { Authorization: `Bearer ${profile.jwt}` },
           }
@@ -123,13 +122,8 @@ export default function ViewDataCollection() {
               setCurrentCollection(foundCollection);
 
               axios
-                .post(
-                  `${API_URL}/data/fetch`,
-                  {
-                    uid: profile.uid,
-                    project_id: project_id,
-                    collection_id: collection_id,
-                  },
+                .get(
+                  `${API_URL}/data/fetch?uid=${profile.uid}&project_id=${project_id}&collection_id=${collection_id}`,
                   {
                     headers: { Authorization: `Bearer ${profile.jwt}` },
                   }

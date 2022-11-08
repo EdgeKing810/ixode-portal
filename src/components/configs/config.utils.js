@@ -73,7 +73,7 @@ export const submitUpdateConfig = (
   setEditingConfig(false);
 
   axios
-    .post(
+    .patch(
       `${API_URL}/config/update`,
       { ...data },
       {
@@ -112,13 +112,9 @@ export const submitDeleteConfig = (
   setDeletingConfig(false);
 
   axios
-    .post(
-      `${API_URL}/config/delete`,
-      { ...data },
-      {
-        headers: { Authorization: `Bearer ${profile.jwt}` },
-      }
-    )
+    .delete(`${API_URL}/config/delete?uid=${profile.uid}&key=${key}`, {
+      headers: { Authorization: `Bearer ${profile.jwt}` },
+    })
     .then(async (res) => {
       if (res.data.status === 200) {
         alert.success('Config Deleted!');

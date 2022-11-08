@@ -85,9 +85,8 @@ export default function Data() {
       setCurrentProject(foundProject);
 
       axios
-        .post(
-          `${API_URL}/collection/fetch`,
-          { uid: profile.uid, project_id: project_id },
+        .get(
+          `${API_URL}/collection/fetch?uid=${profile.uid}&project_id=${project_id}`,
           {
             headers: { Authorization: `Bearer ${profile.jwt}` },
           }
@@ -130,14 +129,8 @@ export default function Data() {
 
               if (data_id) {
                 axios
-                  .post(
-                    `${API_URL}/data/fetch/one`,
-                    {
-                      uid: profile.uid,
-                      project_id: project_id,
-                      collection_id: collection_id,
-                      data_id: data_id,
-                    },
+                  .get(
+                    `${API_URL}/data/fetch/one?uid=${profile.uid}&project_id=${project_id}&collection_id=${collection_id}&data_id=${data_id}`,
                     {
                       headers: { Authorization: `Bearer ${profile.jwt}` },
                     }

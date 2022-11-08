@@ -89,12 +89,8 @@ export default function ViewRoutesProject() {
       setMembers(foundProject.members);
 
       axios
-        .post(
-          `${API_URL}/routing/fetch`,
-          {
-            uid: profile.uid,
-            project_id: project_id,
-          },
+        .get(
+          `${API_URL}/routing/fetch?uid=${profile.uid}&project_id=${project_id}`,
           {
             headers: { Authorization: `Bearer ${profile.jwt}` },
           }

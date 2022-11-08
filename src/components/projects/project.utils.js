@@ -88,7 +88,7 @@ export const submitAddMember = (
   setAddMember(false);
 
   axios
-    .post(
+    .patch(
       `${API_URL}/project/member/add`,
       { ...data },
       {
@@ -136,7 +136,7 @@ export const submitRemoveMember = (
   setRemoveMember(false);
 
   axios
-    .post(
+    .patch(
       `${API_URL}/project/member/remove`,
       { ...data },
       {
@@ -180,9 +180,8 @@ export const submitDeleteProject = (
   };
 
   axios
-    .post(
-      `${API_URL}/project/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/project/delete?uid=${data.uid}&project_id=${data.project_id}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }

@@ -20,7 +20,7 @@ export const submitProfileRequest = (
   };
 
   axios
-    .post(
+    .patch(
       `${API_URL}/user/update`,
       { ...postData },
       {

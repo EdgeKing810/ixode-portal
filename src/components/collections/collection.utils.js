@@ -86,7 +86,7 @@ const submitUpdateCollection = (
   };
 
   axios
-    .post(
+    .patch(
       `${API_URL}/collection/update`,
       { ...data },
       {
@@ -243,9 +243,8 @@ export const submitDeleteCollection = (
   };
 
   axios
-    .post(
-      `${API_URL}/collection/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/collection/delete?uid=${data.uid}&project_id=${data.project_id}&collection_id=${data.collection_id}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }

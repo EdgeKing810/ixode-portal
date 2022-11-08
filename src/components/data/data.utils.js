@@ -64,7 +64,7 @@ export const submitUpdateData = (
   };
 
   axios
-    .post(
+    .patch(
       `${API_URL}/data/update`,
       { ...data },
       {
@@ -94,17 +94,9 @@ export const submitDeleteData = (
   setCurrentData,
   alert
 ) => {
-  const data = {
-    uid: profile.uid,
-    data_id: dataID,
-    project_id: currentProject.id,
-    collection_id: collectionID,
-  };
-
   axios
-    .post(
-      `${API_URL}/data/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/data/delete?uid=${profile.uid}&data_id=${dataID}&project_id=${currentProject.id}&collection_id=${collectionID}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }
@@ -149,7 +141,7 @@ export const submitPublishData = (
   }
 
   axios
-    .post(
+    .patch(
       `${API_URL}/data/publish`,
       { ...data },
       {

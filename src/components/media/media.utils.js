@@ -76,7 +76,7 @@ export const submitUpdateMedia = (
   setEditingMedia(false);
 
   axios
-    .post(
+    .patch(
       `${API_URL}/media/update`,
       { ...data },
       {
@@ -115,9 +115,8 @@ export const submitDeleteMedia = (
   setDeletingMedia(false);
 
   axios
-    .post(
-      `${API_URL}/media/delete`,
-      { ...data },
+    .delete(
+      `${API_URL}/media/delete?uid=${data.uid}&media_id=${data.media_id}`,
       {
         headers: { Authorization: `Bearer ${profile.jwt}` },
       }
