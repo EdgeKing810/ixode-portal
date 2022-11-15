@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LocalContext = React.createContext();
+const LocalContext = React.createContext({});
 
 function LocalContextProvider({ children }) {
   // const API_URL = 'http://localhost:8080/';

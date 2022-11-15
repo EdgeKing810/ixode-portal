@@ -148,12 +148,20 @@ export const Text = ({
   </GenericText>
 );
 
-export const SmallText = ({ children, color, className, mono, nobreak }) => (
+export const SmallText = ({
+  children,
+  color,
+  className,
+  mono,
+  nobreak,
+  notFull,
+}) => (
   <GenericText
     color={color ? color : 'base-content'}
     className={`text-xs sm:text-sm ${className} font-extralight mb-1`}
     mono={mono}
     nobreak={nobreak}
+    notFull={notFull}
   >
     {children}
   </GenericText>

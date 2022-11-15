@@ -7,7 +7,7 @@ import { useMediaStore } from '../stores/useMediaStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useCollectionStore } from '../stores/useCollectionStore';
 import { useEventStore } from '../stores/useEventStore';
-// import { useLimitsStore } from '../stores/useLimitsStore';
+import { useConstraintStore } from '../stores/useConstraintStore';
 import { useThemeStore } from '../stores/useThemeStore';
 
 export const fetchCurrentProfile = async (API_URL, uid, jwt) => {
@@ -343,6 +343,34 @@ export const fetchOneEvent = async (API_URL, uid, id, jwt) => {
     });
 };
 
+const fetchConstraints = async (
+  API_URL,
+  uid,
+  jwt,
+  offset,
+  currentConstraints
+) => {
+  const { setConstraints } = useConstraintStore.getState();
+
+  axios
+    .get(`${API_URL}/constraint/fetch?uid=${uid}&offset=${offset}&limit=20`, {
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
+    .then(async (response) => {
+      if (response.data.status === 200) {
+        setConstraints([...currentConstraints]);
+        if (currentConstraints.length < response.data.amount) {
+          await fetchConstraints(API_URL, uid, jwt, offset + 1, [
+            ...currentConstraints,
+            ...response.data.constraints,
+          ]);
+        }
+      } else {
+        console.log(response.data);
+      }
+    });
+};
+
 export const automaticLogin = async (API_URL, uid, jwt) => {
   await fetchUserProfile(API_URL, uid, jwt);
   await fetchProfiles(API_URL, uid, jwt, 0, []);
@@ -350,6 +378,7 @@ export const automaticLogin = async (API_URL, uid, jwt) => {
   await fetchMedia(API_URL, uid, jwt, 0, []);
   await fetchProjects(API_URL, uid, jwt, 0, []);
   await fetchEvents(API_URL, uid, jwt, 0, []);
+  await fetchConstraints(API_URL, uid, jwt, 0, []);
 };
 
 export const logout = async () => {

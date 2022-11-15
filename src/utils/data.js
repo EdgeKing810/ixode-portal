@@ -21,6 +21,11 @@ export const fetchData = () => ({
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     { name: 'Configs', icon: 'tools', visibility: 'ROOT' },
+    {
+      name: 'Constraints',
+      icon: 'scissors-cut',
+      visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
+    },
     { name: 'Users', icon: 'user-3', visibility: 'ROOT' },
     {
       name: 'Profile',
@@ -218,6 +223,8 @@ export const fetchData = () => ({
     { type: 'route_create', logo: 'route;add' },
     { type: 'route_update', logo: 'route;settings-2' },
     { type: 'route_delete', logo: 'route;delete-bin-2' },
+    { type: 'constraint_update_min', logo: 'scissors-cut;settings-2' },
+    { type: 'constraint_update_max', logo: 'scissors-cut;settings-2' },
   ],
 
   route: {

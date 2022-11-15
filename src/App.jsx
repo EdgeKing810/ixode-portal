@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import Projects from './pages/Projects.jsx';
 import Configs from './pages/Configs.jsx';
+import Constraints from './pages/Constraints.jsx';
 import Users from './pages/Users.jsx';
 import Profile from './pages/Profile.jsx';
 import Media from './pages/Media.jsx';
@@ -141,6 +142,8 @@ function App() {
             path="/routes/p/:project_id/r/:mode/:route_id"
             element={<RoutePage />}
           />
+
+          <Route exact path="/constraints" element={<Constraints />} />
 
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
