@@ -6,7 +6,7 @@ module.exports = {
     src: '/_dist_',
   },
 
-  plugins: ['@snowpack/plugin-babel'],
+  plugins: ['@snowpack/plugin-babel', '@snowpack/plugin-typescript'],
 
   routes: [
     {
