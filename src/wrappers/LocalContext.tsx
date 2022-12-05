@@ -11,8 +11,8 @@ const LocalContext = React.createContext<ContextInterface>({
 });
 
 function LocalContextProvider({ children }: { children: ReactElement }) {
-  const API_URL: string = 'http://localhost:8080/';
-  // const API_URL = 'https://api.kinesis.world/api/v2';
+  // const API_URL: string = 'http://localhost:8080/';
+  const API_URL = 'https://api.kinesis.world/api/v2';
   const PUBLIC_URL: string = 'https://api.kinesis.world';
 
   let currentContext: ContextInterface = {

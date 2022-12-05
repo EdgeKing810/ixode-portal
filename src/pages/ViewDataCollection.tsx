@@ -196,8 +196,6 @@ export default function ViewDataCollection() {
                 <Heading color="error">Project not found.</Heading>
               ) : !currentCollection ? (
                 <Heading color="error">Collection not found.</Heading>
-              ) : currentData.length <= 0 ? (
-                <Heading color="error">Data not found.</Heading>
               ) : (
                 <div></div>
               )

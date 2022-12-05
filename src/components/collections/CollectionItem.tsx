@@ -76,14 +76,17 @@ export default function CollectionItem({
       <div className="w-full flex lg:mt-2">
         {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
           <button
-            className="btn btn-warning btn-outline btn-sm btn-circle mr-2"
+            className="btn btn-disabled btn-outline btn-sm btn-circle mr-2"
             title="Edit Collection ID"
-            onClick={() => {
-              setEditingCollectionID(true);
-              setCollectionID(collection.id);
-              setEditCollectionID(collection.id);
-              setCollectionName(collection.name);
-            }}
+            onClick={
+              () => null
+              //   {
+              //   setEditingCollectionID(true);
+              //   setCollectionID(collection.id);
+              //   setEditCollectionID(collection.id);
+              //   setCollectionName(collection.name);
+              // }
+            }
           >
             <i className={`ri-edit-line`} />
           </button>

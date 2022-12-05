@@ -79,9 +79,12 @@ export default function CollectionDisplay({
       {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
         <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
           <button
-            className="btn btn-warning btn-outline gap-2"
+            className="btn btn-disabled btn-outline gap-2"
             title="Edit Collection ID"
-            onClick={() => setEditingCollectionID(true)}
+            onClick={
+              () => null
+              //setEditingCollectionID(true)
+            }
           >
             Edit Collection ID
             <i className={`ri-arrow-right-s-line`} />

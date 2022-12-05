@@ -180,6 +180,7 @@ export default function ViewProject() {
                 setAddMember={setAddMember}
                 setRemoveMember={setRemoveMember}
                 setDeletingProject={setDeletingProject}
+                allProfiles={allProfiles}
               />
             )}
 

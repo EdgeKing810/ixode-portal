@@ -150,6 +150,7 @@ export default function Projects() {
                     setAddMember={setAddMember}
                     setRemoveMember={setRemoveMember}
                     setDeletingProject={setDeletingProject}
+                    allProfiles={allProfiles}
                   />
                 ))}
             </div>

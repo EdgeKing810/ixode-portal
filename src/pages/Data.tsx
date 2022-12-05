@@ -58,7 +58,7 @@ export default function Data() {
     document.addEventListener('keydown', escFunction, false);
 
     setIsLoading(true);
-    let timer = setTimeout(() => setIsLoading(false), 6000);
+    let timer = setTimeout(() => setIsLoading(false), 8000);
 
     if (!projects || !profile) {
       navigate('/home');

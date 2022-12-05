@@ -1,4 +1,5 @@
 import React from 'react';
+import { IProfile } from '../../stores/useProfileStore';
 import { IProject } from '../../stores/useProjectStore';
 import { IUserProfile } from '../../stores/useUserProfileStore';
 
@@ -16,6 +17,7 @@ export default function ProjectDisplay({
   setAddMember,
   setRemoveMember,
   setDeletingProject,
+  allProfiles,
 }: {
   currentProject: IProject;
   profile: IUserProfile;
@@ -28,7 +30,12 @@ export default function ProjectDisplay({
   setAddMember: React.Dispatch<React.SetStateAction<boolean>>;
   setRemoveMember: React.Dispatch<React.SetStateAction<boolean>>;
   setDeletingProject: React.Dispatch<React.SetStateAction<boolean>>;
+  allProfiles: Array<IProfile>;
 }) {
+  let membersLength = allProfiles.filter((ap) =>
+    currentProject.members.includes(ap.id.toLowerCase())
+  ).length;
+
   return (
     <div
       className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent bg-opacity-50 border-opacity-50 mb-2`}
@@ -61,7 +68,7 @@ export default function ProjectDisplay({
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
-        {currentProject.members.length} members
+        {membersLength} member{membersLength === 1 ? '' : 's'}
       </SmallText>
 
       {profile.role && ['ROOT', 'ADMIN'].includes(profile.role) && (
@@ -69,9 +76,11 @@ export default function ProjectDisplay({
           <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
           <div className="w-full lg:grid lg:grid-cols-2 lg:gap-2 flex flex-col">
             <button
-              className="btn btn-warning btn-outline gap-2"
+              className="btn btn-outline gap-2 btn-disabled"
               title="Update Project ID"
-              onClick={() => setEditingProject('ID')}
+              onClick={
+                () => null //setEditingProject('ID')
+              }
             >
               Update Project ID
               <i className={`ri-arrow-right-s-line`} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { IProfile } from '../../stores/useProfileStore';
 import { IProject } from '../../stores/useProjectStore';
 import { IUserProfile } from '../../stores/useUserProfileStore';
 
@@ -15,6 +16,7 @@ export default function ProjectItem({
   setAddMember,
   setRemoveMember,
   setDeletingProject,
+  allProfiles,
 }: {
   project: IProject;
   profile: IUserProfile;
@@ -26,7 +28,12 @@ export default function ProjectItem({
   setAddMember: React.Dispatch<React.SetStateAction<boolean>>;
   setRemoveMember: React.Dispatch<React.SetStateAction<boolean>>;
   setDeletingProject: React.Dispatch<React.SetStateAction<boolean>>;
+  allProfiles: Array<IProfile>;
 }) {
+  let membersLength = allProfiles.filter((ap) =>
+    project.members.includes(ap.id.toLowerCase())
+  ).length;
+
   return (
     <div
       className={`w-full rounded-lg lg:p-4 p-2 flex flex-col bg-base-200 duration-300 border-4 border-transparent hover:border-primary bg-opacity-50 border-opacity-50 mb-2`}
@@ -60,7 +67,7 @@ export default function ProjectItem({
         nobreak
         className={`w-full mt-2 overflow-hidden lg:flex lg:flex-col lg:justify-center uppercase`}
       >
-        {project.members.length} members
+        {membersLength} member{membersLength === 1 ? '' : 's'}
       </SmallText>
 
       <div className={`pt-1 w-full bg-accent my-2 rounded-lg opacity-25`} />
