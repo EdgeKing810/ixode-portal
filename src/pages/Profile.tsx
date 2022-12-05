@@ -98,6 +98,7 @@ export default function Profile() {
   };
 
   const submitUsername = (data: string | null) => {
+    console.log('entered here');
     submitProfileRequest(
       API_URL,
       'USERNAME',
@@ -156,25 +157,25 @@ export default function Profile() {
       id: 'first_name',
       name: 'First Name',
       data: profile.first_name,
-      callback: submitFirstName,
+      callback: () => submitFirstName,
     },
     {
       id: 'last_name',
       name: 'Last Name',
       data: profile.last_name,
-      callback: submitLastName,
+      callback: () => submitLastName,
     },
     {
       id: 'username',
       name: 'Username',
       data: profile.username,
-      callback: submitUsername,
+      callback: () => submitUsername,
     },
     {
       id: 'email',
       name: 'Email Address',
       data: profile.email,
-      callback: submitEmail,
+      callback: () => submitEmail,
     },
   ];
 
@@ -196,7 +197,7 @@ export default function Profile() {
                 setEditingUser={setEditingUser}
                 setEditString={setEditString}
                 setData={setData}
-                setNextCallback={() => setNextCallback}
+                setNextCallback={setNextCallback}
               />
             ))}
 
@@ -209,7 +210,7 @@ export default function Profile() {
               title="Change Password"
               onClick={() => {
                 setEditingPassword(true);
-                setNextCallback(submitPassword);
+                setNextCallback(() => submitPassword);
               }}
             >
               Change Password

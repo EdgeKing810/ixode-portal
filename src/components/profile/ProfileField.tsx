@@ -21,7 +21,7 @@ export default function ProfileField({
   setEditString: React.Dispatch<React.SetStateAction<string>>;
   setData: React.Dispatch<React.SetStateAction<string>>;
   setNextCallback: React.Dispatch<
-    React.SetStateAction<null | ((d: string | null) => void)>
+    React.SetStateAction<(d: string | null) => void>
   >;
 }) {
   return (
