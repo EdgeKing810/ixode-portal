@@ -44,9 +44,6 @@ export const submitTestMongo = (
   setIsProcessing(true);
   alert.info('Processing...');
 
-  submitConfig(API_URL, profile, 'MONGO_URI', uri, updateConfig);
-  submitConfig(API_URL, profile, 'DB_NAME', name, updateConfig);
-
   const testData = {
     uid: profile.uid,
     uri: uri.trim().split(' ').join('_'),
@@ -66,6 +63,29 @@ export const submitTestMongo = (
       if (res.data.status === 200) {
         alert.success('Mongo connection successful!');
         setTesting(false);
+
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'MONGO_URI',
+        //       testData.uri,
+        //       updateConfig
+        //     ),
+        //   0
+        // );
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'DB_NAME',
+        //       testData.name,
+        //       updateConfig
+        //     ),
+        //   500
+        // );
       } else {
         alert.error('Mongo connection failed');
         console.log(res.data);
@@ -92,11 +112,6 @@ export const submitTestSMTP = (
   setIsProcessing(true);
   alert.info('Processing...');
 
-  submitConfig(API_URL, profile, 'SMTP_USERNAME', smtpUsername, updateConfig);
-  submitConfig(API_URL, profile, 'SMTP_PASSWORD', smtpPassword, updateConfig);
-  submitConfig(API_URL, profile, 'SMTP_HOST', smtpHost, updateConfig);
-  submitConfig(API_URL, profile, 'SMTP_PORT', smtpPort, updateConfig);
-
   const testData = {
     uid: profile.uid,
     username: smtpUsername.trim().split(' ').join('_'),
@@ -118,6 +133,51 @@ export const submitTestSMTP = (
       if (res.data.status === 200) {
         alert.success('Valid SMTP Credentials!');
         setTesting(false);
+
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'SMTP_USERNAME',
+        //       testData.username,
+        //       updateConfig
+        //     ),
+        //   0
+        // );
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'SMTP_PASSWORD',
+        //       testData.password,
+        //       updateConfig
+        //     ),
+        //   500
+        // );
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'SMTP_HOST',
+        //       testData.host,
+        //       updateConfig
+        //     ),
+        //   1000
+        // );
+        // setTimeout(
+        //   () =>
+        //     submitConfig(
+        //       API_URL,
+        //       profile,
+        //       'SMTP_PORT',
+        //       testData.port,
+        //       updateConfig
+        //     ),
+        //   1500
+        // );
       } else {
         alert.error('Invalid SMTP Credentials');
         console.log(res.data);
