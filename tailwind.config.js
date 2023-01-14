@@ -1098,7 +1098,7 @@ module.exports = {
       'night',
       {
         moonlight: {
-          primary: '#9582F2',
+          primary: '#368799',
           secondary: '#0E8EEA',
           accent: '#d1d5db',
           neutral: '#2F2B3B',
@@ -1113,8 +1113,8 @@ module.exports = {
       },
       {
         shadow: {
-          primary: '#9582F2',
-          secondary: '#06D5B3',
+          primary: '#368799',
+          secondary: '#C3C9E9',
           accent: '#4b5563',
           neutral: '#302A37',
           'base-100': '#2D3748',

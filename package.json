@@ -25,7 +25,7 @@
     "build:css:prod": "NODE_ENV=production npx tailwindcss build -i public/tailwind.css -o build/styles.css",
     "start": "npm run build:css && react-scripts start",
     "snow:start": "npm run build:css && snowpack dev --config snowpack.config.js",
-    "vite:start": "npm run build:css && vite",
+    "vite:start": "npm run build:css && vite --host 0.0.0.0",
     "vite:build": "npm run build:css && rm -rf build/* && NODE_ENV=production vite build",
     "build": "npm run build:css && rm -rf build/* && NODE_ENV=production snowpack build --config snowpack.config.js && npm run build:css:prod"
   },

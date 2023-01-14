@@ -440,36 +440,18 @@ export default function RouteBlockDisplay({
 
             {!viewOnly &&
               !validateProperty(
-                currentRoute.params.delimiter
-                  .split('&')
-                  .join('')
-                  .split('!')
-                  .join('')
-                  .split('#')
-                  .join('')
-                  .split('-')
-                  .join('')
-                  .split('_')
-                  .join(''),
+                currentRoute.params.delimiter,
                 'Delimiter',
+                true,
                 true
               ).valid && (
                 <SmallText color="error">
                   *{' '}
                   {
                     validateProperty(
-                      currentRoute.params.delimiter
-                        .split('&')
-                        .join('')
-                        .split('!')
-                        .join('')
-                        .split('#')
-                        .join('')
-                        .split('-')
-                        .join('')
-                        .split('_')
-                        .join(''),
+                      currentRoute.params.delimiter,
                       'Delimiter',
+                      true,
                       true
                     ).message
                   }

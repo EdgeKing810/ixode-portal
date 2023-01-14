@@ -745,7 +745,8 @@ export const toggleRouteProperty = (
 export const validateProperty = (
   data: string,
   name: string,
-  minCheck: boolean
+  minCheck: boolean,
+  specialChar?: boolean
 ) => {
   if (data === undefined) {
     return { valid: false, message: '' };
@@ -758,7 +759,11 @@ export const validateProperty = (
   }
 
   let regex = '^[0-9a-zA-Z_-]+$';
-  if (stringified.trim().length > 0 && !stringified.match(regex)) {
+  if (
+    stringified.trim().length > 0 &&
+    !stringified.match(regex) &&
+    !specialChar
+  ) {
     return { valid: false, message: `${name} contains invalid characters` };
   }
 

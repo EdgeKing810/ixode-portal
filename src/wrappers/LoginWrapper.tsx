@@ -86,7 +86,7 @@ export default function LoginWrapper({
       <div className="overflow-hidden w-full h-full rounded-lg opacity-95 flex flex-col items-center justify-center">
         <div className="w-full flex justify-center items-center lg:w-1/5 mb-8 lg:mb-20">
           <img
-            src={`${PUBLIC_URL}/public/banner_purple.webp`}
+            src={`${PUBLIC_URL}/public/banner.webp`}
             alt="main-logo"
             className="object-fill flex items-center justify-center w-2/3 lg:w-11/12 opacity-90"
           />

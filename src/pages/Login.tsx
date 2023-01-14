@@ -67,7 +67,7 @@ export default function Login() {
           className={`w-full lg:w-1/2 flex flex-col rounded-lg items-center justify-center bg-base-200 bg-opacity-95 p-4 lg:p-16 z-10 left-0 top-0`}
         >
           <img
-            src={`${PUBLIC_URL}/public/banner_purple.webp`}
+            src={`${PUBLIC_URL}/public/banner.webp`}
             alt="logo"
             className={`object-fill flex justify-center items-center w-2/3 lg:w-5/6 mb-4`}
           />

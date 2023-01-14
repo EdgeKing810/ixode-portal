@@ -199,39 +199,13 @@ export default function ConditionBlock({
             }
             className="mt-2 mb-2"
           />
-          {!validateProperty(
-            block.fail.message
-              .split(':')
-              .join('')
-              .split(';')
-              .join('')
-              .split(' ')
-              .join('')
-              .split('.')
-              .join('')
-              .split('/')
-              .join(''),
-            'Message',
-            false
-          ).valid && (
+          {!validateProperty(block.fail.message, 'Message', false, true)
+            .valid && (
             <SmallText color="error">
               *{' '}
               {
-                validateProperty(
-                  block.fail.message
-                    .split(':')
-                    .join('')
-                    .split(';')
-                    .join('')
-                    .split(' ')
-                    .join('')
-                    .split('.')
-                    .join('')
-                    .split('/')
-                    .join(''),
-                  'Message',
-                  false
-                ).message
+                validateProperty(block.fail.message, 'Message', false, true)
+                  .message
               }
             </SmallText>
           )}
