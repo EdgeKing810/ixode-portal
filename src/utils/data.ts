@@ -21,6 +21,7 @@ export const fetchData = () => ({
       visibility: 'VIEWER,AUTHOR,ADMIN,ROOT',
     },
     { name: 'Configs', icon: 'tools', visibility: 'ROOT' },
+    { name: 'REPL', icon: 'terminal', visibility: 'ROOT' },
     {
       name: 'Constraints',
       icon: 'scissors-cut',

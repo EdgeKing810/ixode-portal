@@ -23,6 +23,7 @@ import {
   IDataOriginal,
 } from '../utils/dataProcessor';
 import { ICollection } from '../stores/useCollectionStore';
+import DataTableDisplay from '../components/data/DataTableDisplay';
 
 export default function Data() {
   const { profile } = useUserProfileStore((state) => state);
@@ -38,6 +39,9 @@ export default function Data() {
   const [currentCollection, setCurrentCollection] =
     useState<ICollection | null>(null);
   const [currentData, setCurrentData] = useState<IDataOriginal | null>(null);
+  const [currentTableData, setCurrentTableData] = useState<
+    Array<IDataOriginal>
+  >([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [deletingData, setDeletingData] = useState(false);
@@ -45,6 +49,8 @@ export default function Data() {
 
   const isEditing: boolean =
     mode !== undefined && ['edit', 'e'].includes(mode.toLowerCase());
+  const tableView: boolean =
+    mode !== undefined && ['table', 't'].includes(mode.toLowerCase());
 
   const escFunction = useCallback((event: any) => {
     if (event.keyCode === 27) {
@@ -167,6 +173,44 @@ export default function Data() {
 
                     setIsLoading(false);
                   });
+              } else if (mode === 'table') {
+                axios
+                  .get(
+                    `${API_URL}/data/fetch?uid=${profile.uid}&project_id=${project_id}&collection_id=${collection_id}`,
+                    {
+                      headers: { Authorization: `Bearer ${profile.jwt}` },
+                    }
+                  )
+                  .then(async (res) => {
+                    if (res.data.status === 200) {
+                      let pairs = res.data.pairs;
+                      let dataIDs = res.data.data_ids;
+
+                      if (pairs && pairs.length > 0) {
+                        for (let i = 0; i < pairs.length; i++) {
+                          let allCurrentData = generateDataFromRaw(
+                            foundCollection,
+                            pairs[i],
+                            dataIDs[i]
+                          );
+
+                          setCurrentTableData((prev) => [
+                            ...prev,
+                            {
+                              id: allCurrentData[0].data_id,
+                              pairs: [...allCurrentData],
+                              published: pairs[i].published,
+                            },
+                          ]);
+                        }
+                      }
+                    } else {
+                      console.log(res.data);
+                      alert.error(res.data.message);
+                    }
+
+                    setIsLoading(false);
+                  });
               } else {
                 let allCurrentData =
                   generateDataFromCollection(foundCollection);
@@ -212,7 +256,7 @@ export default function Data() {
                 <Heading color="error">Project not found.</Heading>
               ) : !currentCollection ? (
                 <Heading color="error">Collection not found.</Heading>
-              ) : !currentData ? (
+              ) : !currentData && currentTableData.length === 0 ? (
                 <Heading color="error">Data not found.</Heading>
               ) : (
                 <div></div>
@@ -226,13 +270,42 @@ export default function Data() {
               currentCollection &&
               currentCollection.id &&
               currentData &&
-              currentData.id && (
+              currentData.id &&
+              !tableView && (
                 <DataStructureDisplay
                   API_URL={API_URL}
                   PUBLIC_URL={PUBLIC_URL}
                   profile={profile}
                   currentData={currentData}
                   setCurrentData={setCurrentData}
+                  addMedia={addMedia}
+                  project_id={project_id ? project_id : ''}
+                  collection_id={collection_id ? collection_id : ''}
+                  data_id={data_id ? data_id : ''}
+                  currentProject={currentProject}
+                  currentCollection={currentCollection}
+                  alert={alert}
+                  navigate={navigate}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  isEditing={isEditing}
+                  isCreating={['undefined', undefined].includes(data_id)}
+                />
+              )}
+
+            {currentProject &&
+              currentProject.id &&
+              currentCollection &&
+              currentCollection.id &&
+              currentTableData &&
+              currentTableData.length > 0 &&
+              tableView && (
+                <DataTableDisplay
+                  API_URL={API_URL}
+                  PUBLIC_URL={PUBLIC_URL}
+                  profile={profile}
+                  currentTableData={currentTableData}
+                  setCurrentTableData={setCurrentTableData}
                   addMedia={addMedia}
                   project_id={project_id ? project_id : ''}
                   collection_id={collection_id ? collection_id : ''}

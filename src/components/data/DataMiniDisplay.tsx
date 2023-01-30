@@ -42,9 +42,19 @@ export default function DataMiniDisplay({
           </SubHeading>
         )}
 
+        <button
+          className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+          title="Table View"
+          onClick={() =>
+            navigate(`/data/p/${projectID}/c/${collectionID}/d/table`)
+          }
+        >
+          Table View
+        </button>
+
         {profile && profile.role !== 'VIEWER' && (
           <button
-            className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3"
+            className="btn btn-primary btn-outline gap-2 mt-2 lg:mt-0 w-full lg:w-1/3 lg:ml-2"
             title="Create a new Custom Structure"
             onClick={() =>
               navigate(`/data/p/${projectID}/c/${collectionID}/d/create`)

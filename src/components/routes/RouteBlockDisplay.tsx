@@ -853,7 +853,9 @@ export default function RouteBlockDisplay({
           )}
 
           <button
-            className="btn btn-info w-full lg:w-1/3 btn-outline gap-2 mt-2 lg:mt-0 lg:ml-2"
+            className={`btn btn-info w-full lg:w-1/3 btn-outline gap-2 mt-2 lg:mt-0 ${
+              !isCreating && 'lg:ml-2'
+            }`}
             title="Toggle KDL View"
             onClick={() => toggleKdl(true)}
           >

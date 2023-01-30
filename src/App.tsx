@@ -18,6 +18,7 @@ import Events from './pages/Events';
 
 import Data from './pages/Data';
 import RoutePage from './pages/Route';
+import Repl from './pages/Repl';
 
 import ViewProject from './pages/ViewProject';
 import ViewCollection from './pages/ViewCollection';
@@ -199,6 +200,12 @@ function App() {
             //exact
             path="/constraints"
             element={<Constraints />}
+          />
+
+          <Route
+            //exact
+            path="/repl"
+            element={<Repl />}
           />
 
           <Route path="*" element={<Navigate to="/home" />} />
